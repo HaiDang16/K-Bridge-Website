@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="/lib/bootstrap/css/Style.css" rel="stylesheet" />
+    <link href="/css/styles.css" rel="stylesheet" />
+    <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - K Bridge</title>
+</head>
+<body>
+    <header class="header bg-main-color-header d-flex">
+        @await Html.PartialAsync("LayoutHeader")
+    </header>
+    <div class="container-fluid">
+        <div class="row main-content mt-4 mx-3">
+            <div class="col-md-3 sidebar">
+                @await Html.PartialAsync("LayoutCategory")
+                @await Html.PartialAsync("LayoutStats")
+            </div>
+            <div class="col-md-6 content">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div>
+            <div class="col-md-3 sidebar">
+                @await Html.PartialAsync("LayoutPost")
+                @await Html.PartialAsync("LayoutBoxChat")
+            </div>
+        </div>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - K_Bridge_Website - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    @model IQueryable<Category>
+</body>
+</html>

@@ -1,0 +1,146 @@
+﻿
+.bg-main-color-logo {
+    background-color: #493422;
+}
+.text-color-logo {
+    color: #493422;
+}
+.bg-main-color-header {
+    background-color: #8E6745;
+}
+.text-color-header {
+    color: #8E6745;
+}
+.bg-main-color-layout {
+    background-color: #FFBE98;
+}
+.text-color-layout {
+    color: #FFBE98;
+}
+.bg-main-color-background {
+    background-color: #FFF0E6;
+}
+.text-color-background {
+    color: #FFF0E6;
+}
+.header {
+    max-height: 80px;
+}
+.main-content {
+    display: flex;
+}
+.sidebar {
+    flex: 1;
+}
+.content {
+    flex: 3;
+}
+.w-32{
+    width: 32px !important; 
+}
+.search-width {
+    max-width: 420px;
+}
+@font-face {
+    font-family: 'Algerian';
+    src: url('~/font/Algerian Regular.ttf') format('truetype');
+}
+
+.kbridge-text {
+    font-family: 'Algerian', sans-serif;
+}
+
+
+.btn-account-sign {
+    color: #8E6745 !important;
+    background-color: #FFF0E6 !important;
+}
+
+.btn-account-sign:hover {
+    color: #FFF0E6 !important;
+    background-color: #493422 !important;
+}
+
+.btn-check:focus + .btn-account-sign, .btn-account-sign:focus {
+    color: #8E6745;
+    background-color: #FFF0E6;
+    box-shadow: 0 0 0 0.25rem rgba(49, 132, 253, 0.5);
+}
+
+.btn-check:checked + .btn-account-sign, .btn-check:active + .btn-account-sign, .btn-account-sign:active, .btn-account-sign.active, .show > .btn-account-sign.dropdown-toggle {
+    color: #8E6745;
+    background-color: #FFF0E6;
+}
+
+.btn-check:checked + .btn-account-sign:focus, .btn-check:active + .btn-account-sign:focus, .btn-account-sign:active:focus, .btn-account-sign.active:focus, .show > .btn-account-sign.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.25rem rgba(49, 132, 253, 0.5);
+}
+
+.btn-account-sign:disabled, .btn-account-sign.disabled {
+    color: #8E6745;
+    background-color: #FFF0E6;
+}
+
+
+
+.btn-account-log {
+    color: #8E6745 !important;
+    background-color: #FFF0E6 !important;
+}
+
+    .btn-account-log:hover {
+        color: #FFF0E6 !important;
+        background-color: #493422 !important;
+    }
+
+    .btn-check:focus + .btn-account-log, .btn-account-log:focus {
+        color: #8E6745;
+        background-color: #FFF0E6;
+        box-shadow: 0 0 0 0.25rem rgba(49, 132, 253, 0.5);
+    }
+
+    .btn-check:checked + .btn-account-log, .btn-check:active + .btn-account-log, .btn-account-log :active, .btn-account-log .active, .show > .btn-account-log .dropdown-toggle {
+        color: #8E6745;
+        background-color: #FFF0E6;
+    }
+
+        .btn-check:checked + .btn-account-log:focus, .btn-check:active + .btn-account-log:focus, .btn-account-log:active:focus, .btn-account-log.active:focus, .show > .btn-account-log.dropdown-toggle:focus {
+            box-shadow: 0 0 0 0.25rem rgba(49, 132, 253, 0.5);
+        }
+
+    .btn-account-log:disabled, .btn-account-log.disabled {
+        color: #8E6745;
+        background-color: #FFF0E6;
+    }
+
+
+
+.btn-post {
+    color: #FFF0E6 !important;
+    background-color: #8E6745 !important;
+}
+
+    .btn-post:hover {
+        color: #FFF0E6 !important;
+        background-color: #493422 !important;
+    }
+
+    .btn-check:focus  + .btn-post, .btn-post:focus {
+        color: #FFF0E6 ;
+        background-color: #8E6745 ;
+        box-shadow: 0 0 0 0.25rem rgba(49, 132, 253, 0.5);
+    }
+
+    .btn-check:checked + .btn-post, .btn-check:active + .btn-post, .btn-post :active, .btn-post .active, .show > .btn-post .dropdown-toggle {
+        color: #FFF0E6;
+        background-color: #8E6745;
+    }
+
+        .btn-check:checked + .btn-post:focus, .btn-check:active + .btn-post:focus, .btn-post:active:focus, .btn-post.active:focus, .show > .btn-post.dropdown-toggle:focus {
+            box-shadow: 0 0 0 0.25rem rgba(49, 132, 253, 0.5);
+        }
+
+    .btn-post:disabled, .btn-post.disabled {
+        color: #FFF0E6;
+        background-color: #8E6745;
+    }
