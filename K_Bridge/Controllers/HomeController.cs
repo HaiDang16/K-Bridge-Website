@@ -34,6 +34,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        ViewBag.Statses = repository.Statses;
         ViewBag.Categories = repository.Categories;
         return View();
     }

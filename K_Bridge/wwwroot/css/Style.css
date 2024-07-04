@@ -5,11 +5,21 @@
 .text-color-logo {
     color: #493422;
 }
+.text-color-logo::placeholder {
+    color: #493422;
+    opacity:70%;
+}
+.border-main-color-logo {
+    border-color: #493422;
+}
 .bg-main-color-header {
     background-color: #8E6745;
 }
 .text-color-header {
     color: #8E6745;
+}
+.border-main-color-header {
+    border-color: #8E6745;
 }
 .bg-main-color-layout {
     background-color: #FFBE98;
@@ -17,11 +27,26 @@
 .text-color-layout {
     color: #FFBE98;
 }
+    .text-color-layout::placeholder {
+        color: #FFBE98;
+        opacity: 70%;
+    }
+.border-main-color-layout {
+    border-color: #FFBE98;
+}
+
 .bg-main-color-background {
     background-color: #FFF0E6;
 }
+.bg-main-color-btn {
+    background-color: #FFE8DA;
+}
+
 .text-color-background {
     color: #FFF0E6;
+}
+.border-main-color-background {
+    border-color: #FFF0E6;
 }
 .header {
     max-height: 80px;
@@ -38,9 +63,7 @@
 .w-32{
     width: 32px !important; 
 }
-.search-width {
-    max-width: 420px;
-}
+
 @font-face {
     font-family: 'Algerian';
     src: url('~/font/Algerian Regular.ttf') format('truetype');
@@ -144,3 +167,53 @@
         color: #FFF0E6;
         background-color: #8E6745;
     }
+
+
+.rounded-8 {
+    border-radius: 8px;
+}
+
+
+
+
+
+
+
+
+
+
+.fs-12{
+    font-size: 12px;
+}
+
+.message {
+    max-width: 95%;
+    word-wrap: break-word;
+}
+
+.message-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.align-self-end .message {
+    border-bottom-right-radius: 0 !important;
+}
+
+.message-group:not(.align-self-end) .message {
+    border-bottom-left-radius: 0 !important;
+}
+
+
+.focus:focus {
+    outline: none;
+}
+
+.word-break-all {
+    word-break: break-all;
+}
+
+.cursor{
+    cursor: pointer;
+}
+

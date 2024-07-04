@@ -5,5 +5,7 @@ namespace K_Bridge.Models
     public interface IKBridgeRepository
     {
         IQueryable<Category> Categories { get; }
+
+        IQueryable<Stats> Statses { get; }
     }
 }

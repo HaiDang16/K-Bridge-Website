@@ -1,17 +1,22 @@
-﻿<div class="container">
-    <div class="row">
-        <div class="col-6">
-            <h1>test stats</h1>
+﻿<nav>
+    <div class="bg-main-color-background h-100 w-100"></div>
+    <h5 class="text-color-logo mt-4">Thống kê</h5>
+    @foreach (var stats in ViewBag.Statses ?? Enumerable.Empty<Stats>())
+    {
+        <div class="container">
+            <div class="row align-items-center cursor">
+                <div class="col-auto p-0 my-2">
+                    <img class="p-0 m-0 w-32 h-auto mt-2" src="~/img/@Url.Content(stats.LinkIcon)" alt="@stats.LinkIcon" />
+                </div>
+                <div class="col">
+                    <div class="row w-auto text-wrap m-0">
+                        <p class="p-0 m-0 text-color-logo fs-6">@stats.Name</p>
+                    </div>
+                    <div class="row w-auto text-wrap m-0">
+                        <p class="p-0 m-0 text-color-logo fs-6">@stats.Count</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-6">
-            <!-- Nội dung khác -->
-        </div>
-    </div>
-</div>
-@* :root {
-    --bg-main-color-logo: #493422;
-    --bg-main-color-header: #8E6745;
-    --bg-main-color-layout: #FFBE98;
-    --bg-main-color-background: #FFF0E6;
-
-} *@
+    }
+</nav>

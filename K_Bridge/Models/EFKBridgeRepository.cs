@@ -11,6 +11,8 @@ namespace K_Bridge.Models
             context = ctx;
         }
         public IQueryable<Category> Categories => context.Categories;
+
+        public IQueryable<Stats> Statses => context.Statses;
     }
 
 }

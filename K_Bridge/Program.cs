@@ -10,8 +10,12 @@ builder.Services.AddDbContext<KBridgeDbContext>(opts => {
     opts.UseSqlServer(
     builder.Configuration["ConnectionStrings:KBridgeConnection"]);
 });
-
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+}
 builder.Services.AddScoped<IKBridgeRepository, EFKBridgeRepository>();
+
 var app = builder.Build(); 
 
 // Configure the HTTP request pipeline.
@@ -29,4 +33,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 SeedData.EnsurePopulated(app);
+SeedDataStats.EnsurePopulated(app);
 app.Run();

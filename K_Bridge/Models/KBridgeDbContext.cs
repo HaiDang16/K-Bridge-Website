@@ -8,6 +8,7 @@ namespace K_Bridge.Models
         public KBridgeDbContext(DbContextOptions<KBridgeDbContext> options)
         : base(options) { }
         public DbSet<Category> Categories => Set<Category>();
+        public DbSet<Stats> Statses => Set<Stats>();
 
     }
 }

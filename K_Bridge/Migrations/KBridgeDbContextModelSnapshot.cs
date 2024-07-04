@@ -45,6 +45,30 @@ namespace K_Bridge.Migrations
 
                     b.ToTable("Categories");
                 });
+
+            modelBuilder.Entity("K_Bridge.Models.Stats", b =>
+                {
+                    b.Property<long?>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("ID"), 1L, 1);
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LinkIcon")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Statses");
+                });
 #pragma warning restore 612, 618
         }
     }
