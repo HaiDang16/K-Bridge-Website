@@ -1,34 +1,19 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using K_Bridge.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace K_Bridge.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
 
-/*    public HomeController(ILogger<HomeController> logger)
-    {
-        _logger = logger;
-    }
+    private IKBridgeRepository repository;
 
-    public IActionResult Index()
-    {
-        return View();
-    }
-*/
-    public IActionResult Privacy()
-    {
-        return View();
-    }
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
-    private IKBridgeRepository repository;
 
     public HomeController(IKBridgeRepository repo) { repository = repo; }
 
@@ -39,3 +24,4 @@ public class HomeController : Controller
         return View();
     }
 }
+//dotnet ef migrations add Initial

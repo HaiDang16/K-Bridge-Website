@@ -22,7 +22,7 @@
     border-color: #8E6745;
 }
 .bg-main-color-layout {
-    background-color: #FFBE98;
+    background-color: #FFBE98 !important;
 }
 .text-color-layout {
     color: #FFBE98;
@@ -45,6 +45,10 @@
 .text-color-background {
     color: #FFF0E6;
 }
+    .text-color-background::placeholder {
+        color: #FFF0E6;
+        opacity: 70%;
+    }
 .border-main-color-background {
     border-color: #FFF0E6;
 }

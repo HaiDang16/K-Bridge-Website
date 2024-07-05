@@ -9,6 +9,7 @@ namespace K_Bridge.Models
         : base(options) { }
         public DbSet<Category> Categories => Set<Category>();
         public DbSet<Stats> Statses => Set<Stats>();
+        public DbSet<User> Users => Set<User>();
 
     }
 }

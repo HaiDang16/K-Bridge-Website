@@ -13,6 +13,7 @@ namespace K_Bridge.Models
         public IQueryable<Category> Categories => context.Categories;
 
         public IQueryable<Stats> Statses => context.Statses;
+        public IQueryable<User> Users => context.Users;
     }
 
 }
