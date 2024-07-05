@@ -1,9 +1,9 @@
 ﻿@{
-    bool isLoggedIn = true;
+    bool isLoggedIn = false;
 }
 
-<div class="container-fluid px-3 py-3 py-md-4 mx-4">
-    <div class="row align-items-center">
+<div class="container-fluid px-5 py-3 py-md-4" style="max-width: 97%;">
+    <div class="row align-items-center" >
         <div class="col-auto col-md-2">
             <div class="d-flex align-items-center">
                 <img class="img-fluid" style="max-height: 40px;" src="/img/Logo.png" alt="Logo">
@@ -18,12 +18,12 @@
                 </button>
             </div>
         </div>
-        <div class="col-auto col-md-3 mt-3 mt-md-0 d-flex justify-content-end">
+        <div class="col-auto col-md-3 mt-3 mt-md-0 d-flex justify-content-center">
             @if (!isLoggedIn)
             {
-                <div class="align-items-center">
-                    <button type="button" class="btn px-2 px-md-4 py-1 btn-account-sign me-4" data-bs-toggle="modal" data-bs-target="#signupModal">Đăng ký</button>
-                    <button type="button" class="btn px-2 px-md-4 py-1 btn-account-log ms-4" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập</button>
+                <div class="align-items-center d-flex justify-content-between" style="width: 85%; max-width:300px;">
+                    <button type="button" class="btn px-2 px-md-4 py-1 btn-account-sign" style="width:48%;" data-bs-toggle="modal" data-bs-target="#signupModal">Đăng ký</button>
+                    <button type="button" class="btn px-2 px-md-4 py-1 btn-account-log" style="width:48%;" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập</button>
                 </div>
             }
             else
@@ -42,12 +42,12 @@
     <div class="modal-dialog">
         <div class="modal-content bg-main-color-background p-1" style="border-radius: 20px;">
             <div class="modal-header border-0">
-                <h5 class="modal-title" id="signupModalLabel">
+                <div class="modal-title" id="signupModalLabel">
                     <div class="d-flex align-items-center">
                         <img class="img-fluid" style="max-height: 40px;" src="/img/Logo.png" alt="Logo">
                         <span class="ms-2 kbridge-text text-color-header fs-4 d-none d-md-inline">K-BRIDGE</span>
                     </div>
-                </h5>
+                </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body py-0">

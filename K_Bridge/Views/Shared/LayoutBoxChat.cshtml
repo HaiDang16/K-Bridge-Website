@@ -1,11 +1,11 @@
 ﻿
-<div class=" d-flex flex-column mt-4 border-main-color-layout border-2 h-auto w-auto rounded-8" style="max-width: 300px;  margin-left: 40px;">
-    <button class="flex-grow-0 border-main-color-header border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between">
-        <div class=" text-uppercase">Bình luận</div>
-        <img src="/img/arrow_down.png" alt="arow_down" />
+<div class=" d-flex flex-column mt-4 border-main-color-layout border-2 h-auto w-auto rounded-8" style="max-width: 300px;">
+    <button id="toggle-comments" class="flex-grow-0 border-main-color-header border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between">
+        <div class="text-uppercase">Bình luận</div>
+        <img id="arrow-icon" src="/img/arrow_down.png" alt="arrow_down" />
     </button>
 
-    <div class="rounded-3 overflow-auto flex-grow-1 mx-lg-3 d-flex flex-column-reverse" style="height: 460px;">
+    <div id="comments-container" class="rounded-3 overflow-auto flex-grow-1 mx-lg-3 d-flex flex-column-reverse" style="height: 460px;">
         <div id="chat-messages" class="d-flex flex-column-reverse justify-content-end">
             <div class="mb-2 d-md-flex flex-column">
                 <div class="d-md-flex align-items-center">
@@ -58,3 +58,16 @@
         </button>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleButton = document.getElementById('toggle-comments');
+        const commentsContainer = document.getElementById('comments-container');
+        const arrowIcon = document.getElementById('arrow-icon');
+
+        toggleButton.addEventListener('click', function () {
+            commentsContainer.classList.toggle('hidden');
+            arrowIcon.classList.toggle('rotated');
+        });
+    });
+</script>

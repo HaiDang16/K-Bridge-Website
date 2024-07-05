@@ -221,3 +221,24 @@
     cursor: pointer;
 }
 
+.scrollable-content {
+    height: calc(100vh - 80px); /* Điều chỉnh 56px nếu header của bạn có chiều cao khác */
+    overflow-y: auto;
+}
+
+.fixed-sidebar {
+    overflow-y: auto;
+}
+
+#arrow-icon {
+    transition: transform 0.3s ease-in-out;
+}
+
+#arrow-icon.rotated {
+    transform: rotate(90deg);
+}
+
+#comments-container.hidden {
+    display: none !important;
+}
+
