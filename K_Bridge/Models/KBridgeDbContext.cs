@@ -10,6 +10,7 @@ namespace K_Bridge.Models
         public DbSet<Category> Categories => Set<Category>();
         public DbSet<Stats> Statses => Set<Stats>();
         public DbSet<User> Users => Set<User>();
+        public DbSet<Topic> Topics => Set<Topic>();
 
     }
 }

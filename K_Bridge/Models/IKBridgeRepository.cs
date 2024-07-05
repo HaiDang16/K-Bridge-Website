@@ -7,5 +7,6 @@ namespace K_Bridge.Models
         IQueryable<Category> Categories { get; }
         IQueryable<Stats> Statses { get; }
         IQueryable<User> Users { get; }
+        IQueryable<Topic> Topics { get; }
     }
 }

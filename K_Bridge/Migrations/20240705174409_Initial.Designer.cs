@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace K_Bridge.Migrations
 {
     [DbContext(typeof(KBridgeDbContext))]
-    [Migration("20240705111726_Initial")]
+    [Migration("20240705174409_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,6 +31,9 @@ namespace K_Bridge.Migrations
                         .HasColumnType("bigint");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("ID"), 1L, 1);
+
+                    b.Property<DateTime>("JoinDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LinkIcon")
                         .IsRequired()
@@ -59,6 +62,9 @@ namespace K_Bridge.Migrations
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("JoinDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("LinkIcon")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -70,6 +76,39 @@ namespace K_Bridge.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Statses");
+                });
+
+            modelBuilder.Entity("K_Bridge.Models.Topic", b =>
+                {
+                    b.Property<long?>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("ID"), 1L, 1);
+
+                    b.Property<long>("CateId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("JoinDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LinkIcon")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PostCount")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("StateTopic")
+                        .HasColumnType("bit");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Topics");
                 });
 
             modelBuilder.Entity("K_Bridge.Models.User", b =>

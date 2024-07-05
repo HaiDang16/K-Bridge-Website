@@ -21,6 +21,7 @@ public class HomeController : Controller
     {
         ViewBag.Statses = repository.Statses;
         ViewBag.Categories = repository.Categories;
+        ViewBag.Topics = repository.Topics;
         return View();
     }
 }

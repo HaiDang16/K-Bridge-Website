@@ -6,5 +6,6 @@
         public string Name { get; set; } = String.Empty;
         public int TopicCount { get; set; }
         public string LinkIcon { get; set; } = String.Empty;
+        public DateTime JoinDate { get; set; }
     }
 }
