@@ -9,13 +9,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - K Bridge</title>
 </head>
-<body class="overflow-hidden align-items-center m-auto"  >
-    <header class="header bg-main-color-header d-flex fixed-top" >
+<body>
+    <header class="header bg-main-color-header d-flex">
         @await Html.PartialAsync("LayoutHeader")
     </header>
-    <div class="container-fluid" style="max-width: 97%; margin-top: 100px;">
+    <div class="container-fluid h-auto">
         <div class="row main-content mt-4 mx-3 h-auto">
-            <div class="col-md-3 sidebar ">
+            <div class="col-md-3 sidebar">
                 @await Html.PartialAsync("LayoutCategory")
                 @await Html.PartialAsync("LayoutStats")
             </div>
@@ -29,14 +29,13 @@
                     @await Html.PartialAsync("LayoutPost")
                     @await Html.PartialAsync("LayoutBoxChat")
                 </div>
-            </div>
         </div>
     </div>
 
-@*     <footer class="border-top text-muted bg-main-color-background">
-        <div class="container">
-           <div class="">Foot</div>
-        </div>
+    @*     <footer class="border-top text-muted bg-main-color-background">
+    <div class="container">
+    <div class="">Foot</div>
+    </div>
     </footer> *@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
