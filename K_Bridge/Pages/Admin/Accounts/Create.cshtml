@@ -22,17 +22,17 @@
 <form method="post" enctype="multipart/form-data">
     <div class="row mt-4 create-padding-form">
         <div class="col-5">
-            <div class="form-group  mb-3">
+            <div class="form-group mb-3">
                 <label class="create-form-title" for="AccountCode">Mã tài khoản</label>
-                <input type="text" class="form-control" id="AccountCode" name="AccountCode" readonly>
+                <input type="text" class="form-id" id="AccountCode" name="AccountCode" placeholder="CUS001" readonly>
             </div>
             <div class="form-group mb-3">
                 <label class="create-form-title" for="Username">Tên đăng nhập</label>
-                <input type="text" class="form-control" id="Username" name="Username" required>
+                <input type="text" class="form-custom" id="Username" name="Username" placeholder="abcxyz" required>
             </div>
-            <div class="form-group  mb-3">
+            <div class="form-group mb-3">
                 <label class="create-form-title" for="Email">Email</label>
-                <input type="email" class="form-control" id="Email" name="Email" required>
+                <input type="email" class="form-custom" id="Email" name="Email" placeholder="abc@gmail.com" required>
             </div>
         </div>
         <div class="col-2">
@@ -41,15 +41,15 @@
         <div class="col-5">
             <div class="form-group mb-3">
                 <label class="create-form-title" for="PhoneNumber">Số điện thoại</label>
-                <input type="tel" class="form-control" id="PhoneNumber" name="PhoneNumber" required>
+                <input type="tel" class="form-custom" id="PhoneNumber" name="PhoneNumber" placeholder="0123456789" required>
             </div>
-            <div class="form-group  mb-3">
+            <div class="form-group mb-3">
                 <label class="create-form-title" for="Password">Mật khẩu</label>
-                <input type="password" class="form-control" id="Password" name="Password" required>
+                <input type="password" class="form-custom" id="Password" name="Password" placeholder="Phải bao gồm 8 ký tự" required>
             </div>
             <div class="form-group mb-3">
                 <label class="create-form-title" for="ProfilePicture">Ảnh đại diện</label>
-                <input type="file" class="form-control" id="ProfilePicture" name="ProfilePicture" accept="image/*">
+                <input type="file" class="form-custom" id="ProfilePicture" name="ProfilePicture" accept="image/*">
             </div>
         </div>
 
