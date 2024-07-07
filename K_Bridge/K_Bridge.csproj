@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\img\admin_background.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\img\arrow_down.png" />
   </ItemGroup>
 <ItemGroup>
@@ -20,9 +24,18 @@
     <PrivateAssets>all</PrivateAssets>
   </PackageReference>
   <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0" />
+  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0-preview.5.24306.3">
+    <PrivateAssets>all</PrivateAssets>
+    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+  </PackageReference>
 </ItemGroup>
 <ItemGroup>
   <Folder Include="Migrations\" />
+  <Folder Include="Models\ViewModels\" />
+  <Folder Include="Views\Admin\" />
+</ItemGroup>
+<ItemGroup>
+  <None Include="wwwroot\img\admin_background.png" />
 </ItemGroup>
 
 <Target Name="Tailwind" BeforeTargets="Build">

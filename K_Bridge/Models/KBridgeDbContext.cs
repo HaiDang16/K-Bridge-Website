@@ -11,6 +11,6 @@ namespace K_Bridge.Models
         public DbSet<Stats> Statses => Set<Stats>();
         public DbSet<User> Users => Set<User>();
         public DbSet<Topic> Topics => Set<Topic>();
-
+        public DbSet<Admin_Accounts> Admin_Accounts => Set<Admin_Accounts>();
     }
 }

@@ -1,4 +1,4 @@
-using K_Bridge.Models;
+﻿using K_Bridge.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 
@@ -15,6 +15,7 @@ if (builder.Environment.IsDevelopment())
     builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 }
 builder.Services.AddScoped<IKBridgeRepository, EFKBridgeRepository>();
+builder.Services.AddRazorPages();
 
 var app = builder.Build(); 
 
@@ -32,6 +33,13 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapDefaultControllerRoute();
+app.MapRazorPages();
+
+// Khởi tạo seed data
 SeedData.EnsurePopulated(app);
 SeedDataStats.EnsurePopulated(app);
+SeedDataAdminAccount.EnsurePopulated(app);
+
 app.Run();

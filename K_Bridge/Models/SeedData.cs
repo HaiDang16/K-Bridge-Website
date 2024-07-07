@@ -8,7 +8,7 @@ namespace K_Bridge.Models
         public static void EnsurePopulated(IApplicationBuilder app)
         {
             KBridgeDbContext context = app.ApplicationServices
-            .CreateScope().ServiceProvider.GetRequiredService<KBridgeDbContext>();
+                .CreateScope().ServiceProvider.GetRequiredService<KBridgeDbContext>();
             if (context.Database.GetPendingMigrations().Any())
             {
                 context.Database.Migrate();

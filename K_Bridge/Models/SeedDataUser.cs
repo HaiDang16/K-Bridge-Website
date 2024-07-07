@@ -19,24 +19,24 @@ namespace K_Bridge.Models
                 context.Users.AddRange(
                 new User
                 {
-                    UserName = "admintest",
+                    Username = "admintest",
                     Email = "admintest@gmail.com",
                     Password = "test1313",
-                    Roles = "Admin"
+                    //Roles = "Admin"
                 },
                 new User
                 {
-                    UserName = "usertest",
+                    Username = "usertest",
                     Email = "usertest@gmail.com",
                     Password = "test1313",
-                    Roles = "User"
+                    //Roles = "User"
                 },
                 new User
                 {
-                    UserName = "alltest",
+                    Username = "alltest",
                     Email = "alltest@gmail.com",
                     Password = "test1313",
-                    Roles = "Admin"+"User"
+                    //Roles = "Admin"+"User"
                 }
                 );
                 context.SaveChanges();

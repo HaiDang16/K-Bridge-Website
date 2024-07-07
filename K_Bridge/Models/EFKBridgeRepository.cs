@@ -5,15 +5,16 @@ namespace K_Bridge.Models
 {
     public class EFKBridgeRepository : IKBridgeRepository
     {
-        private KBridgeDbContext context;
+        private KBridgeDbContext _context;
         public EFKBridgeRepository(KBridgeDbContext ctx)
         {
-            context = ctx;
+            _context = ctx;
         }
-        public IQueryable<Category> Categories => context.Categories;
-        public IQueryable<Stats> Statses => context.Statses;
-        public IQueryable<User> Users => context.Users;
-        public IQueryable<Topic> Topics => context.Topics;
+        public IQueryable<Category> Categories => _context.Categories;
+        public IQueryable<Stats> Statses => _context.Statses;
+        public IQueryable<User> Users => _context.Users;
+        public IQueryable<Topic> Topics => _context.Topics;
+        public IQueryable<Admin_Accounts> Admin_Accounts => _context.Admin_Accounts;
     }
 
 }
