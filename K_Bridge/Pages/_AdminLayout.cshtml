@@ -81,70 +81,10 @@
     </header>
     <div class="row">
         <nav class="col-2 sidebar">
-            @*             <ul class="nav flex-column" id="nav_accordion">
-            <li class="nav-item sidebar-title">
-            <h4>Trang điều khiển</h4>
-            </li>
-            <li class="nav-item mt-3">
-            <a class="nav-link nav-link-text" href="#">
-            <img src="~/img/icon_dashboard_50.png" class="sidebar-icon" /> Tổng quan
-            </a>
-            </li>
-            <li class="nav-item mt-2">
-            <a class="nav-link nav-link-text" href="#">
-            <img src="~/img/icon_user_50.png" class="sidebar-icon" /> Tài khoản
-            </a>
-            </li>
-            <li class="nav-item has-submenu mt-2">
-            <a class="nav-link" href="#">
-            <img src="~/img/icon_table_50.png" class="sidebar-icon" /> Diễn đàn
-            <i class="bi small bi-caret-down-fill"></i>
-            </a>
-            <ul class="submenu collapse">
-            <li class="nav-item mt-1">
-            <a class="nav-link nav-link-text" href="#">
-            <img src="~/img/icon_develop_50.png" class="sidebar-subicon" />Lập trình
-            </a>
-            </li>
-            <li class="nav-item mt-1">
-            <a class="nav-link nav-link-text" href="#">
-            <img src="~/img/icon_tutorial_50.png" class="sidebar-subicon" />Hướng dẫn
-            </a>
-            </li>
-            <li class="nav-item mt-1">
-            <a class="nav-link nav-link-text" href="#">
-            <img src="~/img/icon_report_50.png" class="sidebar-subicon" />Mẫu báo cáo
-            </a>
-            </li>
-            <li class="nav-item mt-1">
-            <a class="nav-link nav-link-text" href="#">
-            <img src="~/img/icon_document_50.png" class="sidebar-subicon" />Tài liệu tổng hợp
-            </a>
-            </li>
-            <li class="nav-item mt-1">
-            <a class="nav-link nav-link-text" href="#">
-            <img src="~/img/icon_video_50.png" class="sidebar-subicon" />Bài giảng trên lớp
-            </a>
-            </li>
-            <li class="nav-item mt-1">
-            <a class="nav-link nav-link-text" href="#">
-            <img src="~/img/icon_drl_50.png" class="sidebar-subicon" />Hoạt động điểm rèn luyện
-            </a>
-            </li>
-            </ul>
-            </li>
-            <li class="nav-item mt-2">
-            <a class="nav-link nav-link-text" href="#">
-            <img src="~/img/icon_logout_50.png" class="sidebar-icon" /> Đăng xuất
-            </a>
-            </li>
-            </ul>
-            *@
-
             <vc:admin-navigation-menu />
         </nav>
 
-        <div class="col-10">
+        <div class="col-10" id="admin-background">
             @RenderBody()
         </div>
     </div>
