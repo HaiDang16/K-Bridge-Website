@@ -124,14 +124,10 @@
     color: #FFE8DA;
 }
 
-#body-container {
-    min-height: 100vh;
-}
-
 .sidebar {
     background: #8E6745;
-    position: sticky;
-    min-height: 100vh;
+    height: 100%;
+    min-height: 91vh
 }
 
 .sidebar-title {
@@ -186,9 +182,15 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 100vh;
+    min-height: 91vh
 }
 
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    height: 100%;
+}
 /*----------------------- ADMIN DASHBOARD -----------------------*/
 .dashboard-welcome-text {
     font-weight: 500;
@@ -210,8 +212,8 @@
 }
 
 .dashboard-card-icon {
-    width:30px;
-    height:30px;
+    width: 30px;
+    height: 30px;
 }
 
 .dashboard-card-number {
@@ -226,3 +228,79 @@
     font-size: 20px;
 }
 
+/*----------------------- ADMIN ACCOUNT -----------------------*/
+.account-navigate {
+    height: 30px;
+}
+
+.account-navigate-icon {
+    width: 20px;
+    height: 20px
+}
+
+.account-navigate-text {
+    font-weight: 500;
+    color: #493422;
+    font-size: 20px;
+}
+
+.account-title {
+    font-weight: 600;
+    font-size: 30px;
+}
+
+.account-subtitle {
+    color: #493422;
+    opacity: 0.7;
+}
+
+.account-create-button {
+    background: #A47852;
+    border-radius: 5px;
+    color: white;
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.account-table {
+    background: #FFF0E6;
+    border-radius: 10px;
+    border: 2px solid #493422 !important;
+    border-spacing: 0;
+    border-collapse: separate;
+    padding-bottom: 15px;
+    text-align: center;
+}
+
+.account-table-edit-btn {
+    border: none;
+    background: none;
+}
+
+.account-table-delete-btn {
+    border: none;
+    background: none;
+}
+.account-paging {
+    background: #FFF0E6;
+    color: #8E6745;
+    border: solid 1px #493422;
+    border-radius: 10px;
+    overflow-y:hidden;
+}
+
+.page-item .page-link {
+    color: #8E6745;
+    border:none
+}
+
+.page-item:hover .page-link {
+    color: #493422;
+    background: #FFBE98;
+}
+
+.page-item.active .page-link {
+    background-color: #FFBE98 !important;
+    color: #493422 !important;
+    font-weight: bold;
+}

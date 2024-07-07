@@ -1,0 +1,82 @@
+﻿@page
+@model K_Bridge.Pages.Admin.AccountsModel
+
+<div class="row account-navigate mt-3 px-5 align-items-center ">
+    <div class="col-3 d-flex justify-content-star">
+        <img src="/img/icon_dashboard_50_dark.png"
+             class="account-navigate-icon mt-2" alt="Tổng quan">
+        <img src="/img/icon_arrow_right_50_dark.png" class="mx-4 mt-2"
+             alt="Tổng quan" width="10" height="20">
+        <div class="account-navigate-text ">Tài khoản</div>
+    </div>
+    <div class="col-9">
+    </div>
+</div>
+<div class="row mt-3 px-5">
+    <div class="col-3">
+        <div class="account-title">Tài khoản</div>
+        <div class="account-subtitle">Quản lý tài khoản người dùng</div>
+    </div>
+    <div class="col-9 d-flex justify-content-end align-items-center">
+        <div class=" account-create-button px-4 h-75 d-flex align-items-center">
+            + Tạo tài khoản
+        </div>
+    </div>
+</div>
+<div class="row px-5">
+    <table class="account-table table table-hover mt-3">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Tên đăng nhập</th>
+                <th scope="col">Email</th>
+                <th scope="col">Số điện thoại</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col">Điểm</th>
+                <th scope="col">Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < 8; i++)
+            {
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>123</td>
+                    <td>123</td>
+                    <td>123</td>
+                    <td>
+                        <div>
+                            <button class="account-table-edit-btn">
+                                <img src="/img/icon_edit_50.png" alt="Chỉnh sửa" width="20" height="20">
+                            </button>
+                            <button class="account-table-delete-btn">
+                                <img src="/img/icon_trash_50.png" alt="Chỉnh sửa" width="25" height="25">
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="row px-5">
+    <ul class="pagination justify-content-center m-0 p-0">
+        <div class="d-flex account-paging">
+        <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Trước</a>
+        </li>
+        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">4</a></li>
+        <li class="page-item"><a class="page-link" href="#">5</a></li>
+        <li class="page-item">
+            <a class="page-link" href="#">Sau</a>
+        </li>
+
+</div>
+    </ul>
+
+</div>

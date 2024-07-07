@@ -79,15 +79,14 @@
             </div>
         </div>
     </header>
-    <div class="row">
-        <nav class="col-2 sidebar">
-            <vc:admin-navigation-menu />
-        </nav>
-
+        <div class="row m-0 p-0">
+            <nav class="col-2 sidebar m-0 p-0">
+                <vc:admin-navigation-menu />
+            </nav>
         <div class="col-10" id="admin-background">
-            @RenderBody()
+                @RenderBody()
+            </div>
         </div>
-    </div>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
