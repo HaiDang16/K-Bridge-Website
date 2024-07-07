@@ -13,14 +13,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
-
 <script type="text/javascript">
-
     document.addEventListener("DOMContentLoaded", function () {
-
         document.querySelectorAll('.sidebar .nav-link').forEach(function (element) {
-
             element.addEventListener('click', function (e) {
+                document.querySelectorAll('.sidebar .nav-link').forEach(function (el) {
+                    el.classList.remove('active');
+                });
+                element.classList.add('active');
 
                 let nextEl = element.nextElementSibling;
                 let parentEl = element.parentElement;
@@ -33,21 +33,26 @@
                         mycollapse.hide();
                     } else {
                         mycollapse.show();
-                        // find other submenus with class=show
                         var opened_submenu = parentEl.parentElement.querySelector('.submenu.show');
-                        // if it exists, then close all of them
                         if (opened_submenu) {
                             new bootstrap.Collapse(opened_submenu);
                         }
-
                     }
                 }
-
             });
-        })
+        });
 
+        // Automatically set active class based on current URL
+        const currentPath = window.location.pathname;
+        document.querySelectorAll('.sidebar .nav-link').forEach(function (link) {
+            if (link.getAttribute('href') === currentPath) {
+                link.classList.add('active');
+                if (link.closest('.submenu')) {
+                    link.closest('.submenu').classList.add('show');
+                }
+            }
+        });
     });
-    // DOMContentLoaded  end
 </script>
 
 

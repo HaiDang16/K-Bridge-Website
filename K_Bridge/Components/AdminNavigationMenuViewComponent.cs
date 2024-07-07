@@ -16,6 +16,5 @@ namespace K_Bridge.Components
         {
             return View();
         }
-
     }
 }

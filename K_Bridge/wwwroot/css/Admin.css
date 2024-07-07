@@ -137,6 +137,7 @@
     color: #FFF0E6;
     text-align: center;
     margin-top: 30px;
+    font-size:5px;
 }
 
 .sidebar-icon {
@@ -162,9 +163,21 @@
         color: #FFF0E6;
     }
 
+    .sidebar .nav-link:focus {
+        font-weight: 500;
+        color: #FFF0E6;
+    }
+
 .sidebar-subicon {
     width: 20px;
     height: 20px;
     margin-right: 10px;
-    margin-left:-15px
+    margin-left:-10px;
 }
+
+.nav-link.active {
+    border-left: 4px solid #FFF0E6;
+    background-color: #A47852;
+    border-radius: 5px;
+}
+
