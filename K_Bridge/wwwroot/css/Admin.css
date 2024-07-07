@@ -281,17 +281,18 @@ html, body {
     border: none;
     background: none;
 }
+
 .account-paging {
     background: #FFF0E6;
     color: #8E6745;
     border: solid 1px #493422;
     border-radius: 10px;
-    overflow-y:hidden;
+    overflow-y: hidden;
 }
 
 .page-item .page-link {
     color: #8E6745;
-    border:none
+    border: none
 }
 
 .page-item:hover .page-link {
@@ -304,3 +305,45 @@ html, body {
     color: #493422 !important;
     font-weight: bold;
 }
+
+/*----------------------- ADMIN CREATE -----------------------*/
+.create-form-title {
+    font-weight: bold;
+}
+
+.create-padding-form {
+    padding-left: 150px;
+    padding-right: 150px;
+}
+
+.create-back-btn {
+    border: solid 1px #A47852;
+    border-radius: 5px;
+    background: #FFF0E6;
+}
+
+    .create-back-btn:hover {
+        background: #FFBE98;
+    }
+
+.create-reset-btn {
+    border: solid 1px #A47852;
+    border-radius: 5px;
+    background: #FFBE98;
+}
+
+    .create-reset-btn:hover {
+        background: #FFF0E6;
+    }
+
+.create-btn {
+    border: solid 1px #A47852;
+    border-radius: 5px;
+    background: #A47852;
+    color:white;
+}
+
+    .create-btn:hover {
+        background: #FFF0E6;
+    }
+

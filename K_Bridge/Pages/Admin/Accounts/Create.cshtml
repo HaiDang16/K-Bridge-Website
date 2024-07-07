@@ -1,0 +1,75 @@
+﻿@page
+@model K_Bridge.Pages.Admin.Accounts.CreateModel
+
+<div class="row account-navigate mt-3 px-5 align-items-center ">
+    <div class="col-12 d-flex justify-content-star">
+        <img src="/img/icon_dashboard_50_dark.png"
+             class="account-navigate-icon mt-2" alt="Tổng quan">
+        <img src="/img/icon_arrow_right_50_dark.png" class="mx-4 mt-2"
+             alt="Tổng quan" width="10" height="20">
+        <div class="account-navigate-text ">Tài khoản</div>
+        <img src="/img/icon_arrow_right_50_dark.png" class="mx-4 mt-2"
+             alt="Tổng quan" width="10" height="20">
+        <div class="account-navigate-text ">Tạo tài khoản</div>
+    </div>
+</div>
+<div class="row mt-3 create-padding-form">
+    <div class="col-4">
+        <div class="account-title">Tạo tài khoản</div>
+        <div class="account-subtitle">Cung cấp thông tin tài khoản mới</div>
+    </div>
+</div>
+<form method="post" enctype="multipart/form-data">
+    <div class="row mt-4 create-padding-form">
+        <div class="col-5">
+            <div class="form-group  mb-3">
+                <label class="create-form-title" for="AccountCode">Mã tài khoản</label>
+                <input type="text" class="form-control" id="AccountCode" name="AccountCode" readonly>
+            </div>
+            <div class="form-group mb-3">
+                <label class="create-form-title" for="Username">Tên đăng nhập</label>
+                <input type="text" class="form-control" id="Username" name="Username" required>
+            </div>
+            <div class="form-group  mb-3">
+                <label class="create-form-title" for="Email">Email</label>
+                <input type="email" class="form-control" id="Email" name="Email" required>
+            </div>
+        </div>
+        <div class="col-2">
+        </div>
+
+        <div class="col-5">
+            <div class="form-group mb-3">
+                <label class="create-form-title" for="PhoneNumber">Số điện thoại</label>
+                <input type="tel" class="form-control" id="PhoneNumber" name="PhoneNumber" required>
+            </div>
+            <div class="form-group  mb-3">
+                <label class="create-form-title" for="Password">Mật khẩu</label>
+                <input type="password" class="form-control" id="Password" name="Password" required>
+            </div>
+            <div class="form-group mb-3">
+                <label class="create-form-title" for="ProfilePicture">Ảnh đại diện</label>
+                <input type="file" class="form-control" id="ProfilePicture" name="ProfilePicture" accept="image/*">
+            </div>
+        </div>
+
+    </div>
+    <div class="row mt-5 create-padding-form">
+        <div class="col-2">
+            <button class="w-75 h-100 d-flex justify-content-center align-items-center create-back-btn py-1">
+                Quay về
+            </button>
+        </div>
+        <div class="col-5"></div>
+
+        <div class="col-2 d-flex justify-content-end">
+            <button class="w-75 h-100 d-flex justify-content-center align-items-center create-reset-btn py-1">
+                Đặt lại
+            </button>
+        </div>
+
+        <div class="col-3 d-flex justify-content-end">
+            <button type="submit" class="w-75 h-100 d-flex justify-content-center align-items-center create-btn py-1">Tạo tài khoản</button>
+        </div>
+    </div>
+</form>
