@@ -4,7 +4,6 @@
     <link href="/css/Style.css" rel="stylesheet" />
     <link href="/css/styles.css" rel="stylesheet" />
     <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -19,39 +18,33 @@
     <title>@ViewData["Title"]</title>
 </head>
 <body>
-    <header class="header bg-main-color-header d-flex">
+    <header class="header bg-main-color-header">
         @await Html.PartialAsync("LayoutHeader")
     </header>
-    <div class="container-fluid h-auto">
-        <div class="row main-content mt-4 mx-3 h-auto">
-            <div class="col-md-3 sidebar">
+    <div class="container-fluid">
+        <div class="row main-content mt-4 mx-3">
+            <div class="col-lg-3 col-md-4 sidebar mb-4 d-none d-md-block">
                 @await Html.PartialAsync("LayoutCategory")
                 @await Html.PartialAsync("LayoutStats")
             </div>
-            <div class="col-md-6 content">
+            <div class="col-lg-6 col-md-8 col-12 content mb-4">
                 <main role="main" class="pb-3">
                     @RenderBody()
                 </main>
             </div>
-            <div class="col-md-3 sidebar d-flex flex-column align-items-center">
-                <div style="width: 100%; max-width: 300px;">
-                    @await Html.PartialAsync("LayoutPost")
-                    @await Html.PartialAsync("LayoutBoxChat")
+            <div class="col-lg-3 col-md-12 sidebar d-none d-lg-block">
+                <div class="d-flex flex-column align-items-center">
+                    <div style="width: 100%; max-width: 300px;">
+                        @await Html.PartialAsync("LayoutPost")
+                        @await Html.PartialAsync("LayoutBoxChat")
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-    @*     <footer class="border-top text-muted bg-main-color-background">
-    <div class="container">
-    <div class="">Foot</div>
-    </div>
-    </footer> *@
-
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-    @model IQueryable<Category>
 </body>
 </html>
