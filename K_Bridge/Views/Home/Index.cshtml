@@ -1,7 +1,312 @@
-﻿<div class="d-flex justify-content-center align-items-center bg-main-color-background" style="height: 200vh;">
-    <!-- Nội dung của giao diện -->
-    <div>
-        <h1>Chào mừng đến với trang web của chúng tôi!</h1>
-        <p>Nội dung của trang web.</p>
+﻿<div class="h-auto text-color-logo">
+    <div class="w-auto bg-main-color-layout container-fluid rounded-3">
+        <div class="row flex-nowrap p-2">
+            <div class="col-lg-1 p-0 my-2">
+                <img src="/img/avatar_40.png" alt="avatar" class="rounded-circle" style="width: 40px; height: 40px;" />
+            </div>
+            <div class="col-lg-11">
+                <div class="col-lg-11 d-flex text-color-logo">
+                    <div class="fw-normal me-2">Chào</div>
+                    <div class="fw-bold">Tên user,</div>
+                </div>
+                <div class="fs-12">
+                    Lời nhắn dài khoảng 2 dòng với cỡ chữ nhỏ và font chữ thông thường Lời nhắn dài khoảng 2 dòng với cỡ chữ nhỏ và font chữ thông thường
+                    Lời nhắn dài khoỏ và font chữ thông thường
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Newest *@
+    @* Categories *@
+
+    <div class="d-flex flex-column mt-4 bg-main-color-layout h-auto w-auto rounded-8 border-top" style="border-color: #CF63D1" ; border-top: 3px;>
+        <button id="toggle-cate-1" class="flex-grow-0 border-main-color-logo border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between">
+            <div class="text-uppercase">Tài liệu tổng hợp </div>
+            <img id="arrow-icon-cate-1" src="/img/arrow_down.png" alt="arrow_down" />
+        </button>
+        @* Topic *@
+        <div id="container-cate-1">
+            <div class="w-auto rounded-3">
+                <div class="row flex-nowrap p-2 m-0">
+                    <div class="col-lg-1 p-0 m-2 d-flex justify-content-center">
+                        <img src="/img/cate_1.png" alt="avatar" style="width: 50px; height: 50px;" />
+                    </div>
+                    <div class="col-lg-5 d-flex flex-column justify-content-center">
+                        <div class="fw-normal p-0 my-1">Chia sẻ đề cương thi</div>
+                        <div class="fs-12 opacity-75 my-1">
+                            Chia sẻ tài liệu học tập...
+                        </div>
+                    </div>
+                    <div class="col-lg-2 p-0 d-flex align-items-center">
+                        <div class="col-lg-11 d-flex flex-column justify-content-center">
+                            <div class="fs-6 me-2 p-0 d-flex justify-content-center">0</div>
+                            <div class="fw-normal p-0 d-flex justify-content-center">Bài viết</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 p-0 d-flex align-items-center">
+                        <div class="col-lg-2 p-0 m-2 d-flex align-items-center">
+                            <img src="/img/avatar_40.png" alt="avatar" style="width: 40px; height: 40px;" />
+                        </div>
+                        <div class="col-lg-8 d-flex flex-column justify-content-center">
+                            <div class="fw-12 p-0 m-0">Bài viết mới nh...</div>
+                            <div class="fs-12 opacity-75 d-flex align-items-center">
+                                04/06/24 - <p class="fw-bold ms-1 d-flex p-0 m-0">Tên User</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-auto rounded-3">
+                <div class="row flex-nowrap p-2 m-0">
+                    <div class="col-lg-1 p-0 m-2 d-flex justify-content-center">
+                        <img src="/img/cate_1.png" alt="avatar" style="width: 50px; height: 50px;" />
+                    </div>
+                    <div class="col-lg-5 d-flex flex-column justify-content-center">
+                        <div class="fw-normal p-0 my-1">Chia sẻ đề cương thi</div>
+                        <div class="fs-12 opacity-75 my-1">
+                            Chia sẻ tài liệu học tập...
+                        </div>
+                    </div>
+                    <div class="col-lg-2 p-0 d-flex align-items-center">
+                        <div class="col-lg-11 d-flex flex-column justify-content-center">
+                            <div class="fs-6 me-2 p-0 d-flex justify-content-center">0</div>
+                            <div class="fw-normal p-0 d-flex justify-content-center">Bài viết</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 p-0 d-flex align-items-center">
+                        <div class="col-lg-2 p-0 m-2 d-flex align-items-center">
+                            <img src="/img/avatar_40.png" alt="avatar" style="width: 40px; height: 40px;" />
+                        </div>
+                        <div class="col-lg-8 d-flex flex-column justify-content-center">
+                            <div class="fw-12 p-0 m-0">Bài viết mới nh...</div>
+                            <div class="fs-12 opacity-75 d-flex align-items-center">
+                                04/06/24 - <p class="fw-bold ms-1 d-flex p-0 m-0">Tên User</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-auto rounded-3">
+                <div class="row flex-nowrap p-2 m-0">
+                    <div class="col-lg-1 p-0 m-2 d-flex justify-content-center">
+                        <img src="/img/cate_1.png" alt="avatar" style="width: 50px; height: 50px;" />
+                    </div>
+                    <div class="col-lg-5 d-flex flex-column justify-content-center">
+                        <div class="fw-normal p-0 my-1">Chia sẻ đề cương thi</div>
+                        <div class="fs-12 opacity-75 my-1">
+                            Chia sẻ tài liệu học tập...
+                        </div>
+                    </div>
+                    <div class="col-lg-2 p-0 d-flex align-items-center">
+                        <div class="col-lg-11 d-flex flex-column justify-content-center">
+                            <div class="fs-6 me-2 p-0 d-flex justify-content-center">0</div>
+                            <div class="fw-normal p-0 d-flex justify-content-center">Bài viết</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 p-0 d-flex align-items-center">
+                        <div class="col-lg-2 p-0 m-2 d-flex align-items-center">
+                            <img src="/img/avatar_40.png" alt="avatar" style="width: 40px; height: 40px;" />
+                        </div>
+                        <div class="col-lg-8 d-flex flex-column justify-content-center">
+                            <div class="fw-12 p-0 m-0">Bài viết mới nh...</div>
+                            <div class="fs-12 opacity-75 d-flex align-items-center">
+                                04/06/24 - <p class="fw-bold ms-1 d-flex p-0 m-0">Tên User</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-auto rounded-3">
+                <div class="row flex-nowrap p-2 m-0">
+                    <div class="col-lg-1 p-0 m-2 d-flex justify-content-center">
+                        <img src="/img/cate_1.png" alt="avatar" style="width: 50px; height: 50px;" />
+                    </div>
+                    <div class="col-lg-5 d-flex flex-column justify-content-center">
+                        <div class="fw-normal p-0 my-1">Chia sẻ đề cương thi</div>
+                        <div class="fs-12 opacity-75 my-1">
+                            Chia sẻ tài liệu học tập...
+                        </div>
+                    </div>
+                    <div class="col-lg-2 p-0 d-flex align-items-center">
+                        <div class="col-lg-11 d-flex flex-column justify-content-center">
+                            <div class="fs-6 me-2 p-0 d-flex justify-content-center">0</div>
+                            <div class="fw-normal p-0 d-flex justify-content-center">Bài viết</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 p-0 d-flex align-items-center">
+                        <div class="col-lg-2 p-0 m-2 d-flex align-items-center">
+                            <img src="/img/avatar_40.png" alt="avatar" style="width: 40px; height: 40px;" />
+                        </div>
+                        <div class="col-lg-8 d-flex flex-column justify-content-center">
+                            <div class="fw-12 p-0 m-0">Bài viết mới nh...</div>
+                            <div class="fs-12 opacity-75 d-flex align-items-center">
+                                04/06/24 - <p class="fw-bold ms-1 d-flex p-0 m-0">Tên User</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @* Categories *@
+
+    <div class="d-flex flex-column mt-4 bg-main-color-layout h-auto w-auto rounded-8 border-top" style="border-color: #CF63D1" ; border-top: 3px;>
+        <button id="toggle-cate-2" class="flex-grow-0 border-main-color-header border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between">
+            <div class="text-uppercase">Hướng dẫn </div>
+            <img id="arrow-icon-cate-2" src="/img/arrow_down.png" alt="arrow_down" />
+        </button>
+        @* Topic *@
+        <div id="container-cate-2">
+            <div class="w-auto rounded-3">
+                <div class="row flex-nowrap p-2 m-0">
+                    <div class="col-lg-1 p-0 m-2 d-flex justify-content-center">
+                        <img src="/img/cate_1.png" alt="avatar" style="width: 50px; height: 50px;" />
+                    </div>
+                    <div class="col-lg-5 d-flex flex-column justify-content-center">
+                        <div class="fw-normal p-0 my-1">Chia sẻ đề cương thi</div>
+                        <div class="fs-12 opacity-75 my-1">
+                            Chia sẻ tài liệu học tập...
+                        </div>
+                    </div>
+                    <div class="col-lg-2 p-0 d-flex align-items-center">
+                        <div class="col-lg-11 d-flex flex-column justify-content-center">
+                            <div class="fs-6 me-2 p-0 d-flex justify-content-center">0</div>
+                            <div class="fw-normal p-0 d-flex justify-content-center">Bài viết</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 p-0 d-flex align-items-center">
+                        <div class="col-lg-2 p-0 m-2 d-flex align-items-center">
+                            <img src="/img/avatar_40.png" alt="avatar" style="width: 40px; height: 40px;" />
+                        </div>
+                        <div class="col-lg-8 d-flex flex-column justify-content-center">
+                            <div class="fw-12 p-0 m-0">Bài viết mới nh...</div>
+                            <div class="fs-12 opacity-75 d-flex align-items-center">
+                                04/06/24 - <p class="fw-bold ms-1 d-flex p-0 m-0">Tên User</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-auto rounded-3">
+                <div class="row flex-nowrap p-2 m-0">
+                    <div class="col-lg-1 p-0 m-2 d-flex justify-content-center">
+                        <img src="/img/cate_1.png" alt="avatar" style="width: 50px; height: 50px;" />
+                    </div>
+                    <div class="col-lg-5 d-flex flex-column justify-content-center">
+                        <div class="fw-normal p-0 my-1">Chia sẻ đề cương thi</div>
+                        <div class="fs-12 opacity-75 my-1">
+                            Chia sẻ tài liệu học tập...
+                        </div>
+                    </div>
+                    <div class="col-lg-2 p-0 d-flex align-items-center">
+                        <div class="col-lg-11 d-flex flex-column justify-content-center">
+                            <div class="fs-6 me-2 p-0 d-flex justify-content-center">0</div>
+                            <div class="fw-normal p-0 d-flex justify-content-center">Bài viết</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 p-0 d-flex align-items-center">
+                        <div class="col-lg-2 p-0 m-2 d-flex align-items-center">
+                            <img src="/img/avatar_40.png" alt="avatar" style="width: 40px; height: 40px;" />
+                        </div>
+                        <div class="col-lg-8 d-flex flex-column justify-content-center">
+                            <div class="fw-12 p-0 m-0">Bài viết mới nh...</div>
+                            <div class="fs-12 opacity-75 d-flex align-items-center">
+                                04/06/24 - <p class="fw-bold ms-1 d-flex p-0 m-0">Tên User</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-auto rounded-3">
+                <div class="row flex-nowrap p-2 m-0">
+                    <div class="col-lg-1 p-0 m-2 d-flex justify-content-center">
+                        <img src="/img/cate_1.png" alt="avatar" style="width: 50px; height: 50px;" />
+                    </div>
+                    <div class="col-lg-5 d-flex flex-column justify-content-center">
+                        <div class="fw-normal p-0 my-1">Chia sẻ đề cương thi</div>
+                        <div class="fs-12 opacity-75 my-1">
+                            Chia sẻ tài liệu học tập...
+                        </div>
+                    </div>
+                    <div class="col-lg-2 p-0 d-flex align-items-center">
+                        <div class="col-lg-11 d-flex flex-column justify-content-center">
+                            <div class="fs-6 me-2 p-0 d-flex justify-content-center">0</div>
+                            <div class="fw-normal p-0 d-flex justify-content-center">Bài viết</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 p-0 d-flex align-items-center">
+                        <div class="col-lg-2 p-0 m-2 d-flex align-items-center">
+                            <img src="/img/avatar_40.png" alt="avatar" style="width: 40px; height: 40px;" />
+                        </div>
+                        <div class="col-lg-8 d-flex flex-column justify-content-center">
+                            <div class="fw-12 p-0 m-0">Bài viết mới nh...</div>
+                            <div class="fs-12 opacity-75 d-flex align-items-center">
+                                04/06/24 - <p class="fw-bold ms-1 d-flex p-0 m-0">Tên User</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-auto rounded-3">
+                <div class="row flex-nowrap p-2 m-0">
+                    <div class="col-lg-1 p-0 m-2 d-flex justify-content-center">
+                        <img src="/img/cate_1.png" alt="avatar" style="width: 50px; height: 50px;" />
+                    </div>
+                    <div class="col-lg-5 d-flex flex-column justify-content-center">
+                        <div class="fw-normal p-0 my-1">Chia sẻ đề cương thi</div>
+                        <div class="fs-12 opacity-75 my-1">
+                            Chia sẻ tài liệu học tập...
+                        </div>
+                    </div>
+                    <div class="col-lg-2 p-0 d-flex align-items-center">
+                        <div class="col-lg-11 d-flex flex-column justify-content-center">
+                            <div class="fs-6 me-2 p-0 d-flex justify-content-center">0</div>
+                            <div class="fw-normal p-0 d-flex justify-content-center">Bài viết</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 p-0 d-flex align-items-center">
+                        <div class="col-lg-2 p-0 m-2 d-flex align-items-center">
+                            <img src="/img/avatar_40.png" alt="avatar" style="width: 40px; height: 40px;" />
+                        </div>
+                        <div class="col-lg-8 d-flex flex-column justify-content-center">
+                            <div class="fw-12 p-0 m-0">Bài viết mới nh...</div>
+                            <div class="fs-12 opacity-75 d-flex align-items-center">
+                                04/06/24 - <p class="fw-bold ms-1 d-flex p-0 m-0">Tên User</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleCate1 = document.getElementById('toggle-cate-1');
+        const containerCate1 = document.getElementById('container-cate-1');
+        const arrowCate1 = document.getElementById('arrow-icon-cate-1');
+
+        toggleCate1.addEventListener('click', function () {
+            containerCate1.classList.toggle('hidden');
+            arrowCate1.classList.toggle('rotated1');
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleCate2 = document.getElementById('toggle-cate-2');
+        const containerCate2 = document.getElementById('container-cate-2');
+        const arrowCate2 = document.getElementById('arrow-icon-cate-2');
+
+        toggleCate2.addEventListener('click', function () {
+            containerCate2.classList.toggle('hidden');
+            arrowCate2.classList.toggle('rotated2');
+        });
+    });
+</script>
