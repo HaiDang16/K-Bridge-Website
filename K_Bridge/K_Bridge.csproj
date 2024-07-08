@@ -32,6 +32,7 @@
 <ItemGroup>
   <Folder Include="Migrations\" />
   <Folder Include="Models\ViewModels\" />
+  <Folder Include="TagHelpers\" />
   <Folder Include="Views\Admin\" />
 </ItemGroup>
 <ItemGroup>
