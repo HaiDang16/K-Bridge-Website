@@ -221,24 +221,43 @@
     cursor: pointer;
 }
 
-.scrollable-content {
-    height: calc(100vh - 80px); /* Điều chỉnh 56px nếu header của bạn có chiều cao khác */
-    overflow-y: auto;
-}
-
-.fixed-sidebar {
-    overflow-y: auto;
+.w-1{
+    max-width: 100%;
 }
 
 #arrow-icon {
     transition: transform 0.3s ease-in-out;
 }
 
-#arrow-icon.rotated {
-    transform: rotate(90deg);
-}
+    #arrow-icon.rotated {
+        transform: rotate(90deg);
+    }
 
 #comments-container.hidden {
     display: none !important;
 }
 
+#arrow-icon-cate-1 {
+    transition: transform 0.3s ease-in-out;
+}
+
+    #arrow-icon-cate-1.rotated1 {
+        transform: rotate(90deg);
+    }
+
+#container-cate-1.hidden {
+    display: none !important;
+}
+
+
+#arrow-icon-cate-2 {
+    transition: transform 0.3s ease-in-out;
+}
+
+    #arrow-icon-cate-2.rotated2 {
+        transform: rotate(90deg);
+    }
+
+#container-cate-2.hidden {
+    display: none !important;
+}
