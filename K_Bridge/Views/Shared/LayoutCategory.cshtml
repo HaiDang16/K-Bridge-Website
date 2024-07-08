@@ -5,13 +5,13 @@
         <div class="container">
             <div class="row align-items-center cursor">
                 <div class="col-auto p-0 my-2">
-                    <img class="p-0 m-0 w-32 h-auto mt-2" src="~/img/@Url.Content(category.LinkIcon)" alt="@category.LinkIcon" />
+                    <img class="p-0 m-0 w-32 h-auto mt-2 img-fluid" src="~/img/@Url.Content(category.LinkIcon)" alt="@category.LinkIcon" />
                 </div>
                 <div class="col">
-                    <div class="row w-auto text-wrap m-0">
+                    <div class="row text-wrap m-0 d-none d-sm-block">
                         <p class="p-0 m-0 text-color-logo fs-6">@category.Name</p>
                     </div>
-                    <div class="row w-auto text-wrap m-0">
+                    <div class="row text-wrap m-0 d-none d-sm-block">
                         <p class="p-0 m-0 text-color-logo fs-6">@category.TopicCount</p>
                     </div>
                 </div>
