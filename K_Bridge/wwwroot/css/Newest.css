@@ -50,3 +50,31 @@
     align-items: center;
     font-size:15px;
 }
+
+/*----------------------- MODEL NEW POST -----------------------*/
+.modal-new-post-header {
+    background: #493422;
+    color: white;
+}
+
+.modal-new-post-overall {
+    margin-top: 60px;
+    padding-top:-20px;
+}
+
+.modal-new-post-body {
+    background: #FFBE98;
+}
+
+.modal-new-post-card-title {
+    color: white;
+    font-weight: 600;
+    background: #CF63D1;
+    
+}
+
+.modal-new-post-card {
+    border: solid 1px #FFBE98;
+    border-radius: 8px;
+    overflow-x: hidden;
+}

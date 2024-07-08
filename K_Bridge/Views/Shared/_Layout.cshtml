@@ -6,6 +6,7 @@
     <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMRElTAs8XIb7l+MZ5BocOfdd+AdQd5Yj5wpHRI" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 
@@ -32,7 +33,11 @@
                 <div class="d-flex flex-column align-items-center">
                     <div style="width: 100%; max-width: 300px;">
                         <div style="max-width: 300px;" class="mt-2 justify-content-end">
-                            <button type="button" class="btn btn-post text-uppercase fs-6" style="width:100%;">Đăng chủ đề mới</button>
+                            <button type="button" class="btn btn-post text-uppercase fs-6 w-100"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#newPostModal">
+                                Đăng chủ đề mới
+                            </button>
                         </div>
                         <vc:layout-box-chat />
                     </div>
@@ -40,9 +45,34 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal new post -->
+    <div class="modal fade modal-new-post-overall" id="newPostModal" tabindex="-1"
+         aria-labelledby="newPostModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-new-post-header py-2 px-3">
+                    <h5 class="modal-title " id="newPostModalLabel">ĐĂNG CHỦ ĐỀ TRONG</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body modal-new-post-body"> 
+                    <div class="modal-new-post-card">
+                        <div class="modal-new-post-card-title py-2 px-3">TÀI LIỆU TỔNG HỢP</div>
+                        <div class="modal-new-post-card-title py-2 px-3">TÀI LIỆU TỔNG HỢP</div>
+                        <div class="modal-new-post-card-title py-2 px-3">TÀI LIỆU TỔNG HỢP</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
