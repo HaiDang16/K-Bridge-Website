@@ -20,8 +20,8 @@
     <div class="container-fluid">
         <div class="row main-content mt-4 mx-3">
             <div class="col-lg-3 col-md-4 sidebar mb-4 d-none d-md-block">
-                @await Html.PartialAsync("LayoutCategory")
-                @await Html.PartialAsync("LayoutStats")
+                <vc:layout-category-list />
+                <vc:layout-stat-list />
             </div>
             <div class="col-lg-6 col-md-8 col-12 content mb-4">
                 <main role="main" class="pb-3">
@@ -31,8 +31,10 @@
             <div class="col-lg-3 col-md-12 sidebar d-none d-lg-block">
                 <div class="d-flex flex-column align-items-center">
                     <div style="width: 100%; max-width: 300px;">
-                        @await Html.PartialAsync("LayoutPost")
-                        @await Html.PartialAsync("LayoutBoxChat")
+                        <div style="max-width: 300px;" class="mt-2 justify-content-end">
+                            <button type="button" class="btn btn-post text-uppercase fs-6" style="width:100%;">Đăng chủ đề mới</button>
+                        </div>
+                        <vc:layout-box-chat />
                     </div>
                 </div>
             </div>
