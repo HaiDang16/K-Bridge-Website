@@ -11,6 +11,8 @@ namespace K_Bridge.Pages.Admin
         public LoginModel(KBridgeDbContext context)
         {
             _context = context;
+            AdminAccount = new Admin_Accounts();
+            ErrorMessage = "";
         }
 
         [BindProperty]

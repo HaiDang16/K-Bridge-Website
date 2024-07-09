@@ -1,6 +1,9 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
     ViewData["Title"] = "Trang chủ";
-    bool isLoggedIn = ViewBag.IsLoggedIn ?? false;
+    string? username = HttpContextAccessor?.HttpContext?.Session?.GetJson<User>("user")?.Username;
+    if (username == null) username = "người dùng";
 }
 <div class="h-auto text-color-logo">
     <div class="w-auto bg-main-color-layout container-fluid rounded-3">
@@ -10,8 +13,10 @@
             </div>
             <div class="col-lg-11">
                 <div class="col-lg-11 d-flex text-color-logo">
-                    <div class="fw-normal me-2">Chào</div>
-                    <div class="fw-bold">Tên user,</div>
+                    <div class="fw-normal">Chào</div>
+                    <div class="fw-bold px-1">
+                        @username,
+                    </div>
                 </div>
                 <div class="fs-12">
                     Lời nhắn dài khoảng 2 dòng với cỡ chữ nhỏ và font chữ thông thường Lời nhắn dài khoảng 2 dòng với cỡ chữ nhỏ và font chữ thông thường
@@ -25,8 +30,9 @@
     @* Categories *@
 
     <div class="d-flex flex-column mt-4 bg-main-color-layout h-auto w-auto rounded-8 border-top" style="border-color: #CF63D1" ; border-top: 3px;>
-        <button id="toggle-cate-1" class="flex-grow-0 border-main-color-logo border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between">
-            <div class="text-uppercase">Tài liệu tổng hợp </div>
+        <button id="toggle-cate-1" class="flex-grow-0 border-main-color-logo border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between"
+                onclick="window.location.href='/Newest'">
+            <div class="text-uppercase">Mới nhất</div>
             <img id="arrow-icon-cate-1" src="/img/arrow_down.png" alt="arrow_down" />
         </button>
         @* Topic *@

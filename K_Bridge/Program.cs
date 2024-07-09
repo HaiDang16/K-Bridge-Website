@@ -21,6 +21,7 @@ builder.Services.AddScoped<IKBridgeRepository, EFKBridgeRepository>();
 builder.Services.AddScoped<IUserRepository, EFUserRepository>();
 builder.Services.AddScoped<CodeGenerationService>();
 
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddRazorPages();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();

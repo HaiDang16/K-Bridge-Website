@@ -35,7 +35,7 @@
             {
                 <div class="d-md-flex align-items-center mx-3">
                     <img src="/img/avatar_40.png" alt="avatar" class="me-2 rounded-3" style="width: 40px; height: 40px;" />
-                    <div class=" text-color-background mb-1 fw-bold flex-grow-1">Tên tài khoản</div>
+                    <div class=" text-color-background mb-1 fw-bold flex-grow-1">@ViewBag.UsernameLoggedIn</div>
                 </div>
             }
         </div>
@@ -187,7 +187,7 @@
     document.getElementById('registerForm').addEventListener('submit', function (e) {
         e.preventDefault();
         var formData = new FormData(this);
-        var password = formData.get('Password');
+        var password = formData.get('RegisterModel.Password');
 
         // Kiểm tra mật khẩu có chứa ít nhất một chữ cái và một số
         if (!/(?=.*[A-Za-z])(?=.*\d)/.test(password)) {
@@ -238,21 +238,12 @@
     document.getElementById('loginForm').addEventListener('submit', function (e) {
         e.preventDefault();
         var formData = new FormData(this);
-        var loginData = {
-            LoginEmail: formData.get('LoginUser'),
-            LoginPassword: formData.get('LoginPassword')
-        };
         formData.forEach((value, key) => {
             console.log(key + ': ' + value);
         });
         fetch('/Home/Login', {
             method: 'POST',
-            //body: JSON.stringify(loginData),
             body: formData,
-
-            //headers: {
-            //    'Content-Type': 'application/json'
-            //}
         })
             .then(response => response.json())
             .then(data => {
@@ -284,15 +275,16 @@
             });
     });
 
+
     function updateUIAfterLogin(user) {
         var loginButtons = document.querySelector('.align-items-center.d-flex.justify-content-between');
         if (loginButtons) {
             var userInfo = document.createElement('div');
             userInfo.className = 'd-md-flex align-items-center mx-3';
             userInfo.innerHTML = `
-                <img src="/img/avatar_40.png" alt="avatar" class="me-2 rounded-3" style="width: 40px; height: 40px;" />
-                <div class="text-color-background mb-1 fw-bold flex-grow-1">${user.username}</div>
-            `;
+                    <img src="/img/avatar_40.png" alt="avatar" class="me-2 rounded-3" style="width: 40px; height: 40px;" />
+                    <div class="text-color-background mb-1 fw-bold flex-grow-1">${user.username}</div>
+                `;
             loginButtons.parentNode.replaceChild(userInfo, loginButtons);
         }
     }

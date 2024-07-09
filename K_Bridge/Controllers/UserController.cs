@@ -20,7 +20,7 @@ namespace K_Bridge.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(UserViewModel model, string confirmPassword)
+        public IActionResult Register(RegisterViewModel model, string confirmPassword)
         {
             if (ModelState.IsValid)
             {

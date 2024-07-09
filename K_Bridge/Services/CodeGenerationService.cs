@@ -45,7 +45,7 @@ namespace K_Bridge.Services
         {
             var entityType = _context.Model.FindEntityType(typeof(T));
             var propertyName = "Code"; // Change this to match your actual property name
-            var property = entityType.FindProperty(propertyName);
+            var property = entityType?.FindProperty(propertyName);
             var parameter = System.Linq.Expressions.Expression.Parameter(typeof(T), "x");
             var body = System.Linq.Expressions.Expression.Property(parameter, property.PropertyInfo);
             var lambda = System.Linq.Expressions.Expression.Lambda<Func<T, string>>(body, parameter);
