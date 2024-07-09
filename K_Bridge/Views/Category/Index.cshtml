@@ -1,10 +1,10 @@
 ﻿@{
-    ViewData["Title"] = "Tài Liệu Tổng Hợp";
+    ViewData["Title"] = ViewBag.ForumName;
 }
 
 <div class="row mb-5">
     <div class="col-6 d-flex justify-content-start fw-bold fs-4 text-uppercase mb-3">
-        Tài Liệu Tổng Hợp
+        @ViewBag.ForumName
     </div>
     <div class="w-1 border-bottom border-main-color-logo">
         <div class="row flex-nowrap p-2 m-0">

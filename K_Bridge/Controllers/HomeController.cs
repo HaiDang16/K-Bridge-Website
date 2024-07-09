@@ -120,6 +120,7 @@ public class HomeController : Controller
             var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
             return Json(new { success = false, errors = errors });
         }
+    }
     [Route("/Search/{SearchKey}")]
     public IActionResult Search(string SearchKey)
     {

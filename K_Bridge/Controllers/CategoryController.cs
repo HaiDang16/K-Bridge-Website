@@ -1,24 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using K_Bridge.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace K_Bridge.Controllers
 {
-    public class CateController : Controller
+    [Route("[controller]")]
+    public class CategoryController : Controller
     {
-        [Route("/Categories")]
-        public IActionResult Index()
+        [Route("List")]
+        public IActionResult Index(string forum)
         {
+            ViewBag.ForumName = forum;
             return View();
         }
 
         [Route("/Newest/TopicList")]
-        [Route("/Categories/TopicList")]
+        [Route("TopicList")]
         public IActionResult TopicList()
         {
             return View();
         }
 
         [Route("/Newest/TopicList/Post/{postId}/{postTitle}")]
-        [Route("/Categories/TopicList/Post/{postId}/{postTitle}")]
+        [Route("TopicList/Post/{postId}/{postTitle}")]
         public IActionResult Post(int postId, string postTitle)
         {
             postId = 123;

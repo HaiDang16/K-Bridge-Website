@@ -1,17 +1,21 @@
-
 ﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
 @{
     ViewData["Title"] = "Trang chủ";
     string? username = HttpContextAccessor?.HttpContext?.Session?.GetJson<User>("user")?.Username;
-    if (username == null) username = "người dùng";
+    string welcomeText = "Đã 7 ngày kể từ lần cuối bạn thăm diễn đàn. Hãy tạo bài viết mới trên các diễn đàn để cùng thảo luận với mọi người nào.";
+    if (username == null)
+    {
+        username = "người dùng";
+        welcomeText = "Bạn đang đăng nhập với vai trò tài khoản khách vãng lai. Đăng nhập tài khoản để có thể đăng bài và bình luận trên các diễn đàn.";
+    }
     <link href="/css/Newest.css" rel="stylesheet" />
 }
 <div class="h-auto text-color-logo">
-    <div class="w-auto bg-main-color-layout container-fluid rounded-3">
+    <div class="w-auto container-fluid rounded-3" style="background:#FFF0E6">
         <div class="row flex-nowrap p-2">
             <div class="col-lg-1 p-0 my-2">
-                <img src="/img/avatar_40.png" alt="avatar" class="rounded-circle" style="width: 40px; height: 40px;" />
+                <img src="/img/avatar_40.png" alt="avatar" class="rounded-circle" style="width: 40px; height: 40px; overflow-x:hidden" />
             </div>
             <div class="col-lg-11">
                 <div class="col-lg-11 d-flex text-color-logo">
@@ -21,95 +25,127 @@
                     </div>
                 </div>
                 <div class="fs-12">
-                    Lời nhắn dài khoảng 2 dòng với cỡ chữ nhỏ và font chữ thông thường Lời nhắn dài khoảng 2 dòng với cỡ chữ nhỏ và font chữ thông thường
-                    Lời nhắn dài khoỏ và font chữ thông thường
+                    @welcomeText
                 </div>
             </div>
         </div>
     </div>
 
     @* Newest *@
-    <div class="d-flex flex-column mt-4 bg-main-color-layout h-auto w-auto rounded-8" >
+    <div class="d-flex flex-column mt-4 h-auto w-auto rounded-8" style="background:#FFF0E6; border-top:5px solid #493422;">
         <button id="toggle-new-1" class="flex-grow-0 border-main-color-logo border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between">
-            <div class="text-uppercase">Mới nhất </div>
+            <a class="text-uppercase text-decoration-none text-black" href="/Newest">Bài viết mới nhất </a>
             <img id="arrow-icon-new-1" src="/img/arrow_down.png" alt="arrow_down" />
         </button>
         @* Topic *@
         <div id="container-new-1">
-            <div class="row m-0 px-3 py-2" style="border-top:2px solid #8E6745;">
+            <div class="row m-0 px-3 py-2">
                 <div class="col-2 d-flex flex-column justify-content-center">
-                    <div class="newest-card-stat py-1">0 Câu trả lời</div>
-                    <div class="newest-card-stat py-1">10 Lượt xem</div>
+                    <div class="newest-card-stat py-2">0 Câu trả lời</div>
+                    <div class="newest-card-stat py-2">10 Lượt xem</div>
+                </div>
+                <div class="col-10">
+                    <div class="d-flex">
+                        <div class="newest-card-title fs-6">Xin đề cương môn ABC Xin đề cương môn ABC Xin đề cương môn ABC Xin đề cương môn ABC</div>
+                        <div class="newest-card-tag px-3 mx-3">Tài liệu</div>
+                    </div>
+                    <div class="newest-card-des" style="font-size:13px;">
+                        Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học cô Thuỷ cho mình xin đề cương ôn tập.
+                        Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học
+                    </div>
+                    <div class="d-flex justify-content-end mt-2">
+                        <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
+                        <div class="newest-card-username mx-2">User1 hỏi 10 phút trước</div>
+                    </div>
+                </div>
+            </div>
+            <hr class="mt-2">
+            <div class="row m-0 px-3 py-2">
+                <div class="col-2 d-flex flex-column justify-content-center">
+                    <div class="newest-card-stat py-2">0 Câu trả lời</div>
+                    <div class="newest-card-stat py-2">10 Lượt xem</div>
+                </div>
+                <div class="col-10">
+                    <div class="d-flex">
+                        <div class="newest-card-title fs-6">Xin đề cương môn ABC Xin đề cương môn ABC</div>
+                        <div class="newest-card-tag px-3 mx-3">Tài liệu</div>
+                    </div>
+                    <div class="newest-card-des" style="font-size:13px;">
+                        Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học cô Thuỷ cho mình xin đề cương ôn tập.
+                    </div>
+                    <div class="d-flex justify-content-end mt-2">
+                        <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
+                        <div class="newest-card-username mx-2">User1 hỏi 10 phút trước</div>
+                    </div>
+                </div>
+            </div>
+            <hr class="mt-2">
+            <div class="row m-0 px-3 py-2">
+                <div class="col-2 d-flex flex-column justify-content-center">
+                    <div class="newest-card-stat py-2">0 Câu trả lời</div>
+                    <div class="newest-card-stat py-2">10 Lượt xem</div>
                 </div>
                 <div class="col-10">
                     <div class="d-flex">
                         <div class="newest-card-title fs-6">Xin đề cương môn ABC</div>
-                        <button class="newest-card-tag px-5 mx-2">Tài liệu</button>
+                        <div class="newest-card-tag px-3 mx-3">Tài liệu</div>
                     </div>
-                    <div class="fs-12 text-color-header py-1">Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học cô Thuỷ cho mình xin đề cương ôn tập.</div>
-                    <div class="d-flex justify-content-end mt-1">
-                        <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="24" height="24">
-                        <div class="newest-card-username fs-12 mx-2">User1 hỏi 10 phút trước</div>
+                    <div class="newest-card-des" style="font-size:13px;">
+                        Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học cô Thuỷ cho mình xin đề cương ôn tập.
+                        Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học
+                    </div>
+                    <div class="d-flex justify-content-end mt-2">
+                        <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
+                        <div class="newest-card-username mx-2">User1 hỏi 10 phút trước</div>
                     </div>
                 </div>
             </div>
-            <div class="row m-0 px-3 py-2" style="border-top:2px solid #8E6745;">
+            <hr class="mt-2">
+            <div class="row m-0 px-3 py-2">
                 <div class="col-2 d-flex flex-column justify-content-center">
-                    <div class="newest-card-stat py-1">0 Câu trả lời</div>
-                    <div class="newest-card-stat py-1">10 Lượt xem</div>
+                    <div class="newest-card-stat py-2">0 Câu trả lời</div>
+                    <div class="newest-card-stat py-2">10 Lượt xem</div>
                 </div>
                 <div class="col-10">
                     <div class="d-flex">
-                        <div class="newest-card-title fs-6">Xin đề cương môn ABC</div>
-                        <button class="newest-card-tag px-5 mx-2">Tài liệu</button>
+                        <div class="newest-card-title fs-6">Xin đề cương môn ABC Xin đề cương môn ABC Xin đề cương môn ABC Xin đề cương môn ABC</div>
+                        <div class="newest-card-tag px-3 mx-3">Tài liệu</div>
                     </div>
-                    <div class="fs-12 text-color-header py-1">Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học cô Thuỷ cho mình xin đề cương ôn tập.</div>
-                    <div class="d-flex justify-content-end mt-1">
-                        <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="24" height="24">
-                        <div class="newest-card-username fs-12 mx-2">User1 hỏi 10 phút trước</div>
+                    <div class="newest-card-des" style="font-size:13px;">
+                        Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học cô Thuỷ cho mình xin đề cương ôn tập.
                     </div>
-                </div>
-            </div>
-            <div class="row m-0 px-3 py-2" style="border-top:2px solid #8E6745;">
-                <div class="col-2 d-flex flex-column justify-content-center">
-                    <div class="newest-card-stat py-1">0 Câu trả lời</div>
-                    <div class="newest-card-stat py-1">10 Lượt xem</div>
-                </div>
-                <div class="col-10">
-                    <div class="d-flex">
-                        <div class="newest-card-title fs-6">Xin đề cương môn ABC</div>
-                        <button class="newest-card-tag px-5 mx-2">Tài liệu</button>
-                    </div>
-                    <div class="fs-12 text-color-header py-1">Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học cô Thuỷ cho mình xin đề cương ôn tập.</div>
-                    <div class="d-flex justify-content-end mt-1">
-                        <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="24" height="24">
-                        <div class="newest-card-username fs-12 mx-2">User1 hỏi 10 phút trước</div>
+                    <div class="d-flex justify-content-end mt-2">
+                        <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
+                        <div class="newest-card-username mx-2">User1 hỏi 10 phút trước</div>
                     </div>
                 </div>
             </div>
-            <div class="row m-0 px-3 py-2" style="border-top:2px solid #8E6745;">
-                <div class="col-2 d-flex flex-column justify-content-center">
-                    <div class="newest-card-stat py-1">0 Câu trả lời</div>
-                    <div class="newest-card-stat py-1">10 Lượt xem</div>
-                </div>
-                <div class="col-10">
-                    <div class="d-flex">
-                        <div class="newest-card-title fs-6">Xin đề cương môn ABC</div>
-                        <button class="newest-card-tag px-5 mx-2">Tài liệu</button>
-                    </div>
-                    <div class="fs-12 text-color-header py-1">Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học cô Thuỷ cho mình xin đề cương ôn tập.</div>
-                    <div class="d-flex justify-content-end mt-1">
-                        <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="24" height="24">
-                        <div class="newest-card-username fs-12 mx-2">User1 hỏi 10 phút trước</div>
-                    </div>
-                </div>
+            <hr class="mt-2">
+
+            @*<div class="row m-0 px-3 py-2" style="border-top:2px solid #8E6745;">
+            <div class="col-2 d-flex flex-column justify-content-center">
+            <div class="newest-card-stat py-1">0 Câu trả lời</div>
+            <div class="newest-card-stat py-1">10 Lượt xem</div>
             </div>
+            <div class="col-10">
+            <div class="d-flex">
+            <div class="newest-card-title fs-6">Xin đề cương môn ABC</div>
+            <button class="newest-card-tag px-5 mx-2">Tài liệu</button>
+            </div>
+            <div class="fs-12 text-color-header py-1">Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học cô Thuỷ cho mình xin đề cương ôn tập.</div>
+            <div class="d-flex justify-content-end mt-1">
+            <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="24" height="24">
+            <div class="newest-card-username fs-12 mx-2">User1 hỏi 10 phút trước</div>
+            </div>
+            </div>
+            </div>*@
+        </div>
+    </div>
 
     @* Categories *@
-    <div class="d-flex flex-column mt-4 bg-main-color-layout h-auto w-auto rounded-8" style="border-top:5px solid #CF63D1;">
-        <button id="toggle-cate-1" class="flex-grow-0 border-main-color-logo border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between"
-                onclick="window.location.href='/Newest'">
-            <div class="text-uppercase">Mới nhất</div>
+    <div class="d-flex flex-column mt-4 h-auto w-auto rounded-8" style="border-top:5px solid #CF63D1; background:#FFF0E6;">
+        <button id="toggle-cate-1" class="flex-grow-0 border-main-color-logo border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between">
+            <a class="text-uppercase text-decoration-none text-black" href="/Category/List?forum=Tài liệu tham khảo">Tài liệu tham khảo</a>
             <img id="arrow-icon-cate-1" src="/img/arrow_down.png" alt="arrow_down" />
         </button>
         @* Topic *@
@@ -239,11 +275,11 @@
             </div>
         </div>
     </div>
-    
+
     @* Categories *@
-    <div class="d-flex flex-column mt-4 bg-main-color-layout h-auto w-auto rounded-8" style="border-top:5px solid #76F756;">
+    <div class="d-flex flex-column mt-4 h-auto w-auto rounded-8" style="background:#FFF0E6;border-top:5px solid #76F756;">
         <button id="toggle-cate-2" class="flex-grow-0 border-main-color-header border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between">
-            <div class="text-uppercase">Hướng dẫn </div>
+            <a class="text-uppercase text-decoration-none text-black" href="/Category/List?forum=Hướng dẫn">Hướng dẫn</a>
             <img id="arrow-icon-cate-2" src="/img/arrow_down.png" alt="arrow_down" />
         </button>
         @* Topic *@
