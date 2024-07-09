@@ -178,14 +178,6 @@
 }
 
 
-
-
-
-
-
-
-
-
 .fs-12{
     font-size: 12px;
 }
@@ -233,33 +225,53 @@
         transform: rotate(90deg);
     }
 
+
 #comments-container.hidden {
     display: none !important;
 }
 
-#arrow-icon-cate-1 {
+#arrow-icon-cate-1, #arrow-icon-cate-2, #arrow-icon-cate-3, #arrow-icon-cate-4, #arrow-icon-cate-5, #arrow-icon-cate-6, #arrow-icon-new-1 {
     transition: transform 0.3s ease-in-out;
 }
 
-    #arrow-icon-cate-1.rotated1 {
+    #arrow-icon-cate-1.rotated1, #arrow-icon-cate-2.rotated2, #arrow-icon-cate-3.rotated3, #arrow-icon-cate-4.rotated4, #arrow-icon-cate-4.rotated4, #arrow-icon-cate-5.rotated5, #arrow-icon-cate-6.rotated6, #arrow-icon-new-1.rotatednew {
         transform: rotate(90deg);
     }
 
-#container-cate-1.hidden {
+#container-cate-1.hidden, #container-cate-2.hidden, #container-cate-3.hidden, #container-cate-3.hidden, #container-cate-4.hidden, #container-cate-4.hidden, #container-cate-5.hidden, #container-cate-6.hidden, #container-new-1.hidden {
     display: none !important;
 }
 
 
-#arrow-icon-cate-2 {
-    transition: transform 0.3s ease-in-out;
+.hover-bold:hover span,
+.active-bold.active span {
+    font-weight: bold;
 }
 
-    #arrow-icon-cate-2.rotated2 {
-        transform: rotate(90deg);
+.hover-italic:hover span,
+.active-italic.active span {
+    font-style: italic;
+}
+
+.hover-underline:hover span,
+.active-underline.active span {
+    text-decoration: underline;
+}
+
+.btn-outline-secondary {
+    color: #493422;
+    border-color: #493422;
+}
+
+    .btn-outline-secondary:hover,
+    .btn-outline-secondary.active {
+        color: #fff;
+        background-color: #493422;
+        border-color: #493422;
     }
 
-#container-cate-2.hidden {
-    display: none !important;
+#content-area {
+    white-space: pre-wrap;
 }
 
 /*----------------------- MODEL NEW POST -----------------------*/
@@ -348,4 +360,23 @@
 
     .collapsible-header.active::after {
         transform: rotate(180deg);
+    }
+
+.btn-account-edit {
+    color: #493422 !important;
+    background-color: #EA8348 !important;
+}
+
+    .btn-account-edit:hover {
+        color: #FFF0E6 !important;
+        background-color: #8E6745 !important;
+    }
+.btn-edit-profile {
+    color: #493422 !important;
+    background-color: #F5C4A4 !important;
+}
+
+    .btn-edit-profile:hover {
+        color: #FFF0E6 !important;
+        background-color: #8E6745 !important;
     }

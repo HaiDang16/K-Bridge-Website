@@ -1,9 +1,11 @@
+
 ﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
 @{
     ViewData["Title"] = "Trang chủ";
     string? username = HttpContextAccessor?.HttpContext?.Session?.GetJson<User>("user")?.Username;
     if (username == null) username = "người dùng";
+    <link href="/css/Newest.css" rel="stylesheet" />
 }
 <div class="h-auto text-color-logo">
     <div class="w-auto bg-main-color-layout container-fluid rounded-3">
@@ -27,9 +29,84 @@
     </div>
 
     @* Newest *@
-    @* Categories *@
+    <div class="d-flex flex-column mt-4 bg-main-color-layout h-auto w-auto rounded-8" >
+        <button id="toggle-new-1" class="flex-grow-0 border-main-color-logo border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between">
+            <div class="text-uppercase">Mới nhất </div>
+            <img id="arrow-icon-new-1" src="/img/arrow_down.png" alt="arrow_down" />
+        </button>
+        @* Topic *@
+        <div id="container-new-1">
+            <div class="row m-0 px-3 py-2" style="border-top:2px solid #8E6745;">
+                <div class="col-2 d-flex flex-column justify-content-center">
+                    <div class="newest-card-stat py-1">0 Câu trả lời</div>
+                    <div class="newest-card-stat py-1">10 Lượt xem</div>
+                </div>
+                <div class="col-10">
+                    <div class="d-flex">
+                        <div class="newest-card-title fs-6">Xin đề cương môn ABC</div>
+                        <button class="newest-card-tag px-5 mx-2">Tài liệu</button>
+                    </div>
+                    <div class="fs-12 text-color-header py-1">Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học cô Thuỷ cho mình xin đề cương ôn tập.</div>
+                    <div class="d-flex justify-content-end mt-1">
+                        <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="24" height="24">
+                        <div class="newest-card-username fs-12 mx-2">User1 hỏi 10 phút trước</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row m-0 px-3 py-2" style="border-top:2px solid #8E6745;">
+                <div class="col-2 d-flex flex-column justify-content-center">
+                    <div class="newest-card-stat py-1">0 Câu trả lời</div>
+                    <div class="newest-card-stat py-1">10 Lượt xem</div>
+                </div>
+                <div class="col-10">
+                    <div class="d-flex">
+                        <div class="newest-card-title fs-6">Xin đề cương môn ABC</div>
+                        <button class="newest-card-tag px-5 mx-2">Tài liệu</button>
+                    </div>
+                    <div class="fs-12 text-color-header py-1">Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học cô Thuỷ cho mình xin đề cương ôn tập.</div>
+                    <div class="d-flex justify-content-end mt-1">
+                        <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="24" height="24">
+                        <div class="newest-card-username fs-12 mx-2">User1 hỏi 10 phút trước</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row m-0 px-3 py-2" style="border-top:2px solid #8E6745;">
+                <div class="col-2 d-flex flex-column justify-content-center">
+                    <div class="newest-card-stat py-1">0 Câu trả lời</div>
+                    <div class="newest-card-stat py-1">10 Lượt xem</div>
+                </div>
+                <div class="col-10">
+                    <div class="d-flex">
+                        <div class="newest-card-title fs-6">Xin đề cương môn ABC</div>
+                        <button class="newest-card-tag px-5 mx-2">Tài liệu</button>
+                    </div>
+                    <div class="fs-12 text-color-header py-1">Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học cô Thuỷ cho mình xin đề cương ôn tập.</div>
+                    <div class="d-flex justify-content-end mt-1">
+                        <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="24" height="24">
+                        <div class="newest-card-username fs-12 mx-2">User1 hỏi 10 phút trước</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row m-0 px-3 py-2" style="border-top:2px solid #8E6745;">
+                <div class="col-2 d-flex flex-column justify-content-center">
+                    <div class="newest-card-stat py-1">0 Câu trả lời</div>
+                    <div class="newest-card-stat py-1">10 Lượt xem</div>
+                </div>
+                <div class="col-10">
+                    <div class="d-flex">
+                        <div class="newest-card-title fs-6">Xin đề cương môn ABC</div>
+                        <button class="newest-card-tag px-5 mx-2">Tài liệu</button>
+                    </div>
+                    <div class="fs-12 text-color-header py-1">Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học cô Thuỷ cho mình xin đề cương ôn tập.</div>
+                    <div class="d-flex justify-content-end mt-1">
+                        <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="24" height="24">
+                        <div class="newest-card-username fs-12 mx-2">User1 hỏi 10 phút trước</div>
+                    </div>
+                </div>
+            </div>
 
-    <div class="d-flex flex-column mt-4 bg-main-color-layout h-auto w-auto rounded-8 border-top" style="border-color: #CF63D1" ; border-top: 3px;>
+    @* Categories *@
+    <div class="d-flex flex-column mt-4 bg-main-color-layout h-auto w-auto rounded-8" style="border-top:5px solid #CF63D1;">
         <button id="toggle-cate-1" class="flex-grow-0 border-main-color-logo border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between"
                 onclick="window.location.href='/Newest'">
             <div class="text-uppercase">Mới nhất</div>
@@ -162,9 +239,9 @@
             </div>
         </div>
     </div>
+    
     @* Categories *@
-
-    <div class="d-flex flex-column mt-4 bg-main-color-layout h-auto w-auto rounded-8 border-top" style="border-color: #CF63D1" ; border-top: 3px;>
+    <div class="d-flex flex-column mt-4 bg-main-color-layout h-auto w-auto rounded-8" style="border-top:5px solid #76F756;">
         <button id="toggle-cate-2" class="flex-grow-0 border-main-color-header border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between">
             <div class="text-uppercase">Hướng dẫn </div>
             <img id="arrow-icon-cate-2" src="/img/arrow_down.png" alt="arrow_down" />
@@ -297,7 +374,10 @@
         </div>
     </div>
 </div>
+
+
 <script>
+
     document.addEventListener('DOMContentLoaded', function () {
         const toggleCate1 = document.getElementById('toggle-cate-1');
         const containerCate1 = document.getElementById('container-cate-1');
@@ -319,4 +399,16 @@
             arrowCate2.classList.toggle('rotated2');
         });
     });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleCate2 = document.getElementById('toggle-new-1');
+        const containerCate2 = document.getElementById('container-new-1');
+        const arrowCate2 = document.getElementById('arrow-icon-new-1');
+
+        toggleCate2.addEventListener('click', function () {
+            containerCate2.classList.toggle('hidden');
+            arrowCate2.classList.toggle('rotatednew');
+        });
+    });
+
 </script>

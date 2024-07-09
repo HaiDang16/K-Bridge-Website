@@ -1,0 +1,118 @@
+﻿@using K_Bridge.Models
+@{
+    ViewData["Title"] = "Tài khoản của tôi";
+}
+<div>
+    <div>
+        <p class="text-color-header fw-bold fs-5">Tài khoản của tôi</p>
+    </div>
+    <div class="rounded-8 bg-main-color-layout position-relative pb-2" style="min-height: 400px;">
+        <div class="rounded-top bg-main-color-header" style="min-height: 100px;"></div>
+        <div class="rounded-3 position-absolute " style="top: 50px; left: 80px;">
+            <img src="~/img/user.jpg" alt="Avatar" height="100" width="100" class=" rounded-3" style="border:10px solid #FFBE98; "/>
+        </div>
+
+        <div class="d-flex justify-content-end mt-2 ">
+            <button class="rounded-pill btn-account-edit fw-bold mt-2 me-4 text-color-background px-4 py-2">Chỉnh sửa hồ sơ người dùng</button>
+        </div>
+        <div class="m-3 bg-main-color-background rounded-8">
+            <div class="p-5 pb-2"> 
+                <div class="d-flex justify-content-between mt-2">
+                    <div class="d-flex flex-column">
+                        <p class="text-uppercase fs-12 text-color-logo fw-bold">Tên hiển thị</p>
+                        <p class="fs-6 text-color-header">User</p>
+                    </div>
+                    <button class="btn-edit-profile px-4 py-1 rounded-8 h-25 w-25">Chỉnh sửa</button>
+                </div>
+                <div class="d-flex justify-content-between mt-2">
+                    <div class="d-flex flex-column">
+                        <p class="text-uppercase fs-12 text-color-logo fw-bold">Tên đăng nhập</p>
+                        <p class="fs-6 text-color-header">User13424</p>
+                    </div>
+                    <button class="btn-edit-profile px-4 py-1 rounded-8 h-25  w-25">Chỉnh sửa</button>
+                </div>
+                <div class="d-flex justify-content-between mt-2">
+                    <div class="d-flex flex-column">
+                        <p class="text-uppercase fs-12 text-color-logo fw-bold">Email</p>
+                        <p class="fs-6 text-color-header">User13424@gmail.com</p>
+                    </div>
+                    <button class="btn-edit-profile px-4 py-1 rounded-8 h-25  w-25">Chỉnh sửa</button>
+                </div>
+                <div class="d-flex justify-content-between mt-2">
+                    <div class="d-flex flex-column">
+                        <p class="text-uppercase fs-12 text-color-logo fw-bold">Số điện thoại</p>
+                        <p class="fs-6 text-color-header">Bạn chưa thêm số điện thoại nào</p>
+                    </div>
+                    <button class="btn-edit-profile px-4 py-1 rounded-8 h-25  w-25">Thêm mới</button>
+                </div>
+                <div class="d-flex justify-content-between mt-2">
+                    <div class="d-flex flex-column">
+                        <p class="text-uppercase fs-12 text-color-logo fw-bold">Mật khẩu</p>
+                        <p class="fs-6 text-color-header">******************</p>
+                    </div>
+                    <button class="btn-edit-profile px-4 py-1 rounded-8 h-25">Đổi mật khẩu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between mt-5">
+        <p class="text-color-header fw-bold fs-5 ">Bài chủ đề hàng đầu</p>
+        <div class="d-flex">
+            <div class="text-color-header px-3">Thời gian </div>
+            <img src="~/img/sort-up.png" alt="Alternate Text" width="20" style="height:20px"/>
+        </div>
+    </div>
+
+    <div class="rounded-3 p-3 d-flex align-content-center justify-content-around" style="border: 1px solid #FFbe98;">
+        <div class="mx-3 align-content-center">
+            <img src="~/img/help_chat.png" alt="Help Chat" width="20" />
+        </div>
+        <div class="d-flex rounded-3 px-3 align-content-center justify-content-center" style="border: 1px solid #FFbe98;">
+            0
+        </div>
+        <div class="d-flex rounded-3 px-3 justify-content-center text-color-header">
+            Tiêu đề bài viết
+        </div>
+        <div class="d-flex rounded-3 px-3 justify-content-center text-white rounded-2 align-content-center" style="background-color: #FF4141">
+            x
+        </div>
+        <div class="d-flex px-3 justify-content-center text-color-header py-1 rounded-2 align-content-center">
+            20 phút trước
+        </div>
+
+    </div>
+    <div class="rounded-3 p-3 d-flex align-content-center justify-content-around" style="border: 1px solid #FFbe98;">
+        <div class="mx-3 align-content-center">
+            <img src="~/img/help_chat_good.png" alt="Help Chat" width="20" />
+        </div>
+        <div class="d-flex rounded-3 px-3 align-content-center justify-content-center" style="background-color:  #00D462;">
+            90
+        </div>
+        <div class="d-flex rounded-3 px-3 justify-content-center text-color-header">
+            Tiêu đề bài viết
+        </div>
+        <div class="d-flex rounded-3 px-3 justify-content-center text-white rounded-2 align-content-center" style="background-color: #FF4141">
+            x
+        </div>
+        <div class="d-flex px-3 justify-content-center text-color-header py-1 rounded-2 align-content-center">
+            20 phút trước
+        </div>
+    </div>
+    <div class="rounded-3 p-3 d-flex align-content-center justify-content-around" style="border: 1px solid #FFbe98;">
+        <div class="mx-3 align-content-center">
+            <img src="~/img/help_chat_bad.png" alt="Help Chat" width="20" />
+        </div>
+        <div class="d-flex rounded-3 px-3 align-content-center justify-content-center" style="background-color:  #FF4141;">
+            -12
+        </div>
+        <div class="d-flex rounded-3 px-3 justify-content-center text-color-header">
+            Tiêu đề bài viết
+        </div>
+        <div class="d-flex rounded-3 px-3 justify-content-center text-white rounded-2 align-content-center" style="background-color: #FF4141">
+            x
+        </div>
+        <div class="d-flex px-3 justify-content-center text-color-header py-1 rounded-2 align-content-center">
+            20 phút trước
+        </div>
+    </div>
+</div>
