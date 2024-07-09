@@ -1,6 +1,6 @@
 ﻿using K_Bridge.Models;
 
-namespace K_Bridge.Models
+namespace K_Bridge.Repositories
 {
     // Đóng vai trò cung cấp dữ liệu cho trang web
     public interface IKBridgeRepository

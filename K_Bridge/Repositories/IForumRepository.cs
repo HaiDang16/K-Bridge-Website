@@ -1,4 +1,6 @@
-﻿namespace K_Bridge.Models
+﻿using K_Bridge.Models;
+
+namespace K_Bridge.Repositories
 {
     public interface IForumRepository
     {

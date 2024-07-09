@@ -1,4 +1,5 @@
 ﻿using K_Bridge.Models;
+using K_Bridge.Repositories;
 using K_Bridge.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;

@@ -1,7 +1,7 @@
 ﻿using K_Bridge.Models;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace K_Bridge.Models
+namespace K_Bridge.Repositories
 {
     public class EFKBridgeRepository : IKBridgeRepository
     {

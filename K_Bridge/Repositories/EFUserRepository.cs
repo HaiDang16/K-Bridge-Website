@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using K_Bridge.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace K_Bridge.Models
+namespace K_Bridge.Repositories
 {
     public class EFUserRepository : IUserRepository
     {

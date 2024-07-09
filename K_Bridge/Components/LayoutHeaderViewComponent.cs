@@ -1,5 +1,6 @@
 ﻿using K_Bridge.Infrastructure;
 using K_Bridge.Models;
+using K_Bridge.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace K_Bridge.Components

@@ -1,22 +1,51 @@
 ﻿<nav>
     <div class="bg-main-color-background h-100 w-100"></div>
     <h5 class="text-color-logo mt-4">Thống kê</h5>
-    @foreach (var stats in ViewBag.Statses ?? Enumerable.Empty<Stats>())
-    {
-        <div class="container">
-            <div class="row align-items-center cursor">
-                <div class="col-auto p-0 my-2">
-                    <img class="p-0 m-0 w-32 h-auto mt-2 img-fluid" src="~/img/@Url.Content(stats.LinkIcon)" alt="@stats.LinkIcon" />
+    <div class="container">
+        <div class="row align-items-center cursor">
+            <div class="col-auto p-0 my-2">
+                <img class="p-0 m-0 w-32 h-auto mt-2 img-fluid" src="~/img/Stats_Topic.png" alt="Topic" />
+            </div>
+            <div class="col">
+                <div class="row text-wrap m-0 d-none d-sm-flex">
+                    <p class="p-0 m-0 text-color-logo fs-6">Chủ đề</p>
                 </div>
-                <div class="col">
-                    <div class="row text-wrap m-0 d-none d-sm-flex">
-                        <p class="p-0 m-0 text-color-logo fs-6">@stats.Name</p>
-                    </div>
-                    <div class="row text-wrap m-0 d-none d-sm-flex">
-                        <p class="p-0 m-0 text-color-logo fs-6">@stats.Count</p>
-                    </div>
+                <div class="row text-wrap m-0 d-none d-sm-flex">
+                    <p class="p-0 m-0 text-color-logo fs-6">Có hơn 80.000 chủ đề đặt ra</p>
                 </div>
             </div>
         </div>
-    }
+    </div>
+
+    <div class="container">
+        <div class="row align-items-center cursor">
+            <div class="col-auto p-0 my-2">
+                <img class="p-0 m-0 w-32 h-auto mt-2 img-fluid" src="~/img/Stats_Post.png" alt="Post" />
+            </div>
+            <div class="col">
+                <div class="row text-wrap m-0 d-none d-sm-flex">
+                    <p class="p-0 m-0 text-color-logo fs-6">Bài viết</p>
+                </div>
+                <div class="row text-wrap m-0 d-none d-sm-flex">
+                    <p class="p-0 m-0 text-color-logo fs-6">Tổng 130,000 bài viết </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row align-items-center cursor">
+            <div class="col-auto p-0 my-2">
+                <img class="p-0 m-0 w-32 h-auto mt-2 img-fluid" src="~/img/Stats_Account.png" alt="Account" />
+            </div>
+            <div class="col">
+                <div class="row text-wrap m-0 d-none d-sm-flex">
+                    <p class="p-0 m-0 text-color-logo fs-6">Thành viên</p>
+                </div>
+                <div class="row text-wrap m-0 d-none d-sm-flex">
+                    <p class="p-0 m-0 text-color-logo fs-6">Hơn 500 thành viên</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </nav>
