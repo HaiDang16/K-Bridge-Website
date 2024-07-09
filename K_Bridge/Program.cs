@@ -19,6 +19,9 @@ if (builder.Environment.IsDevelopment())
 // Đăng ký Repository
 builder.Services.AddScoped<IKBridgeRepository, EFKBridgeRepository>();
 builder.Services.AddScoped<IUserRepository, EFUserRepository>();
+builder.Services.AddScoped<IForumRepository, EFForumRepository>();
+
+
 builder.Services.AddScoped<CodeGenerationService>();
 
 builder.Services.AddHttpContextAccessor();
@@ -52,5 +55,6 @@ app.MapRazorPages();
 SeedData.EnsurePopulated(app);
 SeedDataStats.EnsurePopulated(app);
 SeedDataAdminAccount.EnsurePopulated(app);
+SeedDataForum.EnsurePopulated(app);
 
 app.Run();

@@ -1,18 +1,18 @@
 ﻿<nav>
     <h5 class="text-color-logo mt-4">Diễn đàn đáng chú ý</h5>
-    @foreach (var category in ViewBag.Categories ?? Enumerable.Empty<Category>())
+    @foreach (var forum in ViewBag.Forums ?? Enumerable.Empty<Forum>())
     {
         <div class="container">
             <div class="row align-items-center cursor">
                 <div class="col-auto p-0 my-2">
-                    <img class="p-0 m-0 w-32 h-auto mt-2 img-fluid" src="~/img/@Url.Content(category.LinkIcon)" alt="@category.LinkIcon" />
+                    <img class="p-0 m-0 w-32 h-auto mt-2 img-fluid" src="~/img/@Url.Content(forum.IconLink)" alt="@forum.IconLink" />
                 </div>
                 <div class="col">
                     <div class="row text-wrap m-0 d-none d-sm-block">
-                        <p class="p-0 m-0 text-color-logo fs-6">@category.Name</p>
+                        <p class="p-0 m-0 text-color-logo fs-6">@forum.Name</p>
                     </div>
                     <div class="row text-wrap m-0 d-none d-sm-block">
-                        <p class="p-0 m-0 text-color-logo fs-6">@category.TopicCount</p>
+                        <p class="p-0 m-0 text-color-logo fs-6">@($"{forum.ID}00 bài viết")</p>
                     </div>
                 </div>
             </div>

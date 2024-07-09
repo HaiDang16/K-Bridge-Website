@@ -3,17 +3,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace K_Bridge.Components
 {
-    public class LayoutCategoryListViewComponent : ViewComponent
+    public class LayoutForumListViewComponent : ViewComponent
     {
-        private IKBridgeRepository _repository;
-        public LayoutCategoryListViewComponent(IKBridgeRepository repository)
+        private IForumRepository _repository;
+        public LayoutForumListViewComponent(IForumRepository repository)
         {
             _repository = repository;
         }
 
         public IViewComponentResult Invoke()
         {
-            ViewBag.Categories = _repository.Categories;
+            ViewBag.Forums = _repository.Forums;
             return View();
         }
     }
