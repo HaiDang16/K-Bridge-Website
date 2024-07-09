@@ -178,14 +178,6 @@
 }
 
 
-
-
-
-
-
-
-
-
 .fs-12{
     font-size: 12px;
 }
@@ -281,3 +273,23 @@
 #content-area {
     white-space: pre-wrap;
 }
+
+
+.btn-account-edit {
+    color: #493422 !important;
+    background-color: #EA8348 !important;
+}
+
+    .btn-account-edit:hover {
+        color: #FFF0E6 !important;
+        background-color: #8E6745 !important;
+    }
+.btn-edit-profile {
+    color: #493422 !important;
+    background-color: #F5C4A4 !important;
+}
+
+    .btn-edit-profile:hover {
+        color: #FFF0E6 !important;
+        background-color: #8E6745 !important;
+    }
