@@ -261,3 +261,91 @@
 #container-cate-2.hidden {
     display: none !important;
 }
+
+/*----------------------- MODEL NEW POST -----------------------*/
+.modal-new-post-header {
+    background: #493422;
+    color: white;
+}
+
+.modal-new-post-overall {
+    margin-top: 60px;
+    padding-top: -20px;
+}
+
+.modal-new-post-body {
+    background: #FFBE98;
+}
+
+.modal-new-post-card-name-1 {
+    color: white;
+    font-weight: 600;
+    background: #CF63D1;
+    font-size: 20px;
+}
+
+.modal-new-post-card {
+    border: solid 1px #FFBE98;
+    border-radius: 8px;
+    overflow-x: hidden;
+    background: #FFF0E6;
+}
+
+.modal-new-post-post-title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 200px; /* Đặt chiều rộng tối đa để áp dụng dấu "..." */
+}
+
+.modal-new-post-cate-card-1:hover {
+    background: #EAC3EB;
+}
+
+.custom-hr {
+    height: 2px; /* Độ dày của đường hr */
+    background-color: #000; /* Màu sắc của đường hr */
+    border: none; /* Xóa border nếu có */
+}
+
+.modal-new-post-card-name-2 {
+    color: white;
+    font-weight: 600;
+    background: #78B668;
+    font-size: 20px;
+}
+
+.modal-new-post-cate-card-2:hover {
+    background: #BCDAB4;
+}
+
+.modal-new-post-card-name-3 {
+    color: white;
+    font-weight: 600;
+    background: #FF8534;
+    font-size: 20px;
+}
+
+.modal-new-post-cate-card-3:hover {
+    background: #F5C9AC;
+}
+
+.collapsible-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.collapsible-header {
+    cursor: pointer;
+}
+
+    .collapsible-header::after {
+        content: '\25BC';
+        float: right;
+        transition: transform 0.3s ease-out;
+    }
+
+    .collapsible-header.active::after {
+        transform: rotate(180deg);
+    }

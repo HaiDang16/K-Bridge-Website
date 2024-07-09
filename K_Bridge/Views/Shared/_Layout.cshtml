@@ -9,13 +9,31 @@
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var headers = document.querySelectorAll('.collapsible-header');
+
+            headers.forEach(function (header) {
+                header.addEventListener('click', function () {
+                    var target = document.getElementById(this.dataset.target);
+                    this.classList.toggle('active');
+
+                    if (target.style.maxHeight) {
+                        target.style.maxHeight = null;
+                    } else {
+                        target.style.maxHeight = target.scrollHeight + "px";
+                    }
+                });
+            });
+        });
+    </script>
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>K-Bridge | @ViewData["Title"]</title>
 </head>
 <body>
-    <header class="header bg-main-color-header">
+    <header class="bg-main-color-header">
         @await Html.PartialAsync("LayoutHeader")
     </header>
     <div class="container-fluid">
@@ -24,7 +42,7 @@
                 <vc:layout-category-list />
                 <vc:layout-stat-list />
             </div>
-            <div class="col-lg-6 col-md-8 col-12 content mb-4">
+            <div class="col-lg-6 col-md-8 col-12 content mb-4 ">
                 <main role="main" class="pb-3">
                     @RenderBody()
                 </main>
@@ -49,23 +67,234 @@
     <!-- Modal new post -->
     <div class="modal fade modal-new-post-overall" id="newPostModal" tabindex="-1"
          aria-labelledby="newPostModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content w-100">
                 <div class="modal-header modal-new-post-header py-2 px-3">
                     <h5 class="modal-title " id="newPostModalLabel">ĐĂNG CHỦ ĐỀ TRONG</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body modal-new-post-body"> 
+                <div class="modal-body modal-new-post-body">
                     <div class="modal-new-post-card">
-                        <div class="modal-new-post-card-title py-2 px-3">TÀI LIỆU TỔNG HỢP</div>
-                        <div class="modal-new-post-card-title py-2 px-3">TÀI LIỆU TỔNG HỢP</div>
-                        <div class="modal-new-post-card-title py-2 px-3">TÀI LIỆU TỔNG HỢP</div>
+                        <div class="modal-new-post-card-name-1 py-3 px-3 collapsible-header" data-target="tai-lieu-tong-hop-content">TÀI LIỆU TỔNG HỢP</div>
+                        <div id="tai-lieu-tong-hop-content" class="collapsible-content">
+                            <div class="w-auto rounded-3 modal-new-post-cate-card-1">
+                                <hr class="m-0 p-0 custom-hr" />
+                                <div class="row flex-nowrap p-2 m-0">
+                                    <div class="col-lg-1 p-0 m-2 d-flex justify-content-center">
+                                        <img src="/img/cate_1.png" alt="avatar" style="width: 50px; height: 50px;" />
+                                    </div>
+                                    <div class="col-lg-4 d-flex flex-column justify-content-center">
+                                        <div class="fw-normal p-0 my-1">Chia sẻ đề cương thi</div>
+                                        <div class="fs-12 opacity-75 my-1">
+                                            Chia sẻ tài liệu học tập...
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 p-0 d-flex align-items-center">
+                                        <div class="col-lg-11 d-flex flex-column justify-content-center">
+                                            <div class="fs-6 me-2 p-0 d-flex justify-content-center">0</div>
+                                            <div class="fw-normal p-0 d-flex justify-content-center">Bài viết</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5 p-0 d-flex align-items-center">
+                                        <div class="col-lg-2 p-0 m-2 d-flex align-items-center">
+                                            <img src="/img/avatar_40.png" alt="avatar" style="width: 40px; height: 40px;" />
+                                        </div>
+                                        <div class="col-lg-8 d-flex flex-column justify-content-center">
+                                            <div class="fw-12 p-0 m-0 modal-new-post-post-title">Chia sẻ tài liệu học tập</div>
+                                            <div class="fs-12 opacity-75 d-flex align-items-center">
+                                                04/06/24 - <p class="fw-bold ms-1 d-flex p-0 m-0">Tên User</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="m-0 p-0 custom-hr" />
+
+                            </div>
+                            <div class="w-auto rounded-3 modal-new-post-cate-card-1">
+                                <hr class="m-0 p-0 custom-hr" />
+                                <div class="row flex-nowrap p-2 m-0">
+                                    <div class="col-lg-1 p-0 m-2 d-flex justify-content-center">
+                                        <img src="/img/cate_1.png" alt="avatar" style="width: 50px; height: 50px;" />
+                                    </div>
+                                    <div class="col-lg-4 d-flex flex-column justify-content-center">
+                                        <div class="fw-normal p-0 my-1">Chia sẻ đề cương thi</div>
+                                        <div class="fs-12 opacity-75 my-1">
+                                            Chia sẻ tài liệu học tập...
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 p-0 d-flex align-items-center">
+                                        <div class="col-lg-11 d-flex flex-column justify-content-center">
+                                            <div class="fs-6 me-2 p-0 d-flex justify-content-center">0</div>
+                                            <div class="fw-normal p-0 d-flex justify-content-center">Bài viết</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5 p-0 d-flex align-items-center">
+                                        <div class="col-lg-2 p-0 m-2 d-flex align-items-center">
+                                            <img src="/img/avatar_40.png" alt="avatar" style="width: 40px; height: 40px;" />
+                                        </div>
+                                        <div class="col-lg-8 d-flex flex-column justify-content-center">
+                                            <div class="fw-12 p-0 m-0 modal-new-post-post-title">Chia sẻ tài liệu học tập Chia sẻ tài liệu học tập </div>
+                                            <div class="fs-12 opacity-75 d-flex align-items-center">
+                                                04/06/24 - <p class="fw-bold ms-1 d-flex p-0 m-0">Tên User</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="m-0 p-0 custom-hr" />
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-new-post-card mt-3">
+                        <div class="modal-new-post-card-name-2 py-3 px-3 collapsible-header" data-target="huong-dan-content">HƯỚNG DẪN</div>
+                        <div id="huong-dan-content" class="collapsible-content">
+                            <div class="w-auto rounded-3 modal-new-post-cate-card-2">
+                                <hr class="m-0 p-0 custom-hr" />
+                                <div class="row flex-nowrap p-2 m-0">
+                                    <div class="col-lg-1 p-0 m-2 d-flex justify-content-center">
+                                        <img src="/img/cate_1.png" alt="avatar" style="width: 50px; height: 50px;" />
+                                    </div>
+                                    <div class="col-lg-4 d-flex flex-column justify-content-center">
+                                        <div class="fw-normal p-0 my-1">Chia sẻ đề cương thi</div>
+                                        <div class="fs-12 opacity-75 my-1">
+                                            Chia sẻ tài liệu học tập...
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 p-0 d-flex align-items-center">
+                                        <div class="col-lg-11 d-flex flex-column justify-content-center">
+                                            <div class="fs-6 me-2 p-0 d-flex justify-content-center">0</div>
+                                            <div class="fw-normal p-0 d-flex justify-content-center">Bài viết</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5 p-0 d-flex align-items-center">
+                                        <div class="col-lg-2 p-0 m-2 d-flex align-items-center">
+                                            <img src="/img/avatar_40.png" alt="avatar" style="width: 40px; height: 40px;" />
+                                        </div>
+                                        <div class="col-lg-8 d-flex flex-column justify-content-center">
+                                            <div class="fw-12 p-0 m-0 modal-new-post-post-title">Chia sẻ tài liệu học tập</div>
+                                            <div class="fs-12 opacity-75 d-flex align-items-center">
+                                                04/06/24 - <p class="fw-bold ms-1 d-flex p-0 m-0">Tên User</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="m-0 p-0 custom-hr" />
+
+                            </div>
+                            <div class="w-auto rounded-3 modal-new-post-cate-card-2">
+                                <hr class="m-0 p-0 custom-hr" />
+                                <div class="row flex-nowrap p-2 m-0">
+                                    <div class="col-lg-1 p-0 m-2 d-flex justify-content-center">
+                                        <img src="/img/cate_1.png" alt="avatar" style="width: 50px; height: 50px;" />
+                                    </div>
+                                    <div class="col-lg-4 d-flex flex-column justify-content-center">
+                                        <div class="fw-normal p-0 my-1">Chia sẻ đề cương thi</div>
+                                        <div class="fs-12 opacity-75 my-1">
+                                            Chia sẻ tài liệu học tập...
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 p-0 d-flex align-items-center">
+                                        <div class="col-lg-11 d-flex flex-column justify-content-center">
+                                            <div class="fs-6 me-2 p-0 d-flex justify-content-center">0</div>
+                                            <div class="fw-normal p-0 d-flex justify-content-center">Bài viết</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5 p-0 d-flex align-items-center">
+                                        <div class="col-lg-2 p-0 m-2 d-flex align-items-center">
+                                            <img src="/img/avatar_40.png" alt="avatar" style="width: 40px; height: 40px;" />
+                                        </div>
+                                        <div class="col-lg-8 d-flex flex-column justify-content-center">
+                                            <div class="fw-12 p-0 m-0 modal-new-post-post-title">Chia sẻ tài liệu học tập Chia sẻ tài liệu học tập </div>
+                                            <div class="fs-12 opacity-75 d-flex align-items-center">
+                                                04/06/24 - <p class="fw-bold ms-1 d-flex p-0 m-0">Tên User</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="m-0 p-0 custom-hr" />
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-new-post-card mt-3">
+                        <div class="modal-new-post-card-name-3 py-3 px-3 collapsible-header" data-target="bai-giang-content">BÀI GIẢNG TRÊN LỚP</div>
+                        <div id="bai-giang-content" class="collapsible-content">
+                            <div class="w-auto rounded-3 modal-new-post-cate-card-3">
+                                <hr class="m-0 p-0 custom-hr" />
+                                <div class="row flex-nowrap p-2 m-0">
+                                    <div class="col-lg-1 p-0 m-2 d-flex justify-content-center">
+                                        <img src="/img/cate_1.png" alt="avatar" style="width: 50px; height: 50px;" />
+                                    </div>
+                                    <div class="col-lg-4 d-flex flex-column justify-content-center">
+                                        <div class="fw-normal p-0 my-1">Chia sẻ đề cương thi</div>
+                                        <div class="fs-12 opacity-75 my-1">
+                                            Chia sẻ tài liệu học tập...
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 p-0 d-flex align-items-center">
+                                        <div class="col-lg-11 d-flex flex-column justify-content-center">
+                                            <div class="fs-6 me-2 p-0 d-flex justify-content-center">0</div>
+                                            <div class="fw-normal p-0 d-flex justify-content-center">Bài viết</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5 p-0 d-flex align-items-center">
+                                        <div class="col-lg-2 p-0 m-2 d-flex align-items-center">
+                                            <img src="/img/avatar_40.png" alt="avatar" style="width: 40px; height: 40px;" />
+                                        </div>
+                                        <div class="col-lg-8 d-flex flex-column justify-content-center">
+                                            <div class="fw-12 p-0 m-0 modal-new-post-post-title">Chia sẻ tài liệu học tập</div>
+                                            <div class="fs-12 opacity-75 d-flex align-items-center">
+                                                04/06/24 - <p class="fw-bold ms-1 d-flex p-0 m-0">Tên User</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="m-0 p-0 custom-hr" />
+
+                            </div>
+                            <div class="w-auto rounded-3 modal-new-post-cate-card-3">
+                                <hr class="m-0 p-0 custom-hr" />
+                                <div class="row flex-nowrap p-2 m-0">
+                                    <div class="col-lg-1 p-0 m-2 d-flex justify-content-center">
+                                        <img src="/img/cate_1.png" alt="avatar" style="width: 50px; height: 50px;" />
+                                    </div>
+                                    <div class="col-lg-4 d-flex flex-column justify-content-center">
+                                        <div class="fw-normal p-0 my-1">Chia sẻ đề cương thi</div>
+                                        <div class="fs-12 opacity-75 my-1">
+                                            Chia sẻ tài liệu học tập...
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 p-0 d-flex align-items-center">
+                                        <div class="col-lg-11 d-flex flex-column justify-content-center">
+                                            <div class="fs-6 me-2 p-0 d-flex justify-content-center">0</div>
+                                            <div class="fw-normal p-0 d-flex justify-content-center">Bài viết</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5 p-0 d-flex align-items-center">
+                                        <div class="col-lg-2 p-0 m-2 d-flex align-items-center">
+                                            <img src="/img/avatar_40.png" alt="avatar" style="width: 40px; height: 40px;" />
+                                        </div>
+                                        <div class="col-lg-8 d-flex flex-column justify-content-center">
+                                            <div class="fw-12 p-0 m-0 modal-new-post-post-title">Chia sẻ tài liệu học tập Chia sẻ tài liệu học tập </div>
+                                            <div class="fs-12 opacity-75 d-flex align-items-center">
+                                                04/06/24 - <p class="fw-bold ms-1 d-flex p-0 m-0">Tên User</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="m-0 p-0 custom-hr" />
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
