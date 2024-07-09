@@ -10,12 +10,14 @@ namespace K_Bridge.Controllers
             return View();
         }
 
+        [Route("/Newest/TopicList")]
         [Route("/Categories/TopicList")]
         public IActionResult TopicList()
         {
             return View();
         }
 
+        [Route("/Newest/TopicList/Post/{postId}/{postTitle}")]
         [Route("/Categories/TopicList/Post/{postId}/{postTitle}")]
         public IActionResult Post(int postId, string postTitle)
         {

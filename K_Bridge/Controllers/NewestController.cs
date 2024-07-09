@@ -9,5 +9,6 @@ namespace K_Bridge.Controllers
         {
             return View();
         }
+
     }
 }
