@@ -1,4 +1,5 @@
 ﻿using K_Bridge.Models;
+using K_Bridge.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 
@@ -14,8 +15,16 @@ if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 }
+
+// Đăng ký Repository
 builder.Services.AddScoped<IKBridgeRepository, EFKBridgeRepository>();
+builder.Services.AddScoped<IUserRepository, EFUserRepository>();
+builder.Services.AddScoped<CodeGenerationService>();
+
 builder.Services.AddRazorPages();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
+
 
 var app = builder.Build(); 
 
@@ -27,6 +36,7 @@ if (!app.Environment.IsDevelopment())
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseSession();
 
 app.UseAuthorization();
 

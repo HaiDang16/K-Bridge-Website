@@ -1,4 +1,8 @@
-﻿<div class="h-auto text-color-logo">
+﻿@{
+    ViewData["Title"] = "Trang chủ";
+    bool isLoggedIn = ViewBag.IsLoggedIn ?? false;
+}
+<div class="h-auto text-color-logo">
     <div class="w-auto bg-main-color-layout container-fluid rounded-3">
         <div class="row flex-nowrap p-2">
             <div class="col-lg-1 p-0 my-2">
