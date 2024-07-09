@@ -24,5 +24,11 @@ public class HomeController : Controller
         ViewBag.Topics = repository.Topics;
         return View();
     }
+
+    [Route("/Search/{SearchKey}")]
+    public IActionResult Search(string SearchKey)
+    {
+        return View();
+    }
 }
 //dotnet ef migrations add Initial

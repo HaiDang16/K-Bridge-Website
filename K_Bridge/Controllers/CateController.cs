@@ -22,7 +22,7 @@ namespace K_Bridge.Controllers
         public IActionResult Post(int postId, string postTitle)
         {
             postId = 123;
-            postTitle = "my-first-post";
+            postTitle = "TitlePost";
             return View();
         }
     }
