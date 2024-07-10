@@ -116,3 +116,33 @@
         </div>
     </div>
 </div>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade modal-new-post-overall rounded-3"s style="overflow-x: hidden;" id="exampleModal" tabindex="-1"
+     aria-labelledby="newPostModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="border-radius: 20px;">
+        <div class="modal-content">
+            <div class="modal-header modal-new-post-header py-2 px-3">
+                <h5 class="modal-title text-uppercase" id="newPostModalLabel">Xác nhận</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body bg-main-color-layout d-flex flex-column py-4">
+                <div class="text-color-header  justify-content-center flex-column m-auto" style="min-height:100px;">
+                    <p class="fs-3 text-color-header fw-bold m-0 mt-2">Bạn chắc chắn chứ?</p>
+                    <p class="text-color-headerfw-bold m-0 p-0">Các thay đổi sẽ không được lưu lại!</p>
+              </div>
+            </div>
+            <div class="d-flex justify-content-center bg-main-color-layout pb-4 rounded-bottom">
+                <button type="button" class="rounded-2 px-3 py-1 btn-confirm me-1" data-bs-dismiss="modal" style="min-width:148px;">Huỷ</button>
+                <button type="button" class="rounded-2 px-3 py-1 btn-confirm ms-1" style="min-width:148px;">Đồng ý</button>
+            </div>
+        </div>
+    </div>
+</div>

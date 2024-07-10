@@ -380,3 +380,13 @@
         color: #FFF0E6 !important;
         background-color: #8E6745 !important;
     }
+
+.btn-confirm {
+    color: #FFF0E6 !important;
+    background-color: #8E6745 !important;
+}
+
+    .btn-confirm:hover {
+        color: #8E6745 !important;
+        background-color: #FFF0E6 !important;
+    }
