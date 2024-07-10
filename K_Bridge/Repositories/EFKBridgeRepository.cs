@@ -15,6 +15,8 @@ namespace K_Bridge.Repositories
         public IQueryable<User> Users => _context.Users;
         public IQueryable<Topic> Topics => _context.Topics;
         public IQueryable<Admin_Accounts> Admin_Accounts => _context.Admin_Accounts;
+        public IQueryable<GlobalChat> GlobalChats => _context.GlobalChats;
+
     }
 
 }

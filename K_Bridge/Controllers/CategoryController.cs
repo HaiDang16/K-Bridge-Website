@@ -22,6 +22,7 @@ namespace K_Bridge.Controllers
 
         [Route("/Newest/TopicList/Post/{postId}/{postTitle}")]
         [Route("TopicList/Post/{postId}/{postTitle}")]
+        [Route("TopicList/Post")]
         public IActionResult Post(int postId, string postTitle)
         {
             postId = 123;

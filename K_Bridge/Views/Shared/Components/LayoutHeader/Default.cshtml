@@ -33,9 +33,9 @@
             }
             else
             {
-                <div class="d-md-flex align-items-center mx-3">
+                <div class="d-md-flex align-items-center mx-3" onclick="window.location.href='/UserProfile/@ViewBag.UsernameLoggedIn'">
                     <img src="/img/avatar_40.png" alt="avatar" class="me-2 rounded-3" style="width: 40px; height: 40px;" />
-                    <div class=" text-color-background mb-1 fw-bold flex-grow-1">@ViewBag.UsernameLoggedIn</div>
+                    <div class=" text-color-background mb-1 fw-bold flex-grow-1 pe-none">@ViewBag.UsernameLoggedIn</div>
                 </div>
             }
         </div>
@@ -250,7 +250,8 @@
                 if (data.success) {
                     loginModal.hide();
                     document.getElementById('loginForm').reset();
-                    updateUIAfterLogin(data.user);
+                    //updateUIAfterLogin(data.user);
+                    window.location.reload();
                 } else {
                     var errorSummary = document.getElementById('loginValidationSummary');
                     errorSummary.innerHTML = ''; // Xóa nội dung cũ
@@ -275,17 +276,16 @@
             });
     });
 
-
-    function updateUIAfterLogin(user) {
-        var loginButtons = document.querySelector('.align-items-center.d-flex.justify-content-between');
-        if (loginButtons) {
-            var userInfo = document.createElement('div');
-            userInfo.className = 'd-md-flex align-items-center mx-3';
-            userInfo.innerHTML = `
-                    <img src="/img/avatar_40.png" alt="avatar" class="me-2 rounded-3" style="width: 40px; height: 40px;" />
-                    <div class="text-color-background mb-1 fw-bold flex-grow-1">${user.username}</div>
-                `;
-            loginButtons.parentNode.replaceChild(userInfo, loginButtons);
-        }
-    }
+    // function updateUIAfterLogin(user) {
+    //     var loginButtons = document.querySelector('.align-items-center.d-flex.justify-content-between');
+    //     if (loginButtons) {
+    //         var userInfo = document.createElement('div');
+    //         userInfo.className = 'd-md-flex align-items-center mx-3';
+    //         userInfo.innerHTML = `
+    //                 <img src="/img/avatar_40.png" alt="avatar" class="me-2 rounded-3" style="width: 40px; height: 40px;" href="/Newest"/>
+    //                     <div class="text-color-background mb-1 fw-bold flex-grow-1" onclick="window.location.href='/Newest'">${user.username}</div>
+    //             `;
+    //         loginButtons.parentNode.replaceChild(userInfo, loginButtons);
+    //     }
+    // }
 </script>
