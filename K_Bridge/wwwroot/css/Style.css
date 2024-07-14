@@ -205,10 +205,6 @@
     word-wrap: break-word;
 }
 
-.message-group {
-    display: flex;
-    flex-direction: column;
-}
 
 .align-self-end .message {
     border-bottom-right-radius: 0 !important;
@@ -381,7 +377,7 @@
     }
 
 .btn-account-edit {
-    color: #493422 !important;
+    color: #FFF0E6 !important;
     background-color: #EA8348 !important;
 }
 
