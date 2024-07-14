@@ -2,35 +2,45 @@
 .bg-main-color-logo {
     background-color: #493422;
 }
+
 .text-color-logo {
     color: #493422;
 }
-.text-color-logo::placeholder {
-    color: #493422;
-    opacity:70%;
-}
+
+    .text-color-logo::placeholder {
+        color: #493422;
+        opacity: 70%;
+    }
+
 .border-main-color-logo {
     border-color: #493422;
 }
+
 .bg-main-color-header {
     background-color: #8E6745;
 }
+
 .text-color-header {
     color: #8E6745;
 }
+
 .border-main-color-header {
     border-color: #8E6745;
 }
+
 .bg-main-color-layout {
     background-color: #FFBE98 !important;
 }
+
 .text-color-layout {
     color: #FFBE98;
 }
+
     .text-color-layout::placeholder {
         color: #FFBE98;
         opacity: 70%;
     }
+
 .border-main-color-layout {
     border-color: #FFBE98;
 }
@@ -38,6 +48,7 @@
 .bg-main-color-background {
     background-color: #FFF0E6;
 }
+
 .bg-main-color-btn {
     background-color: #FFE8DA;
 }
@@ -45,27 +56,34 @@
 .text-color-background {
     color: #FFF0E6;
 }
+
     .text-color-background::placeholder {
         color: #FFF0E6;
         opacity: 70%;
     }
+
 .border-main-color-background {
     border-color: #FFF0E6;
 }
+
 .header {
     max-height: 80px;
 }
+
 .main-content {
     display: flex;
 }
+
 .sidebar {
     flex: 1;
 }
+
 .content {
     flex: 3;
 }
-.w-32{
-    width: 32px !important; 
+
+.w-32 {
+    width: 32px !important;
 }
 
 @font-face {
@@ -83,30 +101,30 @@
     background-color: #FFF0E6 !important;
 }
 
-.btn-account-sign:hover {
-    color: #FFF0E6 !important;
-    background-color: #493422 !important;
-}
+    .btn-account-sign:hover {
+        color: #FFF0E6 !important;
+        background-color: #493422 !important;
+    }
 
-.btn-check:focus + .btn-account-sign, .btn-account-sign:focus {
-    color: #8E6745;
-    background-color: #FFF0E6;
-    box-shadow: 0 0 0 0.25rem rgba(49, 132, 253, 0.5);
-}
+    .btn-check:focus + .btn-account-sign, .btn-account-sign:focus {
+        color: #8E6745;
+        background-color: #FFF0E6;
+        box-shadow: 0 0 0 0.25rem rgba(49, 132, 253, 0.5);
+    }
 
-.btn-check:checked + .btn-account-sign, .btn-check:active + .btn-account-sign, .btn-account-sign:active, .btn-account-sign.active, .show > .btn-account-sign.dropdown-toggle {
-    color: #8E6745;
-    background-color: #FFF0E6;
-}
+    .btn-check:checked + .btn-account-sign, .btn-check:active + .btn-account-sign, .btn-account-sign:active, .btn-account-sign.active, .show > .btn-account-sign.dropdown-toggle {
+        color: #8E6745;
+        background-color: #FFF0E6;
+    }
 
-.btn-check:checked + .btn-account-sign:focus, .btn-check:active + .btn-account-sign:focus, .btn-account-sign:active:focus, .btn-account-sign.active:focus, .show > .btn-account-sign.dropdown-toggle:focus {
-    box-shadow: 0 0 0 0.25rem rgba(49, 132, 253, 0.5);
-}
+        .btn-check:checked + .btn-account-sign:focus, .btn-check:active + .btn-account-sign:focus, .btn-account-sign:active:focus, .btn-account-sign.active:focus, .show > .btn-account-sign.dropdown-toggle:focus {
+            box-shadow: 0 0 0 0.25rem rgba(49, 132, 253, 0.5);
+        }
 
-.btn-account-sign:disabled, .btn-account-sign.disabled {
-    color: #8E6745;
-    background-color: #FFF0E6;
-}
+    .btn-account-sign:disabled, .btn-account-sign.disabled {
+        color: #8E6745;
+        background-color: #FFF0E6;
+    }
 
 
 
@@ -152,9 +170,9 @@
         background-color: #493422 !important;
     }
 
-    .btn-check:focus  + .btn-post, .btn-post:focus {
-        color: #FFF0E6 ;
-        background-color: #8E6745 ;
+    .btn-check:focus + .btn-post, .btn-post:focus {
+        color: #FFF0E6;
+        background-color: #8E6745;
         box-shadow: 0 0 0 0.25rem rgba(49, 132, 253, 0.5);
     }
 
@@ -178,7 +196,7 @@
 }
 
 
-.fs-12{
+.fs-12 {
     font-size: 12px;
 }
 
@@ -209,11 +227,11 @@
     word-break: break-all;
 }
 
-.cursor{
+.cursor {
     cursor: pointer;
 }
 
-.w-1{
+.w-1 {
     max-width: 100%;
 }
 
@@ -371,6 +389,7 @@
         color: #FFF0E6 !important;
         background-color: #8E6745 !important;
     }
+
 .btn-edit-profile {
     color: #493422 !important;
     background-color: #F5C4A4 !important;
@@ -380,3 +399,7 @@
         color: #FFF0E6 !important;
         background-color: #8E6745 !important;
     }
+
+.custom-cursor-pointer {
+    cursor: pointer;
+}

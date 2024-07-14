@@ -1,7 +1,7 @@
 ﻿@page
-@model K_Bridge.Pages.Admin.Accounts.CreateModel
+@model K_Bridge.Pages.Admin.Accounts.EditModel
 @{
-    ViewData["Title"] = "Tạo tài khoản";
+    ViewData["Title"] = "Sửa tài khoản";
 }
 
 <div class="row account-navigate mt-3 px-5 align-items-center ">
@@ -16,17 +16,17 @@
             Tài khoản
         </div>
         <img src="/img/icon_arrow_right_50_dark.png" class="mx-4 mt-2"
-             alt="Tổng quan" width="10" height="20">
+             alt="Arrow" width="10" height="20">
         <div class="account-navigate-text custom-cursor-pointer"
-             onclick="window.location.href='/Admin/Accounts/Create'">
-            Tạo tài khoản
+             onclick="window.location.href='/Admin/Accounts/Edit'">
+            Sửa tài khoản
         </div>
     </div>
 </div>
 <div class="row mt-3 create-padding-form">
     <div class="col-4">
-        <div class="account-title">Tạo tài khoản</div>
-        <div class="account-subtitle">Cung cấp thông tin tài khoản mới</div>
+        <div class="account-title">Sửa tài khoản</div>
+        <div class="account-subtitle">Chỉnh sửa thông tin tài khoản</div>
     </div>
 </div>
 <form method="post" enctype="multipart/form-data">
@@ -73,7 +73,7 @@
         <div class="col-5"></div>
 
         <div class="col-2 d-flex justify-content-end">
-            <button class="w-75 h-100 d-flex justify-content-center align-items-center create-reset-btn py-1" type="reset">
+            <button class="w-75 h-100 d-flex justify-content-center align-items-center create-reset-btn py-1">
                 Đặt lại
             </button>
         </div>

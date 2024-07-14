@@ -475,3 +475,7 @@ html, body {
 .form-custom:hover:not(:disabled):not([readonly])::file-selector-button {
     background-color: #dde0e3;
 }
+
+.custom-cursor-pointer {
+    cursor: pointer !important;
+}

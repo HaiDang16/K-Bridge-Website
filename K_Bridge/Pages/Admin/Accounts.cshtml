@@ -1,13 +1,20 @@
 ﻿@page
 @model K_Bridge.Pages.Admin.AccountsModel
+@{
+    ViewData["Title"] = "Tài khoản";
+}
 
 <div class="row account-navigate mt-3 px-5 align-items-center ">
     <div class="col-3 d-flex justify-content-star">
         <img src="/img/icon_dashboard_50_dark.png"
-             class="account-navigate-icon mt-2" alt="Tổng quan">
+             onclick="window.location.href='/Admin/Dashboard'"
+             class="account-navigate-icon mt-2 custom-cursor-pointer" alt="Tổng quan">
         <img src="/img/icon_arrow_right_50_dark.png" class="mx-4 mt-2"
              alt="Tổng quan" width="10" height="20">
-        <div class="account-navigate-text ">Tài khoản</div>
+        <div class="account-navigate-text custom-cursor-pointer"
+             onclick="window.location.href='/Admin/Accounts'">
+            Tài khoản
+        </div>
     </div>
     <div class="col-9">
     </div>
@@ -17,8 +24,8 @@
         <div class="account-title">Tài khoản</div>
         <div class="account-subtitle">Quản lý tài khoản người dùng</div>
     </div>
-    <div class="col-9 d-flex justify-content-end align-items-center">
-        <div class=" account-create-button px-4 h-75 d-flex align-items-center">
+    <div class="col-9 d-flex justify-content-end align-items-center custom-cursor-pointer">
+        <div class=" account-create-button px-4 h-75 d-flex align-items-center" onclick="window.location.href='/Admin/Accounts/Create'">
             + Tạo tài khoản
         </div>
     </div>
@@ -48,7 +55,7 @@
                     <td>123</td>
                     <td>
                         <div>
-                            <button class="account-table-edit-btn">
+                            <button class="account-table-edit-btn" onclick="window.location.href='/Admin/Accounts/Edit'">
                                 <img src="/img/icon_edit_50.png" alt="Chỉnh sửa" width="20" height="20">
                             </button>
                             <button class="account-table-delete-btn">
