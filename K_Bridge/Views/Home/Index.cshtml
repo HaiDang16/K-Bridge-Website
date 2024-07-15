@@ -31,35 +31,37 @@
         </div>
     </div>
 
-    @* Newest *@
+    @* Bài viết mới nhất *@
     <div class="d-flex flex-column mt-4 h-auto w-auto rounded-8" style="background:#FFF0E6; border-top:5px solid #493422;">
         <button id="toggle-new-1" class="flex-grow-0 border-main-color-logo border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between">
             <a class="text-uppercase text-decoration-none text-black" href="/Newest">Bài viết mới nhất </a>
             <img id="arrow-icon-new-1" src="/img/arrow_down.png" alt="arrow_down" />
         </button>
-        @* Topic *@
+
         <div id="container-new-1">
-            <div class="row m-0 px-3 py-2">
-                <div class="col-2 d-flex flex-column justify-content-center">
-                    <div class="newest-card-stat py-2">0 Câu trả lời</div>
-                    <div class="newest-card-stat py-2">10 Lượt xem</div>
+            @foreach (var latestPost in ViewBag.LatestPost ?? Enumerable.Empty<Post>())
+            {
+                <div class="row m-0 px-3 py-2">
+                    <div class="col-2 d-flex flex-column justify-content-center">
+                        <div class="newest-card-stat py-2">0 Câu trả lời</div>
+                        <div class="newest-card-stat py-2">@latestPost.ViewCount Lượt xem</div>
+                    </div>
+                    <div class="col-10">
+                        <div class="d-flex">
+                            <div class="newest-card-title fs-6">@latestPost.Title</div>
+                            <div class="newest-card-tag px-3 mx-3">Tài liệu</div>
+                        </div>
+                        <div class="newest-card-des" style="font-size:13px;">@latestPost.Content</div>
+                        <div class="d-flex justify-content-end mt-2">
+                            <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
+                            <div class="newest-card-username mx-2">@latestPost.User.Username @GetTimeAgoHelper.GetTimeAgo(latestPost.CreatedAt)</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-10">
-                    <div class="d-flex">
-                        <div class="newest-card-title fs-6">Xin đề cương môn ABC Xin đề cương môn ABC Xin đề cương môn ABC Xin đề cương môn ABC</div>
-                        <div class="newest-card-tag px-3 mx-3">Tài liệu</div>
-                    </div>
-                    <div class="newest-card-des" style="font-size:13px;">
-                        Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học cô Thuỷ cho mình xin đề cương ôn tập.
-                        Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học
-                    </div>
-                    <div class="d-flex justify-content-end mt-2">
-                        <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
-                        <div class="newest-card-username mx-2">User1 hỏi 10 phút trước</div>
-                    </div>
-                </div>
-            </div>
-            <hr class="mt-2">
+                <hr class="mt-2">
+            }
+
+
             <div class="row m-0 px-3 py-2">
                 <div class="col-2 d-flex flex-column justify-content-center">
                     <div class="newest-card-stat py-2">0 Câu trả lời</div>

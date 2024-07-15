@@ -22,8 +22,10 @@ builder.Services.AddScoped<IKBridgeRepository, EFKBridgeRepository>();
 builder.Services.AddScoped<IUserRepository, EFUserRepository>();
 builder.Services.AddScoped<IForumRepository, EFForumRepository>();
 builder.Services.AddScoped<IGlobalChatRepository, EFGlobalChatRepository>();
+builder.Services.AddScoped<IPostRepository, EFPostRepository>();
 
 builder.Services.AddScoped<CodeGenerationService>();
+builder.Services.AddScoped<GetTimeAgoService>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddRazorPages();

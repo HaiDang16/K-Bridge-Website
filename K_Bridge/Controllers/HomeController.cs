@@ -14,24 +14,35 @@ namespace K_Bridge.Controllers;
 public class HomeController : Controller
 {
 
-    private IUserRepository _repository;
+    private IUserRepository _userRepository;
+    private IPostRepository _postRepository;
+
     private CodeGenerationService _codeGenerationService;
+
     private readonly IHttpContextAccessor _httpContextAccessor;
+
+
 
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
-    public HomeController(IUserRepository repository, CodeGenerationService codeGenerationService, IHttpContextAccessor httpContextAccessor)
+    public HomeController(IUserRepository userRepository, IPostRepository postRepository,
+        CodeGenerationService codeGenerationService, IHttpContextAccessor httpContextAccessor)
     {
-        _repository = repository;
+        _userRepository = userRepository;
         _codeGenerationService = codeGenerationService;
         _httpContextAccessor = httpContextAccessor;
+        _postRepository = postRepository;
     }
 
     public IActionResult Index()
     {
+        // Bài viết mới nhất
+        var latestPost = _postRepository.GetLatestPost();
+        ViewBag.LatestPost = latestPost;
+
         return View();
     }
 
@@ -41,7 +52,7 @@ public class HomeController : Controller
         if (ModelState.IsValid)
         {
             // Kiểm tra xem email đã tồn tại chưa
-            var checkEmail = _repository.Users
+            var checkEmail = _userRepository.Users
                 .FirstOrDefaultAsync(u => u.Email == model.RegisterModel.Email);
 
             if (model.RegisterModel.Password != model.RegisterModel.ConfirmPassword)
@@ -58,7 +69,7 @@ public class HomeController : Controller
                 return Json(new { success = false, errors = errors });
             }
 
-            var checkUsername = _repository.Users
+            var checkUsername = _userRepository.Users
                 .FirstOrDefaultAsync(u => u.Username == model.RegisterModel.Username);
 
             if (checkUsername.Result != null)
@@ -82,7 +93,7 @@ public class HomeController : Controller
                 Password = hashedPassword,
                 Status = "Active"
             };
-            _repository.SaveUser(newUser);
+            _userRepository.SaveUser(newUser);
 
             //HttpContext.Session.SetJson("user", newUser);
 
@@ -103,7 +114,7 @@ public class HomeController : Controller
 
         if (ModelState.IsValid)
         {
-            var user = _repository.Users.FirstOrDefaultAsync(u => u.Email == model.LoginModel.User || u.Username == model.LoginModel.User).Result;
+            var user = _userRepository.Users.FirstOrDefaultAsync(u => u.Email == model.LoginModel.User || u.Username == model.LoginModel.User).Result;
 
             if (user == null || !BCrypt.Net.BCrypt.Verify(model.LoginModel.Password, user.Password))
             {

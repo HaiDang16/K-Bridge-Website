@@ -14,5 +14,6 @@ namespace K_Bridge.Models
         public DbSet<Admin_Accounts> Admin_Accounts => Set<Admin_Accounts>();
         public DbSet<Forum> Forums => Set<Forum>();
         public DbSet<GlobalChat> GlobalChats => Set<GlobalChat>();
+        public DbSet<Post> Posts => Set<Post>();
     }
 }
