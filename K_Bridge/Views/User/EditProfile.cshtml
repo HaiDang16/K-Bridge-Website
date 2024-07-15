@@ -1,0 +1,105 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Chỉnh sửa hồ sơ";
+}
+<div>
+    <p class="text-color-logo fw-bold fs-5">Hồ sơ test1</p>
+    <p class="text-color-header fs-12" style="line-height: 2.0;">
+        Tại đây, bạn có thể dễ dàng thay đổi ảnh đại diện, ảnh bìa hoặc tên hiển thị của mình, giúp hồ sơ của bạn trở nên cá nhân hơn và phản ánh đúng về chính bạn. Hãy tùy chỉnh giao diện của trang cá nhân ngay bây giờ để thể hiện phong cách và sở thích của mình!
+    </p>
+</div>
+<div class="d-flex">
+    <div class="col-lg-6">
+        <div style="width: 90%;">
+            <div class="mt-2 text-color-header fw-bold text-uppercase fs-12">tên hiển thị</div>
+            <input type="text" style="max-width:90%;" class="my-2 flex-grow-1 px-3 py-1 fs-6 text-color-logo rounded-8 focus bg-main-color-btn" placeholder="Tên hiển thị..." value="test1">
+            <div class="mt-2 text-color-header fw-bold text-uppercase fs-12">ảnh đại điện</div>
+            <input type="file" accept=".jpg,.png" style="max-width:90%;" class="my-2 flex-grow-1 px-3 py-1 fs-6 text-color-logo rounded-8 focus bg-main-color-btn" placeholder="Đổi ảnh đại diện" value="Đổi ảnh đại diện">
+            <div for="exampleColorInput" class="mt-2 text-color-header fw-bold text-uppercase fs-12">ảnh bìa</div>
+            <input type="color" class="my-2 form-control form-control-color" id="exampleColorInput" value="#8E6745" title="Choose your color">
+        </div>
+
+    </div>
+    <div class="col-lg-6">
+        <div class="text-color-header fw-bold text-uppercase fs-12">Giới thiệu về tôi</div>
+        <textarea class="my-2 flex-grow-1 p-3 fs-6 text-color-logo rounded-8 w-100 focus bg-main-color-btn" id="content-textarea" rows="7"
+                  placeholder="Viết nội dung của bài viết tại đây...">Đây là nội dung giới thiệu tài khoản Đây là nội dung giới thiệu tài khoản Đây là nội dung giới thiệu tài khoản
+        </textarea>
+    </div>
+</div>
+<div>
+    <div class="mt-4 text-color-header fw-bold text-uppercase fs-12">xem trước</div>
+    <div class="my-2">
+        <div class="bg-main-color-layout rounded-8" style="min-height: 280px;">
+            <div id="target-div" class="rounded-3" style="height: 100px; background-color: #8E6745;"></div>
+            <div class="d-flex position-relative">
+                <div class="col-lg-3">
+                    <img style="border-width: 10px; border-color: #FFBE98; top:-40px; left:45px;" class="rounded-3 position-absolute" src="~/img/user.jpg" width="100" height="100" alt="Alternate Text" />
+                </div>
+                <div class="mt-3">
+                    <p class="fs-5 text-color-logo">test1</p>
+                </div>
+            </div>
+            <div class="px-4 py-2">
+                <p id="content-display"></p>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex">
+        <button id="save-btn" class="mt-3 btn btn-edit-profile d-none">Lưu thay đổi</button>
+        <button id="reset-btn" class="mt-3 btn d-none">Đặt lại</button>
+    </div>
+
+</div>
+
+<script>
+    // Lấy giá trị từ color picker và gán nền xem trước
+    const colorInput = document.getElementById('exampleColorInput');
+    const targetDiv = document.getElementById('target-div');
+    const saveBtn = document.getElementById('save-btn');
+    const resetBtn = document.getElementById('reset-btn');
+
+    colorInput.addEventListener('input', () => {
+        targetDiv.style.backgroundColor = colorInput.value;
+    });
+
+    // Lấy giá trị từ thẻ textarea và gán vào thẻ p
+    const contentTextarea = document.getElementById('content-textarea');
+    const contentDisplay = document.getElementById('content-display');
+
+    // Hàm cập nhật nội dung của thẻ <p>
+    function updateContentDisplay() {
+        contentDisplay.textContent = contentTextarea.value;
+    }
+
+    // Thêm event listener để lắng nghe sự kiện thay đổi nội dung của <textarea>
+    contentTextarea.addEventListener('input', updateContentDisplay);
+
+    // Cập nhật nội dung của thẻ <p> lần đầu
+    updateContentDisplay();
+
+    let originalContent = contentTextarea.value;
+
+    contentTextarea.addEventListener('input', () => {
+        if (contentTextarea.value !== originalContent) {
+            saveBtn.classList.remove('d-none');
+            resetBtn.classList.remove('d-none');
+        } else {
+            saveBtn.classList.add('d-none');
+            resetBtn.classList.add('d-none');
+        }
+    });
+
+    saveBtn.addEventListener('click', () => {
+        // Thực hiện các hành động lưu ở đây
+        console.log('Đã lưu nội dung mới:', contentTextarea.value);
+        originalContent = contentTextarea.value;
+        saveBtn.classList.add('d-none');
+    });
+    resetBtn.addEventListener('click', () => {
+        contentTextarea.value = originalContent;
+        resetBtn.classList.add('d-none');
+    });
+</script>
