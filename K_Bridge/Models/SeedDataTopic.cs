@@ -19,34 +19,25 @@ namespace K_Bridge.Models
                 context.Topics.AddRange(
                 new Topic
                 {
-                    Name = "Xin abcbabc abc chủ đề 1",
-                    CateId = 1
+                    Name = "Lập trình Java",
+                    Description = "Hướng dẫn lập trình bằng ngôn ngữ Java",
+                    ForumID = 1,
+                    Status = "Active"
                 },
                 new Topic
                 {
-                    Name = "Xin abcbabc abc chủ đề 1",
-                    CateId = 1
+                    Name = "Lập trình Python",
+                    Description = "Hướng dẫn lập trình bằng ngôn ngữ Python",
+                    ForumID = 2,
+                    Status = "Active"
                 },
                 new Topic
                 {
-                    Name = "Xin abcbabc abc chủ đề 2",
-                    CateId = 2
-                },
-                new Topic
-                {
-                    Name = "Xin abcbabc abc chủ đề 2",
-                    CateId = 2
-                },
-                new Topic
-                {
-                    Name = "Xin abcbabc abc chủ đề 3",
-                    CateId = 3
-                },
-                new Topic
-                {
-                    Name = "Xin abcbabc abc chủ đề 3",
-                    CateId = 3
-                }
+                    Name = "Chia sẻ đề cương thi",
+                    Description = "Chia sẻ tài liệu học tập",
+                    ForumID = 3,
+                    Status = "Active"
+                } 
                 );
                 context.SaveChanges();
             }

@@ -295,19 +295,13 @@
 }
 
 .modal-new-post-overall {
-    margin-top: 60px;
-    padding-top: -20px;
+    margin-top: 50px;
+    padding-bottom:20px;
 }
 
 .modal-new-post-body {
     background: #FFBE98;
-}
-
-.modal-new-post-card-name-1 {
-    color: white;
-    font-weight: 600;
-    background: #CF63D1;
-    font-size: 20px;
+    padding-top:0 !important;
 }
 
 .modal-new-post-card {
@@ -324,36 +318,25 @@
     max-width: 200px; /* Đặt chiều rộng tối đa để áp dụng dấu "..." */
 }
 
-.modal-new-post-cate-card-1:hover {
-    background: #EAC3EB;
-}
-
 .custom-hr {
     height: 2px; /* Độ dày của đường hr */
     background-color: #000; /* Màu sắc của đường hr */
     border: none; /* Xóa border nếu có */
 }
 
-.modal-new-post-card-name-2 {
-    color: white;
-    font-weight: 600;
-    background: #78B668;
-    font-size: 20px;
+/*Lập trình*/
+.modal-new-post-cate-card-1:hover {
+    background: #F5ACAC;
 }
 
+/*Hướng dẫn*/
 .modal-new-post-cate-card-2:hover {
     background: #BCDAB4;
 }
 
-.modal-new-post-card-name-3 {
-    color: white;
-    font-weight: 600;
-    background: #FF8534;
-    font-size: 20px;
-}
-
+/*Mẫu báo cáo*/
 .modal-new-post-cate-card-3:hover {
-    background: #F5C9AC;
+    background: #DAB4B4;
 }
 
 .collapsible-content {
@@ -399,6 +382,7 @@
 .custom-cursor-pointer {
     cursor: pointer;
 }
+
 .btn-confirm {
     color: #FFF0E6 !important;
     background-color: #8E6745 !important;
@@ -408,3 +392,24 @@
         color: #8E6745 !important;
         background-color: #FFF0E6 !important;
     }
+
+.modal-new-post-card-name {
+    color: white;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+/*Tài liệu*/
+.modal-new-post-cate-card-4:hover {
+    background: #EAC3EB;
+}
+
+/*Bài giảng*/
+.modal-new-post-cate-card-5:hover {
+    background: #F5C9AC;
+}
+
+/*DRL*/
+.modal-new-post-cate-card-6:hover {
+    background: #C4C3EB;
+}

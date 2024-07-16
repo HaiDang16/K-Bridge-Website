@@ -25,12 +25,13 @@ namespace K_Bridge.Controllers
         }
 
         [HttpGet("Create")]
-        public IActionResult Create()
+        public IActionResult Create([FromQuery] int Topic)
         {
+            ViewBag.TopicID = Topic;
             return View();
         }
         [HttpPost("Create")]
-        public IActionResult Create(PostViewModel post)
+        public IActionResult Create(PostViewModel post, int topicID)
         {
             if (ModelState.IsValid)
             {
@@ -50,6 +51,7 @@ namespace K_Bridge.Controllers
                     Title = post.Title,
                     Status = "Enable",
                     UserID = user.ID,
+                    TopicID = topicID
                 };
                 _repository.SavePost(newPost);
                 return RedirectToAction(nameof(Create)); // Redirect to a page that lists all posts

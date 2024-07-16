@@ -15,5 +15,17 @@ namespace K_Bridge.Models
         public DbSet<Forum> Forums => Set<Forum>();
         public DbSet<GlobalChat> GlobalChats => Set<GlobalChat>();
         public DbSet<Post> Posts => Set<Post>();
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Forum>()
+                .HasMany(f => f.Topics)
+                .WithOne(t => t.Forum)
+                .HasForeignKey(t => t.ForumID);
+            modelBuilder.Entity<Topic>()
+        .HasMany(t => t.Posts)
+        .WithOne(p => p.Topic)
+        .HasForeignKey(p => p.TopicID);
+        }
     }
 }

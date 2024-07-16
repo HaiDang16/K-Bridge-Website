@@ -23,8 +23,6 @@
 
 .newest-card-tag {
     border-radius: 20px;
-    background: #CF63D1;
-    color: white;
     white-space: nowrap;
     height: fit-content;
 }

@@ -9,8 +9,10 @@ namespace K_Bridge.Models
 
         [BindNever]
         public string? Code { get; set; }
-        public DateTime? CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
+
+        public string CreatedAtFormatted => CreatedAt.ToString("dd/MM/yy");
     }
 }

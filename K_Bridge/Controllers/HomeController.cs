@@ -16,6 +16,10 @@ public class HomeController : Controller
 
     private IUserRepository _userRepository;
     private IPostRepository _postRepository;
+    private IForumRepository _forumRepository;
+    private IKBridgeRepository _kBridgeRepository;
+    private ITopicRepository _topicRepository;
+
 
     private CodeGenerationService _codeGenerationService;
 
@@ -28,13 +32,17 @@ public class HomeController : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
-    public HomeController(IUserRepository userRepository, IPostRepository postRepository,
+    public HomeController(IUserRepository userRepository, IPostRepository postRepository, IForumRepository forumRepository,
+        IKBridgeRepository kBridgeRepository, ITopicRepository topicRepository,
         CodeGenerationService codeGenerationService, IHttpContextAccessor httpContextAccessor)
     {
         _userRepository = userRepository;
         _codeGenerationService = codeGenerationService;
         _httpContextAccessor = httpContextAccessor;
         _postRepository = postRepository;
+        _forumRepository = forumRepository;
+        _kBridgeRepository = kBridgeRepository;
+        _topicRepository = topicRepository;
     }
 
     public IActionResult Index()
@@ -42,6 +50,10 @@ public class HomeController : Controller
         // Bài viết mới nhất
         var latestPost = _postRepository.GetLatestPost();
         ViewBag.LatestPost = latestPost;
+
+        // Forum with topics
+        var lstForum = _forumRepository.GetForumsWithTopicsAndLatestPosts();
+        ViewBag.Forum = lstForum;
 
         return View();
     }

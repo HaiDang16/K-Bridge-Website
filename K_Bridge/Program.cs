@@ -23,6 +23,7 @@ builder.Services.AddScoped<IUserRepository, EFUserRepository>();
 builder.Services.AddScoped<IForumRepository, EFForumRepository>();
 builder.Services.AddScoped<IGlobalChatRepository, EFGlobalChatRepository>();
 builder.Services.AddScoped<IPostRepository, EFPostRepository>();
+builder.Services.AddScoped<ITopicRepository, EFTopicRepository>();
 
 builder.Services.AddScoped<CodeGenerationService>();
 builder.Services.AddScoped<GetTimeAgoService>();
@@ -59,5 +60,7 @@ SeedDataStats.EnsurePopulated(app);
 SeedDataAdminAccount.EnsurePopulated(app);
 SeedDataForum.EnsurePopulated(app);
 SeedDataGlobalChat.EnsurePopulated(app);
+SeedDataTopic.EnsurePopulated(app);
+
 
 app.Run();
