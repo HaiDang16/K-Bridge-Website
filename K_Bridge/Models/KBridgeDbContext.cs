@@ -15,6 +15,8 @@ namespace K_Bridge.Models
         public DbSet<Forum> Forums => Set<Forum>();
         public DbSet<GlobalChat> GlobalChats => Set<GlobalChat>();
         public DbSet<Post> Posts => Set<Post>();
+        public DbSet<Reply> Replies => Set<Reply>();
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

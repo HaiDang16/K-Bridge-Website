@@ -24,6 +24,7 @@ builder.Services.AddScoped<IForumRepository, EFForumRepository>();
 builder.Services.AddScoped<IGlobalChatRepository, EFGlobalChatRepository>();
 builder.Services.AddScoped<IPostRepository, EFPostRepository>();
 builder.Services.AddScoped<ITopicRepository, EFTopicRepository>();
+builder.Services.AddScoped<IReplyRepository, EFReplyRepository>();
 
 builder.Services.AddScoped<CodeGenerationService>();
 builder.Services.AddScoped<GetTimeAgoService>();

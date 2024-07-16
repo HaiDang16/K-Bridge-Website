@@ -13,14 +13,20 @@ namespace K_Bridge.Controllers
     [Route("[controller]")]
     public class PostController : Controller
     {
-        private IPostRepository _repository;
+        private IPostRepository _postRepository;
+        private IReplyRepository _replyRepository;
+
         private CodeGenerationService _codeGenerationService;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public PostController(IPostRepository repository, CodeGenerationService codeGenerationService,
+        public PostController(IPostRepository postRepository,
+            IReplyRepository replyRepository,
+            CodeGenerationService codeGenerationService,
             IHttpContextAccessor httpContextAccessor)
         {
-            _repository = repository;
+            _postRepository = postRepository;
+            _replyRepository = replyRepository;
+
             _codeGenerationService = codeGenerationService;
             _httpContextAccessor = httpContextAccessor;
         }
@@ -54,7 +60,7 @@ namespace K_Bridge.Controllers
                     UserID = user.ID,
                     TopicID = topicID
                 };
-                _repository.SavePost(newPost);
+                _postRepository.SavePost(newPost);
                 return RedirectToAction(nameof(Create)); // Redirect to a page that lists all posts
             }
             return View(post);
@@ -66,14 +72,15 @@ namespace K_Bridge.Controllers
             //int? postId = EncryptIDHelper.DecryptID(post);
             if (post != 0)
             {
-                ViewBag.PostID = post;
-                var postDetails = _repository.GetPostByID(post);
+                var postDetails = _postRepository.GetPostByID(post);
                 if (postDetails == null)
-                {
                     return NotFound("Post not found.");
-                }
-               
+
+                var allReply = _replyRepository.GetRepliesByPostId(post);
+
                 ViewBag.Post = postDetails;
+                ViewBag.Reply = allReply;
+
                 return View();
             }
             else
@@ -82,6 +89,35 @@ namespace K_Bridge.Controllers
             }
         }
 
+        [HttpPost]
+        public IActionResult SubmitReply(int postId, string answerContent)
+        {
+            if (string.IsNullOrWhiteSpace(answerContent))
+            {
+                return BadRequest("Answer content cannot be empty.");
+            }
+
+            User? user = HttpContext.Session.GetJson<User>("user");
+
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "You must be logged in to create a reply.";
+                return RedirectToAction(nameof(Details));
+            }
+
+
+            var reply = new Reply
+            {
+                PostID = postId,
+                Content = answerContent,
+                Status = "Enable",
+                UserID = user.ID,
+            };
+
+            _replyRepository.SaveReply(reply);
+
+            return RedirectToAction("Details", new { post = postId });
+        }
 
     }
 }
