@@ -20,26 +20,24 @@ namespace K_Bridge.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Forum>()
-                .HasMany(f => f.Topics)
-                .WithOne(t => t.Forum)
-                .HasForeignKey(t => t.ForumID);
             modelBuilder.Entity<Topic>()
-        .HasMany(t => t.Posts)
-        .WithOne(p => p.Topic)
-        .HasForeignKey(p => p.TopicID);
+           .HasOne(t => t.Forum)
+           .WithMany(f => f.Topics)
+           .HasForeignKey(t => t.ForumID);
 
-            modelBuilder.Entity<Reply>()
-        .HasOne(r => r.User)
-        .WithMany(u => u.Replies)
-        .HasForeignKey(r => r.UserID)
-        .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Post>()
+                .HasOne(p => p.Topic)
+                .WithMany(t => t.Posts)
+                .HasForeignKey(p => p.TopicID);
 
             modelBuilder.Entity<Reply>()
                 .HasOne(r => r.Post)
-                .WithMany()
-                .HasForeignKey(r => r.PostID)
-                .OnDelete(DeleteBehavior.Cascade);
+                .WithMany(p => p.Replies)
+                .HasForeignKey(r => r.PostID);
+
+            // Configure other relationships if necessary
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

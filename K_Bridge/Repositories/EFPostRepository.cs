@@ -31,10 +31,12 @@ namespace K_Bridge.Repositories
         public Post GetPostByID(int id)
         {
             return _context.Posts
-                     .Include(p => p.User) // If you need user details
-                     .Include(p => p.Topic) // If you need topic details
-                     .Include(p => p.Topic.Forum) // If you need forum details
-                     .FirstOrDefault(p => p.ID == id);
+                .Include(p => p.User) // Include user details of the post
+                .Include(p => p.Topic) // Include topic details of the post
+                    .ThenInclude(t => t.Forum) // Include forum details of the topic
+                .Include(p => p.Replies) // Include replies of the post
+                    .ThenInclude(r => r.User) // Include user details of each reply
+                .FirstOrDefault(p => p.ID == id);
         }
     }
 }

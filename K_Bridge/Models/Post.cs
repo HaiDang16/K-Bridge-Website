@@ -16,6 +16,7 @@
         public int TopicID { get; set; }
         public Topic? Topic { get; set; }
 
+        public ICollection<Reply> Replies { get; set; }
     }
 }
 

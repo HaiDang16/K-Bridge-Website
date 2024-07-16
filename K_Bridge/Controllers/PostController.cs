@@ -1,4 +1,5 @@
-﻿using K_Bridge.Helpers;
+﻿using Ganss.Xss;
+using K_Bridge.Helpers;
 using K_Bridge.Infrastructure;
 using K_Bridge.Models;
 using K_Bridge.Models.ViewModels;
@@ -7,6 +8,8 @@ using K_Bridge.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+
+
 
 namespace K_Bridge.Controllers
 {
@@ -19,6 +22,9 @@ namespace K_Bridge.Controllers
         private CodeGenerationService _codeGenerationService;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
+        private readonly HtmlSanitizer _sanitizer;
+
+
         public PostController(IPostRepository postRepository,
             IReplyRepository replyRepository,
             CodeGenerationService codeGenerationService,
@@ -29,6 +35,15 @@ namespace K_Bridge.Controllers
 
             _codeGenerationService = codeGenerationService;
             _httpContextAccessor = httpContextAccessor;
+
+            _sanitizer = new HtmlSanitizer();
+/*            _sanitizer.AllowedTags.Clear();
+            _sanitizer.AllowedTags.Add("b");
+            _sanitizer.AllowedTags.Add("i");
+            _sanitizer.AllowedTags.Add("u");
+            _sanitizer.AllowedTags.Add("ol");
+            _sanitizer.AllowedTags.Add("ul");
+            _sanitizer.AllowedTags.Add("li");*/
         }
 
         [HttpGet("Create")]
@@ -83,15 +98,15 @@ namespace K_Bridge.Controllers
 
                 return View();
             }
+           
             else
-            {
                 return BadRequest("Invalid Post ID");
-            }
         }
 
         [HttpPost]
         public IActionResult SubmitReply(int postId, string answerContent)
         {
+            var sanitizedContent = _sanitizer.Sanitize(answerContent);
             if (string.IsNullOrWhiteSpace(answerContent))
             {
                 return BadRequest("Answer content cannot be empty.");
@@ -102,14 +117,14 @@ namespace K_Bridge.Controllers
             if (user == null)
             {
                 TempData["ErrorMessage"] = "You must be logged in to create a reply.";
-                return RedirectToAction(nameof(Details));
+                return RedirectToAction("Details", new { post = postId });
             }
 
 
             var reply = new Reply
             {
                 PostID = postId,
-                Content = answerContent,
+                Content = sanitizedContent,
                 Status = "Enable",
                 UserID = user.ID,
             };
