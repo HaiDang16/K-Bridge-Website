@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace K_Bridge.Migrations
 {
     [DbContext(typeof(KBridgeDbContext))]
-    [Migration("20240716151728_AddReply")]
+    [Migration("20240716182331_AddReply")]
     partial class AddReply
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -249,6 +249,10 @@ namespace K_Bridge.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("PostID");
+
+                    b.HasIndex("UserID");
+
                     b.ToTable("Replies");
                 });
 
@@ -392,6 +396,25 @@ namespace K_Bridge.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("K_Bridge.Models.Reply", b =>
+                {
+                    b.HasOne("K_Bridge.Models.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("K_Bridge.Models.User", "User")
+                        .WithMany("Replies")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("K_Bridge.Models.Topic", b =>
                 {
                     b.HasOne("K_Bridge.Models.Forum", "Forum")
@@ -416,6 +439,8 @@ namespace K_Bridge.Migrations
             modelBuilder.Entity("K_Bridge.Models.User", b =>
                 {
                     b.Navigation("Posts");
+
+                    b.Navigation("Replies");
                 });
 #pragma warning restore 612, 618
         }

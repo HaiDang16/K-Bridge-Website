@@ -11,10 +11,10 @@
 
         // Foreign key
         public int UserID { get; set; }
-        public User? User { get; set; } = new User();
+        public User? User { get; set; }
 
         public int TopicID { get; set; }
-        public Topic? Topic { get; set; } = new Topic();
+        public Topic? Topic { get; set; }
 
     }
 }

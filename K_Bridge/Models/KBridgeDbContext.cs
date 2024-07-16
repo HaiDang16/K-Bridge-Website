@@ -28,6 +28,18 @@ namespace K_Bridge.Models
         .HasMany(t => t.Posts)
         .WithOne(p => p.Topic)
         .HasForeignKey(p => p.TopicID);
+
+            modelBuilder.Entity<Reply>()
+        .HasOne(r => r.User)
+        .WithMany(u => u.Replies)
+        .HasForeignKey(r => r.UserID)
+        .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Reply>()
+                .HasOne(r => r.Post)
+                .WithMany()
+                .HasForeignKey(r => r.PostID)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

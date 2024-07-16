@@ -27,7 +27,28 @@ namespace K_Bridge.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Replies", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Replies_Posts_PostID",
+                        column: x => x.PostID,
+                        principalTable: "Posts",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Replies_Users_UserID",
+                        column: x => x.UserID,
+                        principalTable: "Users",
+                        principalColumn: "ID");
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Replies_PostID",
+                table: "Replies",
+                column: "PostID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Replies_UserID",
+                table: "Replies",
+                column: "UserID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -7,8 +7,8 @@
 
         // Foreign Key
         public int UserID { get; set; }
-        public User User { get; set; } = new User();
+        public User? User { get; set; }
         public int PostID { get; set; }
-        public Post Post { get; set; } = new Post();
+        public Post? Post { get; set; }
     }
 }

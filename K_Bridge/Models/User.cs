@@ -16,5 +16,7 @@ namespace K_Bridge.Models
 
         // Navigation property for related posts
         public ICollection<Post>? Posts { get; set; }
+        public ICollection<Reply>? Replies{ get; set; }
+
     }
 }
