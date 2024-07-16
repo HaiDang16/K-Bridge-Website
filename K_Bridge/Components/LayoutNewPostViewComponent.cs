@@ -14,7 +14,7 @@ namespace K_Bridge.Components
 
         public IViewComponentResult Invoke()
         {
-            var forums = _repository.GetForumWithTopics();
+            ViewBag.VCForums = _repository.GetForumWithTopics();
            
             return View();
         }

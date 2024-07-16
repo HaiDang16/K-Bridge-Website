@@ -18,7 +18,7 @@
                 </button>
             </div>
             <div class="modal-body modal-new-post-body" style="border-bottom:solid 1px none; border-radius:5px; overflow:hidden;">
-                @foreach (var forum in ViewBag.Forum ?? Enumerable.Empty<Forum>())
+                @foreach (var forum in ViewBag.VCForums ?? Enumerable.Empty<Forum>())
                 {
                     <div class="modal-new-post-card mt-3">
                         <div class="modal-new-post-card-name py-3 px-3 collapsible-header text-uppercase"

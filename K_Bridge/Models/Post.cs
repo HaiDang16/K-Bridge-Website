@@ -17,6 +17,8 @@
         public Topic? Topic { get; set; }
 
         public ICollection<Reply> Replies { get; set; }
+        public ICollection<Post_Like>? Post_Likes { get; set; }
+
     }
 }
 

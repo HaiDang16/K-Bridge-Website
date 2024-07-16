@@ -413,3 +413,16 @@
 .modal-new-post-cate-card-6:hover {
     background: #C4C3EB;
 }
+
+.reply-content ol, .reply-content ul {
+    padding-left: 20px;
+    list-style-position: outside;
+}
+
+.reply-content ol {
+    list-style-type: decimal;
+}
+
+.reply-content ul {
+    list-style-type: disc;
+}

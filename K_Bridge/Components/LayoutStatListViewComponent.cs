@@ -13,7 +13,16 @@ namespace K_Bridge.Components
 
         public IViewComponentResult Invoke()
         {
-            ViewBag.Statses = _repository.Statses;
+            int totalUsers = _repository.Users.Count();
+
+            int totalTopics = _repository.Topics.Count();
+            totalTopics = totalTopics < 10 ? 10 : (totalTopics / 10) * 10;
+
+            int totalPosts = _repository.Posts.Count();
+
+            ViewBag.TotalUsers = totalUsers;
+            ViewBag.TotalTopics = totalTopics;
+            ViewBag.TotalPosts = totalPosts;
             return View();
         }
     }

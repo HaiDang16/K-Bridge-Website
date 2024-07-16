@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using K_Bridge.Infrastructure;
 using K_Bridge.Pages.Admin;
 using K_Bridge.Repositories;
+using Ganss.Xss;
 
 namespace K_Bridge.Controllers;
 
@@ -19,6 +20,9 @@ public class HomeController : Controller
     private IForumRepository _forumRepository;
     private IKBridgeRepository _kBridgeRepository;
     private ITopicRepository _topicRepository;
+    private IGlobalChatRepository _chatRepository;
+
+    private readonly HtmlSanitizer _sanitizer;
 
 
     private CodeGenerationService _codeGenerationService;
@@ -34,6 +38,7 @@ public class HomeController : Controller
 
     public HomeController(IUserRepository userRepository, IPostRepository postRepository, IForumRepository forumRepository,
         IKBridgeRepository kBridgeRepository, ITopicRepository topicRepository,
+        IGlobalChatRepository chatRepository,
         CodeGenerationService codeGenerationService, IHttpContextAccessor httpContextAccessor)
     {
         _userRepository = userRepository;
@@ -43,6 +48,9 @@ public class HomeController : Controller
         _forumRepository = forumRepository;
         _kBridgeRepository = kBridgeRepository;
         _topicRepository = topicRepository;
+        _chatRepository = chatRepository;
+        _sanitizer = new HtmlSanitizer();
+
     }
 
     public IActionResult Index()
@@ -145,6 +153,20 @@ public class HomeController : Controller
             return Json(new { success = false, errors = errors });
         }
     }
+
+    [HttpPost]
+    public IActionResult SendMessage([FromBody] GlobalChat message)
+    {
+        if (ModelState.IsValid)
+        {
+            message.SendAt = DateTime.Now; // Set message timestamp
+            _chatRepository.AddMessage(message); // Add message to repository
+
+            return Ok(); // Return 200 OK status
+        }
+        return BadRequest();
+    }
+
     [Route("/Search/{SearchKey}")]
     public IActionResult Search(string SearchKey)
     {

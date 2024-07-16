@@ -77,3 +77,27 @@
 .reply-content ul {
     list-style-type: disc;
 }
+
+.lidi i {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background: #323232;
+    mask-size: cover !important;
+}
+
+    .lidi i.up {
+        mask: url(../img/thumbs-up.svg)
+    }
+
+    .lidi i.down {
+        mask: url(../img/thumbs-down.svg)
+    }
+
+    .lidi i.up.set {
+        background: #462dff;
+    }
+
+    .lidi i.down.set {
+        background: #dd3d3d;
+    }

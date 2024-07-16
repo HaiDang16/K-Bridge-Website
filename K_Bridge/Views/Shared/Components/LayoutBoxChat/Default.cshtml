@@ -1,12 +1,11 @@
-﻿
-<div class=" d-flex flex-column mt-4 border-main-color-layout border-2 h-auto w-auto rounded-8" style="max-width: 300px;">
+﻿<div class=" d-flex flex-column mt-4 border-main-color-layout border-2 h-auto w-auto rounded-8" style="max-width: 300px;">
     <button id="toggle-comments" class="flex-grow-0 border-main-color-header border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between">
         <div class="text-uppercase">Bình luận</div>
         <img id="arrow-icon" src="/img/arrow_down.png" alt="arrow_down" />
     </button>
 
     <div id="comments-container" class="rounded-3 overflow-auto flex-grow-1 mx-lg-3 d-flex flex-column-reverse" style="height: 460px;">
-        <div id="chat-messages" class="d-flex flex-column-reverse justify-content-end" style="overflow: hidden;">
+        <div id="chat-messages" class="d-flex flex-column-reverse justify-content-end">
             @foreach (var chat in ViewBag.GlobalChats ?? Enumerable.Empty<GlobalChat>())
             {
                 <div class="mb-2 d-md-flex flex-column">
@@ -20,8 +19,8 @@
         </div>
     </div>
     <div class="mx-3 my-2 input-group w-auto rounded-8 bg-main-color-btn ">
-        <input type="text" class="flex-grow-1 fs-12 text-color-logo rounded-8 w-auto px-2 focus bg-main-color-btn" placeholder="Nhập nội dung...">
-        <button type="button" class="btn">
+        <input id="message-input" type="text" class="flex-grow-1 fs-12 text-color-logo rounded-8 w-auto px-2 focus bg-main-color-btn" placeholder="Nhập nội dung...">
+        <button id="send-button" type="button" class="btn">
             <img src="~/img/send.png" alt="Send" class="opacity-75" />
         </button>
     </div>
@@ -32,10 +31,105 @@
         const toggleButton = document.getElementById('toggle-comments');
         const commentsContainer = document.getElementById('comments-container');
         const arrowIcon = document.getElementById('arrow-icon');
+        const messageInput = document.getElementById('message-input');
+        const sendButton = document.getElementById('send-button');
+        const chatMessages = document.getElementById('chat-messages');
 
         toggleButton.addEventListener('click', function () {
             commentsContainer.classList.toggle('hidden');
             arrowIcon.classList.toggle('rotated');
         });
+
+        sendButton.addEventListener('click', function () {
+            const messageContent = messageInput.value.trim();
+            if (messageContent !== '') {
+                const username = "@ViewBag.Username"; // Ensure username is properly escaped
+                const message = {
+                    Username: username,
+                    Content: messageContent
+                };
+
+                // Send message to server using AJAX
+                fetch('/Home/SendMessage', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(message)
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        window.location.reload();
+                        return response.json();
+                    })
+                    .then(data => {
+                        
+                        const messageElement = document.createElement('div');
+                        messageElement.classList.add('mb-2', 'd-md-flex', 'flex-column');
+                        messageElement.innerHTML = `
+                        <div class="d-md-flex align-items-center">
+                            <img src="/img/avatar.png" alt="avatar" class="me-2 rounded-circle" style="width: 20px; height: 20px;" />
+                            <div class="fs-12 text-color-logo mb-1 fw-bold flex-grow-1">${username}</div>
+                        </div>
+                        <div class="message fs-12 rounded-3 text-color-logo mb-1 text-break" style="margin-right: 4px;">${messageContent}</div>
+                    `;
+                        chatMessages.appendChild(messageElement);
+                        messageInput.value = '';
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        });
+        
+        
+        messageInput.addEventListener('keypress', function (event) {
+
+            if (event.key === 'Enter') {
+                const messageContent = messageInput.value.trim();
+                if (messageContent !== '') {
+                    const username = "@ViewBag.Username"; // Ensure username is properly escaped
+                    const message = {
+                        Username: username,
+                        Content: messageContent
+                    };
+
+                    // Send message to server using AJAX
+                    fetch('/Home/SendMessage', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(message)
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            window.location.reload();
+                            return response.json();
+                        })
+                        .then(data => {
+
+                            const messageElement = document.createElement('div');
+                            messageElement.classList.add('mb-2', 'd-md-flex', 'flex-column');
+                            messageElement.innerHTML = `
+                                <div class="d-md-flex align-items-center">
+                                    <img src="/img/avatar.png" alt="avatar" class="me-2 rounded-circle" style="width: 20px; height: 20px;" />
+                                    <div class="fs-12 text-color-logo mb-1 fw-bold flex-grow-1">${username}</div>
+                                </div>
+                                <div class="message fs-12 rounded-3 text-color-logo mb-1 text-break" style="margin-right: 4px;">${messageContent}</div>
+                            `;
+                            chatMessages.appendChild(messageElement);
+                            messageInput.value = '';
+                        })
+                        .catch(error => console.error('Error:', error));
+                }
+
+            }
+
+        });
+
+    
     });
 </script>

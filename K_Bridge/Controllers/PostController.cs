@@ -18,6 +18,7 @@ namespace K_Bridge.Controllers
     {
         private IPostRepository _postRepository;
         private IReplyRepository _replyRepository;
+        private ILikeRepository _likeRepository;
 
         private CodeGenerationService _codeGenerationService;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -27,23 +28,25 @@ namespace K_Bridge.Controllers
 
         public PostController(IPostRepository postRepository,
             IReplyRepository replyRepository,
+            ILikeRepository likeRepository,
             CodeGenerationService codeGenerationService,
             IHttpContextAccessor httpContextAccessor)
         {
             _postRepository = postRepository;
             _replyRepository = replyRepository;
+            _likeRepository = likeRepository;
 
             _codeGenerationService = codeGenerationService;
             _httpContextAccessor = httpContextAccessor;
 
             _sanitizer = new HtmlSanitizer();
-/*            _sanitizer.AllowedTags.Clear();
-            _sanitizer.AllowedTags.Add("b");
-            _sanitizer.AllowedTags.Add("i");
-            _sanitizer.AllowedTags.Add("u");
-            _sanitizer.AllowedTags.Add("ol");
-            _sanitizer.AllowedTags.Add("ul");
-            _sanitizer.AllowedTags.Add("li");*/
+            /*            _sanitizer.AllowedTags.Clear();
+                        _sanitizer.AllowedTags.Add("b");
+                        _sanitizer.AllowedTags.Add("i");
+                        _sanitizer.AllowedTags.Add("u");
+                        _sanitizer.AllowedTags.Add("ol");
+                        _sanitizer.AllowedTags.Add("ul");
+                        _sanitizer.AllowedTags.Add("li");*/
         }
 
         [HttpGet("Create")]
@@ -103,9 +106,22 @@ namespace K_Bridge.Controllers
                 ViewBag.Post = postDetails;
                 ViewBag.Reply = allReplies;
                 ViewBag.Sort = sort;
+
+                User? user = HttpContext.Session.GetJson<User>("user");
+
+                if (user != null)
+                {
+                    var userLike = _likeRepository.GetPostLike(post, user.ID);
+                    ViewBag.LikedByCurrentUser = userLike;
+                }
+
+                var totalLikes = _likeRepository.GetLikeCount(post);
+                var totalDislikes = _likeRepository.GetDislikeCount(post);
+                ViewBag.TotalLikesMinusDislikes = totalLikes - totalDislikes;
+
                 return View();
             }
-           
+
             else
                 return BadRequest("Invalid Post ID");
         }
@@ -159,6 +175,5 @@ namespace K_Bridge.Controllers
 
             return PartialView("_RepliesPartial", allReplies);
         }
-
     }
 }
