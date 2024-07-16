@@ -2,3 +2,115 @@
 @model K_Bridge.Pages.Admin.Forums.TopicModel
 @{
 }
+
+<div class="row account-navigate mt-3 px-5 align-items-center ">
+    <div class="col-4 d-flex justify-content-star">
+        <img src="/img/icon_dashboard_50_dark.png"
+             onclick="window.location.href='/Admin/Dashboard'"
+             class="account-navigate-icon mt-2 custom-cursor-pointer" alt="Tổng quan">
+        <img src="/img/icon_arrow_right_50_dark.png" class="mx-4 mt-2 py-1"
+             alt="Tổng quan" width="10" height="20">
+        <div class="account-navigate-text custom-cursor-pointer"
+             onclick="window.location.href='/Admin/Forums'">
+            Lập trình
+        </div>
+        <img src="/img/icon_arrow_right_50_dark.png" class="mx-4 mt-2 py-1"
+             alt="Tổng quan" width="10" height="20">
+        <div class="account-navigate-text custom-cursor-pointer "
+             onclick="window.location.href='/Admin/Forums/Topics'">
+            Bài viết
+        </div>
+    </div>
+    <div class="col-9">
+    </div>
+</div>
+<div class="row mt-3 px-5">
+    <div class="col-5">
+        <div class="account-title">Bài viết</div>
+        <div class="account-subtitle">Quản lý bài viết mục Chia sẻ đề cương thi</div>
+    </div>
+</div>
+<div class="row px-5">
+    <table class="account-table table table-hover mt-3 text-color-logo">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Chủ bài viết</th>
+                <th scope="col">Tên bài viết</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col">Ngày tạo</th>
+                <th scope="col">Ngày cập nhật</th>
+                <th scope="col">Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 1; i < 9; i++)
+            {
+                if( i < 7 && i > 2)
+                {
+                    <tr style="background-color: rgba(0, 212, 98, 0.26)">
+                        <th scope="row">@i</th>
+                        <td>test1</td>
+                        <td>Xin đề cương môn..</td>
+                        <td >Đã duyệt</td>
+
+                        <td>21/12/2024</td>
+                        <td>21/12/2026</td>
+                        <td>
+                            <a class="text-color-logo" href="/Admin/Forums/Topics"> <u>Chi tiết</u> </a>
+                        </td>
+                    </tr>
+                }else if(i > 6)
+                {
+                    <tr style="background-color: rgba(255, 65, 65, 0.26)">
+                        <th scope="row">@i</th>
+                        <td>test1</td>
+                        <td>Xin đề cương môn..</td>
+                        <td>Đã từ chối</td>
+
+                        <td>21/12/2024</td>
+                        <td>21/12/2026</td>
+                        <td>
+                            <a class="text-color-logo" href="/Admin/Forums/Topics"> <u>Chi tiết</u> </a>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <th scope="row">@i</th>
+                        <td>test1</td>
+                        <td>Xin đề cương môn..</td>
+                        <td>Đang chờ</td>
+
+                        <td>21/12/2024</td>
+                        <td>21/12/2026</td>
+                        <td>
+                            <a class="text-color-logo" href="/Admin/Forums/Topics"> <u>Chi tiết</u> </a>
+                        </td>
+                    </tr>
+                }
+                
+            }
+        </tbody>
+    </table>
+</div>
+<div class="row px-5">
+    <ul class="pagination justify-content-center m-0 p-0">
+        <div class="d-flex account-paging">
+        <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Trước</a>
+        </li>
+        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">4</a></li>
+        <li class="page-item"><a class="page-link" href="#">5</a></li>
+        <li class="page-item">
+            <a class="page-link" href="#">Sau</a>
+        </li>
+
+    </ul>
+</div>
+
+</div>

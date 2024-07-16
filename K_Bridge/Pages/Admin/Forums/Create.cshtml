@@ -1,0 +1,78 @@
+﻿@page
+@model K_Bridge.Pages.Admin.Forums.CreateModel
+@{
+    ViewData["Title"] = "Tạo chủ đề";
+}
+
+<div class="row account-navigate mt-3 px-5 align-items-center ">
+    <div class="col-12 d-flex justify-content-star">
+        <img src="/img/icon_dashboard_50_dark.png"
+             onclick="window.location.href='/Admin/Dashboard'"
+             class="account-navigate-icon mt-2 custom-cursor-pointer" alt="Tổng quan">
+        <img src="/img/icon_arrow_right_50_dark.png" class="mx-4 mt-2"
+             alt="Tổng quan" width="10" height="20">
+        <div class="account-navigate-text custom-cursor-pointer"
+             onclick="window.location.href='/Admin/Forums'">
+            Lập trình
+        </div>
+        <img src="/img/icon_arrow_right_50_dark.png" class="mx-4 mt-2"
+             alt="Tổng quan" width="10" height="20">
+        <div class="account-navigate-text custom-cursor-pointer"
+             onclick="window.location.href='/Admin/Forums/Create'">
+            Tạo chủ đề
+        </div>
+    </div>
+</div>
+<div class="row mt-3 create-padding-form">
+    <div class="col-4">
+        <div class="account-title">Tạo chủ đề</div>
+        <div class="account-subtitle">Cung cấp thông tin chủ đề mới</div>
+    </div>
+</div>
+<form method="post" enctype="multipart/form-data">
+    <div class="row mt-4 create-padding-form">
+        <div class="col-5">
+            <div class="form-group mb-3">
+                <label class="create-form-title" for="ForumsCode">Mã chủ đề</label>
+                <input type="text" class="form-id" id="ForumsCode" name="ForumsCode" placeholder="FOR001" readonly>
+            </div>
+            <div class="form-group mb-3">
+                <label class="create-form-title" for="Email">Ngày khởi tạo</label>
+                <input type="date" class="form-custom" id="DateCreate" name="DateCreate" disabled>
+            </div>
+        </div>
+        <div class="col-2">
+        </div>
+
+        <div class="col-5">
+            <div class="form-group mb-3">
+                <label class="create-form-title" for="Username">Tên chủ đề</label>
+                <input type="text" class="form-custom" id="Username" name="Username" placeholder="abcxyz" required>
+            </div>
+            <div class="form-group mb-3">
+                <label class="create-form-title" for="Email">Ngày cập nhật</label>
+                <input type="date" class="form-custom" id="DateUpdate" name="DateUpdate" disabled>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="row mt-5 create-padding-form">
+        <div class="col-2">
+            <button class="w-75 h-100 d-flex justify-content-center align-items-center create-back-btn py-1" onclick="window.location.href='/Admin/Forumss'">
+                Quay về
+            </button>
+        </div>
+        <div class="col-5"></div>
+
+        <div class="col-2 d-flex justify-content-end">
+            <button class="w-75 h-100 d-flex justify-content-center align-items-center create-reset-btn py-1" type="reset">
+                Đặt lại
+            </button>
+        </div>
+
+        <div class="col-3 d-flex justify-content-end">
+            <button type="submit" class="w-75 h-100 d-flex justify-content-center align-items-center create-btn py-1">Tạo chủ đề</button>
+        </div>
+    </div>
+</form>

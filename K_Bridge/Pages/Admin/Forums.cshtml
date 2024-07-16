@@ -1,5 +1,5 @@
 ﻿@page
-@model K_Bridge.Pages.Admin.AccountsModel
+@model K_Bridge.Pages.Admin.ForumsModel
 @{
     ViewData["Title"] = "Tên Diễn đàn";
 }
@@ -22,10 +22,10 @@
 <div class="row mt-3 px-5">
     <div class="col-3">
         <div class="account-title">Lập trình</div>
-        <div class="account-subtitle">Quản lý diễn đàn {name}</div>
+        <div class="account-subtitle">Quản lý diễn đàn lập trình</div>
     </div>
     <div class="col-9 d-flex justify-content-end align-items-center custom-cursor-pointer">
-        <div class=" account-create-button px-4 h-75 d-flex align-items-center" onclick="window.location.href='/Admin/Accounts/Create'">
+        <div class=" account-create-button px-4 h-75 d-flex align-items-center" onclick="window.location.href='/Admin/Forums/Create'">
             + Tạo chủ đề
         </div>
     </div>
@@ -88,7 +88,7 @@
             <a class="page-link" href="#">Sau</a>
         </li>
 
-</div>
     </ul>
+</div>
 
 </div>
