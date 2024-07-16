@@ -28,5 +28,13 @@ namespace K_Bridge.Repositories
                 .Take(4)
                 .ToList();
         }
+        public Post GetPostByID(int id)
+        {
+            return _context.Posts
+                     .Include(p => p.User) // If you need user details
+                     .Include(p => p.Topic) // If you need topic details
+                     .Include(p => p.Topic.Forum) // If you need forum details
+                     .FirstOrDefault(p => p.ID == id);
+        }
     }
 }

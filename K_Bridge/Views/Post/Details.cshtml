@@ -1,0 +1,264 @@
+﻿@{
+    ViewData["Title"] = "Bài viết";
+    <link href="/css/Newest.css" rel="stylesheet" />
+    bool isCmtAvaiable = true;
+}
+<div class="row mb-5">
+    <div class="d-flex justify-content-start fs-4">
+        @ViewBag.Post.Title
+    </div>
+    <div class="d-flex justify-content-between align-items-center" style="border-bottom: 1px solid #493422">
+        <div class="m-0 p-0 d-flex justify-content-between">
+            <div class="py-2 me-2">0 Câu trả lời</div>
+            <div class="py-2 ms-2">@ViewBag.Post.ViewCount Lượt xem</div>
+        </div>
+        <div class="newest-card-tag px-5 mx-3"
+             style="background: @GetForumColorHelper.GetForumBackgroundColor(ViewBag.Post.Topic.Forum.ID);
+                                        color:@GetForumColorHelper.GetForumColor(ViewBag.Post.Topic.Forum.ID)">
+            @ViewBag.Post.Topic.Forum.TagName
+        </div>
+    </div>
+    <div class="row m-0 p-0 mt-3 ">
+        <div class="col-lg-1 flex-column">
+            <button class="m-1">
+                <img src="~/img/like.png" alt="Like" />
+            </button>
+            <p class="mt-2 fs-6 fw-bold text-color-logo">-123</p>
+            <button class="m-1">
+                <img src="~/img/un_like.png" alt="Like" />
+            </button>
+        </div>
+        <div class="col-lg-11">
+            <div>
+                <p>
+                    @ViewBag.Post.Content
+                </p>
+                <img src="~/img/wallpaper.png" alt="Alternate Text" />
+            </div>
+        </div>
+        <div class="d-flex flex-column">
+            <div class="p-3 justify-content-center align-content-center d-flex">
+                <p class="text-color-header">Bạn biết ai đó có thể trả lời câu hỏi này? Hãy chia sẻ đường dẫn câu hỏi đến họ qua:</p>
+            </div>
+            <div class="justify-content-center align-content-center d-flex px-3 gap-4">
+                <img class="h-50" src="~/img/Facebook.png" alt="Facebook" />
+                <img class="h-50" src="~/img/Pinterest.png" alt="Pinterest" />
+                <img class="h-50" src="~/img/Reddit.png" alt="Reddit" />
+                <img class="h-50" src="~/img/Telegram.png" alt="Telegram" />
+                <img class="h-50" src="~/img/Github.png" alt="Github" />
+            </div>
+            <div class="d-flex justify-content-end mt-2">
+                <img src="~/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
+                <div class="newest-card-username mx-2">@ViewBag.Post.User.Username hỏi @GetTimeAgoHelper.GetTimeAgo(@ViewBag.Post.CreatedAt)</div>
+            </div>
+            @if (isCmtAvaiable)
+            {
+                <div class="mt-5 mb-4 d-flex justify-content-between">
+                    <div class="fw-bold fs-4 d-flex text-color-logo">
+                        41 Câu trả lời
+                    </div>
+                    <div class="d-flex text-color-header">
+                        <div class="d-flex justify-content-center align-items-center ">
+                            Sắp xếp theo:
+                        </div>
+                        <button class="d-flex px-2 justify-content-center align-items-center mx-4 rounded-pill" style="border: 1px solid #8E6745">
+                            <p class="m-0 p-0">Hữu ích nhất (Mặc định)</p>
+                            <img src="/img/icon_filter_forum_50.png" alt="Filter" width="15" height="15">
+                        </button>
+                    </div>
+                </div>
+                <div class="row my-3 m-0" style="border-bottom: 1px solid #8E6745">
+                    <div class="col-lg-1 flex-column">
+                        <button class="m-1">
+                            <img src="~/img/like.png" alt="Like" />
+                        </button>
+                        <p class="mt-2 fs-6 fw-bold text-color-logo">-123</p>
+                        <button class="m-1">
+                            <img src="~/img/un_like.png" alt="Like" />
+                        </button>
+                    </div>
+                    <div class="col-lg-11">
+                        <div>
+                            Lectus quam id leo in vitae turpis massa. Justo laoreet sit amet cursus sit amet dictum sit amet. Aliquam ut porttitor leo a diam sollicitudin. Non arcu risus quis varius quam quisque id. Tempus iaculis urna id volutpat lacus laoreet non curabitur. Nec feugiat in fermentum posuere.
+                            <br />
+                            Quis enim lobortis scelerisque fermentum dui faucibus.
+                            Id eu nisl nunc mi ipsum faucibus vitae aliquet.
+                            <br />
+                            <br />
+                            Solution 1
+                            <br />
+                            Solution 2
+                            <br />
+                            Solution 3
+                            <br />
+                            Solution 4
+                            <br />
+                            Solution 5
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end mb-2">
+                        <img src="~/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
+                        <div class="newest-card-username mx-2">User1 hỏi 10 phút trước</div>
+                    </div>
+                </div>
+                <div class="row my-3 m-0" style="border-bottom: 1px solid #8E6745">
+                    <div class="col-lg-1 flex-column">
+                        <button class="m-1">
+                            <img src="~/img/like.png" alt="Like" />
+                        </button>
+                        <p class="mt-2 fs-6 fw-bold text-color-logo">-123</p>
+                        <button class="m-1">
+                            <img src="~/img/un_like.png" alt="Like" />
+                        </button>
+                    </div>
+                    <div class="col-lg-11">
+                        <div>
+                            Lectus quam id leo in vitae turpis massa. Justo laoreet sit amet cursus sit amet dictum sit amet. Aliquam ut porttitor leo a diam sollicitudin. Non arcu risus quis varius quam quisque id. Tempus iaculis urna id volutpat lacus laoreet non curabitur. Nec feugiat in fermentum posuere.
+                            <br />
+                            Quis enim lobortis scelerisque fermentum dui faucibus.
+                            Id eu nisl nunc mi ipsum faucibus vitae aliquet.
+                            <br />
+                            <br />
+                            Solution 1
+                            <br />
+                            Solution 2
+                            <br />
+                            Solution 3
+                            <br />
+                            Solution 4
+                            <br />
+                            Solution 5
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end mb-2">
+                        <img src="~/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
+                        <div class="newest-card-username mx-2">User1 hỏi 10 phút trước</div>
+                    </div>
+                </div>
+            }
+            <div>
+                <p class="fs-5 text-color-logo">
+                    Câu trả lời của bạn:
+                </p>
+            </div>
+            <div class="border-2 rounded-3 border-main-color-header p-2 text-color-logo">
+                <div class="d-flex col-lg-3 justify-content-evenly fs-5">
+                    <button id="bold-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3 hover-bold" style="min-width: 32px;">
+                        <span>B</span>
+                    </button>
+                    <button id="italic-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3 hover-italic" style="min-width: 32px;">
+                        <span>I</span>
+                    </button>
+                    <button id="underline-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3 hover-underline" style="min-width: 32px;">
+                        <span>U</span>
+                    </button>
+                    <button id="undo-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
+                        <span>↶</span>
+                    </button>
+                    <button id="redo-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
+                        <span>↷</span>
+                    </button>
+                </div>
+                <div class="border-top">
+                    <textarea id="content-area" class="focus form-control m-2 p-2" style="min-height: 100px; width: calc(100% - 1rem); resize: vertical;" name="answer" placeholder="Viết câu trả lời tại đây..."></textarea>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end mt-2">
+                <button class="m-2 px-3 py-2 bg-main-color-layout text-color-logo rounded-3">Đăng câu trả lời của bạn</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const boldBtn = document.getElementById('bold-btn');
+        const italicBtn = document.getElementById('italic-btn');
+        const underlineBtn = document.getElementById('underline-btn');
+        const undoBtn = document.getElementById('undo-btn');
+        const redoBtn = document.getElementById('redo-btn');
+        const contentArea = document.getElementById('content-area');
+
+        let undoStack = [''];
+        let redoStack = [];
+
+        function applyStyle(style) {
+            const start = contentArea.selectionStart;
+            const end = contentArea.selectionEnd;
+            const selectedText = contentArea.value.substring(start, end);
+            let replacement = '';
+
+            switch (style) {
+                case 'bold':
+                    replacement = `<strong>${selectedText}</strong>`;
+                    break;
+                case 'italic':
+                    replacement = `<em>${selectedText}</em>`;
+                    break;
+                case 'underline':
+                    replacement = `<u>${selectedText}</u>`;
+                    break;
+            }
+
+            contentArea.value = contentArea.value.substring(0, start) + replacement + contentArea.value.substring(end);
+
+            this.classList.toggle('active');
+            saveState();
+        }
+
+        function saveState() {
+            undoStack.push(contentArea.value);
+            redoStack = [];
+        }
+
+        function updateButtonStates() {
+            const selection = window.getSelection();
+            if (selection.rangeCount > 0) {
+                const range = selection.getRangeAt(0);
+                const span = document.createElement('span');
+                range.surroundContents(span);
+
+                boldBtn.classList.toggle('active', span.querySelector('strong'));
+                italicBtn.classList.toggle('active', span.querySelector('em'));
+                underlineBtn.classList.toggle('active', span.querySelector('u'));
+
+                range.extractContents();
+                range.insertNode(span.firstChild);
+            }
+        }
+
+        function debounce(func, delay) {
+            let timeoutId;
+            return function () {
+                const context = this;
+                const args = arguments;
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(() => func.apply(context, args), delay);
+            };
+        }
+
+        const debouncedUpdateButtonStates = debounce(updateButtonStates, 250);
+
+        boldBtn.addEventListener('click', function () { applyStyle.call(this, 'bold'); });
+        italicBtn.addEventListener('click', function () { applyStyle.call(this, 'italic'); });
+        underlineBtn.addEventListener('click', function () { applyStyle.call(this, 'underline'); });
+
+        undoBtn.addEventListener('click', function () {
+            if (undoStack.length > 1) {
+                redoStack.push(undoStack.pop());
+                contentArea.value = undoStack[undoStack.length - 1];
+            }
+        });
+
+        redoBtn.addEventListener('click', function () {
+            if (redoStack.length > 0) {
+                undoStack.push(redoStack.pop());
+                contentArea.value = undoStack[undoStack.length - 1];
+            }
+        });
+
+        contentArea.addEventListener('input', saveState);
+        contentArea.addEventListener('mouseup', debouncedUpdateButtonStates);
+        contentArea.addEventListener('keyup', debouncedUpdateButtonStates);
+    });
+</script>

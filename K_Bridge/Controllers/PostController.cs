@@ -1,4 +1,5 @@
-﻿using K_Bridge.Infrastructure;
+﻿using K_Bridge.Helpers;
+using K_Bridge.Infrastructure;
 using K_Bridge.Models;
 using K_Bridge.Models.ViewModels;
 using K_Bridge.Repositories;
@@ -58,6 +59,29 @@ namespace K_Bridge.Controllers
             }
             return View(post);
         }
+
+        [HttpGet("Details")]
+        public IActionResult Details([FromQuery] int post)
+        {
+            //int? postId = EncryptIDHelper.DecryptID(post);
+            if (post != 0)
+            {
+                ViewBag.PostID = post;
+                var postDetails = _repository.GetPostByID(post);
+                if (postDetails == null)
+                {
+                    return NotFound("Post not found.");
+                }
+               
+                ViewBag.Post = postDetails;
+                return View();
+            }
+            else
+            {
+                return BadRequest("Invalid Post ID");
+            }
+        }
+
 
     }
 }

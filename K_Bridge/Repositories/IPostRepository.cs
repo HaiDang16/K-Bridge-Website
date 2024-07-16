@@ -7,5 +7,6 @@ namespace K_Bridge.Repositories
         IQueryable<Post> Posts { get; }
         void SavePost(Post post);
         List<Post> GetLatestPost();
+        Post GetPostByID(int id);
     }
 }
