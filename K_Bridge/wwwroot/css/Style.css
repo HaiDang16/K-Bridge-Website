@@ -403,3 +403,52 @@
 .custom-cursor-pointer {
     cursor: pointer;
 }
+
+
+/* Custom Scrollbar for webkit browsers */
+textarea::-webkit-scrollbar {
+    width: 12px;
+}
+
+textarea::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+    background: #8E6745;
+    border-radius: 10px;
+}
+
+    textarea::-webkit-scrollbar-thumb:hover {
+        background: #8E6745;
+    }
+
+
+/* For Edge and IE */
+textarea {
+    -ms-overflow-style: none;
+}
+/* Custom Scrollbar for webkit browsers */
+*::-webkit-scrollbar {
+    width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: #8E6745;
+    border-radius: 10px;
+}
+
+    *::-webkit-scrollbar-thumb:hover {
+        background: #8E6745;
+    }
+
+/* For Edge and IE */
+body {
+    -ms-overflow-style: none;
+}
