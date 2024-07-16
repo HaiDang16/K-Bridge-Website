@@ -58,39 +58,43 @@
                         @ViewBag.Post.Replies.Count Câu trả lời
                     </div>
                     <div class="d-flex text-color-header">
-<div class="form-group">
-    <label for="sortSelect">Sắp xếp theo:</label>
-    <select class="form-control" id="sortSelect">
-        <option selected>Hữu ích nhất</option>
-        <option>Mới nhất (gần nhất)</option>
-        <option>Đang xu hướng (nhiều người đồng tình nhất)</option>
-    </select>
-</div>                    </div>
-                </div>
-                @foreach (var reply in ViewBag.Post.Replies ?? Enumerable.Empty<Forum>())
-                {
-                    <div class="row my-3 m-0" style="border-bottom: 1px solid #8E6745">
-                        <div class="col-lg-1 flex-column">
-                            <button class="m-1">
-                                <img src="~/img/like.png" alt="Like" />
-                            </button>
-                            <p class="mt-2 fs-6 fw-bold text-color-logo">-123</p>
-                            <button class="m-1">
-                                <img src="~/img/un_like.png" alt="Like" />
-                            </button>
-                        </div>
-                        <div class="col-lg-11">
-                            <div class="reply-content">
-                                @Html.Raw(reply.Content)
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-end mb-2">
-                            <img src="~/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
-                            <div class="newest-card-username mx-2">@reply.User.Username trả lời @GetTimeAgoHelper.GetTimeAgo(reply.CreatedAt)</div>
+                        <div class="form-group">
+                            <label for="sortSelect">Sắp xếp theo:</label>
+                            <select class="form-control" id="sortSelect">
+                                <option value="newest" selected="@(ViewBag.Sort == "newest" ? "selected" : "")">Mới nhất</option>
+                                <option value="most_helpful" selected="@(ViewBag.Sort == "oldest" ? "selected" : "")">Cũ nhất</option>
+                                <option value="trending" selected="@(ViewBag.Sort == "helpful" ? "selected" : "")">Hữu ích nhất</option>
+                            </select>
                         </div>
                     </div>
+                </div>
+                @*    @foreach (var reply in ViewBag.Post.Replies ?? Enumerable.Empty<Forum>())
+            {
+            <div class="row my-3 m-0" style="border-bottom: 1px solid #8E6745">
+            <div class="col-lg-1 flex-column">
+            <button class="m-1">
+            <img src="~/img/like.png" alt="Like" />
+            </button>
+            <p class="mt-2 fs-6 fw-bold text-color-logo">-123</p>
+            <button class="m-1">
+            <img src="~/img/un_like.png" alt="Like" />
+            </button>
+            </div>
+            <div class="col-lg-11">
+            <div class="reply-content">
+            @Html.Raw(reply.Content)
+            </div>
+            </div>
+            <div class="d-flex justify-content-end mb-2">
+            <img src="~/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
+            <div class="newest-card-username mx-2">@reply.User.Username trả lời @GetTimeAgoHelper.GetTimeAgo(reply.CreatedAt)</div>
+            </div>
+            </div>
 
-                }
+            } *@
+                <div id="repliesContainer">
+                    <partial name="_RepliesPartial" model="ViewBag.Reply" />
+                </div>
             }
             <div>
                 <p class="fs-5 text-color-logo">
@@ -110,31 +114,31 @@
                         <button type="button" id="underline-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3 hover-underline" style="min-width: 32px;">
                             <span>U</span>
                         </button>
-                        <button type="button" id="undo-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
-                            <span>↶</span>
-                        </button>
-                        <button type="button" id="redo-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
-                            <span>↷</span>
-                        </button>
                         <button type="button" id="ordered-list-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
                             <span>1.</span>
                         </button>
                         <button type="button" id="unordered-list-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
                             <span>•</span>
                         </button>
+                        <button type="button" id="undo-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
+                            <span>↶</span>
+                        </button>
+                        <button type="button" id="redo-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
+                            <span>↷</span>
+                        </button>
                     </div>
                     <div class="border-top">
                         @* <textarea id="content-area" class="focus form-control m-2 p-2" style="min-height: 100px; width: calc(100% - 1rem); resize: vertical;"
-                                  name="answerContent" placeholder="Viết câu trả lời tại đây..."></textarea> *@
+                        name="answerContent" placeholder="Viết câu trả lời tại đây..."></textarea> *@
                         <div id="editor" class="focus form-control m-2 p-2" style="min-height: 100px; width: calc(100% - 1rem); resize: vertical;"
-                             contenteditable="true" ></div>
+                             contenteditable="true"></div>
                         <input type="hidden" id="content-area" name="answerContent">
 
                     </div>
                 </div>
-            <div class="d-flex justify-content-end mt-2">
-                <button type="submit" class="m-2 px-3 py-2 bg-main-color-layout text-color-logo rounded-3">Đăng câu trả lời của bạn</button>
-            </div>
+                <div class="d-flex justify-content-end mt-2">
+                    <button type="submit" class="m-2 px-3 py-2 bg-main-color-layout text-color-logo rounded-3">Đăng câu trả lời của bạn</button>
+                </div>
             </form>
 
         </div>
@@ -207,6 +211,23 @@
         // Xử lý form submit
         document.querySelector('form').addEventListener('submit', function (e) {
             hiddenInput.value = editor.innerHTML;
+        });
+    });
+
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var sortSelect = document.getElementById('sortSelect');
+        sortSelect.addEventListener('change', function () {
+            var selectedSort = sortSelect.value;
+            var postId = '@ViewBag.Post.ID';
+
+            fetch(`/Post/GetReplies?postId=${postId}&sort=${selectedSort}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('repliesContainer').innerHTML = html;
+                });
         });
     });
 </script>

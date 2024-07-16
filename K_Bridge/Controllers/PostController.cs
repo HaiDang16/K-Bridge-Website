@@ -82,7 +82,7 @@ namespace K_Bridge.Controllers
         }
 
         [HttpGet("Details")]
-        public IActionResult Details([FromQuery] int post)
+        public IActionResult Details([FromQuery] int post, [FromQuery] string sort = "most_helpful")
         {
             //int? postId = EncryptIDHelper.DecryptID(post);
             if (post != 0)
@@ -91,11 +91,18 @@ namespace K_Bridge.Controllers
                 if (postDetails == null)
                     return NotFound("Post not found.");
 
-                var allReply = _replyRepository.GetRepliesByPostId(post);
+                var allReplies = _replyRepository.GetRepliesByPostId(post);
+
+                allReplies = sort switch
+                {
+                    "newest" => allReplies.OrderByDescending(r => r.CreatedAt).ToList(),
+                    _ => allReplies.OrderBy(r => r.CreatedAt).ToList()
+                    //_ => allReplies.OrderByDescending(r => r.IsHelpful).ThenByDescending(r => r.CreatedAt).ToList()
+                };
 
                 ViewBag.Post = postDetails;
-                ViewBag.Reply = allReply;
-
+                ViewBag.Reply = allReplies;
+                ViewBag.Sort = sort;
                 return View();
             }
            
@@ -132,6 +139,25 @@ namespace K_Bridge.Controllers
             _replyRepository.SaveReply(reply);
 
             return RedirectToAction("Details", new { post = postId });
+        }
+
+        [HttpGet("GetReplies")]
+        public IActionResult GetReplies(int postId, string sort = "newest")
+        {
+            var post = _postRepository.GetPostByID(postId);
+            if (post == null)
+                return NotFound("Post not found.");
+
+            var allReplies = _replyRepository.GetRepliesByPostId(postId);
+
+            allReplies = sort switch
+            {
+                "newest" => allReplies.OrderByDescending(r => r.CreatedAt).ToList(),
+                _ => allReplies.OrderBy(r => r.CreatedAt).ToList()
+                //_ => allReplies.OrderByDescending(r => r.IsHelpful).ThenByDescending(r => r.CreatedAt).ToList()
+            };
+
+            return PartialView("_RepliesPartial", allReplies);
         }
 
     }
