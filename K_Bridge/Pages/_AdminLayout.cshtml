@@ -76,7 +76,10 @@
                     <img src="/img/user.jpg" class="avatar" alt="Avatar">
                 </div>
                 <div class="col-1 username">
-                    Admin
+                    @if (Context.Session.GetString("UserName") != null)
+                    {
+                        @Context.Session.GetString("UserName")
+                    }
                 </div>
             </div>
         </div>
