@@ -34,7 +34,6 @@
 </ItemGroup>
 <ItemGroup>
   <Folder Include="Migrations\" />
-  <Folder Include="Pages\Admin\Forums\Topics\Post\" />
   <Folder Include="TagHelpers\" />
   <Folder Include="Views\Admin\" />
 </ItemGroup>

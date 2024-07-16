@@ -25,7 +25,7 @@
 }
 
 .border-main-color-header {
-    border-color: #8E6745;
+    border-color: #8E6745 !important;
 }
 
 .bg-main-color-layout {

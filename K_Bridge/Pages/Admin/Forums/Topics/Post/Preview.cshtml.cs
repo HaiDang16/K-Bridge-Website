@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace K_Bridge.Pages.Admin.Forums.Topic
+namespace K_Bridge.Pages.Admin.Forums.Topics.Post
 {
-    public class PostModel : PageModel
+    public class PreviewModel : PageModel
     {
         public void OnGet()
         {
