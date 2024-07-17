@@ -1,4 +1,6 @@
-﻿<ul class="nav flex-column" id="nav_accordion">
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+<ul class="nav flex-column" id="nav_accordion">
     <li class="nav-item sidebar-title">
         <h5>TRANG QUẢN TRỊ</h5>
     </li>
@@ -19,7 +21,7 @@
         </a>
         <ul class="submenu collapse">
             <li class="nav-item mt-1">
-                <a class="nav-link nav-link-text" href="#">
+                <a class="nav-link nav-link-text" href="/Admin/Forums">
                     <img src="~/img/icon_develop_50.png" class="sidebar-subicon" />Lập trình
                 </a>
             </li>
@@ -50,14 +52,21 @@
             </li>
         </ul>
     </li>
-    <li class="nav-item mt-2">
-        <a class="nav-link nav-link-text" href="#">
-            <img src="~/img/icon_admin_50.png" class="sidebar-icon" /> Quản trị viên
-        </a>
-    </li>
+    @{
+        var role = HttpContextAccessor.HttpContext.Session.GetString("AdminRole");
+        // Debug: Hiển thị giá trị Role trên trang để kiểm tra
+    }@if (role == "Mgr")
+    {
+        <li class="nav-item mt-2">
+            <a class="nav-link nav-link-text" href="#">
+                <img src="~/img/icon_admin_50.png" class="sidebar-icon" /> Quản trị viên
+            </a>
+        </li>
+    }
+
 
     <li class="nav-item mt-2">
-        <a class="nav-link nav-link-text" href="#">
+        <a class="nav-link nav-link-text" href="/Account/Login?action=logout">
             <img src="~/img/icon_logout_50.png" class="sidebar-icon" /> Đăng xuất
         </a>
     </li>

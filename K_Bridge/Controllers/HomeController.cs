@@ -184,6 +184,7 @@ public class HomeController : Controller
         return View();
     }
 
+
     [HttpPost("Logout")]
     public IActionResult Logout()
     {
@@ -195,5 +196,11 @@ public class HomeController : Controller
 
         // Redirect to the login page or home page
         return RedirectToAction("Index", "Home"); // or RedirectToAction("Login", "Account");
+
+    [Route("/ForgetPassword")]
+    public IActionResult ForgetPassword()
+    {
+        return View();
+
     }
 }

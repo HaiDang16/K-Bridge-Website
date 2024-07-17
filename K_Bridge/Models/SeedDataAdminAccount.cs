@@ -31,10 +31,19 @@ namespace K_Bridge.Models
                     LastLogin = DateTime.Now,
                     Status = "Active",
                     Role = "Mgr"
+                },
+                new Admin_Accounts
+                {
+                    Username = "Admin3",
+                    Email = "admin4@gmail.com",
+                    Password = "123123",
+                    LastLogin = DateTime.Now,
+                    Status = "Active",
+                    Role = "Emp"
                 }
                 );
                 context.SaveChanges();
             }
         }
     }
-}
+}//dotnet ef migrations add Initial

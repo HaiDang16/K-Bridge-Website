@@ -29,11 +29,11 @@
                 <form method="post" class="mt-4">
                     <div class="mb-3">
                         <div for="username" class="login_subtitle">Tên đăng nhập</div>
-                        <input type="text" class="form-login" id="username" name="username">
+                        <input type="text" class="form-login" id="username" name="username" required>
                     </div>
                     <div class="mb-3">
                         <div for="password" class="login_subtitle">Mật khẩu</div>
-                        <input type="password" class="form-login" id="password" name="password">
+                        <input type="password" class="form-login" id="password" name="password" required>
                     </div>
                     @if (!string.IsNullOrEmpty(Model.ErrorMessage))
                     {

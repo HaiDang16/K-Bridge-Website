@@ -1,4 +1,4 @@
-﻿using K_Bridge.Models;
+using K_Bridge.Models;
 using K_Bridge.Repositories;
 using K_Bridge.Services;
 using Microsoft.EntityFrameworkCore;
@@ -23,10 +23,13 @@ builder.Services.AddScoped<IKBridgeRepository, EFKBridgeRepository>();
 builder.Services.AddScoped<IUserRepository, EFUserRepository>();
 builder.Services.AddScoped<IForumRepository, EFForumRepository>();
 builder.Services.AddScoped<IGlobalChatRepository, EFGlobalChatRepository>();
+
 builder.Services.AddScoped<IPostRepository, EFPostRepository>();
 builder.Services.AddScoped<ITopicRepository, EFTopicRepository>();
 builder.Services.AddScoped<IReplyRepository, EFReplyRepository>();
 builder.Services.AddScoped<ILikeRepository, EFLikeRepository>();
+
+
 
 builder.Services.AddScoped<CodeGenerationService>();
 builder.Services.AddScoped<GetTimeAgoService>();
@@ -36,7 +39,17 @@ builder.Services.AddRazorPages();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
 
-var app = builder.Build();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+// Đảm bảo bạn có dòng này trong phần cấu hình middleware
+var app = builder.Build(); 
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

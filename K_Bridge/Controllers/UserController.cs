@@ -9,5 +9,10 @@ namespace K_Bridge.Controllers
         {
             return View();
         }
+        [Route("/UserProfile/EditProfile/{UserID}")]
+        public IActionResult EditProfile()
+        {
+            return View();
+        }
     }
 }
