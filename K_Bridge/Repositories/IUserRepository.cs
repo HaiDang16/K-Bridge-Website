@@ -10,5 +10,8 @@ namespace K_Bridge.Repositories
         void SaveUser(User user);
         int CountUser();
         List<User> GetAllUsersPaging(int pageIndex, int pageSize);
+        User GetUserById(int id);
+        void UpdateUser(User user);
+        bool DeleteUser(int id);
     }
 }

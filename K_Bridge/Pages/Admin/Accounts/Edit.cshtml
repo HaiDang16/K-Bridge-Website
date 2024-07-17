@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id:int}"
 @model K_Bridge.Pages.Admin.Accounts.EditModel
 @{
     ViewData["Title"] = "Sửa tài khoản";
@@ -33,16 +33,16 @@
     <div class="row mt-4 create-padding-form">
         <div class="col-5">
             <div class="form-group mb-3">
-                <label class="create-form-title" for="AccountCode">Mã tài khoản</label>
-                <input type="text" class="form-id" id="AccountCode" name="AccountCode" placeholder="CUS001" readonly>
+                <label class="create-form-title" for="Code">Mã tài khoản</label>
+                <input type="text" class="form-id" id="Code" name="Code" value="@Model.Code" readonly>
             </div>
             <div class="form-group mb-3">
                 <label class="create-form-title" for="Username">Tên đăng nhập</label>
-                <input type="text" class="form-custom" id="Username" name="Username" placeholder="abcxyz" required>
+                <input type="text" class="form-custom" id="Username" name="Username" value="@Model.Username" required>
             </div>
             <div class="form-group mb-3">
                 <label class="create-form-title" for="Email">Email</label>
-                <input type="email" class="form-custom" id="Email" name="Email" placeholder="abc@gmail.com" required>
+                <input type="email" class="form-custom" id="Email" name="Email" value="@Model.Email" required>
             </div>
         </div>
         <div class="col-2">
@@ -51,11 +51,11 @@
         <div class="col-5">
             <div class="form-group mb-3">
                 <label class="create-form-title" for="PhoneNumber">Số điện thoại</label>
-                <input type="tel" class="form-custom" id="PhoneNumber" name="PhoneNumber" placeholder="0123456789" required>
+                <input type="tel" class="form-custom" id="PhoneNumber" name="PhoneNumber" value="@Model.PhoneNumber">
             </div>
             <div class="form-group mb-3">
                 <label class="create-form-title" for="Password">Mật khẩu</label>
-                <input type="password" class="form-custom" id="Password" name="Password" placeholder="Phải bao gồm 8 ký tự" required>
+                <input type="password" class="form-custom" id="Password" name="Password" placeholder="Phải bao gồm 8 ký tự">
             </div>
             <div class="form-group mb-3">
                 <label class="create-form-title" for="ProfilePicture">Ảnh đại diện</label>
@@ -79,7 +79,7 @@
         </div>
 
         <div class="col-3 d-flex justify-content-end">
-            <button type="submit" class="w-75 h-100 d-flex justify-content-center align-items-center create-btn py-1">Tạo tài khoản</button>
+            <button type="submit" class="w-75 h-100 d-flex justify-content-center align-items-center create-btn py-1">Cập nhật tài khoản</button>
         </div>
     </div>
 </form>

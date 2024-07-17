@@ -8,14 +8,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<KBridgeDbContext>(opts => {
+builder.Services.AddDbContext<KBridgeDbContext>(opts =>
+{
     opts.UseSqlServer(
     builder.Configuration["ConnectionStrings:KBridgeConnection"]);
 });
-if (builder.Environment.IsDevelopment())
-{
-    builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
-}
+
+builder.Services.AddRazorPages();
+/*builder.Services.AddRazorPages().AddRazorRuntimeCompilation();*/
+
 
 // Đăng ký Repository
 builder.Services.AddScoped<IKBridgeRepository, EFKBridgeRepository>();
@@ -35,7 +36,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
 
-var app = builder.Build(); 
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -53,9 +54,8 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.MapDefaultControllerRoute();
 app.MapRazorPages();
-
+app.MapDefaultControllerRoute();
 // Khởi tạo seed data
 SeedData.EnsurePopulated(app);
 SeedDataStats.EnsurePopulated(app);

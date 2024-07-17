@@ -33,6 +33,7 @@ namespace K_Bridge.Pages.Admin.Accounts
 
         [BindProperty]
         [Required]
+        [MinLength(10)]
         public string ReqPhoneNumber { get; set; }
 
         [BindProperty]

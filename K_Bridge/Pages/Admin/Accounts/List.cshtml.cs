@@ -76,5 +76,18 @@ namespace K_Bridge.Pages.Admin.Accounts
             }
             return displayPages;
         }
+        public IActionResult OnPostDelete(int id)
+        {
+            var user = _userRepository.GetUserById(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            _userRepository.DeleteUser(id);
+
+            // Redirect back to the list page
+            return RedirectToPage("/Admin/Accounts/List");
+        }
     }
 }
