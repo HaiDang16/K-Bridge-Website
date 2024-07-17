@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using K_Bridge.Models;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore;
+using System.Text;
+using System.ComponentModel.DataAnnotations;
 namespace K_Bridge.Pages.Admin
 {
     public class LoginModel : PageModel
@@ -14,10 +17,13 @@ namespace K_Bridge.Pages.Admin
         }
 
         [BindProperty]
+        [Required(ErrorMessage = "Tên đăng nhập là bắt buộc")]
         public string Username { get; set; }
 
         [BindProperty]
+        [Required(ErrorMessage = "Mật khẩu là bắt buộc")]
         public string Password { get; set; }
+
 
         public string ErrorMessage { get; set; }
 
@@ -25,16 +31,19 @@ namespace K_Bridge.Pages.Admin
         {
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
+
             if (ModelState.IsValid)
             {
-                var user = _context.Users.FirstOrDefault(u => u.Username == Username && u.Password == Password);
+                var admin = await _context.Admin_Accounts.FirstOrDefaultAsync(u => u.Username == Username && u.Password == Password);
 
-                if (user != null)
+                if (admin != null)
                 {
                     // Lưu thông tin phiên
-                    HttpContext.Session.SetInt32("AdminAccountID", user.ID);
+                    HttpContext.Session.SetInt32("AdminAccountID", admin.ID);
+                    HttpContext.Session.SetString("AdminUsername", admin.Username);
+                    HttpContext.Session.SetString("AdminRole", admin.Role);
                     return RedirectToPage("/Admin/Dashboard");
                 }
                 else
@@ -48,5 +57,6 @@ namespace K_Bridge.Pages.Admin
             }
             return Page();
         }
+
     }
 }

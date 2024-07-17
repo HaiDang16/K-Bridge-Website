@@ -76,7 +76,7 @@
                     <img src="/img/user.jpg" class="avatar" alt="Avatar">
                 </div>
                 <div class="col-1 username">
-                    Admin
+                    @Context.Session.GetString("AdminUsername")
                 </div>
             </div>
         </div>
