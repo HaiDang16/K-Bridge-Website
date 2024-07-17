@@ -183,4 +183,17 @@ public class HomeController : Controller
         ViewBag.SearchResults = searchResults;
         return View();
     }
+
+    [HttpPost("Logout")]
+    public IActionResult Logout()
+    {
+        // Clear the user's session
+        HttpContext.Session.Remove("user");
+
+        // Optionally, you can clear the entire session
+        HttpContext.Session.Clear();
+
+        // Redirect to the login page or home page
+        return RedirectToAction("Index", "Home"); // or RedirectToAction("Login", "Account");
+    }
 }

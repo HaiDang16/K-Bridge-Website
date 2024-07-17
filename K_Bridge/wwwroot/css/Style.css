@@ -426,3 +426,11 @@
 .reply-content ul {
     list-style-type: disc;
 }
+
+.btn-logout{
+    background:red;
+    padding:10px 30px 10px 30px;
+    color:white;
+    font-weight:500;
+    border-radius:5px;
+}
