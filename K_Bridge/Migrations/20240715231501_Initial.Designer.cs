@@ -12,7 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace K_Bridge.Migrations
 {
     [DbContext(typeof(KBridgeDbContext))]
+<<<<<<<< HEAD:K_Bridge/Migrations/20240715231501_Initial.Designer.cs
     [Migration("20240715231501_Initial")]
+========
+    [Migration("20240716185843_Initial")]
+>>>>>>>> origin/AdminLogin:K_Bridge/Migrations/20240716185843_Initial.Designer.cs
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -114,10 +118,17 @@ namespace K_Bridge.Migrations
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
 
+<<<<<<<< HEAD:K_Bridge/Migrations/20240715231501_Initial.Designer.cs
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedAt")
+========
+                    b.Property<DateTime?>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeleteAt")
+>>>>>>>> origin/AdminLogin:K_Bridge/Migrations/20240716185843_Initial.Designer.cs
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
@@ -130,10 +141,14 @@ namespace K_Bridge.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+<<<<<<<< HEAD:K_Bridge/Migrations/20240715231501_Initial.Designer.cs
                     b.Property<string>("TagName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedAt")
+========
+                    b.Property<DateTime?>("UpdateAt")
+>>>>>>>> origin/AdminLogin:K_Bridge/Migrations/20240716185843_Initial.Designer.cs
                         .HasColumnType("datetime2");
 
                     b.HasKey("ID");
@@ -165,6 +180,7 @@ namespace K_Bridge.Migrations
                     b.ToTable("GlobalChats");
                 });
 
+<<<<<<<< HEAD:K_Bridge/Migrations/20240715231501_Initial.Designer.cs
             modelBuilder.Entity("K_Bridge.Models.Post", b =>
                 {
                     b.Property<int>("ID")
@@ -220,6 +236,8 @@ namespace K_Bridge.Migrations
                     b.ToTable("Posts");
                 });
 
+========
+>>>>>>>> origin/AdminLogin:K_Bridge/Migrations/20240716185843_Initial.Designer.cs
             modelBuilder.Entity("K_Bridge.Models.Stats", b =>
                 {
                     b.Property<long?>("ID")

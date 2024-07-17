@@ -2,45 +2,61 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using K_Bridge.Models;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore;
+using System.Text;
+using System.ComponentModel.DataAnnotations;
 namespace K_Bridge.Pages.Admin
 {
     public class LoginModel : PageModel
     {
         private readonly KBridgeDbContext _context;
 
-        public LoginModel(KBridgeDbContext context)
+        public LoginModel(KBridgeDbContext dbContext)
         {
-            _context = context;
-            AdminAccount = new Admin_Accounts();
-            ErrorMessage = "";
+            _context = dbContext;
         }
 
         [BindProperty]
-        public Admin_Accounts AdminAccount { get; set; }
+        [Required(ErrorMessage = "Tên đăng nhập là bắt buộc")]
+        public string Username { get; set; }
+
+        [BindProperty]
+        [Required(ErrorMessage = "Mật khẩu là bắt buộc")]
+        public string Password { get; set; }
+
+
         public string ErrorMessage { get; set; }
+
         public void OnGet()
         {
         }
-        public IActionResult OnPost()
+
+        public async Task<IActionResult> OnPostAsync()
         {
+
             if (ModelState.IsValid)
             {
-                var user = _context.Users.FirstOrDefault(u => u.Username == AdminAccount.Username && u.Password == AdminAccount.Password);
+                var admin = await _context.Admin_Accounts.FirstOrDefaultAsync(u => u.Username == Username && u.Password == Password);
 
-                if (user != null)
+                if (admin != null)
                 {
-                    // Đăng nhập thành công
+                    // Lưu thông tin phiên
+                    HttpContext.Session.SetInt32("AdminAccountID", admin.ID);
+                    HttpContext.Session.SetString("AdminUsername", admin.Username);
+                    HttpContext.Session.SetString("AdminRole", admin.Role);
                     return RedirectToPage("/Admin/Dashboard");
                 }
                 else
                 {
-                    // Đăng nhập thất bại
                     ErrorMessage = "Tên đăng nhập hoặc mật khẩu không đúng.";
-                    return Page();
                 }
             }
-
+            else
+            {
+                ErrorMessage = "Có gì đó không đúng, hãy thử lại.";
+            }
             return Page();
         }
+
     }
 }
