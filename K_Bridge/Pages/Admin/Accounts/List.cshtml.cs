@@ -13,6 +13,7 @@ namespace K_Bridge.Pages.Admin.Accounts
         {
             _userRepository = repository;
             Accounts = new List<User>();
+          
         }
         public List<User> Accounts { get; set; }
 
@@ -73,7 +74,6 @@ namespace K_Bridge.Pages.Admin.Accounts
 
                 displayPages.Add(totalPages);
             }
-
             return displayPages;
         }
     }

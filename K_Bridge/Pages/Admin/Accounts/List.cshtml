@@ -37,9 +37,9 @@
                 <th scope="col">#</th>
                 <th scope="col">Tên đăng nhập</th>
                 <th scope="col">Email</th>
+                <th scope="col">Số điện thoại</th>
                 <th scope="col">Trạng thái</th>
                 <th scope="col">Điểm</th>
-                <th scope="col">Số bài đăng</th>
                 <th scope="col">Hành động</th>
             </tr>
         </thead>
@@ -50,9 +50,10 @@
                     <th scope="row">@account.ID</th>
                     <td>@account.Username</td>
                     <td>@account.Email</td>
+                    <td>@account.PhoneNumber</td>
+
                     <td>@account.Status</td>
                     <td>@account.Reputation</td>
-                    <td>@account.PostCount</td>
                     <td>
                         <div>
                             <button class="account-table-edit-btn" onclick="window.location.href='/Admin/Accounts/Edit/@account.ID'">
@@ -101,6 +102,6 @@
                 <li class="page-item"><a class="page-link" href="/Admin/Accounts/List?pageIndex=@pages">@pages</a></li>
                 }
             }
-        </div>
+</div>
     </ul>
 </div>

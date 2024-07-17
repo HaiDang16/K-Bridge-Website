@@ -13,6 +13,7 @@ namespace K_Bridge.Models
         public int Reputation { get; set; } = 0;
         public int PostCount { get; set; } = 0;
         public string? Status { get; set; }
+        public string? PhoneNumber { get; set; }
 
         // Navigation property for related posts
         public ICollection<Post>? Posts { get; set; }
