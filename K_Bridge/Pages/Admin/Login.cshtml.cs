@@ -8,38 +8,44 @@ namespace K_Bridge.Pages.Admin
     {
         private readonly KBridgeDbContext _context;
 
-        public LoginModel(KBridgeDbContext context)
+        public LoginModel(KBridgeDbContext dbContext)
         {
-            _context = context;
-            AdminAccount = new Admin_Accounts();
-            ErrorMessage = "";
+            _context = dbContext;
         }
 
         [BindProperty]
-        public Admin_Accounts AdminAccount { get; set; }
+        public string Username { get; set; }
+
+        [BindProperty]
+        public string Password { get; set; }
+
         public string ErrorMessage { get; set; }
+
         public void OnGet()
         {
         }
+
         public IActionResult OnPost()
         {
             if (ModelState.IsValid)
             {
-                var user = _context.Users.FirstOrDefault(u => u.Username == AdminAccount.Username && u.Password == AdminAccount.Password);
+                var user = _context.Users.FirstOrDefault(u => u.Username == Username && u.Password == Password);
 
                 if (user != null)
                 {
-                    // Đăng nhập thành công
+                    // Lưu thông tin phiên
+                    HttpContext.Session.SetInt32("AdminAccountID", user.ID);
                     return RedirectToPage("/Admin/Dashboard");
                 }
                 else
                 {
-                    // Đăng nhập thất bại
                     ErrorMessage = "Tên đăng nhập hoặc mật khẩu không đúng.";
-                    return Page();
                 }
             }
-
+            else
+            {
+                ErrorMessage = "Có gì đó không đúng, hãy thử lại.";
+            }
             return Page();
         }
     }
