@@ -1,5 +1,5 @@
-﻿@page
-@model K_Bridge.Pages.Admin.AccountsModel
+﻿@page "{pageIndex:int?}"
+@model K_Bridge.Pages.Admin.Accounts.ListModel
 @{
     ViewData["Title"] = "Tài khoản";
 }
@@ -37,25 +37,25 @@
                 <th scope="col">#</th>
                 <th scope="col">Tên đăng nhập</th>
                 <th scope="col">Email</th>
-                <th scope="col">Số điện thoại</th>
                 <th scope="col">Trạng thái</th>
                 <th scope="col">Điểm</th>
+                <th scope="col">Số bài đăng</th>
                 <th scope="col">Hành động</th>
             </tr>
         </thead>
         <tbody>
-            @for (int i = 0; i < 8; i++)
+            @foreach (var account in Model.Accounts)
             {
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>123</td>
-                    <td>123</td>
-                    <td>123</td>
+                    <th scope="row">@account.ID</th>
+                    <td>@account.Username</td>
+                    <td>@account.Email</td>
+                    <td>@account.Status</td>
+                    <td>@account.Reputation</td>
+                    <td>@account.PostCount</td>
                     <td>
                         <div>
-                            <button class="account-table-edit-btn" onclick="window.location.href='/Admin/Accounts/Edit'">
+                            <button class="account-table-edit-btn" onclick="window.location.href='/Admin/Accounts/Edit/@account.ID'">
                                 <img src="/img/icon_edit_50.png" alt="Chỉnh sửa" width="20" height="20">
                             </button>
                             <button class="account-table-delete-btn">
@@ -68,22 +68,39 @@
         </tbody>
     </table>
 </div>
+@* <div class="row px-5">
+    <ul class="pagination justify-content-center m-0 p-0">
+        <li class="page-item @(Model.PageIndex == 1 ? "disabled" : "")">
+            <a class="page-link" href="/Admin/Accounts?pageIndex=@(Model.PageIndex - 1)" tabindex="-1">Trước</a>
+        </li>
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(Model.PageIndex == i ? "active" : "")"><a class="page-link" href="/Admin/Accounts/List?pageIndex=@i">@i</a></li>
+        }
+        <li class="page-item @(Model.PageIndex == Model.TotalPages ? "disabled" : "")">
+            <a class="page-link" href="/Admin/Accounts?pageIndex=@(Model.PageIndex + 1)">Sau</a>
+        </li>
+    </ul>
+</div> *@
+
 <div class="row px-5">
     <ul class="pagination justify-content-center m-0 p-0">
         <div class="d-flex account-paging">
-        <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1">Trước</a>
-        </li>
-        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item"><a class="page-link" href="#">4</a></li>
-        <li class="page-item"><a class="page-link" href="#">5</a></li>
-        <li class="page-item">
-            <a class="page-link" href="#">Sau</a>
-        </li>
-
-</div>
+            @foreach (var pages in Model.DisplayPages)
+            {
+                @if (pages == -1)
+                {
+                <li class="page-item disabled"><span class="page-link">...</span></li>
+                }
+                else if (pages == Model.PageIndex)
+                {
+                <li class="page-item active"><span class="page-link">@pages</span></li>
+                }
+                else
+                {
+                <li class="page-item"><a class="page-link" href="/Admin/Accounts/List?pageIndex=@pages">@pages</a></li>
+                }
+            }
+        </div>
     </ul>
-
 </div>

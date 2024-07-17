@@ -18,5 +18,22 @@ namespace K_Bridge.Repositories
                 _context.Users.Add(user);
             _context.SaveChanges();
         }
+
+        public List<User> GetAllUsers()
+        {
+            return _context.Users.ToList();
+        }
+        public int CountUser()
+        {
+            return _context.Users.Count();
+        }
+        public List<User> GetAllUsersPaging(int pageIndex, int pageSize)
+        {
+            return _context.Users
+                        .Skip((pageIndex - 1) * pageSize)
+                        .Take(pageSize)
+                        .ToList();
+        }
+
     }
 }
