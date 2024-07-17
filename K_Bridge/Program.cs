@@ -22,14 +22,12 @@ builder.Services.AddScoped<IKBridgeRepository, EFKBridgeRepository>();
 builder.Services.AddScoped<IUserRepository, EFUserRepository>();
 builder.Services.AddScoped<IForumRepository, EFForumRepository>();
 builder.Services.AddScoped<IGlobalChatRepository, EFGlobalChatRepository>();
-builder.Services.AddScoped<IAdminRepository, EFAdminRepository>();
 builder.Services.AddScoped<CodeGenerationService>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddRazorPages();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
-
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
