@@ -20,8 +20,6 @@ namespace K_Bridge.Controllers
             return View();
         }
 
-        [Route("/Newest/TopicList/Post/{postId}/{postTitle}")]
-        [Route("TopicList/Post/{postId}/{postTitle}")]
         [Route("TopicList/Post")]
         public IActionResult Post(int postId, string postTitle)
         {

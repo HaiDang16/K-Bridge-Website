@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{Create}"
 @model K_Bridge.Pages.Admin.Accounts.CreateModel
 @{
     ViewData["Title"] = "Tạo tài khoản";
@@ -29,20 +29,25 @@
         <div class="account-subtitle">Cung cấp thông tin tài khoản mới</div>
     </div>
 </div>
+
+@* Validation Summary *@
+<div class="validation-summary">
+    <validation-summary />
+</div>
 <form method="post" enctype="multipart/form-data">
     <div class="row mt-4 create-padding-form">
         <div class="col-5">
             <div class="form-group mb-3">
-                <label class="create-form-title" for="AccountCode">Mã tài khoản</label>
-                <input type="text" class="form-id" id="AccountCode" name="AccountCode" placeholder="CUS001" readonly>
+                <label class="create-form-title" for="Code">Mã tài khoản</label>
+                <input type="text" class="form-id" id="Code" name="Code" value="@Model.NewCode" readonly>
             </div>
             <div class="form-group mb-3">
-                <label class="create-form-title" for="Username">Tên đăng nhập</label>
-                <input type="text" class="form-custom" id="Username" name="Username" placeholder="abcxyz" required>
+                <label class="create-form-title" for="ReqUsername">Tên đăng nhập</label>
+                <input type="text" class="form-custom" id="ReqUsername" name="ReqUsername" placeholder="abcxyz" required>
             </div>
             <div class="form-group mb-3">
-                <label class="create-form-title" for="Email">Email</label>
-                <input type="email" class="form-custom" id="Email" name="Email" placeholder="abc@gmail.com" required>
+                <label class="create-form-title" for="ReqEmail">Email</label>
+                <input type="email" class="form-custom" id="ReqEmail" name="ReqEmail" placeholder="abc@gmail.com" required>
             </div>
         </div>
         <div class="col-2">
@@ -50,16 +55,16 @@
 
         <div class="col-5">
             <div class="form-group mb-3">
-                <label class="create-form-title" for="PhoneNumber">Số điện thoại</label>
-                <input type="tel" class="form-custom" id="PhoneNumber" name="PhoneNumber" placeholder="0123456789" required>
+                <label class="create-form-title" for="ReqPhoneNumber">Số điện thoại</label>
+                <input type="tel" class="form-custom" id="ReqPhoneNumber" name="ReqPhoneNumber" placeholder="0123456789" required>
             </div>
             <div class="form-group mb-3">
-                <label class="create-form-title" for="Password">Mật khẩu</label>
-                <input type="password" class="form-custom" id="Password" name="Password" placeholder="Phải bao gồm 8 ký tự" required>
+                <label class="create-form-title" for="ReqPassword">Mật khẩu</label>
+                <input type="password" class="form-custom" id="ReqPassword" name="ReqPassword" placeholder="Phải bao gồm 8 ký tự" required>
             </div>
             <div class="form-group mb-3">
-                <label class="create-form-title" for="ProfilePicture">Ảnh đại diện</label>
-                <input type="file" class="form-custom" id="ProfilePicture" name="ProfilePicture" accept="image/*">
+                <label class="create-form-title" for="ReqProfilePicture">Ảnh đại diện</label>
+                <input type="file" class="form-custom" id="ReqProfilePicture" name="ReqProfilePicture" accept="image/*">
             </div>
         </div>
 

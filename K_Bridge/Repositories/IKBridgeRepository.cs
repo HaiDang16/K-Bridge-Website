@@ -10,5 +10,14 @@ namespace K_Bridge.Repositories
         IQueryable<User> Users { get; }
         IQueryable<Topic> Topics { get; }
         IQueryable<Admin_Accounts> Admin_Accounts { get; }
+        IQueryable<Post> Posts { get; }
+
+        int GetTotalUsers();
+        int GetTotalTopics();
+        int GetTotalPosts();
+
+        int GetRecentUsers();
+        int GetRecentTopics();
+        int GetRecentPosts();
     }
 }

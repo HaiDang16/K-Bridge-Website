@@ -1,0 +1,151 @@
+﻿ @model PostViewModel
+@{
+    ViewData["Title"] = "Đăng bài viết";
+    <link href="/css/Post.css" rel="stylesheet" />
+
+}
+<div class="row post-welcome-container p-3 flex align-items-center m-0">
+    <div class="col-1 m-0 p-1">
+        <img src="/img/user.jpg" alt="avatar" class="rounded-circle w-100 h-100" />
+    </div>
+    <div class="col-11 text-color-logo px-3">
+        <div class="d-flex">
+            <div>Chào</div>
+            <div class="fw-bold px-1">User1,</div>
+        </div>
+        <div>Tích cực đăng bài là điều cần thiết để gia tăng lượt thích và uy tín của bản thân!!</div>
+    </div>
+</div>
+<div class="post-new-post-text my-3">ĐĂNG CHỦ ĐỀ MỚI</div>
+<form asp-action="Create" method="post">
+    <div class="post-container p-3">
+        <div class="post-title-text">Tiêu đề:</div>
+        <input class="post-title-input h-100 w-100 p-2 my-3"
+               asp-for="Title"
+               placeholder="Hãy cụ thể và tưởng tượng bạn đang đặt câu hỏi cho người khác"></input>
+        <div class="post-title-text my-3">Nội dung:</div>
+        <div class="post-content-input-container mt-2">
+            <div class="d-flex col-lg-3 justify-content-evenly fs-5">
+                <button type="button" id="bold-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3 hover-bold" style="min-width: 32px;">
+                    <span>B</span>
+                </button>
+                <button type="button" id="italic-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3 hover-italic" style="min-width: 32px;">
+                    <span>I</span>
+                </button>
+                <button type="button" id="underline-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3 hover-underline" style="min-width: 32px;">
+                    <span>U</span>
+                </button>
+                <button type="button" id="ordered-list-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
+                    <span>1.</span>
+                </button>
+                <button type="button" id="unordered-list-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
+                    <span>•</span>
+                </button>
+                <button type="button" id="undo-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
+                    <span>↶</span>
+                </button>
+                <button type="button" id="redo-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
+                    <span>↷</span>
+                </button>
+            </div>
+            <div class="border-top ">
+                <div id="editor" class="post-content-textarea w-100 p-2" style="min-height: 100px; width: calc(100% - 1rem); resize: vertical;"
+                     contenteditable="true"></div>
+                <input type="hidden" id="content-area" asp-for="Content">
+
+            </div>
+            <div class="post-end-content flex justify-content-center align-items-center">
+                <img src="/img/frame_end_content.png" style="width:50px; height:10px;" />
+            </div>
+        </div>
+        <input type="hidden" name="topicID" value="@ViewBag.TopicID" />
+        <div class="w-100 flex justify-content-end">
+            <button class="post-button p-2" type="submit">Đăng bài viết của bạn<button />
+        </div>
+    </div>
+</form>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const textarea = document.querySelector('.post-title-input');
+        const maxWords = 10; // Set the maximum number of words
+
+        textarea.addEventListener('input', function () {
+            const words = textarea.value.split(/\s+/).filter(word => word.length > 0);
+            if (words.length > maxWords) {
+                textarea.value = words.slice(0, maxWords).join(' ');
+            }
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const editor = document.getElementById('editor');
+        const boldBtn = document.getElementById('bold-btn');
+        const italicBtn = document.getElementById('italic-btn');
+        const underlineBtn = document.getElementById('underline-btn');
+        const undoBtn = document.getElementById('undo-btn');
+        const redoBtn = document.getElementById('redo-btn');
+        const orderedListBtn = document.getElementById('ordered-list-btn');
+        const unorderedListBtn = document.getElementById('unordered-list-btn');
+        const hiddenInput = document.getElementById('content-area');
+
+        function execCommand(command) {
+            document.execCommand(command, false, null);
+            editor.focus();
+        }
+
+        boldBtn.addEventListener('click', () => execCommand('bold'));
+        italicBtn.addEventListener('click', () => execCommand('italic'));
+        underlineBtn.addEventListener('click', () => execCommand('underline'));
+        undoBtn.addEventListener('click', () => execCommand('undo'));
+        redoBtn.addEventListener('click', () => execCommand('redo'));
+
+        orderedListBtn.addEventListener('click', function () {
+            createList('ol');
+        });
+
+        unorderedListBtn.addEventListener('click', function () {
+            createList('ul');
+        });
+
+        function createList(type) {
+            const selection = window.getSelection();
+            const range = selection.getRangeAt(0);
+            const listElement = document.createElement(type);
+            const listItem = document.createElement('li');
+
+            if (range.commonAncestorContainer.nodeName === 'DIV' && range.commonAncestorContainer.id === 'editor') {
+                // Nếu không có nội dung được chọn, tạo một mục danh sách trống
+                listItem.appendChild(document.createElement('br'));
+                listElement.appendChild(listItem);
+                range.insertNode(listElement);
+            } else {
+                // Nếu có nội dung được chọn, bọc nó trong một mục danh sách
+                listItem.appendChild(range.extractContents());
+                listElement.appendChild(listItem);
+                range.insertNode(listElement);
+            }
+
+            // Di chuyển con trỏ vào cuối mục danh sách vừa tạo
+            const newRange = document.createRange();
+            newRange.selectNodeContents(listItem);
+            newRange.collapse(false);
+            selection.removeAllRanges();
+            selection.addRange(newRange);
+
+            editor.focus();
+        }
+
+        editor.addEventListener('input', function () {
+            hiddenInput.value = editor.innerHTML;
+        });
+
+        // Xử lý form submit
+        document.querySelector('form').addEventListener('submit', function (e) {
+            hiddenInput.value = editor.innerHTML;
+        });
+    });
+
+
+</script>

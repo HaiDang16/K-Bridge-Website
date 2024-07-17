@@ -1,13 +1,16 @@
 ﻿namespace K_Bridge.Models
 {
-    public class Topic
+    public class Topic : BaseModel
     {
-        public long? ID { get; set; }
-        public string Name { get; set; } = String.Empty;
-        public long CateId { get; set; }
-        public int PostCount { get; set; } = 0;
-        public string LinkIcon { get; set; } = String.Empty;
-        public bool StateTopic { get; set; } = true;
-        public DateTime JoinDate { get; set; }
+        public string? Name { get; set; }
+        public string? Description { get; set; }
+        public string? LinkIcon { get; set; }
+        public string? Status { get; set; }
+
+        // Foreign key
+        public int ForumID { get; set; }
+        public Forum? Forum { get; set; }
+
+        public ICollection<Post> Posts { get; set; } = new List<Post>();
     }
 }

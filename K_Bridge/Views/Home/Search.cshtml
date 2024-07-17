@@ -2,7 +2,9 @@
 @{
     ViewData["Title"] = "Tìm kiếm";
     <link href="/css/Newest.css" rel="stylesheet" />
-    bool isKeySearchFind = true;
+    var isKeySearchFind = ViewBag.SearchResults != null && ((List<Post>)ViewBag.SearchResults).Count > 0;
+    var searchKey = ViewBag.SearchKey as string;
+    var searchResults = ViewBag.SearchResults as List<K_Bridge.Models.Post>;
 }
 
 <div class="row">
@@ -10,116 +12,45 @@
         Kết quả tìm kiếm
     </div>
     <div class="fs-5 d-flex my-2">
-        Kết quả cho từ khoá <p class="ms-2">"SearchKey"</p>
+        Kết quả cho từ khoá <p class="ms-2">"@ViewBag.SearchKey"</p>
     </div>
     <div class="pb-3 fw-bold" style="border-bottom: 1px solid #493422">
-        921 Kết quả
+        @(isKeySearchFind ? ((List<Post>)ViewBag.SearchResults).Count + " Kết quả" : "Không có kết quả")
     </div>
 </div>
-<div class="row my-3" style="border-bottom: 1px solid #493422">
-    <div class="col-2 d-flex flex-column justify-content-center">
-        <div class="newest-card-stat py-2">0 Câu trả lời</div>
-        <div class="newest-card-stat py-2">10 Lượt xem</div>
-    </div>
-    <div class="col-10">
-        <div class="d-flex">
-            <div class="newest-card-title">Xin đề cương môn ABC</div>
-            <div class="newest-card-tag px-3 mx-3">Tài liệu </div>
-        </div>
-        <div class="newest-card-des">Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học cô Thuỷ cho mình xin đề cương ôn tập.</div>
-        <div class="d-flex justify-content-end my-2">
-            <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
-            <div class="newest-card-username mx-2">User1 hỏi 10 phút trước</div>
-        </div>
+@if (isKeySearchFind)
+{
+    foreach (var post in searchResults)
+    {
+        <div class="row my-3" style="border-bottom: 1px solid #493422">
+            <div class="col-2 d-flex flex-column justify-content-center">
+                <div class="newest-card-stat py-2">@(post.Replies?.Count() ?? 0) Câu trả lời</div>
+                <div class="newest-card-stat py-2">@post.ViewCount Lượt xem</div>
+            </div>
+            <div class="col-10">
+                <div class="d-flex">
+                    <div class="newest-card-title">@post.Title</div>
+                    <div class="newest-card-tag px-3 mx-3"
+                         style="background: @GetForumColorHelper.GetForumBackgroundColor(post.Topic.Forum.ID);
+                                        color:@GetForumColorHelper.GetForumColor(post.Topic.Forum.ID)">
+                        @post.Topic.Forum.TagName
+                    </div>
+                </div>
+                <div class="newest-card-des">@post.Content</div>
+                <div class="d-flex justify-content-end my-2">
+                    <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
+                    <div class="newest-card-username mx-2">@post.User.Username hỏi @GetTimeAgoHelper.GetTimeAgo(post.CreatedAt)</div>
+                </div>
 
-    </div>
-</div>
-<div class="row my-3" style="border-bottom: 1px solid #493422">
-    <div class="col-2 d-flex flex-column justify-content-center">
-        <div class="newest-card-stat py-2">0 Câu trả lời</div>
-        <div class="newest-card-stat py-2">10 Lượt xem</div>
-    </div>
-    <div class="col-10">
-        <div class="d-flex">
-            <div class="newest-card-title">Xin đề cương môn ABC</div>
-            <div class="newest-card-tag px-3 mx-3">Tài liệu </div>
+            </div>
         </div>
-        <div class="newest-card-des">Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học cô Thuỷ cho mình xin đề cương ôn tập.</div>
-        <div class="d-flex justify-content-end my-2">
-            <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
-            <div class="newest-card-username mx-2">User1 hỏi 10 phút trước</div>
-        </div>
-
-    </div>
-</div>
-<div class="row my-3" style="border-bottom: 1px solid #493422">
-    <div class="col-2 d-flex flex-column justify-content-center">
-        <div class="newest-card-stat py-2">0 Câu trả lời</div>
-        <div class="newest-card-stat py-2">10 Lượt xem</div>
-    </div>
-    <div class="col-10">
-        <div class="d-flex">
-            <div class="newest-card-title">Xin đề cương môn ABC</div>
-            <div class="newest-card-tag px-3 mx-3">Tài liệu </div>
-        </div>
-        <div class="newest-card-des">Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học cô Thuỷ cho mình xin đề cương ôn tập.</div>
-        <div class="d-flex justify-content-end my-2">
-            <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
-            <div class="newest-card-username mx-2">User1 hỏi 10 phút trước</div>
-        </div>
-
-    </div>
-</div>
-<div class="row my-3" style="border-bottom: 1px solid #493422">
-    <div class="col-2 d-flex flex-column justify-content-center">
-        <div class="newest-card-stat py-2">0 Câu trả lời</div>
-        <div class="newest-card-stat py-2">10 Lượt xem</div>
-    </div>
-    <div class="col-10">
-        <div class="d-flex">
-            <div class="newest-card-title">Xin đề cương môn ABC</div>
-            <div class="newest-card-tag px-3 mx-3">Tài liệu </div>
-        </div>
-        <div class="newest-card-des">Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học cô Thuỷ cho mình xin đề cương ôn tập.</div>
-        <div class="d-flex justify-content-end my-2">
-            <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
-            <div class="newest-card-username mx-2">User1 hỏi 10 phút trước</div>
-        </div>
-
-    </div>
-</div>
-<div class="row my-3" style="border-bottom: 1px solid #493422">
-    <div class="col-2 d-flex flex-column justify-content-center">
-        <div class="newest-card-stat py-2">0 Câu trả lời</div>
-        <div class="newest-card-stat py-2">10 Lượt xem</div>
-    </div>
-    <div class="col-10">
-        <div class="d-flex">
-            <div class="newest-card-title">Xin đề cương môn ABC</div>
-            <div class="newest-card-tag px-3 mx-3">Tài liệu </div>
-        </div>
-        <div class="newest-card-des">Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học cô Thuỷ cho mình xin đề cương ôn tập.</div>
-        <div class="d-flex justify-content-end my-2">
-            <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
-            <div class="newest-card-username mx-2">User1 hỏi 10 phút trước</div>
-        </div>
-
-    </div>
-</div>
-<div class="row my-3" style="border-bottom: 1px solid #493422">
-    <div class="col-2 d-flex flex-column justify-content-center">
-        <div class="newest-card-stat py-2">0 Câu trả lời</div>
-        <div class="newest-card-stat py-2">10 Lượt xem</div>
-    </div>
-    <div class="col-10">
-        <div class="d-flex">
-            <div class="newest-card-title">Xin đề cương môn ABC</div>
-            <div class="newest-card-tag px-3 mx-3">Tài liệu </div>
-        </div>
-        <div class="newest-card-des">Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học cô Thuỷ cho mình xin đề cương ôn tập.</div>
-        <div class="d-flex justify-content-end my-2">
-            <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
-            <div class="newest-card-username mx-2">User1 hỏi 10 phút trước</div>
+    }
+}
+else
+{
+    <div class="row my-3">
+        <div class="col-12 text-center">
+            Không có kết quả phù hợp với từ khoá "@searchKey".
         </div>
     </div>
-</div>
+}

@@ -21,6 +21,7 @@
 </ItemGroup>
 <ItemGroup>
   <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+  <PackageReference Include="HtmlSanitizer" Version="8.1.866-beta" />
   <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.0" />
   <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.0">
     <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -33,9 +34,9 @@
   </PackageReference>
 </ItemGroup>
 <ItemGroup>
-  <Folder Include="Migrations\" />
   <Folder Include="TagHelpers\" />
   <Folder Include="Views\Admin\" />
+  <Folder Include="wwwroot\uploads\" />
 </ItemGroup>
 <ItemGroup>
   <None Include="Views\Home\Search.cshtml" />

@@ -479,3 +479,39 @@ html, body {
 .custom-cursor-pointer {
     cursor: pointer !important;
 }
+
+/*----------------------- MODEL NEW POST -----------------------*/
+.modal-new-post-header {
+    background: #493422;
+    color: white;
+}
+
+.modal-new-post-overall {
+    margin-top: 50px;
+    padding-bottom: 20px;
+}
+
+.modal-new-post-body {
+    background: #FFBE98;
+    padding-top: 0 !important;
+}
+
+.modal-new-post-card {
+    border: solid 1px #FFBE98;
+    border-radius: 8px;
+    overflow-x: hidden;
+    background: #FFF0E6;
+}
+
+.modal-new-post-post-title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 200px; /* Đặt chiều rộng tối đa để áp dụng dấu "..." */
+}
+
+.custom-hr {
+    height: 2px; /* Độ dày của đường hr */
+    background-color: #000; /* Màu sắc của đường hr */
+    border: none; /* Xóa border nếu có */
+}

@@ -1,0 +1,13 @@
+﻿@model K_Bridge.Models.ViewModels.LikeDislikeViewModel
+
+<div class="lidi" id="like-dislike">
+    <button class="like-btn @(Model.CurrentLikeStatus == true ? "set" : "")" data-post-id="@Model.PostId" data-is-like="true">
+        <i class="up m-1"></i>
+    </button>
+    <p class="mt-2 fs-6 fw-bold text-color-logo flex justify-content-center" id="like-dislike-count-@Model.PostId">
+        @(Model.TotalLikes - Model.TotalDislikes)
+    </p>
+    <button class="dislike-btn @(Model.CurrentLikeStatus == false ? "set" : "")" data-post-id="@Model.PostId" data-is-like="false">
+        <i class="down mt-3"></i>
+    </button>
+</div>

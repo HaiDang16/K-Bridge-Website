@@ -10,5 +10,23 @@ namespace K_Bridge.Repositories
             _context = context;
         }
         public IQueryable<GlobalChat> GlobalChats => _context.GlobalChats;
+        public IEnumerable<GlobalChat> GetRecentMessages()
+        {
+            DeleteOldMessages(DateTime.Now.AddHours(-1)); // Xoá tin nhắn cũ hơn 1 giờ
+            return _context.GlobalChats.OrderByDescending(m => m.SendAt);
+        }
+
+        public void AddMessage(GlobalChat message)
+        {
+            _context.GlobalChats.Add(message);
+            _context.SaveChanges();
+        }
+
+        public void DeleteOldMessages(DateTime threshold)
+        {
+            var oldMessages = _context.GlobalChats.Where(m => m.SendAt < threshold);
+            _context.GlobalChats.RemoveRange(oldMessages);
+            _context.SaveChanges();
+        }
     }
 }

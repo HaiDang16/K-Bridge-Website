@@ -1,0 +1,25 @@
+﻿@model IEnumerable<K_Bridge.Models.Reply>
+
+@foreach (var reply in Model)
+{
+    <div class="row my-3 m-0" style="border-bottom: 1px solid #8E6745">
+        <div class="col-lg-1 flex-column">
+            <button class="m-1">
+                <img src="~/img/icon_like_filled.png" alt="Like" />
+            </button>
+            <p class="mt-2 fs-6 fw-bold text-color-logo">-123</p>
+            <button class="m-1">
+                <img src="~/img/icon_dislike_filled.png.png" alt="Like" />
+            </button>
+        </div>
+        <div class="col-lg-11">
+            <div class="reply-content">
+                @Html.Raw(reply.Content)
+            </div>
+        </div>
+        <div class="d-flex justify-content-end mb-2">
+            <img src="~/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
+            <div class="newest-card-username mx-2">@reply.User.Username trả lời @GetTimeAgoHelper.GetTimeAgo(reply.CreatedAt)</div>
+        </div>
+    </div>
+}

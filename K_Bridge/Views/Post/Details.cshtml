@@ -1,0 +1,231 @@
+﻿@{
+    ViewData["Title"] = "Bài viết";
+    <link href="/css/Newest.css" rel="stylesheet" />
+    bool isCmtAvaiable = true;
+}
+<div class="row mb-5">
+    <div class="d-flex justify-content-start fs-4">
+        @ViewBag.Post.Title
+    </div>
+    <div class="d-flex justify-content-between align-items-center" style="border-bottom: 1px solid #493422">
+        <div class="m-0 p-0 d-flex justify-content-between">
+            <div class="py-2 me-2">@(ViewBag.Post.Replies?.Count ?? 0) Câu trả lời</div>
+            <div class="py-2 ms-2">@ViewBag.Post.ViewCount Lượt xem</div>
+        </div>
+        <div class="newest-card-tag px-5 mx-3"
+             style="background: @GetForumColorHelper.GetForumBackgroundColor(ViewBag.Post.Topic.Forum.ID);
+                                        color:@GetForumColorHelper.GetForumColor(ViewBag.Post.Topic.Forum.ID)">
+            @ViewBag.Post.Topic.Forum.TagName
+        </div>
+    </div>
+    <div class="row m-0 p-0 mt-3 ">
+        <div class="col-lg-1 flex-column">
+            <button class="m-1">
+                <img src="~/img/icon_like_filled.png" alt="Like" />
+            </button>
+            <p class="mt-2 fs-6 fw-bold text-color-logo">-123</p>
+            <button class="m-1">
+                <img src="~/img/icon_dislike_filled.png.png" alt="Like" />
+            </button>
+        </div>
+        <div class="col-lg-11">
+            <div class="reply-content">
+                @Html.Raw(ViewBag.Post.Content)
+            </div>
+            <img src="~/img/wallpaper.png" alt="Alternate Text" />
+        </div>
+        <div class="d-flex flex-column">
+            <div class="p-3 justify-content-center align-content-center d-flex">
+                <p class="text-color-header">Bạn biết ai đó có thể trả lời câu hỏi này? Hãy chia sẻ đường dẫn câu hỏi đến họ qua:</p>
+            </div>
+            <div class="justify-content-center align-content-center d-flex px-3 gap-4">
+                <img class="h-50" src="~/img/Facebook.png" alt="Facebook" />
+                <img class="h-50" src="~/img/Pinterest.png" alt="Pinterest" />
+                <img class="h-50" src="~/img/Reddit.png" alt="Reddit" />
+                <img class="h-50" src="~/img/Telegram.png" alt="Telegram" />
+                <img class="h-50" src="~/img/Github.png" alt="Github" />
+            </div>
+            <div class="d-flex justify-content-end mt-2">
+                <img src="~/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
+                <div class="newest-card-username mx-2">@ViewBag.Post.User.Username hỏi @GetTimeAgoHelper.GetTimeAgo(@ViewBag.Post.CreatedAt)</div>
+            </div>
+            @if (isCmtAvaiable)
+            {
+                <div class="mt-5 mb-4 d-flex justify-content-between">
+                    <div class="fw-bold fs-4 d-flex text-color-logo">
+                        @ViewBag.Post.Replies.Count Câu trả lời
+                    </div>
+                    <div class="d-flex text-color-header">
+                        <div class="form-group">
+                            <label for="sortSelect">Sắp xếp theo:</label>
+                            <select class="form-control" id="sortSelect">
+                                <option value="newest" selected="@(ViewBag.Sort == "newest" ? "selected" : "")">Mới nhất</option>
+                                <option value="most_helpful" selected="@(ViewBag.Sort == "oldest" ? "selected" : "")">Cũ nhất</option>
+                                <option value="trending" selected="@(ViewBag.Sort == "helpful" ? "selected" : "")">Hữu ích nhất</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                @*    @foreach (var reply in ViewBag.Post.Replies ?? Enumerable.Empty<Forum>())
+            {
+            <div class="row my-3 m-0" style="border-bottom: 1px solid #8E6745">
+            <div class="col-lg-1 flex-column">
+            <button class="m-1">
+            <img src="~/img/like.png" alt="Like" />
+            </button>
+            <p class="mt-2 fs-6 fw-bold text-color-logo">-123</p>
+            <button class="m-1">
+            <img src="~/img/un_like.png" alt="Like" />
+            </button>
+            </div>
+            <div class="col-lg-11">
+            <div class="reply-content">
+            @Html.Raw(reply.Content)
+            </div>
+            </div>
+            <div class="d-flex justify-content-end mb-2">
+            <img src="~/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
+            <div class="newest-card-username mx-2">@reply.User.Username trả lời @GetTimeAgoHelper.GetTimeAgo(reply.CreatedAt)</div>
+            </div>
+            </div>
+
+            } *@
+                <div id="repliesContainer">
+                    <partial name="_RepliesPartial" model="ViewBag.Reply" />
+                </div>
+            }
+            <div>
+                <p class="fs-5 text-color-logo">
+                    Câu trả lời của bạn:
+                </p>
+            </div>
+            <form method="post" asp-action="SubmitReply">
+                <input type="hidden" name="postId" value="@ViewBag.Post.ID" />
+                <div class="border-2 rounded-3 border-main-color-header p-2 text-color-logo">
+                    <div class="d-flex col-lg-3 justify-content-evenly fs-5">
+                        <button type="button" id="bold-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3 hover-bold" style="min-width: 32px;">
+                            <span>B</span>
+                        </button>
+                        <button type="button" id="italic-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3 hover-italic" style="min-width: 32px;">
+                            <span>I</span>
+                        </button>
+                        <button type="button" id="underline-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3 hover-underline" style="min-width: 32px;">
+                            <span>U</span>
+                        </button>
+                        <button type="button" id="ordered-list-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
+                            <span>1.</span>
+                        </button>
+                        <button type="button" id="unordered-list-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
+                            <span>•</span>
+                        </button>
+                        <button type="button" id="undo-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
+                            <span>↶</span>
+                        </button>
+                        <button type="button" id="redo-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
+                            <span>↷</span>
+                        </button>
+                    </div>
+                    <div class="border-top">
+                        @* <textarea id="content-area" class="focus form-control m-2 p-2" style="min-height: 100px; width: calc(100% - 1rem); resize: vertical;"
+                        name="answerContent" placeholder="Viết câu trả lời tại đây..."></textarea> *@
+                        <div id="editor" class="focus form-control m-2 p-2" style="min-height: 100px; width: calc(100% - 1rem); resize: vertical;"
+                             contenteditable="true"></div>
+                        <input type="hidden" id="content-area" name="answerContent">
+
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end mt-2">
+                    <button type="submit" class="m-2 px-3 py-2 bg-main-color-layout text-color-logo rounded-3">Đăng câu trả lời của bạn</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const editor = document.getElementById('editor');
+        const boldBtn = document.getElementById('bold-btn');
+        const italicBtn = document.getElementById('italic-btn');
+        const underlineBtn = document.getElementById('underline-btn');
+        const undoBtn = document.getElementById('undo-btn');
+        const redoBtn = document.getElementById('redo-btn');
+        const orderedListBtn = document.getElementById('ordered-list-btn');
+        const unorderedListBtn = document.getElementById('unordered-list-btn');
+        const hiddenInput = document.getElementById('content-area');
+
+        function execCommand(command) {
+            document.execCommand(command, false, null);
+            editor.focus();
+        }
+
+        boldBtn.addEventListener('click', () => execCommand('bold'));
+        italicBtn.addEventListener('click', () => execCommand('italic'));
+        underlineBtn.addEventListener('click', () => execCommand('underline'));
+        undoBtn.addEventListener('click', () => execCommand('undo'));
+        redoBtn.addEventListener('click', () => execCommand('redo'));
+
+        orderedListBtn.addEventListener('click', function () {
+            createList('ol');
+        });
+
+        unorderedListBtn.addEventListener('click', function () {
+            createList('ul');
+        });
+
+        function createList(type) {
+            const selection = window.getSelection();
+            const range = selection.getRangeAt(0);
+            const listElement = document.createElement(type);
+            const listItem = document.createElement('li');
+
+            if (range.commonAncestorContainer.nodeName === 'DIV' && range.commonAncestorContainer.id === 'editor') {
+                // Nếu không có nội dung được chọn, tạo một mục danh sách trống
+                listItem.appendChild(document.createElement('br'));
+                listElement.appendChild(listItem);
+                range.insertNode(listElement);
+            } else {
+                // Nếu có nội dung được chọn, bọc nó trong một mục danh sách
+                listItem.appendChild(range.extractContents());
+                listElement.appendChild(listItem);
+                range.insertNode(listElement);
+            }
+
+            // Di chuyển con trỏ vào cuối mục danh sách vừa tạo
+            const newRange = document.createRange();
+            newRange.selectNodeContents(listItem);
+            newRange.collapse(false);
+            selection.removeAllRanges();
+            selection.addRange(newRange);
+
+            editor.focus();
+        }
+
+        editor.addEventListener('input', function () {
+            hiddenInput.value = editor.innerHTML;
+        });
+
+        // Xử lý form submit
+        document.querySelector('form').addEventListener('submit', function (e) {
+            hiddenInput.value = editor.innerHTML;
+        });
+    });
+
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var sortSelect = document.getElementById('sortSelect');
+        sortSelect.addEventListener('change', function () {
+            var selectedSort = sortSelect.value;
+            var postId = '@ViewBag.Post.ID';
+
+            fetch(`/Post/GetReplies?postId=${postId}&sort=${selectedSort}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('repliesContainer').innerHTML = html;
+                });
+        });
+    });
+</script>

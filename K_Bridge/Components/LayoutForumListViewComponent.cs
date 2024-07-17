@@ -13,8 +13,9 @@ namespace K_Bridge.Components
 
         public IViewComponentResult Invoke()
         {
-            ViewBag.Forums = _repository.Forums;
-            return View();
+            var forums = _repository.GetForumsWithTopicsAndLatestPosts();
+
+            ViewBag.Forums = forums; return View();
         }
     }
 }
