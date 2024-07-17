@@ -9,7 +9,7 @@
     </div>
     <div class="d-flex justify-content-between align-items-center" style="border-bottom: 1px solid #493422">
         <div class="m-0 p-0 d-flex justify-content-between">
-            <div class="py-2 me-2">0 Câu trả lời</div>
+            <div class="py-2 me-2">@(ViewBag.Post.Replies?.Count ?? 0) Câu trả lời</div>
             <div class="py-2 ms-2">@ViewBag.Post.ViewCount Lượt xem</div>
         </div>
         <div class="newest-card-tag px-5 mx-3"

@@ -167,9 +167,20 @@ public class HomeController : Controller
         return BadRequest();
     }
 
-    [Route("/Search/{SearchKey}")]
-    public IActionResult Search(string SearchKey)
+    [Route("Search")]
+    public IActionResult Search([FromQuery] string key)
     {
+        var searchResults = _postRepository.Posts
+        .Include(p => p.User) // Include user details of the post
+        .Include(p => p.Topic) // Include topic details of the post
+            .ThenInclude(t => t.Forum) // Include forum details of the topic
+        .Include(p => p.Replies) // Include replies of the post
+            .ThenInclude(r => r.User) // Include user details of each reply
+        .Where(p => p.Title.Contains(key) || p.Content.Contains(key))
+        .ToList();
+
+        ViewBag.SearchKey = key;
+        ViewBag.SearchResults = searchResults;
         return View();
     }
 }

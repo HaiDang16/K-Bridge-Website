@@ -79,7 +79,7 @@ namespace K_Bridge.Controllers
                     TopicID = topicID
                 };
                 _postRepository.SavePost(newPost);
-                return RedirectToAction(nameof(Create)); // Redirect to a page that lists all posts
+                return RedirectToAction("Index","Home"); // Redirect to a page that lists all posts
             }
             return View(post);
         }
