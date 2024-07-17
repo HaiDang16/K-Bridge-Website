@@ -11,6 +11,7 @@ namespace K_Bridge.Repositories
         IQueryable<Topic> Topics { get; }
         IQueryable<Admin_Accounts> Admin_Accounts { get; }
         IQueryable<Post> Posts { get; }
+        IQueryable<Forum> Forums { get; }
 
         int GetTotalUsers();
         int GetTotalTopics();

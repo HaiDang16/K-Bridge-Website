@@ -7,13 +7,16 @@ namespace K_Bridge.Components
     public class AdminNavigationMenuViewComponent : ViewComponent
     {
         private IKBridgeRepository _repository;
-        public AdminNavigationMenuViewComponent(IKBridgeRepository repository)
+        private IForumRepository _forumRepository;
+        public AdminNavigationMenuViewComponent(IKBridgeRepository repository, IForumRepository forumRepository)
         {
             _repository = repository;
+            _forumRepository = forumRepository;
         }
 
         public IViewComponentResult Invoke()
         {
+            ViewBag.NavForum = _forumRepository.GetForumWithTopics();
             return View();
         }
     }

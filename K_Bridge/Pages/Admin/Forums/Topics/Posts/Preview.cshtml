@@ -1,5 +1,5 @@
-﻿@page
-@model K_Bridge.Pages.Admin.Forums.Topics.Post.PreviewModel
+﻿@page "{id:int}"
+@model K_Bridge.Pages.Admin.Forums.Topics.Posts.PreviewModel
 @{
     ViewData["Title"] = "Duyệt bài viết";
     <link href="/css/Newest.css" rel="stylesheet" />
@@ -26,28 +26,32 @@
              alt="Tổng quan" width="10" height="20">
         <div class="account-navigate-text custom-cursor-pointer "
              onclick="window.location.href='/Admin/Forums/Topics/Post'">
-            Bài viết 12144
+            Bài viết @Model.Post.ID
         </div>
     </div>
     <div class="col-9">
     </div>
 </div>
 <div class="row mt-3 px-5">
-    <p class="account-title pb-3" style="border-bottom: 3px solid #8E6745">Bài viết 12344</p>
+    <p class="account-title pb-3" style="border-bottom: 3px solid #8E6745">Bài viết @Model.Post.ID</p>
 </div>
 <div class="container-fluid">
     <div class="row main-content mt-4 mx-3">
         <div class="col-lg-9 col-md-8 col-12 content mb-4 ">
             <div class="pb-3">
                 <div class="d-flex justify-content-start fs-4">
-                    Làm sao để đổi mật khẩu email sinh viên sau khi đăng ký môn học đăng ký môn học?
+                    @Model.Post.Title
                 </div>
                 <div class="d-flex justify-content-between align-items-center" style="border-bottom: 1px solid #493422">
                     <div class="m-0 p-0 d-flex justify-content-between">
-                        <div class="py-2 me-2">Câu trả lời</div>
-                        <div class="py-2 ms-2">Lượt xem</div>
+                        <div class="py-2 me-2">0 Câu trả lời</div>
+                        <div class="py-2 ms-2">0 Lượt xem</div>
                     </div>
-                    <div class="newest-card-tag px-5 mx-3 ">Tài liệu</div>
+                    <div class="newest-card-tag px-5 mx-3 "
+                         style="background: @GetForumColorHelper.GetForumBackgroundColor(Model.Post.Topic.Forum.ID);
+                                        color:@GetForumColorHelper.GetForumColor(Model.Post.Topic.Forum.ID)">
+                        @Model.Post.Topic.Forum.TagName
+                    </div>
                 </div>
                 <div class="row m-0 p-0 mt-3 ">
                     <div class="col-lg-1 flex-column">
@@ -56,12 +60,7 @@
                     <div class="col-lg-11">
                         <div>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Non diam phasellus vestibulum lorem sed risus ultricies. Vitae proin sagittis nisl rhoncus mattis rhoncus urna neque viverra. Ut sem nulla pharetra diam sit. Curabitur vitae nunc sed velit dignissim. Blandit cursus risus at ultrices mi tempus imperdiet. Aliquet porttitor lacus luctus accumsan tortor posuere. In cursus turpis massa tincidunt dui ut ornare lectus. Ac odio tempor orci dapibus ultrices in iaculis nunc. Augue ut lectus arcu bibendum at varius vel pharetra. Nunc eget lorem dolor sed viverra ipsum nunc aliquet bibendum. Viverra mauris in aliquam sem fringilla. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt tortor. Sed libero enim sed faucibus turpis in. Est lorem ipsum dolor sit. Mollis nunc sed id semper risus. Sed turpis tincidunt id aliquet risus.
-                                <br />
-                                Vitae ultricies leo integer malesuada nunc vel risus commodo viverra. Convallis aenean et tortor at risus viverra. Penatibus et magnis dis parturient montes nascetur ridiculus mus mauris. Sapien faucibus et molestie ac feugiat sed lectus. Id venenatis a condimentum vitae sapien pellentesque. Ultrices neque ornare aenean euismod. Neque vitae tempus quam pellentesque nec. Leo a diam sollicitudin tempor id eu. In tellus integer feugiat scelerisque varius. Vitae elementum curabitur vitae nunc sed velit dignissim. Enim sed faucibus turpis in eu mi bibendum neque. Mollis aliquam ut porttitor leo a. Nisi scelerisque eu ultrices vitae auctor. Massa tincidunt nunc pulvinar sapien et ligula ullamcorper. Placerat vestibulum lectus mauris ultrices.
-                                <br />
-                                <br />
-                                Ultrices in iaculis nunc sed augue lacus. Natoque penatibus et magnis dis parturient montes nascetur ridiculus. Lacus vel facilisis volutpat est velit egestas dui id. Donec massa sapien faucibus et. Feugiat scelerisque varius morbi enim nunc faucibus. Interdum velit euismod in pellentesque. Imperdiet proin fermentum leo vel. Dolor sit amet consectetur adipiscing elit duis tristique. Felis donec et odio pellentesque. Mattis molestie a iaculis at erat pellentesque adipiscing commodo elit. Dui nunc mattis enim ut tellus elementum sagittis vitae et. Eleifend donec pretium vulputate sapien nec. Porttitor rhoncus dolor purus non enim. Et netus et malesuada fames ac turpis egestas maecenas. Interdum posuere lorem ipsum dolor sit amet consectetur adipiscing. Pellentesque elit eget gravida cum sociis natoque penatibus et magnis. Tortor dignissim convallis aenean et tortor at risus viverra adipiscing. Dolor purus non enim praesent. Magna etiam tempor orci eu lobortis elementum nibh tellus.
+                                @Html.Raw(@Model.Post.Content)
                             </p>
                         </div>
                     </div>
@@ -80,7 +79,7 @@
                     <p>Bài viết đã đăng:</p>
                 </div>
                 <div class="col-5">
-                    <p>Test 1</p>
+                    <p>@Model.Post.User.Username</p>
                     <p>12 ngày</p>
                     <p>124 bài viết</p>
                 </div>

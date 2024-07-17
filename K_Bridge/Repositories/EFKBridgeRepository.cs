@@ -17,6 +17,7 @@ namespace K_Bridge.Repositories
         public IQueryable<Admin_Accounts> Admin_Accounts => _context.Admin_Accounts;
         public IQueryable<GlobalChat> GlobalChats => _context.GlobalChats;
         public IQueryable<Post> Posts => _context.Posts;
+        public IQueryable<Forum> Forums => _context.Forums;
 
         public int GetTotalUsers() => _context.Users.Count();
         public int GetTotalTopics() => _context.Topics.Count();

@@ -20,12 +20,15 @@
             <i class="bi small bi-caret-down-fill"></i>
         </a>
         <ul class="submenu collapse">
-            <li class="nav-item mt-1">
-                <a class="nav-link nav-link-text" href="/Admin/Forums">
-                    <img src="~/img/icon_develop_50.png" class="sidebar-subicon" />Lập trình
-                </a>
-            </li>
-            <li class="nav-item mt-1">
+            @foreach (var forum in ViewBag.NavForum ?? Enumerable.Empty<Forum>())
+            {
+                <li class="nav-item mt-1">
+                    <a class="nav-link nav-link-text" href="/Admin/Forums/@forum.ID">
+                        <img src="~/img/@forum.IconLink" class="sidebar-subicon" />@forum.Name
+                    </a>
+                </li>
+            }
+@*             <li class="nav-item mt-1">
                 <a class="nav-link nav-link-text" href="#">
                     <img src="~/img/icon_tutorial_50.png" class="sidebar-subicon" />Hướng dẫn
                 </a>
@@ -50,7 +53,7 @@
                     <img src="~/img/icon_drl_50.png" class="sidebar-subicon" />Hoạt động điểm rèn luyện
                 </a>
             </li>
-        </ul>
+ *@        </ul>
     </li>
     @{
         var role = HttpContextAccessor.HttpContext.Session.GetString("AdminRole");

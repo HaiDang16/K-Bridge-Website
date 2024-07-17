@@ -427,13 +427,13 @@
     list-style-type: disc;
 }
 
-.btn-logout{
-    background:red;
-    padding:10px 30px 10px 30px;
-    color:white;
-    font-weight:500;
-    border-radius:5px;
-
+.btn-logout {
+    background: red;
+    padding: 10px 30px 10px 30px;
+    color: white;
+    font-weight: 500;
+    border-radius: 5px;
+}
 /* Custom Scrollbar for webkit browsers */
 textarea::-webkit-scrollbar {
     width: 12px;

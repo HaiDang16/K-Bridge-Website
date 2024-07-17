@@ -168,7 +168,8 @@ public class HomeController : Controller
     }
 
     [Route("Search")]
-    public IActionResult Search([FromQuery] string key)
+    [HttpGet("Search")]
+    public IActionResult Searching([FromQuery] string key)
     {
         var searchResults = _postRepository.Posts
         .Include(p => p.User) // Include user details of the post
