@@ -5,15 +5,19 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
+
 namespace K_Bridge.Pages.Admin
 {
     public class LoginModel : PageModel
     {
         private readonly KBridgeDbContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public LoginModel(KBridgeDbContext dbContext)
+        public LoginModel(KBridgeDbContext dbContext, IHttpContextAccessor httpContextAccessor)
         {
             _context = dbContext;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [BindProperty]
@@ -24,11 +28,16 @@ namespace K_Bridge.Pages.Admin
         [Required(ErrorMessage = "Mật khẩu là bắt buộc")]
         public string Password { get; set; }
 
-
         public string ErrorMessage { get; set; }
 
         public void OnGet()
         {
+            // Kiểm tra nếu người dùng đang yêu cầu đăng xuất
+            if (Request.Query["action"] == "logout")
+            {
+                // Xóa tất cả session
+                _httpContextAccessor.HttpContext.Session.Clear();
+            }
         }
 
         public async Task<IActionResult> OnPostAsync()
