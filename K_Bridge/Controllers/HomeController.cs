@@ -127,4 +127,10 @@ public class HomeController : Controller
     {
         return View();
     }
+
+    [Route("/ForgetPassword")]
+    public IActionResult ForgetPassword()
+    {
+        return View();
+    }
 }
