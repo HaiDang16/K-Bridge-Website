@@ -30,7 +30,7 @@ namespace K_Bridge.Models
                 .WithMany(t => t.Posts)
                 .HasForeignKey(p => p.TopicID);
 
-/* */            modelBuilder.Entity<Reply>()
+            modelBuilder.Entity<Reply>()
                 .HasOne(r => r.Post)
                 .WithMany(p => p.Replies)
                 .HasForeignKey(r => r.PostID)
