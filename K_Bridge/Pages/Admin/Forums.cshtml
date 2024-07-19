@@ -1,7 +1,7 @@
-﻿@page
-@model K_Bridge.Pages.Admin.AccountsModel
+﻿@page "{id:int}"
+@model K_Bridge.Pages.Admin.ForumsModel
 @{
-    ViewData["Title"] = "Tài khoản";
+    ViewData["Title"] = Model.Forum.Name;
 }
 
 <div class="row account-navigate mt-3 px-5 align-items-center ">
@@ -9,11 +9,11 @@
         <img src="/img/icon_dashboard_50_dark.png"
              onclick="window.location.href='/Admin/Dashboard'"
              class="account-navigate-icon mt-2 custom-cursor-pointer" alt="Tổng quan">
-        <img src="/img/icon_arrow_right_50_dark.png" class="mx-4 mt-2"
+        <img src="/img/icon_arrow_right_50_dark.png" class="mx-4 mt-2 py-1"
              alt="Tổng quan" width="10" height="20">
-        <div class="account-navigate-text custom-cursor-pointer"
-             onclick="window.location.href='/Admin/Accounts'">
-            Tài khoản
+        <div class="account-navigate-text custom-cursor-pointer "
+             onclick="window.location.href='/Admin/Forums'">
+            @Model.Forum.Name
         </div>
     </div>
     <div class="col-9">
@@ -21,45 +21,50 @@
 </div>
 <div class="row mt-3 px-5">
     <div class="col-3">
-        <div class="account-title">Tài khoản</div>
-        <div class="account-subtitle">Quản lý tài khoản người dùng</div>
+        <div class="account-title"> @Model.Forum.Name</div>
+        <div class="account-subtitle">Quản lý diễn đàn @Model.Forum.Name </div>
     </div>
     <div class="col-9 d-flex justify-content-end align-items-center custom-cursor-pointer">
-        <div class=" account-create-button px-4 h-75 d-flex align-items-center" onclick="window.location.href='/Admin/Accounts/Create'">
-            + Tạo tài khoản
+        <div class=" account-create-button px-4 h-75 d-flex align-items-center" onclick="window.location.href='/Admin/Forums/Create'">
+            + Tạo chủ đề
         </div>
     </div>
 </div>
 <div class="row px-5">
-    <table class="account-table table table-hover mt-3">
+    <table class="account-table table table-hover mt-3 text-color-logo">
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Tên đăng nhập</th>
-                <th scope="col">Email</th>
-                <th scope="col">Số điện thoại</th>
-                <th scope="col">Trạng thái</th>
-                <th scope="col">Điểm</th>
+                <th scope="col">Cần phê duyệt</th>
+                <th scope="col">Chủ đề</th>
+                <th scope="col">Số lượng bài viết</th>
+                <th scope="col">Ngày tạo</th>
+                <th scope="col">Ngày cập nhật</th>
                 <th scope="col">Hành động</th>
             </tr>
         </thead>
         <tbody>
-            @for (int i = 0; i < 8; i++)
+            @foreach (var topic in Model.Topics)
             {
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>123</td>
-                    <td>123</td>
-                    <td>123</td>
+                    <th scope="row">@topic.ID</th>
+                    <td>42</td>
+                    <td>@topic.Name</td>
+                    <td>
+                        <div class="d-flex justify-content-evenly">
+                            <div>@topic.Posts.Count</div>
+                            <a class="text-color-logo" href="/Admin/Forums/Topics/@topic.ID"> <u>Chi tiết</u> </a>
+                        </div>
+                    </td>
+                    <td>@topic.CreatedAt.ToString("dd/MM/yyyy")</td>
+                    <td>@(topic.UpdatedAt?.ToString("dd/MM/yyyy")??"")</td>
                     <td>
                         <div>
-                            <button class="account-table-edit-btn" onclick="window.location.href='/Admin/Accounts/Edit'">
+                            <button class="account-table-edit-btn" onclick="window.location.href='/Admin/Forums/Edit'">
                                 <img src="/img/icon_edit_50.png" alt="Chỉnh sửa" width="20" height="20">
                             </button>
                             <button class="account-table-delete-btn">
-                                <img src="/img/icon_trash_50.png" alt="Chỉnh sửa" width="25" height="25">
+                                <img src="/img/icon_lock_50.png" alt="Khoá" width="25" height="25">
                             </button>
                         </div>
                     </td>

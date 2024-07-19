@@ -33,9 +33,17 @@ namespace K_Bridge.Services
                 else
                 {
                     string lastCode = GetCodePropertyValue(lastItem);
-                    int lastCodeNum = int.Parse(lastCode.Substring(prefix.Length));
-                    int newCodeNum = lastCodeNum + 1;
-                    newCode = $"{prefix}{newCodeNum:D3}";
+                    if (lastCode != null)
+                    {
+                        int lastCodeNum = int.Parse(lastCode.Substring(prefix.Length));
+                        int newCodeNum = lastCodeNum + 1;
+                        newCode = $"{prefix}{newCodeNum:D3}";
+                    }
+                    else
+                    {
+                        // Handle case where lastCode is null or empty
+                        newCode = $"{prefix}001";
+                    }
                 }
             }
             return newCode;

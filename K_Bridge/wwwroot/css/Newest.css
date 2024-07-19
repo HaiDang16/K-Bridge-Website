@@ -23,8 +23,6 @@
 
 .newest-card-tag {
     border-radius: 20px;
-    background: #CF63D1;
-    color: white;
     white-space: nowrap;
     height: fit-content;
 }
@@ -49,3 +47,57 @@
     align-items: center;
     font-size: 15px;
 }
+
+#editor {
+    padding-left: 20px; /* Tạo khoảng trống cho số thứ tự và bullet */
+}
+
+    #editor ul, #editor ol {
+        margin: 0;
+        padding-left: 20px;
+    }
+
+    #editor ul {
+        list-style-type: disc; /* Hiển thị bullet cho danh sách không có thứ tự */
+    }
+
+    #editor ol {
+        list-style-type: decimal; /* Hiển thị số cho danh sách có thứ tự */
+    }
+
+.reply-content ol, .reply-content ul {
+    padding-left: 20px;
+    list-style-position: outside;
+}
+
+.reply-content ol {
+    list-style-type: decimal;
+}
+
+.reply-content ul {
+    list-style-type: disc;
+}
+
+.lidi i {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background: #323232;
+    mask-size: cover !important;
+}
+
+    .lidi i.up {
+        mask: url(../img/thumbs-up.svg)
+    }
+
+    .lidi i.down {
+        mask: url(../img/thumbs-down.svg)
+    }
+
+    .lidi i.up.set {
+        background: #462dff;
+    }
+
+    .lidi i.down.set {
+        background: #dd3d3d;
+    }

@@ -9,48 +9,49 @@
     <div class="rounded-8 bg-main-color-layout position-relative pb-2" style="min-height: 400px;">
         <div class="rounded-top bg-main-color-header" style="min-height: 100px;"></div>
         <div class="rounded-3 position-absolute " style="top: 50px; left: 80px;">
-            <img src="~/img/user.jpg" alt="Avatar" height="100" width="100" class=" rounded-3" style="border:10px solid #FFBE98; "/>
+            <img src="~/img/user.jpg" alt="Avatar" height="100" width="100" class=" rounded-3" style="border:10px solid #FFBE98; " />
         </div>
 
-        <div class="d-flex justify-content-end mt-2 ">
+        <div class="d-flex justify-content-end mt-2 " onclick="window.location.href='/UserProfile/EditProfile/test1'">
             <button class="rounded-pill btn-account-edit fw-bold mt-2 me-4 text-color-background px-4 py-2">Chỉnh sửa hồ sơ người dùng</button>
+
         </div>
         <div class="m-3 bg-main-color-background rounded-8">
-            <div class="p-5 pb-2"> 
+            <div class="p-5 pb-2">
                 <div class="d-flex justify-content-between mt-2">
                     <div class="d-flex flex-column">
                         <p class="text-uppercase fs-12 text-color-logo fw-bold">Tên hiển thị</p>
                         <p class="fs-6 text-color-header">User</p>
                     </div>
-                    <button class="btn-edit-profile px-4 py-1 rounded-8 h-25 w-25">Chỉnh sửa</button>
+                    <button class="btn-edit-profile px-4 py-1 rounded-8 h-25 w-25" data-bs-toggle="modal" data-bs-target="#editDisplayNameModal">Chỉnh sửa</button>
                 </div>
                 <div class="d-flex justify-content-between mt-2">
                     <div class="d-flex flex-column">
                         <p class="text-uppercase fs-12 text-color-logo fw-bold">Tên đăng nhập</p>
                         <p class="fs-6 text-color-header">User13424</p>
                     </div>
-                    <button class="btn-edit-profile px-4 py-1 rounded-8 h-25  w-25">Chỉnh sửa</button>
+                    <button class="btn-edit-profile px-4 py-1 rounded-8 h-25  w-25" data-bs-toggle="modal" data-bs-target="#editUserNameModal">Chỉnh sửa</button>
                 </div>
                 <div class="d-flex justify-content-between mt-2">
                     <div class="d-flex flex-column">
                         <p class="text-uppercase fs-12 text-color-logo fw-bold">Email</p>
                         <p class="fs-6 text-color-header">User13424@gmail.com</p>
                     </div>
-                    <button class="btn-edit-profile px-4 py-1 rounded-8 h-25  w-25">Chỉnh sửa</button>
+                    <button class="btn-edit-profile px-4 py-1 rounded-8 h-25  w-25" data-bs-toggle="modal" data-bs-target="#editEmailModal">Chỉnh sửa</button>
                 </div>
                 <div class="d-flex justify-content-between mt-2">
                     <div class="d-flex flex-column">
                         <p class="text-uppercase fs-12 text-color-logo fw-bold">Số điện thoại</p>
                         <p class="fs-6 text-color-header">Bạn chưa thêm số điện thoại nào</p>
                     </div>
-                    <button class="btn-edit-profile px-4 py-1 rounded-8 h-25  w-25">Thêm mới</button>
+                    <button class="btn-edit-profile px-4 py-1 rounded-8 h-25  w-25" data-bs-toggle="modal" data-bs-target="#editPhoneModal">Thêm mới</button>
                 </div>
                 <div class="d-flex justify-content-between mt-2">
                     <div class="d-flex flex-column">
                         <p class="text-uppercase fs-12 text-color-logo fw-bold">Mật khẩu</p>
                         <p class="fs-6 text-color-header">******************</p>
                     </div>
-                    <button class="btn-edit-profile px-4 py-1 rounded-8 h-25">Đổi mật khẩu</button>
+                    <button class="btn-edit-profile px-4 py-1 rounded-8 h-25" data-bs-toggle="modal" data-bs-target="#editPasswordModal">Đổi mật khẩu</button>
                 </div>
             </div>
         </div>
@@ -59,7 +60,7 @@
         <p class="text-color-header fw-bold fs-5 ">Bài chủ đề hàng đầu</p>
         <div class="d-flex">
             <div class="text-color-header px-3">Thời gian </div>
-            <img src="~/img/sort-up.png" alt="Alternate Text" width="20" style="height:20px"/>
+            <img src="~/img/sort-up.png" alt="Alternate Text" width="20" style="height:20px" />
         </div>
     </div>
 
@@ -113,6 +114,250 @@
         </div>
         <div class="d-flex px-3 justify-content-center text-color-header py-1 rounded-2 align-content-center">
             20 phút trước
+        </div>
+    </div>
+</div>
+
+
+<form id="logoutForm" asp-action="Logout" asp-controller="Home" method="post" class="mt-3 flex justify-content-end">
+    <button type="submit" class="btn-logout">Đăng xuất khỏi tài khoản</button>
+</form>
+
+<!-- Button trigger modal -->
+@* <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Launch demo modal
+</button> *@
+
+<!-- Modal -->
+<div class="modal fade modal-new-post-overall rounded-3"s style="overflow-x: hidden;" id="exampleModal" tabindex="-1"
+     aria-labelledby="newPostModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="border-radius: 20px;">
+        <div class="modal-content">
+            <div class="modal-header modal-new-post-header py-2 px-3">
+                <h5 class="modal-title text-uppercase" id="newPostModalLabel">Xác nhận</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body bg-main-color-layout d-flex flex-column py-4">
+                <div class="text-color-header  justify-content-center flex-column m-auto" style="min-height:100px;">
+                    <p class="fs-3 text-color-header fw-bold m-0 mt-2">Bạn chắc chắn chứ?</p>
+                    <p class="text-color-headerfw-bold m-0 p-0">Các thay đổi sẽ không được lưu lại!</p>
+              </div>
+            </div>
+            <div class="d-flex justify-content-center bg-main-color-layout pb-4 rounded-bottom">
+                <button type="button" class="rounded-2 px-3 py-1 btn-confirm me-1" data-bs-dismiss="modal" style="min-width:148px;">Huỷ</button>
+                <button type="button" class="rounded-2 px-3 py-1 btn-confirm ms-1" style="min-width:148px;">Đồng ý</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--DisplayName Modal -->
+<div class="modal fade" id="editDisplayNameModal" tabindex="-1" aria-labelledby="editDisplayNameModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="min-width: 50%;">
+        <div class="modal-content bg-main-color-layout">
+            <div class="modal-header bg-main-color-header px-3 py-2">
+                <h5 class="modal-title text-uppercase text-color-background" id="editDisplayNameModalLabel">Đổi tên hiển thị</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex w-100 align-items-center ">
+                <div class="col-5 d-flex flex-column justify-content-center align-items-center">
+                    <img class="my-2" src="~/img/Logo_75.png" alt="Logo" height="85" width="85" />
+                    <span class="ms-2 kbridge-text text-color-header fs-3 d-none d-md-inline">K-BRIDGE</span>
+                </div>
+                <div class="col-7">
+                    <p class="fs-12 text-color-header">Nhập tên đăng nhập mới và mật khẩu hiện tại.</p>
+                    <div class="form-group mb-4 text-color-header fw-bold">
+                        <label for="DisplayName">Tên hiển thị</label>
+                        <input type="text" class="form-control focus bg-main-color-background text-color-header rounded-3 mt-2" 
+                                placeholder="abc123" minlength="4" required>
+                    </div>
+
+                    <div class="form-group mb-4 text-color-header fw-bold">
+                        <label for="password">Mật khẩu</label>
+                        <input type="password" class="form-control bg-main-color-background focus text-color-header rounded-3 mt-2"
+                                minlength="8" required
+                               placeholder="Nhập mật khẩu của bạn">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-account-edit w-25 me-4" data-bs-dismiss="modal">Huỷ</button>
+                <button type="button" class="btn btn-account-log  w-25 me-4">Lưu thay đổi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--UserName Modal -->
+<div class="modal fade" id="editUserNameModal" tabindex="-1" aria-labelledby="editUserNameModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="min-width: 50%;">
+        <div class="modal-content bg-main-color-layout">
+            <div class="modal-header bg-main-color-header px-3 py-2">
+                <h5 class="modal-title text-uppercase text-color-background" id="editUserNameModalLabel">Đổi tên đăng nhập</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex w-100 align-items-center ">
+                <div class="col-5 d-flex flex-column justify-content-center align-items-center">
+                    <img class="my-2" src="~/img/Logo_75.png" alt="Logo" height="85" width="85" />
+                    <span class="ms-2 kbridge-text text-color-header fs-3 d-none d-md-inline">K-BRIDGE</span>
+                </div>
+                <div class="col-7">
+                    <p class="fs-12 text-color-header">Nhập tên đăng nhập mới và mật khẩu hiện tại.</p>
+                    <div class="form-group mb-4 text-color-header fw-bold">
+                        <label for="Username">Tên đăng nhập</label>
+                        <input type="text" class="form-control focus bg-main-color-background text-color-header rounded-3 mt-2"
+                               placeholder="abc123" minlength="4" required>
+                    </div>
+
+                    <div class="form-group mb-4 text-color-header fw-bold">
+                        <label for="password">Mật khẩu</label>
+                        <input type="password" class="form-control bg-main-color-background focus text-color-header rounded-3 mt-2"
+                               minlength="8" required
+                               placeholder="Nhập mật khẩu của bạn">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-account-edit w-25 me-4" data-bs-dismiss="modal">Huỷ</button>
+                <button type="button" class="btn btn-account-log  w-25 me-4">Lưu thay đổi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Email Modal -->
+<div class="modal fade" id="editEmailModal" tabindex="-1" aria-labelledby="editEmailModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="min-width: 50%;">
+        <div class="modal-content bg-main-color-layout">
+            <div class="modal-header bg-main-color-header px-3 py-2">
+                <h5 class="modal-title text-uppercase text-color-background" id="editEmailModalLabel">Đổi email người dùng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex w-100 align-items-center ">
+                <div class="col-5 d-flex flex-column justify-content-center align-items-center">
+                    <img class="my-2" src="~/img/Logo_75.png" alt="Logo" height="85" width="85" />
+                    <span class="ms-2 kbridge-text text-color-header fs-3 d-none d-md-inline">K-BRIDGE</span>
+                </div>
+                <div class="col-7">
+                    <p class="fs-12 text-color-header">Nhập tên đăng nhập mới và mật khẩu hiện tại.</p>
+                    <div class="form-group mb-4 text-color-header fw-bold">
+                        <label for="Username">Tên đăng nhập</label>
+                        <input type="text" class="form-control focus bg-main-color-background text-color-header rounded-3 mt-2"
+                               placeholder="abc123" minlength="4" required>
+                    </div>
+
+                    <div class="form-group mb-4 text-color-header fw-bold">
+                        <label for="password">Mật khẩu</label>
+                        <input type="password" class="form-control bg-main-color-background focus text-color-header rounded-3 mt-2"
+                               minlength="8" required
+                               placeholder="Nhập mật khẩu của bạn">
+                    </div>
+
+
+                    <div class="form-group mb-4 text-color-header fw-bold">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control bg-main-color-background focus text-color-header rounded-3 mt-2"
+                               minlength="8" required
+                               placeholder="Nhập email của bạn">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-account-edit w-25 me-4" data-bs-dismiss="modal">Huỷ</button>
+                <button type="button" class="btn btn-account-log  w-25 me-4">Lưu thay đổi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Password Modal -->
+<div class="modal fade" id="editPasswordModal" tabindex="-1" aria-labelledby="editPasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="min-width: 50%;">
+        <div class="modal-content bg-main-color-layout">
+            <div class="modal-header bg-main-color-header px-3 py-2">
+                <h5 class="modal-title text-uppercase text-color-background" id="editPasswordModalLabel">Đổi mật khẩu người dùng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex w-100 align-items-center ">
+                <div class="col-5 d-flex flex-column justify-content-center align-items-center">
+                    <img class="my-2" src="~/img/Logo_75.png" alt="Logo" height="85" width="85" />
+                    <span class="ms-2 kbridge-text text-color-header fs-3 d-none d-md-inline">K-BRIDGE</span>
+                </div>
+                <div class="col-7">
+                    <p class="fs-12 text-color-header">Nhập tên đăng nhập mới và mật khẩu hiện tại.</p>
+                    <div class="form-group mb-4 text-color-header fw-bold">
+                        <label for="Username">Tên đăng nhập</label>
+                        <input type="text" class="form-control focus bg-main-color-background text-color-header rounded-3 mt-2"
+                               placeholder="abc123" minlength="4" required>
+                    </div>
+
+                    <div class="form-group mb-4 text-color-header fw-bold">
+                        <label for="password">Mật khẩu</label>
+                        <input type="password" class="form-control bg-main-color-background focus text-color-header rounded-3 mt-2"
+                               minlength="8" required
+                               placeholder="Nhập mật khẩu của bạn">
+                    </div>
+
+                    <div class="form-group mb-4 text-color-header fw-bold">
+                        <label for="password">Mật khẩu mới</label>
+                        <input type="password" class="form-control bg-main-color-background focus text-color-header rounded-3 mt-2"
+                               minlength="8" required
+                               placeholder="Nhập mật khẩu mới">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-account-edit w-25 me-4" data-bs-dismiss="modal">Huỷ</button>
+                <button type="button" class="btn btn-account-log  w-25 me-4">Lưu thay đổi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--Phone Modal -->
+<div class="modal fade" id="editPhoneModal" tabindex="-1" aria-labelledby="editPhoneModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="min-width: 50%;">
+        <div class="modal-content bg-main-color-layout">
+            <div class="modal-header bg-main-color-header px-3 py-2">
+                <h5 class="modal-title text-uppercase text-color-background" id="editPhoneModalLabel">Đổi số điện thoại người dùng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex w-100 align-items-center ">
+                <div class="col-5 d-flex flex-column justify-content-center align-items-center">
+                    <img class="my-2" src="~/img/Logo_75.png" alt="Logo" height="85" width="85" />
+                    <span class="ms-2 kbridge-text text-color-header fs-3 d-none d-md-inline">K-BRIDGE</span>
+                </div>
+                <div class="col-7">
+                    <p class="fs-12 text-color-header">Nhập tên đăng nhập mới và mật khẩu hiện tại.</p>
+                    <div class="form-group mb-4 text-color-header fw-bold">
+                        <label for="Username">Tên đăng nhập</label>
+                        <input type="text" class="form-control focus bg-main-color-background text-color-header rounded-3 mt-2"
+                               placeholder="abc123" minlength="4" required>
+                    </div>
+
+                    <div class="form-group mb-4 text-color-header fw-bold">
+                        <label for="password">Mật khẩu</label>
+                        <input type="password" class="form-control bg-main-color-background focus text-color-header rounded-3 mt-2"
+                               minlength="8" required
+                               placeholder="Nhập mật khẩu của bạn">
+                    </div>
+
+                    <div class="form-group mb-4 text-color-header fw-bold">
+                        <label for="phone">Số điện thoại</label>
+                        <input type="text" class="form-control bg-main-color-background focus text-color-header rounded-3 mt-2"
+                               minlength="8" required
+                               placeholder="Nhập số điện thoại mới của bạn">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-account-edit w-25 me-4" data-bs-dismiss="modal">Huỷ</button>
+                <button type="button" class="btn btn-account-log  w-25 me-4">Lưu thay đổi</button>
+            </div>
         </div>
     </div>
 </div>

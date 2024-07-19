@@ -8,30 +8,61 @@ using Microsoft.EntityFrameworkCore;
 using K_Bridge.Infrastructure;
 using K_Bridge.Pages.Admin;
 using K_Bridge.Repositories;
+using Ganss.Xss;
 
 namespace K_Bridge.Controllers;
 
 public class HomeController : Controller
 {
 
-    private IUserRepository _repository;
+    private IUserRepository _userRepository;
+    private IPostRepository _postRepository;
+    private IForumRepository _forumRepository;
+    private IKBridgeRepository _kBridgeRepository;
+    private ITopicRepository _topicRepository;
+    private IGlobalChatRepository _chatRepository;
+
+    private readonly HtmlSanitizer _sanitizer;
+
+
     private CodeGenerationService _codeGenerationService;
+
     private readonly IHttpContextAccessor _httpContextAccessor;
+
+
 
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
-    public HomeController(IUserRepository repository, CodeGenerationService codeGenerationService, IHttpContextAccessor httpContextAccessor)
+    public HomeController(IUserRepository userRepository, IPostRepository postRepository, IForumRepository forumRepository,
+        IKBridgeRepository kBridgeRepository, ITopicRepository topicRepository,
+        IGlobalChatRepository chatRepository,
+        CodeGenerationService codeGenerationService, IHttpContextAccessor httpContextAccessor)
     {
-        _repository = repository;
+        _userRepository = userRepository;
         _codeGenerationService = codeGenerationService;
         _httpContextAccessor = httpContextAccessor;
+        _postRepository = postRepository;
+        _forumRepository = forumRepository;
+        _kBridgeRepository = kBridgeRepository;
+        _topicRepository = topicRepository;
+        _chatRepository = chatRepository;
+        _sanitizer = new HtmlSanitizer();
+
     }
 
     public IActionResult Index()
     {
+        // Bài viết mới nhất
+        var latestPost = _postRepository.GetLatestPost();
+        ViewBag.LatestPost = latestPost;
+
+        // Forum with topics
+        var lstForum = _forumRepository.GetForumsWithTopicsAndLatestPosts();
+        ViewBag.Forum = lstForum;
+
         return View();
     }
 
@@ -41,7 +72,7 @@ public class HomeController : Controller
         if (ModelState.IsValid)
         {
             // Kiểm tra xem email đã tồn tại chưa
-            var checkEmail = _repository.Users
+            var checkEmail = _userRepository.Users
                 .FirstOrDefaultAsync(u => u.Email == model.RegisterModel.Email);
 
             if (model.RegisterModel.Password != model.RegisterModel.ConfirmPassword)
@@ -58,7 +89,7 @@ public class HomeController : Controller
                 return Json(new { success = false, errors = errors });
             }
 
-            var checkUsername = _repository.Users
+            var checkUsername = _userRepository.Users
                 .FirstOrDefaultAsync(u => u.Username == model.RegisterModel.Username);
 
             if (checkUsername.Result != null)
@@ -82,7 +113,7 @@ public class HomeController : Controller
                 Password = hashedPassword,
                 Status = "Active"
             };
-            _repository.SaveUser(newUser);
+            _userRepository.SaveUser(newUser);
 
             //HttpContext.Session.SetJson("user", newUser);
 
@@ -103,7 +134,7 @@ public class HomeController : Controller
 
         if (ModelState.IsValid)
         {
-            var user = _repository.Users.FirstOrDefaultAsync(u => u.Email == model.LoginModel.User || u.Username == model.LoginModel.User).Result;
+            var user = _userRepository.Users.FirstOrDefaultAsync(u => u.Email == model.LoginModel.User || u.Username == model.LoginModel.User).Result;
 
             if (user == null || !BCrypt.Net.BCrypt.Verify(model.LoginModel.Password, user.Password))
             {
@@ -122,9 +153,55 @@ public class HomeController : Controller
             return Json(new { success = false, errors = errors });
         }
     }
-    [Route("/Search/{SearchKey}")]
-    public IActionResult Search(string SearchKey)
+
+    [HttpPost]
+    public IActionResult SendMessage([FromBody] GlobalChat message)
+    {
+        if (ModelState.IsValid)
+        {
+            message.SendAt = DateTime.Now; // Set message timestamp
+            _chatRepository.AddMessage(message); // Add message to repository
+
+            return Ok(); // Return 200 OK status
+        }
+        return BadRequest();
+    }
+
+    [Route("Search")]
+    [HttpGet("Search")]
+    public IActionResult Searching([FromQuery] string key)
+    {
+        var searchResults = _postRepository.Posts
+        .Include(p => p.User) // Include user details of the post
+        .Include(p => p.Topic) // Include topic details of the post
+            .ThenInclude(t => t.Forum) // Include forum details of the topic
+        .Include(p => p.Replies) // Include replies of the post
+            .ThenInclude(r => r.User) // Include user details of each reply
+        .Where(p => p.Title.Contains(key) || p.Content.Contains(key))
+        .ToList();
+
+        ViewBag.SearchKey = key;
+        ViewBag.SearchResults = searchResults;
+        return View();
+    }
+
+
+    [HttpPost("Logout")]
+    public IActionResult Logout()
+    {
+        // Clear the user's session
+        HttpContext.Session.Remove("user");
+
+        // Optionally, you can clear the entire session
+        HttpContext.Session.Clear();
+
+        // Redirect to the login page or home page
+        return RedirectToAction("Index", "Home"); // or RedirectToAction("Login", "Account");
+    }
+    [Route("/ForgetPassword")]
+    public IActionResult ForgetPassword()
     {
         return View();
+
     }
 }

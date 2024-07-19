@@ -12,7 +12,17 @@
                         <p class="p-0 m-0 text-color-logo fs-6">@forum.Name</p>
                     </div>
                     <div class="row text-wrap m-0 d-none d-sm-block">
-                        <p class="p-0 m-0 text-color-logo fs-6">@($"{forum.ID}00 bài viết")</p>
+                        @{
+                            int totalPosts = 0;
+                            if (forum.Topics != null)
+                            {
+                                foreach (var topic in forum.Topics)
+                                {
+                                    totalPosts += topic.Posts.Count;
+                                }
+                            }
+                        }
+                        <p class="p-0 m-0 text-color-logo fs-6">@($"{totalPosts} bài viết")</p>
                     </div>
                 </div>
             </div>

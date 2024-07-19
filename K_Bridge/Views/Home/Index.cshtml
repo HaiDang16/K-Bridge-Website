@@ -31,384 +31,103 @@
         </div>
     </div>
 
-    @* Newest *@
+    @* Bài viết mới nhất *@
     <div class="d-flex flex-column mt-4 h-auto w-auto rounded-8" style="background:#FFF0E6; border-top:5px solid #493422;">
         <button id="toggle-new-1" class="flex-grow-0 border-main-color-logo border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between">
             <a class="text-uppercase text-decoration-none text-black" href="/Newest">Bài viết mới nhất </a>
             <img id="arrow-icon-new-1" src="/img/arrow_down.png" alt="arrow_down" />
         </button>
-        @* Topic *@
+
         <div id="container-new-1">
-            <div class="row m-0 px-3 py-2">
-                <div class="col-2 d-flex flex-column justify-content-center">
-                    <div class="newest-card-stat py-2">0 Câu trả lời</div>
-                    <div class="newest-card-stat py-2">10 Lượt xem</div>
-                </div>
-                <div class="col-10">
-                    <div class="d-flex">
-                        <div class="newest-card-title fs-6">Xin đề cương môn ABC Xin đề cương môn ABC Xin đề cương môn ABC Xin đề cương môn ABC</div>
-                        <div class="newest-card-tag px-3 mx-3">Tài liệu</div>
+            @foreach (var latestPost in ViewBag.LatestPost ?? Enumerable.Empty<Post>())
+            {
+                <div class="row m-0 px-3 py-2" onclick="window.location.href='/Post/Details?post=@latestPost.ID'">
+                    <div class="col-2 d-flex flex-column justify-content-center">
+                        <div class="newest-card-stat py-2">@(latestPost.Replies?.Count() ?? 0) Câu trả lời</div>
+                        <div class="newest-card-stat py-2">@latestPost.ViewCount Lượt xem</div>
                     </div>
-                    <div class="newest-card-des" style="font-size:13px;">
-                        Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học cô Thuỷ cho mình xin đề cương ôn tập.
-                        Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học
-                    </div>
-                    <div class="d-flex justify-content-end mt-2">
-                        <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
-                        <div class="newest-card-username mx-2">User1 hỏi 10 phút trước</div>
-                    </div>
-                </div>
-            </div>
-            <hr class="mt-2">
-            <div class="row m-0 px-3 py-2">
-                <div class="col-2 d-flex flex-column justify-content-center">
-                    <div class="newest-card-stat py-2">0 Câu trả lời</div>
-                    <div class="newest-card-stat py-2">10 Lượt xem</div>
-                </div>
-                <div class="col-10">
-                    <div class="d-flex">
-                        <div class="newest-card-title fs-6">Xin đề cương môn ABC Xin đề cương môn ABC</div>
-                        <div class="newest-card-tag px-3 mx-3">Tài liệu</div>
-                    </div>
-                    <div class="newest-card-des" style="font-size:13px;">
-                        Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học cô Thuỷ cho mình xin đề cương ôn tập.
-                    </div>
-                    <div class="d-flex justify-content-end mt-2">
-                        <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
-                        <div class="newest-card-username mx-2">User1 hỏi 10 phút trước</div>
+                    <div class="col-10">
+                        <div class="d-flex">
+                            <div class="newest-card-title fs-6">@latestPost.Title</div>
+                            <div class="newest-card-tag px-3 mx-3"
+                                 style="background: @GetForumColorHelper.GetForumBackgroundColor(latestPost.Topic.Forum.ID);
+                                        color:@GetForumColorHelper.GetForumColor(latestPost.Topic.Forum.ID)">
+                                @latestPost.Topic.Forum.TagName
+                            </div>
+                        </div>
+                        <div class="newest-card-des" style="font-size:13px;">
+                            <div class="reply-content">
+                                @Html.Raw(latestPost.Content)
+                            </div>
+                            </div>
+                        <div class="d-flex justify-content-end mt-2">
+                            <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
+                            <div class="newest-card-username mx-2">@latestPost.User.Username hỏi @GetTimeAgoHelper.GetTimeAgo(latestPost.CreatedAt)</div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <hr class="mt-2">
-            <div class="row m-0 px-3 py-2">
-                <div class="col-2 d-flex flex-column justify-content-center">
-                    <div class="newest-card-stat py-2">0 Câu trả lời</div>
-                    <div class="newest-card-stat py-2">10 Lượt xem</div>
-                </div>
-                <div class="col-10">
-                    <div class="d-flex">
-                        <div class="newest-card-title fs-6">Xin đề cương môn ABC</div>
-                        <div class="newest-card-tag px-3 mx-3">Tài liệu</div>
-                    </div>
-                    <div class="newest-card-des" style="font-size:13px;">
-                        Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học cô Thuỷ cho mình xin đề cương ôn tập.
-                        Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học
-                    </div>
-                    <div class="d-flex justify-content-end mt-2">
-                        <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
-                        <div class="newest-card-username mx-2">User1 hỏi 10 phút trước</div>
-                    </div>
-                </div>
-            </div>
-            <hr class="mt-2">
-            <div class="row m-0 px-3 py-2">
-                <div class="col-2 d-flex flex-column justify-content-center">
-                    <div class="newest-card-stat py-2">0 Câu trả lời</div>
-                    <div class="newest-card-stat py-2">10 Lượt xem</div>
-                </div>
-                <div class="col-10">
-                    <div class="d-flex">
-                        <div class="newest-card-title fs-6">Xin đề cương môn ABC Xin đề cương môn ABC Xin đề cương môn ABC Xin đề cương môn ABC</div>
-                        <div class="newest-card-tag px-3 mx-3">Tài liệu</div>
-                    </div>
-                    <div class="newest-card-des" style="font-size:13px;">
-                        Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học cô Thuỷ cho mình xin đề cương ôn tập.
-                    </div>
-                    <div class="d-flex justify-content-end mt-2">
-                        <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
-                        <div class="newest-card-username mx-2">User1 hỏi 10 phút trước</div>
-                    </div>
-                </div>
-            </div>
-            <hr class="mt-2">
-
-            @*<div class="row m-0 px-3 py-2" style="border-top:2px solid #8E6745;">
-            <div class="col-2 d-flex flex-column justify-content-center">
-            <div class="newest-card-stat py-1">0 Câu trả lời</div>
-            <div class="newest-card-stat py-1">10 Lượt xem</div>
-            </div>
-            <div class="col-10">
-            <div class="d-flex">
-            <div class="newest-card-title fs-6">Xin đề cương môn ABC</div>
-            <button class="newest-card-tag px-5 mx-2">Tài liệu</button>
-            </div>
-            <div class="fs-12 text-color-header py-1">Hôm qua mình nghỉ học nên không biết có đề cương, mình cũng không quen ai trên lớp nên bạn nào học cô Thuỷ cho mình xin đề cương ôn tập.</div>
-            <div class="d-flex justify-content-end mt-1">
-            <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="24" height="24">
-            <div class="newest-card-username fs-12 mx-2">User1 hỏi 10 phút trước</div>
-            </div>
-            </div>
-            </div>*@
+                <hr class="mt-2">
+            }
         </div>
     </div>
 
-    @* Categories *@
-    <div class="d-flex flex-column mt-4 h-auto w-auto rounded-8" style="border-top:5px solid #CF63D1; background:#FFF0E6;">
-        <button id="toggle-cate-1" class="flex-grow-0 border-main-color-logo border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between">
-            <a class="text-uppercase text-decoration-none text-black" href="/Category/List?forum=Tài liệu tham khảo">Tài liệu tham khảo</a>
-            <img id="arrow-icon-cate-1" src="/img/arrow_down.png" alt="arrow_down" />
-        </button>
-        @* Topic *@
-        <div id="container-cate-1">
-            <div class="w-auto rounded-3">
-                <div class="row flex-nowrap p-2 m-0">
-                    <div class="col-lg-1 p-0 m-2 d-flex justify-content-center">
-                        <img src="/img/cate_1.png" alt="avatar" style="width: 50px; height: 50px;" />
-                    </div>
-                    <div class="col-lg-5 d-flex flex-column justify-content-center">
-                        <div class="fw-normal p-0 my-1">Chia sẻ đề cương thi</div>
-                        <div class="fs-12 opacity-75 my-1">
-                            Chia sẻ tài liệu học tập...
-                        </div>
-                    </div>
-                    <div class="col-lg-2 p-0 d-flex align-items-center">
-                        <div class="col-lg-11 d-flex flex-column justify-content-center">
-                            <div class="fs-6 me-2 p-0 d-flex justify-content-center">0</div>
-                            <div class="fw-normal p-0 d-flex justify-content-center">Bài viết</div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 p-0 d-flex align-items-center">
-                        <div class="col-lg-2 p-0 m-2 d-flex align-items-center">
-                            <img src="/img/avatar_40.png" alt="avatar" style="width: 40px; height: 40px;" />
-                        </div>
-                        <div class="col-lg-8 d-flex flex-column justify-content-center">
-                            <div class="fw-12 p-0 m-0">Bài viết mới nh...</div>
-                            <div class="fs-12 opacity-75 d-flex align-items-center">
-                                04/06/24 - <p class="fw-bold ms-1 d-flex p-0 m-0">Tên User</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    @foreach (var forum in ViewBag.Forum ?? Enumerable.Empty<Forum>())
+    {
+        @* Forum *@
+        <div class="d-flex flex-column mt-4 h-auto w-auto rounded-8 bg-main-color-background"
+             style="border-top:5px solid @GetForumColorHelper.GetForumBackgroundColor(forum.ID);">
+            <button id="toggle-cate-@forum.ID" class="flex-grow-0 border-main-color-logo border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between">
+                @* <div class="text-uppercase text-decoration-none text-black" href="/Category/List?forum=@forum.Name">@forum.Name</div> *@
+                <div class="text-uppercase text-decoration-none text-black" onclick="window.location.href='/Category/TopicList'">@forum.Name</div>
 
-            <div class="w-auto rounded-3">
-                <div class="row flex-nowrap p-2 m-0">
-                    <div class="col-lg-1 p-0 m-2 d-flex justify-content-center">
-                        <img src="/img/cate_1.png" alt="avatar" style="width: 50px; height: 50px;" />
-                    </div>
-                    <div class="col-lg-5 d-flex flex-column justify-content-center">
-                        <div class="fw-normal p-0 my-1">Chia sẻ đề cương thi</div>
-                        <div class="fs-12 opacity-75 my-1">
-                            Chia sẻ tài liệu học tập...
-                        </div>
-                    </div>
-                    <div class="col-lg-2 p-0 d-flex align-items-center">
-                        <div class="col-lg-11 d-flex flex-column justify-content-center">
-                            <div class="fs-6 me-2 p-0 d-flex justify-content-center">0</div>
-                            <div class="fw-normal p-0 d-flex justify-content-center">Bài viết</div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 p-0 d-flex align-items-center">
-                        <div class="col-lg-2 p-0 m-2 d-flex align-items-center">
-                            <img src="/img/avatar_40.png" alt="avatar" style="width: 40px; height: 40px;" />
-                        </div>
-                        <div class="col-lg-8 d-flex flex-column justify-content-center">
-                            <div class="fw-12 p-0 m-0">Bài viết mới nh...</div>
-                            <div class="fs-12 opacity-75 d-flex align-items-center">
-                                04/06/24 - <p class="fw-bold ms-1 d-flex p-0 m-0">Tên User</p>
+                <img id="arrow-icon-cate-@forum.ID" src="/img/arrow_down.png" alt="arrow_down" />
+            </button>
+            @* Topic *@
+            <div id="container-cate-@forum.ID">
+                @foreach (var topic in forum.Topics)
+                {
+                    <div class="w-auto rounded-3" >
+                        <div class="row flex-nowrap p-2 m-0" >
+                            <div class="col-lg-1 p-0 m-2 d-flex justify-content-center">
+                                <img src="/img/cate_1.png" alt="avatar" style="width: 50px; height: 50px;" />
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                            <div class="col-lg-5 d-flex flex-column justify-content-center">
+                                <div class="fw-normal p-0 my-1">@topic.Name</div>
+                                <div class="fs-12 opacity-75 my-1">
+                                    @topic.Description
+                                </div>
+                            </div>
+                            <div class="col-lg-2 p-0 d-flex align-items-center">
+                                <div class="col-lg-11 d-flex flex-column justify-content-center">
+                                    <div class="fs-6 me-2 p-0 d-flex justify-content-center">@topic.Posts.Count</div>
+                                    <div class="fw-normal p-0 d-flex justify-content-center">Bài viết</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 p-0 d-flex align-items-center">
+                                <div class="col-lg-2 p-0 m-2 d-flex align-items-center">
+                                    <img src="/img/avatar_40.png" alt="avatar" style="width: 40px; height: 40px;" />
+                                </div>
+                                <div class="col-lg-8 d-flex flex-column justify-content-center">
+                                    <div class="fw-12 p-0 m-0 home-topic-latest-post-title">
 
-            <div class="w-auto rounded-3">
-                <div class="row flex-nowrap p-2 m-0">
-                    <div class="col-lg-1 p-0 m-2 d-flex justify-content-center">
-                        <img src="/img/cate_1.png" alt="avatar" style="width: 50px; height: 50px;" />
-                    </div>
-                    <div class="col-lg-5 d-flex flex-column justify-content-center">
-                        <div class="fw-normal p-0 my-1">Chia sẻ đề cương thi</div>
-                        <div class="fs-12 opacity-75 my-1">
-                            Chia sẻ tài liệu học tập...
-                        </div>
-                    </div>
-                    <div class="col-lg-2 p-0 d-flex align-items-center">
-                        <div class="col-lg-11 d-flex flex-column justify-content-center">
-                            <div class="fs-6 me-2 p-0 d-flex justify-content-center">0</div>
-                            <div class="fw-normal p-0 d-flex justify-content-center">Bài viết</div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 p-0 d-flex align-items-center">
-                        <div class="col-lg-2 p-0 m-2 d-flex align-items-center">
-                            <img src="/img/avatar_40.png" alt="avatar" style="width: 40px; height: 40px;" />
-                        </div>
-                        <div class="col-lg-8 d-flex flex-column justify-content-center">
-                            <div class="fw-12 p-0 m-0">Bài viết mới nh...</div>
-                            <div class="fs-12 opacity-75 d-flex align-items-center">
-                                04/06/24 - <p class="fw-bold ms-1 d-flex p-0 m-0">Tên User</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                            @topic.Posts[0].Title
 
-            <div class="w-auto rounded-3">
-                <div class="row flex-nowrap p-2 m-0">
-                    <div class="col-lg-1 p-0 m-2 d-flex justify-content-center">
-                        <img src="/img/cate_1.png" alt="avatar" style="width: 50px; height: 50px;" />
-                    </div>
-                    <div class="col-lg-5 d-flex flex-column justify-content-center">
-                        <div class="fw-normal p-0 my-1">Chia sẻ đề cương thi</div>
-                        <div class="fs-12 opacity-75 my-1">
-                            Chia sẻ tài liệu học tập...
-                        </div>
-                    </div>
-                    <div class="col-lg-2 p-0 d-flex align-items-center">
-                        <div class="col-lg-11 d-flex flex-column justify-content-center">
-                            <div class="fs-6 me-2 p-0 d-flex justify-content-center">0</div>
-                            <div class="fw-normal p-0 d-flex justify-content-center">Bài viết</div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 p-0 d-flex align-items-center">
-                        <div class="col-lg-2 p-0 m-2 d-flex align-items-center">
-                            <img src="/img/avatar_40.png" alt="avatar" style="width: 40px; height: 40px;" />
-                        </div>
-                        <div class="col-lg-8 d-flex flex-column justify-content-center">
-                            <div class="fw-12 p-0 m-0">Bài viết mới nh...</div>
-                            <div class="fs-12 opacity-75 d-flex align-items-center">
-                                04/06/24 - <p class="fw-bold ms-1 d-flex p-0 m-0">Tên User</p>
+                                        </div>
+                                    <div class="fs-12 opacity-75 d-flex align-items-center">
+                                        @topic.Posts[0].CreatedAtFormatted - <p class="fw-bold ms-1 d-flex p-0 m-0">@topic.Posts[0].User.Username</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+
+
+                }
             </div>
         </div>
-    </div>
 
-    @* Categories *@
-    <div class="d-flex flex-column mt-4 h-auto w-auto rounded-8" style="background:#FFF0E6;border-top:5px solid #76F756;">
-        <button id="toggle-cate-2" class="flex-grow-0 border-main-color-header border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between">
-            <a class="text-uppercase text-decoration-none text-black" href="/Category/List?forum=Hướng dẫn">Hướng dẫn</a>
-            <img id="arrow-icon-cate-2" src="/img/arrow_down.png" alt="arrow_down" />
-        </button>
-        @* Topic *@
-        <div id="container-cate-2">
-            <div class="w-auto rounded-3">
-                <div class="row flex-nowrap p-2 m-0">
-                    <div class="col-lg-1 p-0 m-2 d-flex justify-content-center">
-                        <img src="/img/cate_1.png" alt="avatar" style="width: 50px; height: 50px;" />
-                    </div>
-                    <div class="col-lg-5 d-flex flex-column justify-content-center">
-                        <div class="fw-normal p-0 my-1">Chia sẻ đề cương thi</div>
-                        <div class="fs-12 opacity-75 my-1">
-                            Chia sẻ tài liệu học tập...
-                        </div>
-                    </div>
-                    <div class="col-lg-2 p-0 d-flex align-items-center">
-                        <div class="col-lg-11 d-flex flex-column justify-content-center">
-                            <div class="fs-6 me-2 p-0 d-flex justify-content-center">0</div>
-                            <div class="fw-normal p-0 d-flex justify-content-center">Bài viết</div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 p-0 d-flex align-items-center">
-                        <div class="col-lg-2 p-0 m-2 d-flex align-items-center">
-                            <img src="/img/avatar_40.png" alt="avatar" style="width: 40px; height: 40px;" />
-                        </div>
-                        <div class="col-lg-8 d-flex flex-column justify-content-center">
-                            <div class="fw-12 p-0 m-0">Bài viết mới nh...</div>
-                            <div class="fs-12 opacity-75 d-flex align-items-center">
-                                04/06/24 - <p class="fw-bold ms-1 d-flex p-0 m-0">Tên User</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="w-auto rounded-3">
-                <div class="row flex-nowrap p-2 m-0">
-                    <div class="col-lg-1 p-0 m-2 d-flex justify-content-center">
-                        <img src="/img/cate_1.png" alt="avatar" style="width: 50px; height: 50px;" />
-                    </div>
-                    <div class="col-lg-5 d-flex flex-column justify-content-center">
-                        <div class="fw-normal p-0 my-1">Chia sẻ đề cương thi</div>
-                        <div class="fs-12 opacity-75 my-1">
-                            Chia sẻ tài liệu học tập...
-                        </div>
-                    </div>
-                    <div class="col-lg-2 p-0 d-flex align-items-center">
-                        <div class="col-lg-11 d-flex flex-column justify-content-center">
-                            <div class="fs-6 me-2 p-0 d-flex justify-content-center">0</div>
-                            <div class="fw-normal p-0 d-flex justify-content-center">Bài viết</div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 p-0 d-flex align-items-center">
-                        <div class="col-lg-2 p-0 m-2 d-flex align-items-center">
-                            <img src="/img/avatar_40.png" alt="avatar" style="width: 40px; height: 40px;" />
-                        </div>
-                        <div class="col-lg-8 d-flex flex-column justify-content-center">
-                            <div class="fw-12 p-0 m-0">Bài viết mới nh...</div>
-                            <div class="fs-12 opacity-75 d-flex align-items-center">
-                                04/06/24 - <p class="fw-bold ms-1 d-flex p-0 m-0">Tên User</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="w-auto rounded-3">
-                <div class="row flex-nowrap p-2 m-0">
-                    <div class="col-lg-1 p-0 m-2 d-flex justify-content-center">
-                        <img src="/img/cate_1.png" alt="avatar" style="width: 50px; height: 50px;" />
-                    </div>
-                    <div class="col-lg-5 d-flex flex-column justify-content-center">
-                        <div class="fw-normal p-0 my-1">Chia sẻ đề cương thi</div>
-                        <div class="fs-12 opacity-75 my-1">
-                            Chia sẻ tài liệu học tập...
-                        </div>
-                    </div>
-                    <div class="col-lg-2 p-0 d-flex align-items-center">
-                        <div class="col-lg-11 d-flex flex-column justify-content-center">
-                            <div class="fs-6 me-2 p-0 d-flex justify-content-center">0</div>
-                            <div class="fw-normal p-0 d-flex justify-content-center">Bài viết</div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 p-0 d-flex align-items-center">
-                        <div class="col-lg-2 p-0 m-2 d-flex align-items-center">
-                            <img src="/img/avatar_40.png" alt="avatar" style="width: 40px; height: 40px;" />
-                        </div>
-                        <div class="col-lg-8 d-flex flex-column justify-content-center">
-                            <div class="fw-12 p-0 m-0">Bài viết mới nh...</div>
-                            <div class="fs-12 opacity-75 d-flex align-items-center">
-                                04/06/24 - <p class="fw-bold ms-1 d-flex p-0 m-0">Tên User</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="w-auto rounded-3">
-                <div class="row flex-nowrap p-2 m-0">
-                    <div class="col-lg-1 p-0 m-2 d-flex justify-content-center">
-                        <img src="/img/cate_1.png" alt="avatar" style="width: 50px; height: 50px;" />
-                    </div>
-                    <div class="col-lg-5 d-flex flex-column justify-content-center">
-                        <div class="fw-normal p-0 my-1">Chia sẻ đề cương thi</div>
-                        <div class="fs-12 opacity-75 my-1">
-                            Chia sẻ tài liệu học tập...
-                        </div>
-                    </div>
-                    <div class="col-lg-2 p-0 d-flex align-items-center">
-                        <div class="col-lg-11 d-flex flex-column justify-content-center">
-                            <div class="fs-6 me-2 p-0 d-flex justify-content-center">0</div>
-                            <div class="fw-normal p-0 d-flex justify-content-center">Bài viết</div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 p-0 d-flex align-items-center">
-                        <div class="col-lg-2 p-0 m-2 d-flex align-items-center">
-                            <img src="/img/avatar_40.png" alt="avatar" style="width: 40px; height: 40px;" />
-                        </div>
-                        <div class="col-lg-8 d-flex flex-column justify-content-center">
-                            <div class="fw-12 p-0 m-0">Bài viết mới nh...</div>
-                            <div class="fs-12 opacity-75 d-flex align-items-center">
-                                04/06/24 - <p class="fw-bold ms-1 d-flex p-0 m-0">Tên User</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    }
 </div>
 
 
@@ -435,6 +154,53 @@
             arrowCate2.classList.toggle('rotated2');
         });
     });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleCate3 = document.getElementById('toggle-cate-3');
+        const containerCate3 = document.getElementById('container-cate-3');
+        const arrowCate3 = document.getElementById('arrow-icon-cate-3');
+
+        toggleCate3.addEventListener('click', function () {
+            containerCate3.classList.toggle('hidden');
+            arrowCate3.classList.toggle('rotated3');
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleCate4 = document.getElementById('toggle-cate-4');
+        const containerCate4 = document.getElementById('container-cate-4');
+        const arrowCate4 = document.getElementById('arrow-icon-cate-4');
+
+        toggleCate4.addEventListener('click', function () {
+            containerCate4.classList.toggle('hidden');
+            arrowCate4.classList.toggle('rotated4');
+        });
+    });
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleCate5 = document.getElementById('toggle-cate-5');
+        const containerCate5 = document.getElementById('container-cate-5');
+        const arrowCate5 = document.getElementById('arrow-icon-cate-5');
+
+        toggleCate5.addEventListener('click', function () {
+            containerCate5.classList.toggle('hidden');
+            arrowCate5.classList.toggle('rotated5');
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleCate6 = document.getElementById('toggle-cate-6');
+        const containerCate6 = document.getElementById('container-cate-6');
+        const arrowCate6 = document.getElementById('arrow-icon-cate-6');
+
+        toggleCate6.addEventListener('click', function () {
+            containerCate6.classList.toggle('hidden');
+            arrowCate6.classList.toggle('rotated6');
+        });
+    });
+
+
 
     document.addEventListener('DOMContentLoaded', function () {
         const toggleCate2 = document.getElementById('toggle-new-1');

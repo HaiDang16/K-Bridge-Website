@@ -18,10 +18,10 @@
                      class="col-3 d-flex justify-content-end px-4 h-25" alt="Chủ đề">
             </div>
             <div class="row d-flex justify-content-center dashboard-card-number">
-                30.000
+                @Model.TotalTopics
             </div>
             <div class="row d-flex justify-content-end dashboard-card-plus-number">
-                +11
+                +@Model.RecentTopics
             </div>
         </div>
     </div>
@@ -36,10 +36,10 @@
                      class="col-3 d-flex justify-content-end px-4  h-25" alt="Bài viết">
             </div>
             <div class="row d-flex justify-content-center dashboard-card-number">
-                1.235
+                @Model.TotalPosts
             </div>
             <div class="row d-flex justify-content-end dashboard-card-plus-number">
-                -13
+                +@Model.RecentPosts
             </div>
         </div>
     </div>
@@ -54,10 +54,10 @@
                      class="col-3 d-flex justify-content-end px-3  h-25" alt="Tài khoản">
             </div>
             <div class="row d-flex justify-content-center dashboard-card-number">
-                500
+                @Model.TotalUsers
             </div>
             <div class="row d-flex justify-content-end dashboard-card-plus-number">
-                +1
+                +@Model.RecentUsers
             </div>
         </div>
     </div>

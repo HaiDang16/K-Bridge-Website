@@ -14,7 +14,9 @@
         </div>
         <div class="col col-md-7 d-flex justify-content-center">
             <div class="input-group rounded-2 border border-main-color-layout px-2" style="max-width: 420px;">
-                <input type="text" class="focus flex-grow-1 bg-transparent text-color-layout text-white" placeholder="Tìm kiếm..." aria-label="Search" aria-describedby="button-addon2">
+                <input type="text" class="focus flex-grow-1 bg-transparent text-color-layout text-white" 
+                placeholder="Tìm kiếm..." aria-label="Search" aria-describedby="button-addon2"
+                       id="searchInput">
                 <button class="btn btn-main-color-header" type="button" id="button-addon2">
                     <img src="/img/iconSearch.png" alt="Search Icon">
                 </button>
@@ -33,7 +35,7 @@
             }
             else
             {
-                <div class="d-md-flex align-items-center mx-3" onclick="window.location.href='/UserProfile/@ViewBag.UsernameLoggedIn'">
+                <div class="d-md-flex align-items-center mx-3 pointer-event" onclick="window.location.href='/UserProfile/@ViewBag.UsernameLoggedIn'">
                     <img src="/img/avatar_40.png" alt="avatar" class="me-2 rounded-3" style="width: 40px; height: 40px;" />
                     <div class=" text-color-background mb-1 fw-bold flex-grow-1 pe-none">@ViewBag.UsernameLoggedIn</div>
                 </div>
@@ -135,9 +137,10 @@
                     </div>
                 </div>
             </form>
-            <div>
-                <p class="p-3 text-color-logo fs-12">Chưa có tài khoản? <a href="#" id="switchToSignup">Đăng ký</a> ngay</p>
-            </div>
+            <div class="p-3 d-flex justify-content-between">
+                <p class="mt-2 text-color-logo fs-12">Chưa có tài khoản? <a href="#" id="switchToSignup">Đăng ký</a> ngay</p>
+                <p class="mt-2 text-color-logo fs-12"><a href="/ForgetPassword">Quên mật khẩu? </a> </p>
+            </div>            
         </div>
     </div>
 </div>
@@ -288,4 +291,30 @@
     //         loginButtons.parentNode.replaceChild(userInfo, loginButtons);
     //     }
     // }
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var searchButton = document.getElementById('button-addon2');
+        var searchInput = document.getElementById('searchInput');
+
+        // Thêm sự kiện click cho nút tìm kiếm
+        searchButton.addEventListener('click', function () {
+            var searchKey = searchInput.value.trim();
+            if (searchKey) {
+                window.location.href = '/Search?key=' + encodeURIComponent(searchKey);
+            }
+        });
+
+        // Thêm sự kiện keypress để xử lý khi nhấn Enter trong ô tìm kiếm
+        searchInput.addEventListener('keypress', function (event) {
+            if (event.key === 'Enter') {
+                var searchKey = searchInput.value.trim();
+                if (searchKey) {
+                    window.location.href = '/Search?key=' + encodeURIComponent(searchKey);
+                }
+            }
+        });
+    });
 </script>
