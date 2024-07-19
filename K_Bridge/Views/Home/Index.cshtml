@@ -108,11 +108,9 @@
                                     <img src="/img/avatar_40.png" alt="avatar" style="width: 40px; height: 40px;" />
                                 </div>
                                 <div class="col-lg-8 d-flex flex-column justify-content-center">
-                                        <div class="fw-12 p-0 m-0">
+                                    <div class="fw-12 p-0 m-0 home-topic-latest-post-title">
 
-                                            <div class="reply-content">
-                                            @Html.Raw(topic.Posts[0].Content)
-                                            </div>
+                                            @topic.Posts[0].Title
 
                                         </div>
                                     <div class="fs-12 opacity-75 d-flex align-items-center">

@@ -484,3 +484,10 @@ textarea {
 body {
     -ms-overflow-style: none;
 }
+
+.home-topic-latest-post-title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 200px; /* Đặt chiều rộng tối đa để áp dụng dấu "..." */
+}
