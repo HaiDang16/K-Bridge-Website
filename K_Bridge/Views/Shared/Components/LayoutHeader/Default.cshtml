@@ -64,35 +64,47 @@
                 </p>
             </div>
 
-            <div id="registerValidationSummary" class="text-danger" style="display:none;"></div>
+            <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+                <div id="liveToastSignUp" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <img src="~/img/Logo_75.png" height="20" width="20" class="rounded me-2" alt="...">
+                        <strong class="me-auto kbridge-text text-color-header text-spacing-2">K-Bridge</strong>
+                        <small>Ngay bây giờ</small>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body" id="registerValidationSummary">
+                        Thành công!!
+                    </div>
+                </div>
+            </div>
             <form id="registerForm">
                 <div class="modal-body py-0">
                     <div class="form-group mb-4 text-color-header fw-bold">
                         <label for="Username">Tên đăng nhập</label>
-                        <input type="type" class="form-control border-main-color-logo border bg-main-color-layout focus text-color-header rounded-3 mt-2"
+                        <input type="type" class="form-control border-main-color-logo border  focus text-color-header rounded-3 mt-2"
                                id="Username" asp-for="RegisterModel.Username" placeholder="abc123" minlength="4" required>
                     </div>
 
                     <div class="form-group mb-4 text-color-header fw-bold">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control border-main-color-logo border bg-main-color-layout focus text-color-header rounded-3 mt-2"
+                        <input type="email" class="form-control border-main-color-logo border  focus text-color-header rounded-3 mt-2"
                                id="email" asp-for="RegisterModel.Email" placeholder="daylaemail@gmail.com" required>
                     </div>
                     <div class="form-group mb-4 text-color-header fw-bold">
                         <label for="password">Mật khẩu</label>
-                        <input type="password" class="form-control border-main-color-logo border bg-main-color-layout focus text-color-header rounded-3 mt-2"
+                        <input type="password" class="form-control border-main-color-logo border  focus text-color-header rounded-3 mt-2"
                                id="password" asp-for="RegisterModel.Password" minlength="8" required
                                placeholder="Mật khẩu phải chứa ít nhất 8 ký tự, một chữ cái và một chữ số">
                     </div>
 
                     <div class="form-group mb-4 text-color-header fw-bold">
                         <label for="confirmPassword">Xác nhận mật khẩu</label>
-                        <input type="password" class="form-control border-main-color-logo border bg-main-color-layout focus text-color-header rounded-3 mt-2"
+                        <input type="password" class="form-control border-main-color-logo border  focus text-color-header rounded-3 mt-2"
                                id="confirmPassword" asp-for="RegisterModel.ConfirmPassword" minlength="8" required
                                placeholder="Nhập lại mật khẩu">
                     </div>
                     <div class="form-group mb-4 text-color-header">
-                        <button type="submit" class="d-block px-3 py-2 fw-bold rounded-3 btn-post fw-bold" style=" width: 100%;">Đăng ký</button>
+                        <button type="submit" id="liveToastBtnSignUp" class="d-block px-3 py-2 fw-bold rounded-3 btn-post fw-bold" style=" width: 100%;">Đăng ký</button>
                         <p class="py-2 fs-12">Đã có tài khoản? <a href="#" id="switchToLogin">Đăng nhập</a> ngay</p>
                     </div>
                 </div>
@@ -120,20 +132,32 @@
                             <span class="ms-2 kbridge-text text-color-header fs-4 d-none d-md-inline">K-BRIDGE</span>
                         </div>
                     </h5>
-                    <div id="loginValidationSummary" class="text-danger" style="display:none;"></div>
 
+                    <div  class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+                        <div id="liveToastLogin" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="toast-header">
+                                <img src="~/img/Logo_75.png" height="20" width="20" class="rounded me-2" alt="...">
+                                <strong class="me-auto kbridge-text text-color-header text-spacing-2">K-Bridge</strong>
+                                <small>Ngay bây giờ</small>
+                                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                            <div class="toast-body" id="loginValidationSummary">
+                                Thành công!!
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group mb-4 text-color-header fw-bold">
                         <label for="LoginUser">Email/Tên đăng nhập</label>
-                        <input type="type" class="form-control bg-main-color-layout border border-main-color-logo focus text-color-header rounded-2 mt-2"
+                        <input type="type" class="form-control  border border-main-color-logo focus text-color-header rounded-2 mt-2"
                                id="LoginUser" asp-for="LoginModel.User" required placeholder="daylaemail@gmail.com">
                     </div>
                     <div class="form-group mb-4 text-color-header fw-bold">
                         <label for="LoginPassword">Mật khẩu</label>
-                        <input type="password" class="form-control bg-main-color-layout border border-main-color-logo focus text-color-header rounded-2 mt-2"
+                        <input type="password" class="form-control  border border-main-color-logo focus text-color-header rounded-2 mt-2"
                                id="LoginPassword" asp-for="LoginModel.Password" required placeholder="Nhập mật khẩu">
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="d-block px-3 py-2 fw-bold rounded-3 btn-post fw-bold" style=" width: 100%;">Đăng nhập</button>
+                        <button type="submit" id="liveToastBtnLogin" class="d-block px-3 py-2 fw-bold rounded-3 btn-post fw-bold" style=" width: 100%;">Đăng nhập</button>
                     </div>
                 </div>
             </form>
@@ -317,4 +341,23 @@
             }
         });
     });
+
+
+    var toastTriggerSignUp = document.getElementById('liveToastBtnSignUp')
+    var toastLiveExampleSignUp = document.getElementById('liveToastSignUp')
+    if (toastTriggerSignUp) {
+        toastTriggerSignUp.addEventListener('click', function () {
+            var toast = new bootstrap.Toast(toastLiveExampleSignUp)
+            toast.show()
+        })
+    }
+    var toastTriggerLogin = document.getElementById('liveToastBtnLogin')
+    var toastLiveExampleLogin = document.getElementById('liveToastLogin')
+    if (toastTriggerLogin) {
+        toastTriggerLogin.addEventListener('click', function () {
+            var toast = new bootstrap.Toast(toastLiveExampleLogin)
+            toast.show()
+        })
+    }
 </script>
+
