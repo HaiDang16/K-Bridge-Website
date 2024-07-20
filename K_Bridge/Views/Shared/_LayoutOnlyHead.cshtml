@@ -36,12 +36,18 @@
     <header class="bg-main-color-header">
         <vc:layout-header />
     </header>
-    <div class="container-fluid">
-        <div class="row main-content">
-            <div class="col-lg-6 col-md-8 col-12 content mb-4 ">
-                <main role="main" class="pb-3 ">
-                    @RenderBody()
-                </main>
+    <div class="container-fluid d-flex">
+        <div class="col-lg-3 col-md-4 sidebar mb-4 d-none d-md-block">
+        </div>
+        <div class="col-lg-6 col-md-8 col-12 content mb-4 ">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+        <div class="col-lg-3 col-md-12 sidebar d-none d-lg-block">
+            <div class="d-flex flex-column align-items-center">
+                <div style="width: 100%; max-width: 300px;">
+                </div>
             </div>
         </div>
     </div>
