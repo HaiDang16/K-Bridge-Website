@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace K_Bridge.Migrations
 {
     [DbContext(typeof(KBridgeDbContext))]
-    [Migration("20240716200019_AddLike")]
-    partial class AddLike
+    [Migration("20240720024738_nit")]
+    partial class nit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -393,6 +393,9 @@ namespace K_Bridge.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PostCount")
