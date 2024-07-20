@@ -14,5 +14,35 @@ namespace K_Bridge.Controllers
         {
             return View();
         }
+
+        [Route("/UserProfile/EditDisplayName/{UserID}")]
+        public IActionResult EditDisplayName()
+        {
+            return View();
+        }
+
+        [Route("/UserProfile/EditUserName/{UserID}")]
+        public IActionResult EditUserName()
+        {
+            return View();
+        }
+
+        [Route("/UserProfile/EditEmail/{UserID}")]
+        public IActionResult EditEmail()
+        {
+            return View();
+        }
+
+        [Route("/UserProfile/EditPhoneNum/{UserID}")]
+        public IActionResult EditPhoneNum()
+        {
+            return View();
+        }
+
+        [Route("/UserProfile/EditPass/{UserID}")]
+        public IActionResult EditPass()
+        {
+            return View();
+        }
     }
 }
