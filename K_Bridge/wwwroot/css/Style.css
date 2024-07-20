@@ -480,3 +480,15 @@ body {
     text-overflow: ellipsis;
     max-width: 200px; /* Đặt chiều rộng tối đa để áp dụng dấu "..." */
 }
+
+
+.spacing-2{
+    letter-spacing: 2px;
+}
+
+.spacing-3 {
+    letter-spacing: 3px;
+}
+.spacing-4 {
+    letter-spacing: 4px;
+}
