@@ -22,6 +22,7 @@ namespace K_Bridge.Repositories
         {
             return _context.Posts
                 .Include(p => p.User)
+                .Include(p => p.Replies)
                 .Include(p => p.Topic) // Bao gồm thông tin về Topic của mỗi bài viết
             .ThenInclude(t => t.Forum) // Bao gồm thông tin về Forum của từng Topic
                 .OrderByDescending(p => p.CreatedAt)

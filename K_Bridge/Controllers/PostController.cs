@@ -56,6 +56,13 @@ namespace K_Bridge.Controllers
         [HttpGet("Create")]
         public IActionResult Create([FromQuery] int Topic)
         {
+            User? user = HttpContext.Session.GetJson<User>("user");
+
+            if (user == null)
+                ViewBag.Username = "người dùng";
+            else
+                ViewBag.Username = user.Username;
+
             ViewBag.TopicID = Topic;
             return View();
         }
