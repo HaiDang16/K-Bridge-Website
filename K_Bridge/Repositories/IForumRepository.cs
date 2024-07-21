@@ -7,5 +7,6 @@ namespace K_Bridge.Repositories
         IQueryable<Forum> Forums { get; }
         List<Forum> GetForumWithTopics();
         List<Forum> GetForumsWithTopicsAndLatestPosts();
+        Forum GetTopicWithForumById(int id);
     }
 }

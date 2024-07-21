@@ -49,5 +49,18 @@ namespace K_Bridge.Repositories
                 _context.SaveChanges();
             }
         }
+
+        public List<Post> GetPostsByTopic(int topicId)
+        {
+            return _context.Posts
+                .Where(p => p.TopicID == topicId)
+                .Include(p => p.User)
+                .Include(p => p.Replies)
+                .Include(p => p.Topic)
+                .ThenInclude(t => t.Forum)
+                .OrderByDescending(p => p.CreatedAt)
+                .ToList();
+        }
+
     }
 }

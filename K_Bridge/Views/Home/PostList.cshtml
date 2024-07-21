@@ -1,0 +1,52 @@
+﻿@using K_Bridge.Models
+@{
+    ViewData["Title"] = "Bài viết";
+    <link href="/css/Newest.css" rel="stylesheet" />
+}
+<div class="row mb-5">
+    <div class="col-6 d-flex justify-content-start fw-bold fs-4 text-uppercase">
+        @ViewBag.TopicName
+    </div>
+    <button class="col-3 filter-forum d-flex justify-content-center align-items-center mx-4">
+        <div class="px-2">
+            Diễn đàn
+        </div>
+        <img src="/img/icon_filter_forum_50.png" alt="Filter" width="15" height="15">
+    </button>
+    <button class="col-3 filter-forum d-flex justify-content-center align-items-center mx-2">
+        <div class="px-2">
+            Bộ lọc
+        </div>
+        <img src="/img/icon_filter_sort_50.png" alt="Filter" width="20" height="20">
+    </button>
+</div>
+
+@foreach (var post in ViewBag.Posts)
+{
+    <div class="row" onclick="window.location.href='/Post/Details?post=@post.ID'">
+        <div class="col-2 d-flex flex-column justify-content-center">
+            <div class="newest-card-stat py-2">@(post.Replies?.Count ?? 0) Câu trả lời</div>
+            <div class="newest-card-stat py-2">@post.ViewCount Lượt xem</div>
+        </div>
+        <div class="col-10">
+            <div class="d-flex">
+                <div class="newest-card-title">@post.Title</div>
+                <div class="newest-card-tag px-3 mx-3"
+                     style="background: @GetForumColorHelper.GetForumBackgroundColor(post.Topic.Forum.ID);
+                                        color:@GetForumColorHelper.GetForumColor(post.Topic.Forum.ID)">
+                    @post.Topic.Forum.TagName
+                </div>
+            </div>
+            <div class="newest-card-des">
+                <div class="reply-content">
+                    @Html.Raw(post.Content)
+                </div>
+            </div>
+            <div class="d-flex justify-content-end mt-2">
+                <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
+                <div class="newest-card-username mx-2">@post.User.Username hỏi @GetTimeAgoHelper.GetTimeAgo(post.CreatedAt)</div>
+            </div>
+        </div>
+        <hr class="mt-2">
+    </div>
+}

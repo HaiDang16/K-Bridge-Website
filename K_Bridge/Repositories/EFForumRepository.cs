@@ -37,7 +37,12 @@ namespace K_Bridge.Repositories
 
             return forums;
         }
-
+        public Forum GetTopicWithForumById(int id)
+        {
+            return _context.Forums.Include(p => p.Topics)
+                .ThenInclude(t => t.Posts.OrderByDescending(p => p.CreatedAt))
+            .ThenInclude(p => p.User).FirstOrDefault(p => p.ID == id);
+        }
 
     }
 }

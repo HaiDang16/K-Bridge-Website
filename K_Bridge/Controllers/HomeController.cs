@@ -52,7 +52,7 @@ public class HomeController : Controller
         _sanitizer = new HtmlSanitizer();
 
     }
-    
+
     public IActionResult Index()
     {
         // Bài viết mới nhất
@@ -203,5 +203,24 @@ public class HomeController : Controller
     {
         return View();
 
+    }
+    [HttpGet("/Topic/List")]
+    public IActionResult TopicList(int forum)
+    {
+        var forumWithTopic = _forumRepository.GetTopicWithForumById(forum);
+        ViewBag.ForumName = forumWithTopic.Name;
+
+        ViewBag.Topics = forumWithTopic.Topics;
+        return View();
+    }
+
+    [HttpGet("/Topic/Post/List")]
+    public IActionResult PostList(int topic)
+    {
+        var postList = _postRepository.GetPostsByTopic(topic);
+        ViewBag.Posts = postList;
+
+        ViewBag.TopicName = _topicRepository.GetTopicById(topic).Name;
+        return View();
     }
 }
