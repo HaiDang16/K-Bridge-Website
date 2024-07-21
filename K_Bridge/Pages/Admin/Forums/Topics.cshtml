@@ -49,7 +49,13 @@
                 <tr>
                     <th scope="row">@post.ID</th>
                     <td>@post.User.Username</td>
-                    <td>@post.Content</td>
+                    <td style="max-width: 500px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                        @post.Content.Substring(0, Math.Min(30, @post.Content.Split(' ').Length))
+                        @if (@post.Content.Split(' ').Length > 30)
+                        {
+                            @:...
+                        }
+                    </td>
                     <td>Đã duyệt</td>
 
                     <td>@post.CreatedAt.ToString("dd/MM/yyyy")</td>
