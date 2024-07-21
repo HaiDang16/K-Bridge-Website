@@ -17,6 +17,7 @@ namespace K_Bridge.Models
         public DbSet<Post> Posts => Set<Post>();
         public DbSet<Reply> Replies => Set<Reply>();
         public DbSet<Post_Like> Post_Likes => Set<Post_Like>();
+        public DbSet<Reply_Like> Reply_Likes => Set<Reply_Like>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -30,11 +31,11 @@ namespace K_Bridge.Models
                 .WithMany(t => t.Posts)
                 .HasForeignKey(p => p.TopicID);
 
-/* */            modelBuilder.Entity<Reply>()
-                .HasOne(r => r.Post)
-                .WithMany(p => p.Replies)
-                .HasForeignKey(r => r.PostID)
-                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Reply>()
+                 .HasOne(r => r.Post)
+                 .WithMany(p => p.Replies)
+                 .HasForeignKey(r => r.PostID)
+                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Reply>()
                .HasOne(r => r.User)
@@ -53,8 +54,16 @@ namespace K_Bridge.Models
                 .HasForeignKey(r => r.UserID)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            modelBuilder.Entity<Reply_Like>()
+                .HasOne(r => r.Reply)
+                .WithMany(p => p.Reply_Likes)
+                .HasForeignKey(r => r.ReplyID);
 
-            // Configure other relationships if necessary
+            modelBuilder.Entity<Reply_Like>()
+                .HasOne(r => r.User)
+                .WithMany(p => p.Reply_Likes)
+                .HasForeignKey(r => r.UserID)
+                .OnDelete(DeleteBehavior.NoAction);
 
             base.OnModelCreating(modelBuilder);
         }

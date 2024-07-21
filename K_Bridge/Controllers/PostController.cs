@@ -113,6 +113,7 @@ namespace K_Bridge.Controllers
                 ViewBag.Reply = allReplies;
                 ViewBag.Sort = sort;
 
+
                 User? user = HttpContext.Session.GetJson<User>("user");
 
                 if (user != null)
@@ -124,8 +125,20 @@ namespace K_Bridge.Controllers
                     }
                 }
 
-                var totalLikes = _likeRepository.GetLikeCount(post);
-                var totalDislikes = _likeRepository.GetDislikeCount(post);
+                ViewBag.RepliesWithLike = postDetails.Replies.Select(r => new ReplyViewModel
+                {
+                    Reply = r,
+                    UserLikeStatus = user != null
+               ? _likeRepository.GetUserReplyLikeStatus(r.ID, user.ID)
+               : 0,
+                    LikeCount = _likeRepository.GetReplyLikeCount(r.ID),
+                    DislikeCount = _likeRepository.GetReplyDislikeCount(r.ID),
+                    AllLikeCount = _likeRepository.GetReplyLikeCount(r.ID) - _likeRepository.GetReplyDislikeCount(r.ID)
+                }).ToList();
+
+
+                var totalLikes = _likeRepository.GetPostLikeCount(post);
+                var totalDislikes = _likeRepository.GetPostDislikeCount(post);
                 ViewBag.TotalLikesMinusDislikes = totalLikes - totalDislikes;
                 ViewBag.UserLikeStatus = userLikeStatus;
 
@@ -203,7 +216,7 @@ namespace K_Bridge.Controllers
                 if (existingLike.IsLike)
                     _likeRepository.DeleteExistPostLike(existingLike);
                 else
-                    _likeRepository.UpdateLike(existingLike, true);
+                    _likeRepository.UpdatePostLike(existingLike, true);
             }
             else
             {
@@ -216,8 +229,8 @@ namespace K_Bridge.Controllers
 
                 _likeRepository.SavePostLike(postLike);
             }
-            var likeCount = _likeRepository.GetLikeCount(postId);
-            var dislikeCount = _likeRepository.GetDislikeCount(postId);
+            var likeCount = _likeRepository.GetPostLikeCount(postId);
+            var dislikeCount = _likeRepository.GetPostDislikeCount(postId);
 
             return Json(new { likeCount, dislikeCount });
         }
@@ -239,7 +252,7 @@ namespace K_Bridge.Controllers
                 if (!existingLike.IsLike)
                     _likeRepository.DeleteExistPostLike(existingLike);
                 else
-                    _likeRepository.UpdateLike(existingLike, false);
+                    _likeRepository.UpdatePostLike(existingLike, false);
             }
             else
             {
@@ -252,10 +265,88 @@ namespace K_Bridge.Controllers
 
                 _likeRepository.SavePostLike(postLike);
             }
-            var likeCount = _likeRepository.GetLikeCount(postId);
-            var dislikeCount = _likeRepository.GetDislikeCount(postId);
+            var likeCount = _likeRepository.GetPostLikeCount(postId);
+            var dislikeCount = _likeRepository.GetPostDislikeCount(postId);
 
             return Json(new { likeCount, dislikeCount });
         }
+
+        [HttpPost("ReplyLike")]
+        public IActionResult ReplyLike(int replyId)
+        {
+            var currentUser = _userService.GetCurrentUser();
+            if (currentUser == null)
+            {
+                TempData["ErrorMessage"] = "You must be logged in to create a reply.";
+                return RedirectToAction("Details", new { reply = replyId });
+            }
+
+            var existingLike = _likeRepository.GetExistReplyLike(replyId, currentUser.ID);
+
+            if (existingLike != null)
+            {
+                if (existingLike.IsLike)
+                    _likeRepository.DeleteExistReplyLike(existingLike);
+                else
+                    _likeRepository.UpdateReplyLike(existingLike, true);
+            }
+            else
+            {
+                var replyLike = new Reply_Like
+                {
+                    IsLike = true,
+                    ReplyID = replyId,
+                    UserID = currentUser.ID,
+                };
+
+                _likeRepository.SaveReplyLike(replyLike);
+            }
+            var likeCount = _likeRepository.GetReplyLikeCount(replyId);
+            var dislikeCount = _likeRepository.GetReplyDislikeCount(replyId);
+
+            int userLikeStatus = _likeRepository.ToggleReplyLike(replyId, currentUser.ID, true);
+
+
+            return Json(new { likeCount, dislikeCount, userLikeStatus });
+        }
+
+        [HttpPost("ReplyDislike")]
+        public IActionResult ReplyDislike(int replyId)
+        {
+            var currentUser = _userService.GetCurrentUser();
+            if (currentUser == null)
+            {
+                TempData["ErrorMessage"] = "You must be logged in to create a reply.";
+                return RedirectToAction("Details", new { reply = replyId });
+            }
+
+            var existingLike = _likeRepository.GetExistReplyLike(replyId, currentUser.ID);
+
+            if (existingLike != null)
+            {
+                if (!existingLike.IsLike)
+                    _likeRepository.DeleteExistReplyLike(existingLike);
+                else
+                    _likeRepository.UpdateReplyLike(existingLike, true);
+            }
+            else
+            {
+                var replyLike = new Reply_Like
+                {
+                    IsLike = false,
+                    ReplyID = replyId,
+                    UserID = currentUser.ID,
+                };
+
+                _likeRepository.SaveReplyLike(replyLike);
+            }
+            var likeCount = _likeRepository.GetReplyLikeCount(replyId);
+            var dislikeCount = _likeRepository.GetReplyDislikeCount(replyId);
+            int userLikeStatus = _likeRepository.ToggleReplyLike(replyId, currentUser.ID, false);
+
+
+            return Json(new { likeCount, dislikeCount, userLikeStatus });
+        }
+
     }
 }

@@ -1,25 +1,160 @@
-﻿@model IEnumerable<K_Bridge.Models.Reply>
+﻿@model IEnumerable<K_Bridge.Models.ViewModels.ReplyViewModel>
 
 @foreach (var reply in Model)
 {
     <div class="row my-3 m-0" style="border-bottom: 1px solid #8E6745">
         <div class="col-lg-1 flex-column">
-            <button class="m-1">
-                <img src="~/img/icon_like_filled.png" alt="Like" />
-            </button>
-            <p class="mt-2 fs-6 fw-bold text-color-logo">-123</p>
-            <button class="m-1">
-                <img src="~/img/icon_dislike_filled.png.png" alt="Like" />
-            </button>
+            @*             <button class="m-1">
+        <img src="~/img/icon_like_filled.png" alt="Like" />
+        </button>
+        <p class="mt-2 fs-6 fw-bold text-color-logo">-123</p>
+        <button class="m-1">
+        <img src="~/img/icon_dislike_filled.png.png" alt="Like" />
+        </button>
+        *@
+            @*             <partial name="_ReplyLikeDislikePartial" model="new Reply_Like { ReplyID = reply.ID, Reply = reply }" />
+        *@
+
+            <div id="reply-like-dislike-@reply.Reply.ID"
+                 data-reply-id="@reply.Reply.ID"
+                 data-like-status="@reply.UserLikeStatus"
+                 data-like-count="@reply.LikeCount"
+                 data-dislike-count="@reply.DislikeCount">
+                <div class="lidi">
+                    <span id="reply-like-count-@reply.Reply.ID" style="display:none">@(reply.Reply.Reply_Likes?.Count(pl => pl.IsLike) ?? 0)</span>
+                    <i class="up" onclick="likeReply(@reply.Reply.ID)"></i>
+                    <p class="mt-2 fs-4 fw-bold text-color-logo">
+                        @(reply.AllLikeCount)
+                    </p>
+                    <i class="down" onclick="dislikeReply(@reply.Reply.ID)"></i>
+                    <span id="reply-dislike-count-@reply.Reply.ID" style="display:none">@(reply.Reply.Reply_Likes?.Count(pl => !pl.IsLike) ?? 0)</span>
+                </div>
+            </div>
+
         </div>
         <div class="col-lg-11">
             <div class="reply-content">
-                @Html.Raw(reply.Content)
+                @Html.Raw(reply.Reply.Content)
             </div>
         </div>
         <div class="d-flex justify-content-end mb-2">
             <img src="~/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
-            <div class="newest-card-username mx-2">@reply.User.Username trả lời @GetTimeAgoHelper.GetTimeAgo(reply.CreatedAt)</div>
+            <div class="newest-card-username mx-2">@reply.Reply.User.Username trả lời @GetTimeAgoHelper.GetTimeAgo(reply.Reply.CreatedAt)</div>
         </div>
     </div>
 }
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        document.querySelectorAll('[id^="reply-like-dislike-"]').forEach(element => {
+            const replyId = element.dataset.replyId;
+            const likeStatus = parseInt(element.dataset.likeStatus);
+            const likeCount = parseInt(element.dataset.likeCount);
+            const dislikeCount = parseInt(element.dataset.dislikeCount);
+            lidiReply({
+                target: element,
+                replyId: replyId,
+                likeCount: likeCount,
+                dislikeCount: dislikeCount,
+                set: likeStatus,
+                update: (value) => updateReplyLikeDislike(replyId, value > 0)
+            });
+        });
+    });
+
+    function lidiReply(inst) {
+        // (A) ATTACH HTML
+        inst.target.innerHTML = `
+                <span id="reply-like-count-${inst.replyId}" style="display:none">${inst.likeCount}</span>
+                <i class="up" onclick="likeReply(${inst.replyId})"></i>
+                <p class="mt-2 fs-4 fw-bold text-color-logo">${inst.likeCount - inst.dislikeCount}</p>
+                <i class="down" onclick="dislikeReply(${inst.replyId})"></i>
+                <span id="reply-dislike-count-${inst.replyId}" style="display:none">${inst.dislikeCount}</span>
+            `;
+
+        inst.target.classList.add("lidi");
+        inst.up = inst.target.querySelector("i.up");
+        inst.down = inst.target.querySelector("i.down");
+
+        // (B) SET INITIAL LIKE/DISLIKE
+        if (inst.set === 1) {
+            inst.up.classList.add("set");
+        } else if (inst.set === -1) {
+            inst.down.classList.add("set");
+        }
+
+        // (C) LISTEN TO CLICKS
+        let clicked = like => {
+            if (like) {
+                if (inst.up.classList.contains("set")) {
+                    inst.up.classList.remove("set");
+                } else {
+                    inst.up.classList.add("set");
+                    inst.down.classList.remove("set");
+                }
+            } else {
+                if (inst.down.classList.contains("set")) {
+                    inst.down.classList.remove("set");
+                } else {
+                    inst.down.classList.add("set");
+                    inst.up.classList.remove("set");
+                }
+            }
+            inst.update(like ? 1 : -1);
+        };
+        inst.up.onclick = () => clicked(true);
+        inst.down.onclick = () => clicked(false);
+    }
+
+    // Initialize for each reply
+   
+    function likeReply(replyId) {
+        updateReplyLikeDislike(replyId, true);
+    }
+
+    function dislikeReply(replyId) {
+        updateReplyLikeDislike(replyId, false);
+    }
+
+    function updateReplyLikeDislike(replyId, isLike) {
+        const url = isLike ? `/Post/ReplyLike?replyId=${replyId}` : `/Post/ReplyDislike?replyId=${replyId}`;
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ replyId: replyId })
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById(`reply-like-count-${replyId}`).innerText = data.likeCount;
+                document.getElementById(`reply-dislike-count-${replyId}`).innerText = data.dislikeCount;
+                document.querySelector(`#reply-like-dislike-${replyId} .mt-2`).innerText = data.likeCount - data.dislikeCount;
+
+                // Cập nhật trạng thái nút
+                const upButton = document.querySelector(`#reply-like-dislike-${replyId} .up`);
+                const downButton = document.querySelector(`#reply-like-dislike-${replyId} .down`);
+
+                // (C1) CLICKED ON LIKE
+                if (isLike) {
+                    if (inst.up.classList.contains("set")) {
+                        inst.up.classList.remove("set");
+                    } else {
+                        inst.up.classList.add("set");
+                        inst.down.classList.remove("set");
+                    }
+                }
+
+                // (C2) CLICKED ON DISLIKE
+                else {
+                    if (inst.down.classList.contains("set")) {
+                        inst.down.classList.remove("set");
+                    } else {
+                        inst.down.classList.add("set");
+                        inst.up.classList.remove("set");
+                    }
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }</script>

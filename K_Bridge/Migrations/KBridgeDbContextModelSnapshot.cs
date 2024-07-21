@@ -292,6 +292,44 @@ namespace K_Bridge.Migrations
                     b.ToTable("Replies");
                 });
 
+            modelBuilder.Entity("K_Bridge.Models.Reply_Like", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsLike")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ReplyID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ReplyID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Reply_Likes");
+                });
+
             modelBuilder.Entity("K_Bridge.Models.Stats", b =>
                 {
                     b.Property<long?>("ID")
@@ -473,6 +511,25 @@ namespace K_Bridge.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("K_Bridge.Models.Reply_Like", b =>
+                {
+                    b.HasOne("K_Bridge.Models.Reply", "Reply")
+                        .WithMany("Reply_Likes")
+                        .HasForeignKey("ReplyID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("K_Bridge.Models.User", "User")
+                        .WithMany("Reply_Likes")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Reply");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("K_Bridge.Models.Topic", b =>
                 {
                     b.HasOne("K_Bridge.Models.Forum", "Forum")
@@ -496,6 +553,11 @@ namespace K_Bridge.Migrations
                     b.Navigation("Replies");
                 });
 
+            modelBuilder.Entity("K_Bridge.Models.Reply", b =>
+                {
+                    b.Navigation("Reply_Likes");
+                });
+
             modelBuilder.Entity("K_Bridge.Models.Topic", b =>
                 {
                     b.Navigation("Posts");
@@ -508,6 +570,8 @@ namespace K_Bridge.Migrations
                     b.Navigation("Posts");
 
                     b.Navigation("Replies");
+
+                    b.Navigation("Reply_Likes");
                 });
 #pragma warning restore 612, 618
         }
