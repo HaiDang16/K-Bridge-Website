@@ -1,5 +1,6 @@
 ﻿using K_Bridge.Models;
 using Microsoft.EntityFrameworkCore;
+using K_Bridge.Infrastructure;
 
 namespace K_Bridge.Repositories
 {

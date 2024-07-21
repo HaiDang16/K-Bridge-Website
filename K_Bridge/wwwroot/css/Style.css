@@ -491,3 +491,33 @@ body {
     text-overflow: ellipsis;
     max-width: 200px; /* Đặt chiều rộng tối đa để áp dụng dấu "..." */
 }
+
+.lidi {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers items vertically */
+    justify-content: center; /* Centers items horizontally */
+}
+
+.lidi i {
+    width: 32px;
+    height: 32px;
+    background: #323232;
+    /*mask-size: cover !important;*/
+}
+
+    .lidi i.up {
+        mask: url(/img/thumbs-up.svg)
+    }
+
+    .lidi i.down {
+        mask: url(/img/thumbs-down.svg)
+    }
+
+    .lidi i.up.set {
+        background: #462dff;
+    }
+
+    .lidi i.down.set {
+        background: #dd3d3d;
+    }

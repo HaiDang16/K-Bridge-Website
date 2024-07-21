@@ -1,13 +1,157 @@
-﻿@model K_Bridge.Models.ViewModels.LikeDislikeViewModel
+﻿@model K_Bridge.Models.Post_Like
 
-<div class="lidi" id="like-dislike">
-    <button class="like-btn @(Model.CurrentLikeStatus == true ? "set" : "")" data-post-id="@Model.PostId" data-is-like="true">
-        <i class="up m-1"></i>
-    </button>
-    <p class="mt-2 fs-6 fw-bold text-color-logo flex justify-content-center" id="like-dislike-count-@Model.PostId">
-        @(Model.TotalLikes - Model.TotalDislikes)
-    </p>
-    <button class="dislike-btn @(Model.CurrentLikeStatus == false ? "set" : "")" data-post-id="@Model.PostId" data-is-like="false">
-        <i class="down mt-3"></i>
-    </button>
+<div id="like-dislike">
+    <div class="lidi">
+        <span id="like-count-@Model.PostID" style="display:none">@(Model.Post?.Post_Likes?.Count(pl => pl.IsLike) ?? 0)</span>
+        <i class="up" onclick="likePost(@Model.PostID)"></i>
+        <p class="mt-2 fs-3 fw-bold text-color-logo">
+            @((Model.Post?.Post_Likes?.Count(pl => pl.IsLike) ?? 0) - (Model.Post?.Post_Likes?.Count(pl => !pl.IsLike) ?? 0))
+        </p>
+        <i class="down" onclick="dislikePost(@Model.PostID)"></i>
+        <span id="dislike-count-@Model.PostID" style="display:none">@(Model.Post?.Post_Likes?.Count(pl => !pl.IsLike) ?? 0)</span>
+    </div>
+
 </div>
+
+
+<script>
+    function lidi(inst) {
+        // (A) ATTACH HTML
+        inst.target.innerHTML = `  <span id="like-count-@Model.PostID" style="display:none">@(Model.Post?.Post_Likes?.Count(pl => pl.IsLike) ?? 0)</span>
+                    <i class="up"></i>
+                        <p class="mt-2 fs-5 fw-bold text-color-logo">
+    @((Model.Post?.Post_Likes?.Count(pl => pl.IsLike) ?? 0) - (Model.Post?.Post_Likes?.Count(pl => !pl.IsLike) ?? 0))
+                    </p>
+                    <i class="down"></i>
+                        <span id="dislike-count-@Model.PostID" style="display:none">@(Model.Post?.Post_Likes?.Count(pl => !pl.IsLike) ?? 0)</span>`;
+        inst.target.classList.add("lidi");
+        inst.up = inst.target.querySelector("i.up");
+        inst.down = inst.target.querySelector("i.down");
+
+        // (B) SET INITIAL LIKE/DISLIKE
+        if (inst.set === 1) {
+            inst.up.classList.add("set");
+        } else if (inst.set === -1) {
+            inst.down.classList.add("set");
+        }
+
+
+        // (C) LISTEN TO CLICKS
+        let clicked = like => {
+            // (C1) CLICKED ON LIKE
+            if (like) {
+                if (inst.up.classList.contains("set")) {
+                    inst.up.classList.remove("set");
+                } else {
+                    inst.up.classList.add("set");
+                    inst.down.classList.remove("set");
+                }
+            }
+
+            // (C2) CLICKED ON DISLIKE
+            else {
+                if (inst.down.classList.contains("set")) {
+                    inst.down.classList.remove("set");
+                } else {
+                    inst.down.classList.add("set");
+                    inst.up.classList.remove("set");
+                }
+            }
+            inst.update(like ? 1 : -1);
+        };
+        inst.up.onclick = () => clicked(true);
+        inst.down.onclick = () => clicked(false);
+    }
+</script>
+
+<script>
+    lidi({
+        target: document.getElementById("like-dislike"),
+        postId: @Model.PostID,
+        set: @ViewBag.UserLikeStatus,
+        update: (value) => updateLikeDislike(@Model.PostID, value > 0)
+    });
+</script>
+
+<script>
+    function likePost(postId) {
+        updateLikeDislike(postId, true);
+    }
+
+    function dislikePost(postId) {
+        updateLikeDislike(postId, false);
+    }
+
+    function updateLikeDislike(postId, isLike) {
+        const url = isLike ? '/Post/Like?postId=@Model.PostID' : '/Post/Dislike?postId=@Model.PostID';
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ postId: postId })
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById(`like-count-${postId}`).innerText = data.likeCount;
+                document.getElementById(`dislike-count-${postId}`).innerText = data.dislikeCount;
+                document.querySelector(`#like-dislike .mt-2`).innerText = data.likeCount - data.dislikeCount;
+
+                // Cập nhật trạng thái nút
+                const upButton = document.querySelector(`#like-dislike .up`);
+                const downButton = document.querySelector(`#like-dislike .down`);
+
+                // (C1) CLICKED ON LIKE
+                if (isLike) {
+                    if (inst.up.classList.contains("set")) {
+                        inst.up.classList.remove("set");
+                    } else {
+                        inst.up.classList.add("set");
+                        inst.down.classList.remove("set");
+                    }
+                }
+
+                // (C2) CLICKED ON DISLIKE
+                else {
+                    if (inst.down.classList.contains("set")) {
+                        inst.down.classList.remove("set");
+                    } else {
+                        inst.down.classList.add("set");
+                        inst.up.classList.remove("set");
+                    }
+                }
+
+            })
+            .catch(error => console.error('Error:', error));
+    }
+</script>
+
+
+@* <script>
+    function likePost(postId) {
+        fetch(`/Post/Like?postId=${postId}`, {
+            method: 'POST'
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById(`like-count-${postId}`).innerText = data.likeCount;
+                document.getElementById(`dislike-count-${postId}`).innerText = data.dislikeCount;
+                document.querySelector(`#like-dislike .mt-2`).innerText = data.likeCount - data.dislikeCount;
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function dislikePost(postId) {
+        fetch(`/Post/Dislike?postId=${postId}`, {
+            method: 'POST'
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById(`like-count-${postId}`).innerText = data.likeCount;
+                document.getElementById(`dislike-count-${postId}`).innerText = data.dislikeCount;
+                document.querySelector(`#like-dislike .mt-2`).innerText = data.likeCount - data.dislikeCount;
+            })
+            .catch(error => console.error('Error:', error));
+    }
+</script> *@

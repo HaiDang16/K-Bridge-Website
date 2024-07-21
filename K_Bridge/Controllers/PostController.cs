@@ -21,8 +21,9 @@ namespace K_Bridge.Controllers
         private ILikeRepository _likeRepository;
 
         private CodeGenerationService _codeGenerationService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private UserService _userService;
 
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly HtmlSanitizer _sanitizer;
 
 
@@ -30,6 +31,7 @@ namespace K_Bridge.Controllers
             IReplyRepository replyRepository,
             ILikeRepository likeRepository,
             CodeGenerationService codeGenerationService,
+            UserService userService,
             IHttpContextAccessor httpContextAccessor)
         {
             _postRepository = postRepository;
@@ -37,9 +39,11 @@ namespace K_Bridge.Controllers
             _likeRepository = likeRepository;
 
             _codeGenerationService = codeGenerationService;
+            _userService = userService;
             _httpContextAccessor = httpContextAccessor;
 
             _sanitizer = new HtmlSanitizer();
+
             /*            _sanitizer.AllowedTags.Clear();
                         _sanitizer.AllowedTags.Add("b");
                         _sanitizer.AllowedTags.Add("i");
@@ -79,7 +83,7 @@ namespace K_Bridge.Controllers
                     TopicID = topicID
                 };
                 _postRepository.SavePost(newPost);
-                return RedirectToAction("Index","Home"); // Redirect to a page that lists all posts
+                return RedirectToAction("Index", "Home"); // Redirect to a page that lists all posts
             }
             return View(post);
         }
@@ -96,6 +100,8 @@ namespace K_Bridge.Controllers
 
                 var allReplies = _replyRepository.GetRepliesByPostId(post);
 
+                var userLikeStatus = 0; // 0: chưa like/dislike, 1: đã like, -1: đã dislike
+
                 allReplies = sort switch
                 {
                     "newest" => allReplies.OrderByDescending(r => r.CreatedAt).ToList(),
@@ -111,13 +117,17 @@ namespace K_Bridge.Controllers
 
                 if (user != null)
                 {
-                    var userLike = _likeRepository.GetPostLike(post, user.ID);
-                    ViewBag.LikedByCurrentUser = userLike;
+                    var existingLike = _likeRepository.GetExistPostLike(post, user.ID);
+                    if (existingLike != null)
+                    {
+                        userLikeStatus = existingLike.IsLike ? 1 : -1;
+                    }
                 }
 
                 var totalLikes = _likeRepository.GetLikeCount(post);
                 var totalDislikes = _likeRepository.GetDislikeCount(post);
                 ViewBag.TotalLikesMinusDislikes = totalLikes - totalDislikes;
+                ViewBag.UserLikeStatus = userLikeStatus;
 
                 return View();
             }
@@ -174,6 +184,78 @@ namespace K_Bridge.Controllers
             };
 
             return PartialView("_RepliesPartial", allReplies);
+        }
+
+        [HttpPost("Like")]
+        public IActionResult Like(int postId)
+        {
+            var currentUser = _userService.GetCurrentUser();
+            if (currentUser == null)
+            {
+                TempData["ErrorMessage"] = "You must be logged in to create a reply.";
+                return RedirectToAction("Details", new { post = postId });
+            }
+
+            var existingLike = _likeRepository.GetExistPostLike(postId, currentUser.ID);
+
+            if (existingLike != null)
+            {
+                if (existingLike.IsLike)
+                    _likeRepository.DeleteExistPostLike(existingLike);
+                else
+                    _likeRepository.UpdateLike(existingLike, true);
+            }
+            else
+            {
+                var postLike = new Post_Like
+                {
+                    IsLike = true,
+                    PostID = postId,
+                    UserID = currentUser.ID,
+                };
+
+                _likeRepository.SavePostLike(postLike);
+            }
+            var likeCount = _likeRepository.GetLikeCount(postId);
+            var dislikeCount = _likeRepository.GetDislikeCount(postId);
+
+            return Json(new { likeCount, dislikeCount });
+        }
+
+        [HttpPost("Dislike")]
+        public IActionResult Dislike(int postId)
+        {
+            var currentUser = _userService.GetCurrentUser();
+            if (currentUser == null)
+            {
+                TempData["ErrorMessage"] = "You must be logged in to create a reply.";
+                return RedirectToAction("Details", new { post = postId });
+            }
+
+            var existingLike = _likeRepository.GetExistPostLike(postId, currentUser.ID);
+
+            if (existingLike != null)
+            {
+                if (!existingLike.IsLike)
+                    _likeRepository.DeleteExistPostLike(existingLike);
+                else
+                    _likeRepository.UpdateLike(existingLike, false);
+            }
+            else
+            {
+                var postLike = new Post_Like
+                {
+                    IsLike = false,
+                    PostID = postId,
+                    UserID = currentUser.ID,
+                };
+
+                _likeRepository.SavePostLike(postLike);
+            }
+            var likeCount = _likeRepository.GetLikeCount(postId);
+            var dislikeCount = _likeRepository.GetDislikeCount(postId);
+
+            return Json(new { likeCount, dislikeCount });
         }
     }
 }

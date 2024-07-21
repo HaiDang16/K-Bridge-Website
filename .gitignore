@@ -396,3 +396,5 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/K_Bridge/Migrations
+/K_Bridge/Migrations
