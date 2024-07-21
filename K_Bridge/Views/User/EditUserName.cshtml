@@ -61,7 +61,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    errorSummary.innerHTML = '<p>Cập nhật thành công</p>';
+                    errorSummary.innerHTML = '<p>Cập nhật thành công.</p>';
                     errorSummary.style.display = 'block';
                     showToast('liveToastEditUsername');
                     setTimeout(() => {

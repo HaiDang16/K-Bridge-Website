@@ -11,7 +11,7 @@
     <div class="rounded-8 bg-main-color-layout position-relative pb-2" style="min-height: 400px;">
         <div class="rounded-top bg-main-color-header" style="min-height: 100px;"></div>
         <div class="rounded-3 position-absolute " style="top: 50px; left: 80px;">
-            @if(user.Avatar == null)
+            @if (user.Avatar == null)
             {
                 <img src="~/img/user.jpg" alt="Avatar" height="100" width="100" class=" rounded-3" style="border:10px solid #FFBE98; " />
             }
@@ -52,7 +52,7 @@
                 <div class="d-flex justify-content-between mt-2">
                     <div class="d-flex flex-column">
                         <p class="text-uppercase fs-12 text-color-logo fw-bold">Số điện thoại</p>
-                        @if(user.PhoneNumber == null)
+                        @if (user.PhoneNumber == null)
                         {
                             <p class="fs-6 text-color-header">Bạn chưa thêm số điện thoại nào</p>
                         }
@@ -61,14 +61,22 @@
                             <p class="fs-6 text-color-header">@user.PhoneNumber</p>
                         }
                     </div>
-                    <button class="btn-edit-profile px-4 py-1 rounded-8 h-25  w-25" onclick="window.location.href='/UserProfile/EditPhoneNum/test1'">Thêm mới</button>
+                    @if (user.PhoneNumber == null)
+                    {
+                        <button class="btn-edit-profile px-4 py-1 rounded-8 h-25  w-25" onclick="window.location.href='/UserProfile/EditPhoneNum?id=@user.ID'">Thêm mới</button>
+                    }
+                    else
+                    {
+                        <button class="btn-edit-profile px-4 py-1 rounded-8 h-25  w-25" onclick="window.location.href='/UserProfile/EditPhoneNum?id=@user.ID'">Chỉnh sửa</button>
+                    }
+
                 </div>
                 <div class="d-flex justify-content-between mt-2">
                     <div class="d-flex flex-column">
                         <p class="text-uppercase fs-12 text-color-logo fw-bold">Mật khẩu</p>
                         <p class="fs-6 text-color-header">******************</p>
                     </div>
-                    <button class="btn-edit-profile px-4 py-1 rounded-8 h-25" onclick="window.location.href='/UserProfile/EditPass/test1'">Đổi mật khẩu</button>
+                    <button class="btn-edit-profile px-4 py-1 rounded-8 h-25" onclick="window.location.href='/UserProfile/EditPass?id=@user.ID'">Đổi mật khẩu</button>
                 </div>
             </div>
         </div>

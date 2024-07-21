@@ -140,11 +140,49 @@ namespace K_Bridge.Controllers
             return Json(new { success = true, userId = user.ID });
         }
 
-
-        [Route("/UserProfile/EditPhoneNum")]
+        [HttpGet("/UserProfile/EditPhoneNum")]
         public IActionResult EditPhoneNum(int id)
         {
+            ViewBag.UserID = id;
+
             return View();
+        }
+
+        [HttpPost("/UserProfile/EditPhoneNum")]
+        public IActionResult EditPhoneNum(UpdatePhoneNumberViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                return Json(new { success = false, errors = errors });
+            }
+            User? user = HttpContext.Session.GetJson<User>("user");
+
+            if (user == null)
+            {
+                ModelState.AddModelError("", "Người dùng không tồn tại.");
+                return Json(new { success = false, errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList() });
+            }
+
+            if (!model.Username.Equals(user.Username) || !BCrypt.Net.BCrypt.Verify(model.Password, user.Password))
+            {
+                ModelState.AddModelError("", "Tên đăng nhập hoặc mật khẩu không đúng.");
+                return Json(new { success = false, errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList() });
+            }
+
+            if (model.NewPhoneNumber.Equals(user.PhoneNumber))
+            {
+                ModelState.AddModelError("", "Số điện thoại trùng với số điện thoại hiện tại.");
+                return Json(new { success = false, errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList() });
+            }
+
+            // Update the username
+            user.PhoneNumber = model.NewPhoneNumber;
+            user.UpdatedAt = DateTime.Now;
+            _userRepository.UpdateUserClient(user);
+
+            // Redirect to profile page or another appropriate location
+            return Json(new { success = true, userId = user.ID });
         }
 
         [Route("/UserProfile/EditPass")]
