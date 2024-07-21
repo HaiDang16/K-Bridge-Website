@@ -2,7 +2,7 @@
     <h5 class="text-color-logo mt-4">Diễn đàn đáng chú ý</h5>
     @foreach (var forum in ViewBag.Forums ?? Enumerable.Empty<Forum>())
     {
-        <div class="container">
+        <div class="container" onclick="window.location.href='/Topic/List?forum=@forum.ID'">
             <div class="row align-items-center cursor">
                 <div class="col-auto p-0 my-2">
                     <img class="p-0 m-0 w-32 h-auto mt-2 img-fluid" src="~/img/@Url.Content(forum.IconLink)" alt="@forum.IconLink" />

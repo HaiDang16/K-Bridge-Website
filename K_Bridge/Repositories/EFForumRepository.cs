@@ -39,9 +39,23 @@ namespace K_Bridge.Repositories
         }
         public Forum GetTopicWithForumById(int id)
         {
-            return _context.Forums.Include(p => p.Topics)
-                .ThenInclude(t => t.Posts.OrderByDescending(p => p.CreatedAt))
-            .ThenInclude(p => p.User).FirstOrDefault(p => p.ID == id);
+            // Retrieve the forum including its topics and posts
+            var forum = _context.Forums
+                .Include(f => f.Topics)
+                    .ThenInclude(t => t.Posts.OrderByDescending(p => p.CreatedAt))
+                .ThenInclude(p => p.User)
+                .FirstOrDefault(f => f.ID == id);
+
+            // Check if the forum is null
+            if (forum == null)
+                return null;
+
+            // Filter topics to only include those with posts
+            forum.Topics = forum.Topics
+                .Where(t => t.Posts.Any())
+                .ToList();
+
+            return forum;
         }
 
     }

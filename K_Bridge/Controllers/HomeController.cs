@@ -211,6 +211,7 @@ public class HomeController : Controller
         ViewBag.ForumName = forumWithTopic.Name;
 
         ViewBag.Topics = forumWithTopic.Topics;
+
         return View();
     }
 
