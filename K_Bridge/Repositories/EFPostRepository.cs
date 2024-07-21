@@ -38,5 +38,15 @@ namespace K_Bridge.Repositories
                     .ThenInclude(r => r.User) // Include user details of each reply
                 .FirstOrDefault(p => p.ID == id);
         }
+
+        public void IncrementViewCount(int postId)
+        {
+            var post = _context.Posts.Find(postId);
+            if (post != null)
+            {
+                post.ViewCount++;
+                _context.SaveChanges();
+            }
+        }
     }
 }

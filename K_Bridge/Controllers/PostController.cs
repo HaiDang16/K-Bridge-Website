@@ -89,58 +89,53 @@ namespace K_Bridge.Controllers
         }
 
         [HttpGet("Details")]
-        public IActionResult Details([FromQuery] int post, [FromQuery] string sort = "most_helpful")
+        public IActionResult Details([FromQuery] int post, [FromQuery] string sort = "helpful")
         {
             //int? postId = EncryptIDHelper.DecryptID(post);
             if (post != 0)
             {
+                // Increment view count
+                _postRepository.IncrementViewCount(post);
+
+                // Get detail of post
                 var postDetails = _postRepository.GetPostByID(post);
                 if (postDetails == null)
                     return NotFound("Post not found.");
 
-                var allReplies = _replyRepository.GetRepliesByPostId(post);
-
+                // Initialize status like/dislike post of user
                 var userLikeStatus = 0; // 0: chưa like/dislike, 1: đã like, -1: đã dislike
-
-                allReplies = sort switch
-                {
-                    "newest" => allReplies.OrderByDescending(r => r.CreatedAt).ToList(),
-                    _ => allReplies.OrderBy(r => r.CreatedAt).ToList()
-                    //_ => allReplies.OrderByDescending(r => r.IsHelpful).ThenByDescending(r => r.CreatedAt).ToList()
-                };
-
-                ViewBag.Post = postDetails;
-                ViewBag.Reply = allReplies;
-                ViewBag.Sort = sort;
-
 
                 User? user = HttpContext.Session.GetJson<User>("user");
 
                 if (user != null)
                 {
+                    // Get status like / dislike post of user
                     var existingLike = _likeRepository.GetExistPostLike(post, user.ID);
                     if (existingLike != null)
-                    {
                         userLikeStatus = existingLike.IsLike ? 1 : -1;
-                    }
                 }
 
-                ViewBag.RepliesWithLike = postDetails.Replies.Select(r => new ReplyViewModel
+                // Get all reply of post
+                var allRepliesWithLike = postDetails.Replies.Select(r => new ReplyViewModel
                 {
                     Reply = r,
                     UserLikeStatus = user != null
-               ? _likeRepository.GetUserReplyLikeStatus(r.ID, user.ID)
-               : 0,
+                                    ? _likeRepository.GetUserReplyLikeStatus(r.ID, user.ID)
+                                    : 0,
                     LikeCount = _likeRepository.GetReplyLikeCount(r.ID),
                     DislikeCount = _likeRepository.GetReplyDislikeCount(r.ID),
                     AllLikeCount = _likeRepository.GetReplyLikeCount(r.ID) - _likeRepository.GetReplyDislikeCount(r.ID)
                 }).ToList();
 
-
+                // Get total like/dislike of post
                 var totalLikes = _likeRepository.GetPostLikeCount(post);
                 var totalDislikes = _likeRepository.GetPostDislikeCount(post);
+
+                ViewBag.Post = postDetails;
+                ViewBag.Sort = sort;
                 ViewBag.TotalLikesMinusDislikes = totalLikes - totalDislikes;
                 ViewBag.UserLikeStatus = userLikeStatus;
+                ViewBag.RepliesWithLike = allRepliesWithLike;
 
                 return View();
             }
@@ -183,20 +178,43 @@ namespace K_Bridge.Controllers
         [HttpGet("GetReplies")]
         public IActionResult GetReplies(int postId, string sort = "newest")
         {
-            var post = _postRepository.GetPostByID(postId);
-            if (post == null)
-                return NotFound("Post not found.");
+            var postDetails = _postRepository.GetPostByID(postId);
 
-            var allReplies = _replyRepository.GetRepliesByPostId(postId);
+            // Initialize status like/dislike post of user
+            var userLikeStatus = 0; // 0: chưa like/dislike, 1: đã like, -1: đã dislike
 
-            allReplies = sort switch
+            User? user = HttpContext.Session.GetJson<User>("user");
+
+            if (user != null)
             {
-                "newest" => allReplies.OrderByDescending(r => r.CreatedAt).ToList(),
-                _ => allReplies.OrderBy(r => r.CreatedAt).ToList()
-                //_ => allReplies.OrderByDescending(r => r.IsHelpful).ThenByDescending(r => r.CreatedAt).ToList()
+                // Get status like / dislike post of user
+                var existingLike = _likeRepository.GetExistPostLike(postId, user.ID);
+                if (existingLike != null)
+                    userLikeStatus = existingLike.IsLike ? 1 : -1;
+            }
+
+            // Get all reply of post
+            var allRepliesWithLike = postDetails.Replies.Select(r => new ReplyViewModel
+            {
+                Reply = r,
+                UserLikeStatus = user != null
+                                ? _likeRepository.GetUserReplyLikeStatus(r.ID, user.ID)
+                                : 0,
+                LikeCount = _likeRepository.GetReplyLikeCount(r.ID),
+                DislikeCount = _likeRepository.GetReplyDislikeCount(r.ID),
+                AllLikeCount = _likeRepository.GetReplyLikeCount(r.ID) - _likeRepository.GetReplyDislikeCount(r.ID)
+            }).ToList();
+
+            // Sort reply
+            allRepliesWithLike = sort switch
+            {
+                "newest" => allRepliesWithLike.OrderByDescending(r => r.Reply.CreatedAt).ToList(),
+                "oldest" => allRepliesWithLike.OrderBy(r => r.Reply.CreatedAt).ToList(),
+                "helpful" => allRepliesWithLike.OrderByDescending(r => r.LikeCount).ThenByDescending(r => r.Reply.CreatedAt).ToList(),
+                _ => allRepliesWithLike.OrderBy(r => r.Reply.CreatedAt).ToList()
             };
 
-            return PartialView("_RepliesPartial", allReplies);
+            return PartialView("_RepliesPartial", allRepliesWithLike);
         }
 
         [HttpPost("Like")]

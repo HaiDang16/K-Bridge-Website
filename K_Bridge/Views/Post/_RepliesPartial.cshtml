@@ -4,17 +4,6 @@
 {
     <div class="row my-3 m-0" style="border-bottom: 1px solid #8E6745">
         <div class="col-lg-1 flex-column">
-            @*             <button class="m-1">
-        <img src="~/img/icon_like_filled.png" alt="Like" />
-        </button>
-        <p class="mt-2 fs-6 fw-bold text-color-logo">-123</p>
-        <button class="m-1">
-        <img src="~/img/icon_dislike_filled.png.png" alt="Like" />
-        </button>
-        *@
-            @*             <partial name="_ReplyLikeDislikePartial" model="new Reply_Like { ReplyID = reply.ID, Reply = reply }" />
-        *@
-
             <div id="reply-like-dislike-@reply.Reply.ID"
                  data-reply-id="@reply.Reply.ID"
                  data-like-status="@reply.UserLikeStatus"
@@ -23,7 +12,7 @@
                 <div class="lidi">
                     <span id="reply-like-count-@reply.Reply.ID" style="display:none">@(reply.Reply.Reply_Likes?.Count(pl => pl.IsLike) ?? 0)</span>
                     <i class="up" onclick="likeReply(@reply.Reply.ID)"></i>
-                    <p class="mt-2 fs-4 fw-bold text-color-logo">
+                    <p class="mt-2 fs-5 fw-bold text-color-logo">
                         @(reply.AllLikeCount)
                     </p>
                     <i class="down" onclick="dislikeReply(@reply.Reply.ID)"></i>
@@ -67,7 +56,7 @@
         inst.target.innerHTML = `
                 <span id="reply-like-count-${inst.replyId}" style="display:none">${inst.likeCount}</span>
                 <i class="up" onclick="likeReply(${inst.replyId})"></i>
-                <p class="mt-2 fs-4 fw-bold text-color-logo">${inst.likeCount - inst.dislikeCount}</p>
+                <p class="mt-2 fs-5 fw-bold text-color-logo">${inst.likeCount - inst.dislikeCount}</p>
                 <i class="down" onclick="dislikeReply(${inst.replyId})"></i>
                 <span id="reply-dislike-count-${inst.replyId}" style="display:none">${inst.dislikeCount}</span>
             `;
