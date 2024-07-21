@@ -55,5 +55,11 @@ namespace K_Bridge.Repositories
             _context.SaveChanges();
             return true;
         }
+
+        public void UpdateUserClient(User user)
+        {
+            _context.Users.Update(user);
+            _context.SaveChanges();
+        }
     }
 }

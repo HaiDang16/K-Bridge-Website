@@ -36,7 +36,6 @@
 <ItemGroup>
   <Folder Include="TagHelpers\" />
   <Folder Include="Views\Admin\" />
-  <Folder Include="wwwroot\uploads\" />
 </ItemGroup>
 <ItemGroup>
   <None Include="Views\Home\Search.cshtml" />

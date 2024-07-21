@@ -14,6 +14,7 @@ namespace K_Bridge.Models
         public int PostCount { get; set; } = 0;
         public string? Status { get; set; }
         public string? PhoneNumber { get; set; }
+        public string? ProfileColor { get; set; }
 
         // Navigation property for related posts
         public ICollection<Post>? Posts { get; set; }

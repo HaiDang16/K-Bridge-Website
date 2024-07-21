@@ -13,5 +13,7 @@ namespace K_Bridge.Repositories
         User GetUserById(int id);
         void UpdateUser(User user);
         bool DeleteUser(int id);
+        void UpdateUserClient(User user);
+
     }
 }

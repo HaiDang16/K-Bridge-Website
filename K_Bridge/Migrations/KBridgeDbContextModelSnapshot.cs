@@ -437,6 +437,9 @@ namespace K_Bridge.Migrations
                     b.Property<int>("PostCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("ProfileColor")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Reputation")
                         .HasColumnType("int");
 

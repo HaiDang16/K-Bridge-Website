@@ -35,7 +35,7 @@
             }
             else
             {
-                <div class="d-md-flex align-items-center mx-3 pointer-event" onclick="window.location.href='/UserProfile/@ViewBag.UsernameLoggedIn'">
+                <div class="d-md-flex align-items-center mx-3 pointer-event" onclick="window.location.href='/UserProfile?id=@ViewBag.UserID'">
                     <img src="/img/avatar_40.png" alt="avatar" class="me-2 rounded-3" style="width: 40px; height: 40px;" />
                     <div class=" text-color-background mb-1 fw-bold flex-grow-1 pe-none">@ViewBag.UsernameLoggedIn</div>
                 </div>
