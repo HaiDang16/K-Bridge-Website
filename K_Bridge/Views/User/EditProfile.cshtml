@@ -57,27 +57,6 @@
     </div>
 
 </div>
-<div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-3">Ảnh đại diện</h5>
-                    <div class="mb-3">
-                        <img src="/path/to/default/avatar.jpg" id="avatar-preview" class="img-fluid rounded-circle" style="width: 150px; height: 150px; object-fit: cover;" alt="Avatar">
-                    </div>
-                    <div class="mb-3">
-                        <label for="avatar-upload" class="btn btn-primary">
-                            <i class="bi bi-upload"></i> Chọn ảnh mới
-                        </label>
-                        <input type="file" id="avatar-upload" class="d-none" accept="image/*">
-                    </div>
-                    <input type="text" class="form-control" placeholder="Tên hiển thị..." value="test1">
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 <script>
     document.getElementById('avatar-upload').addEventListener('change', function(e) {
         var file = e.target.files[0];

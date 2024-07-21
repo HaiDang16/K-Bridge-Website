@@ -1,0 +1,43 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Cập nhật Số điện thoại";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-8">
+            <h2 class="text-color-header mb-4">Cập nhật Số điện thoại</h2>
+            <p class="fs-12 text-color-header">Nhập tên đăng nhập và mật khẩu hiện tại.</p>
+            <div class="form-group mb-4 text-color-header fw-bold">
+                <label for="Username">Tên đăng nhập</label>
+                <input type="text" class="form-control focus bg-main-color-background text-color-header rounded-3 mt-2"
+                       placeholder="abc123" minlength="4" required>
+            </div>
+
+            <div class="form-group mb-4 text-color-header fw-bold">
+                <label for="password">Mật khẩu</label>
+                <input type="password" class="form-control bg-main-color-background focus text-color-header rounded-3 mt-2"
+                       minlength="8" required
+                       placeholder="Nhập mật khẩu của bạn">
+            </div>
+            <div class="form-group mb-4 text-color-header fw-bold">
+                <label for="email">Email mới</label>
+                <input type="email" class="form-control bg-main-color-background focus text-color-header rounded-3 mt-2"
+                       minlength="8" required
+                       placeholder="Nhập email của bạn">
+            </div>
+            <div class="form-group mb-4 text-color-header fw-bold">
+                <label for="phone">Số điện thoại</label>
+                <input type="text" class="form-control bg-main-color-background focus text-color-header rounded-3 mt-2"
+                       minlength="8" required
+                       placeholder="Nhập số điện thoại của bạn">
+            </div>
+            <div class="text-center d-flex justify-content-between w-100">
+                <button type="button" class="btn btn-account-log w-50 me-4">Huỷ</button>
+                <button type="button" class="btn btn-account-edit w-50 ">Lưu thay đổi</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -215,7 +215,7 @@
 }
 
 
-.focus:focus {
+input:focus {
     outline: none;
 }
 
@@ -437,25 +437,6 @@
 }
 
 
-/* Custom Scrollbar for webkit browsers */
-textarea::-webkit-scrollbar {
-    width: 12px;
-}
-
-textarea::-webkit-scrollbar-track {
-    background: transparent;
-    border-radius: 10px;
-}
-
-textarea::-webkit-scrollbar-thumb {
-    background: #8E6745;
-    border-radius: 10px;
-}
-
-    textarea::-webkit-scrollbar-thumb:hover {
-        background: #8E6745;
-    }
-
 
 /* For Edge and IE */
 textarea {
@@ -463,9 +444,12 @@ textarea {
 }
 /* Custom Scrollbar for webkit browsers */
 *::-webkit-scrollbar {
-    width: 12px;
+    width: 4px;
 }
-
+    *::-webkit-scrollbar:hover {
+        width: 12px;
+        transition: ease-in-out;
+    }
 *::-webkit-scrollbar-track {
     background: transparent;
     border-radius: 10px;
@@ -478,7 +462,12 @@ textarea {
 
     *::-webkit-scrollbar-thumb:hover {
         background: #8E6745;
+        width: 12px;
+        transition: ease-in-out;
     }
+
+
+
 
 /* For Edge and IE */
 body {
@@ -521,3 +510,14 @@ body {
     .lidi i.down.set {
         background: #dd3d3d;
     }
+
+.spacing-2{
+    letter-spacing: 2px;
+}
+
+.spacing-3 {
+    letter-spacing: 3px;
+}
+.spacing-4 {
+    letter-spacing: 4px;
+}

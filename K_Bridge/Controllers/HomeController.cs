@@ -52,7 +52,7 @@ public class HomeController : Controller
         _sanitizer = new HtmlSanitizer();
 
     }
-
+    
     public IActionResult Index()
     {
         // Bài viết mới nhất
