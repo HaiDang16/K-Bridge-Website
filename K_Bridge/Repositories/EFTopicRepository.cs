@@ -16,6 +16,9 @@ namespace K_Bridge.Repositories
             return _context.Topics
                 .ToList();
         }
-
+        public Topic GetTopicById(int id)
+        {
+            return _context.Topics.FirstOrDefault(p => p.ID == id);
+        }
     }
 }

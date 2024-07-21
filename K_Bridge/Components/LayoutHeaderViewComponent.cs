@@ -18,8 +18,13 @@ namespace K_Bridge.Components
             User? user = HttpContext.Session.GetJson<User>("user");
 
             ViewBag.UsernameLoggedIn = "Tên tài khoản";
+            ViewBag.UserID = 0;
+
             if (user != null)
+            {
                 ViewBag.UsernameLoggedIn = user.Username;
+                ViewBag.UserID = user.ID;
+            }
 
             bool isLoggedIn = (user != null);
             ViewBag.IsLoggedIn = isLoggedIn;

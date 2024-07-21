@@ -29,6 +29,7 @@ builder.Services.AddScoped<IReplyRepository, EFReplyRepository>();
 builder.Services.AddScoped<ILikeRepository, EFLikeRepository>();
 
 builder.Services.AddScoped<CodeGenerationService>();
+builder.Services.AddScoped<UserService>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddRazorPages();

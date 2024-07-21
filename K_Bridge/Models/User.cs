@@ -14,11 +14,13 @@ namespace K_Bridge.Models
         public int PostCount { get; set; } = 0;
         public string? Status { get; set; }
         public string? PhoneNumber { get; set; }
+        public string? ProfileColor { get; set; }
 
         // Navigation property for related posts
         public ICollection<Post>? Posts { get; set; }
         public ICollection<Reply>? Replies { get; set; }
         public ICollection<Post_Like>? Post_Likes { get; set; }
+        public ICollection<Reply_Like>? Reply_Likes { get; set; }
 
     }
 }

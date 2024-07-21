@@ -1,0 +1,101 @@
+﻿@page
+@model K_Bridge.Pages.Admin.Manager.ListModel
+@{
+    ViewData["Title"] = "Quản trị viên";
+}
+<div class="row account-navigate mt-3 px-5 align-items-center ">
+    <div class="col-3 d-flex justify-content-star">
+        <img src="/img/icon_dashboard_50_dark.png"
+             onclick="window.location.href='/Admin/Dashboard'"
+             class="account-navigate-icon mt-2 custom-cursor-pointer" alt="Tổng quan">
+        <img src="/img/icon_arrow_right_50_dark.png" class="mx-4 mt-2"
+             alt="Tổng quan" width="10" height="20">
+        <div class="account-navigate-text custom-cursor-pointer"
+             onclick="window.location.href='/Admin/Manager/List'">
+            Quản trị viên
+        </div>
+    </div>
+    <div class="col-9">
+    </div>
+</div>
+<div class="row mt-3 px-5">
+    <div class="col-3">
+        <div class="account-title">Quản trị</div>
+        <div class="account-subtitle">Quản lý tài khoản quản trị</div>
+    </div>
+    <div class="col-9 d-flex justify-content-end align-items-center custom-cursor-pointer">
+        <div class=" account-create-button px-4 h-75 d-flex align-items-center" onclick="window.location.href='/Admin/Manager/Create'">
+            + Tạo tài khoản
+        </div>
+    </div>
+</div>
+<div class="row px-5">
+    <table class="account-table table table-hover mt-3">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Tên đăng nhập</th>
+                <th scope="col">Email</th>
+                <th scope="col">Trực truyến</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col">Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 1; i <= 9; i++)
+            {
+                <tr>
+                    <th scope="row">@i</th>
+                    <td>Admin2</td>
+                    <td>admin2@gmail.com</td>
+                    <td>20/07/2024</td>
+                    <td>Đang hoạt động</td>
+                    <td>
+                        <div>
+                            <button class="account-table-edit-btn" onclick="window.location.href='/Admin/Accounts/Edit'">
+                                <img src="/img/icon_edit_50.png" alt="Chỉnh sửa" width="20" height="20">
+                            </button>
+                            <button class="account-table-delete-btn"
+                                    type="button"
+                                    data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <img src="/img/icon_trash_50.png" alt="Xoá" width="25" height="25">
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+@*                 <!-- Modal -->
+                <div class="modal fade modal-new-post-overall rounded-3" s style="overflow-x: hidden;" id="exampleModal" tabindex="-1"
+                     aria-labelledby="newPostModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" style="border-radius: 20px;">
+                        <div class="modal-content">
+                            <div class="modal-header modal-new-post-header py-2 px-3">
+                                <h5 class="modal-title text-uppercase" id="newPostModalLabel">Xác nhận</h5>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body bg-main-color-layout d-flex flex-column py-4">
+                                <div class="text-color-header  justify-content-center flex-column m-auto" style="min-height:100px;">
+                                    <p class="fs-3 text-color-header fw-bold m-0 mt-2">Bạn chắc chắn chứ?</p>
+                                    <p class="text-color-headerfw-bold m-0 p-0">Các thay đổi sẽ không được lưu lại!</p>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center bg-main-color-layout pb-4 rounded-bottom">
+                                <button type="button" class="rounded-2 px-3 py-1 btn-confirm me-1" data-bs-dismiss="modal" style="min-width:148px;">Huỷ</button>
+
+
+                                <form method="post">
+                                    <button type="submit" class="rounded-2 px-3 py-1 btn-confirm ms-1" style="min-width:148px;" asp-page-handler="Delete" asp-route-id="@account.ID">
+                                        Xoá
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div> *@
+            }
+
+        </tbody>
+    </table>
+</div>
+

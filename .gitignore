@@ -367,8 +367,7 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 
-# Backup folder for Package Reference Convert tool in Visual Studio 2017
-MigrationBackup/
+
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
@@ -396,3 +395,5 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/K_Bridge/Migrations
+/K_Bridge/Migrations

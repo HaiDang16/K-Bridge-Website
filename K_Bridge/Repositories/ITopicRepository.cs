@@ -4,8 +4,8 @@ namespace K_Bridge.Repositories
 {
     public interface ITopicRepository
     {
-        IQueryable<Topic> Topics{ get; }
+        IQueryable<Topic> Topics { get; }
         List<Topic> GetAllTopics();
-
+        Topic GetTopicById(int id);
     }
 }

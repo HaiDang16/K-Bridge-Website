@@ -1,5 +1,6 @@
 ﻿using K_Bridge.Models;
 using Microsoft.EntityFrameworkCore;
+using K_Bridge.Infrastructure;
 
 namespace K_Bridge.Repositories
 {
@@ -53,6 +54,12 @@ namespace K_Bridge.Repositories
             _context.Users.Remove(user);
             _context.SaveChanges();
             return true;
+        }
+
+        public void UpdateUserClient(User user)
+        {
+            _context.Users.Update(user);
+            _context.SaveChanges();
         }
     }
 }

@@ -1,0 +1,91 @@
+﻿@model UpdateUsernameViewModel
+@{
+    ViewData["Title"] = "Cập nhật tên đăng nhập";
+}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-8">
+            <h2 class="text-color-header mb-4">Cập nhật tên đăng nhập</h2>
+            <p class="fs-12 text-color-header">Nhập tên đăng nhập mới và mật khẩu hiện tại.</p>
+
+            <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+                <div id="liveToastEditUsername" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header bg-main-color-header">
+                        <img src="~/img/Logo_75.png" height="20" width="20" class="rounded me-2" alt="...">
+                        <strong class="me-auto kbridge-text text-color-header spacing-2">K-Bridge</strong>
+                        <small>Ngay bây giờ</small>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body bg-main-color-background text-color-logo">
+                        <div id="editUsernameValidationSummary"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <form asp-action="EditUserName" method="post" id="editUserNameForm">
+                <div class="form-group mb-4 text-color-header fw-bold">
+                    <label for="Username">Tên đăng nhập mới</label>
+                    <input type="text" class="form-control focus bg-main-color-background text-color-header rounded-3 mt-2"
+                           placeholder="abc123" minlength="4"
+                           asp-for="NewUserName"
+                           required>
+                </div>
+
+                <div class="form-group mb-4 text-color-header fw-bold">
+                    <label for="password">Mật khẩu</label>
+                    <input type="password" class="form-control bg-main-color-background focus text-color-header rounded-3 mt-2"
+                           minlength="8" required
+                           asp-for="Password"
+                           placeholder="Nhập mật khẩu của bạn">
+                </div>
+                <div class="text-center d-flex justify-content-between w-100">
+                    <a href="/UserProfile?id=@ViewBag.UserID" class="btn btn-account-log w-50 me-4">Huỷ</a>
+                    <button type="submit" class="btn btn-account-edit w-50 ">Lưu thay đổi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById('editUserNameForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var errorSummary = document.getElementById('editUsernameValidationSummary');
+        errorSummary.innerHTML = ''; // Xóa nội dung cũ
+
+
+        var formData = new FormData(this);
+        fetch('/UserProfile/EditUserName', {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    errorSummary.innerHTML = '<p>Cập nhật thành công.</p>';
+                    errorSummary.style.display = 'block';
+                    showToast('liveToastEditUsername');
+                    setTimeout(() => {
+                        window.location.href = '/UserProfile?id=' + data.userId;
+                    }, 2000);
+
+                } else {
+                    if (data.errors && data.errors.length > 0) {
+                        var p = document.createElement('p');
+                        data.errors.forEach(function (error) {
+                            p.textContent = error;
+                        });
+                        errorSummary.appendChild(p);
+                        errorSummary.style.display = 'block';
+                        showToast('liveToastEditUsername');
+                    } else {
+                        errorSummary.innerHTML = '<p>Có lỗi xảy ra trong quá trình xử lý.</p>';
+                        errorSummary.style.display = 'block';
+                        showToast('liveToastEditUsername');
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+</script>

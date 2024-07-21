@@ -20,13 +20,7 @@
     </div>
     <div class="row m-0 p-0 mt-3 ">
         <div class="col-lg-1 flex-column">
-            <button class="m-1">
-                <img src="~/img/icon_like_filled.png" alt="Like" />
-            </button>
-            <p class="mt-2 fs-6 fw-bold text-color-logo">-123</p>
-            <button class="m-1">
-                <img src="~/img/icon_dislike_filled.png.png" alt="Like" />
-            </button>
+            <partial name="_LikeDislikePartial" model="new Post_Like { PostID = ViewBag.Post.ID, Post = ViewBag.Post }" />
         </div>
         <div class="col-lg-11">
             <div class="reply-content">
@@ -60,38 +54,14 @@
                             <label for="sortSelect">Sắp xếp theo:</label>
                             <select class="form-control" id="sortSelect">
                                 <option value="newest" selected="@(ViewBag.Sort == "newest" ? "selected" : "")">Mới nhất</option>
-                                <option value="most_helpful" selected="@(ViewBag.Sort == "oldest" ? "selected" : "")">Cũ nhất</option>
-                                <option value="trending" selected="@(ViewBag.Sort == "helpful" ? "selected" : "")">Hữu ích nhất</option>
+                                <option value="oldest" selected="@(ViewBag.Sort == "oldest" ? "selected" : "")">Cũ nhất</option>
+                                <option value="helpful" selected="@(ViewBag.Sort == "helpful" ? "selected" : "")">Hữu ích nhất</option>
                             </select>
                         </div>
                     </div>
                 </div>
-                @*    @foreach (var reply in ViewBag.Post.Replies ?? Enumerable.Empty<Forum>())
-            {
-            <div class="row my-3 m-0" style="border-bottom: 1px solid #8E6745">
-            <div class="col-lg-1 flex-column">
-            <button class="m-1">
-            <img src="~/img/like.png" alt="Like" />
-            </button>
-            <p class="mt-2 fs-6 fw-bold text-color-logo">-123</p>
-            <button class="m-1">
-            <img src="~/img/un_like.png" alt="Like" />
-            </button>
-            </div>
-            <div class="col-lg-11">
-            <div class="reply-content">
-            @Html.Raw(reply.Content)
-            </div>
-            </div>
-            <div class="d-flex justify-content-end mb-2">
-            <img src="~/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
-            <div class="newest-card-username mx-2">@reply.User.Username trả lời @GetTimeAgoHelper.GetTimeAgo(reply.CreatedAt)</div>
-            </div>
-            </div>
-
-            } *@
                 <div id="repliesContainer">
-                    <partial name="_RepliesPartial" model="ViewBag.Reply" />
+                    <partial name="_RepliesPartial" model="ViewBag.RepliesWithLike" />
                 </div>
             }
             <div>

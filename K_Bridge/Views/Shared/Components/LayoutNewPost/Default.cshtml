@@ -1,9 +1,20 @@
 ﻿<div style="max-width: 300px;" class="mt-2 justify-content-end">
-    <button type="button" class="btn btn-post text-uppercase fs-6 w-100"
-            data-bs-toggle="modal"
-            data-bs-target="#newPostModal">
-        Đăng bài viết mới
-    </button>
+    @if (ViewBag.IsLoggedIn)
+    {
+        <button type="button" class="btn btn-post text-uppercase fs-6 w-100"
+                data-bs-toggle="modal"
+                data-bs-target="#newPostModal">
+            Đăng bài viết mới
+        </button>
+    }
+    else
+    {
+        <button type="button" class="btn btn-post text-uppercase fs-6 w-100"
+                disabled>
+            Đăng bài viết mới
+        </button>
+
+    }
 </div>
 
 <!-- Modal new post -->

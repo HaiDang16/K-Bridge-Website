@@ -8,5 +8,7 @@ namespace K_Bridge.Repositories
         void SavePost(Post post);
         List<Post> GetLatestPost();
         Post GetPostByID(int id);
+        void IncrementViewCount(int postId);
+        List<Post> GetPostsByTopic(int topicId);
     }
 }

@@ -35,7 +35,7 @@
             }
             else
             {
-                <div class="d-md-flex align-items-center mx-3 pointer-event" onclick="window.location.href='/UserProfile/@ViewBag.UsernameLoggedIn'">
+                <div class="d-md-flex align-items-center mx-3 pointer-event" onclick="window.location.href='/UserProfile?id=@ViewBag.UserID'">
                     <img src="/img/avatar_40.png" alt="avatar" class="me-2 rounded-3" style="width: 40px; height: 40px;" />
                     <div class=" text-color-background mb-1 fw-bold flex-grow-1 pe-none">@ViewBag.UsernameLoggedIn</div>
                 </div>
@@ -64,35 +64,47 @@
                 </p>
             </div>
 
-            <div id="registerValidationSummary" class="text-danger" style="display:none;"></div>
+            <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+                <div id="liveToastSignUp" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header bg-main-color-layout">
+                        <img src="~/img/Logo_75.png" height="20" width="20" class="rounded me-2" alt="...">
+                        <strong class="me-auto kbridge-text text-color-header spacing-2">K-Bridge</strong>
+                        <small class="text-color-header">Ngay bây giờ</small>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body bg-main-color-background text-color-logo" >
+                        <div id="registerValidationSummary"></div>
+                    </div>
+                </div>
+            </div>
             <form id="registerForm">
                 <div class="modal-body py-0">
                     <div class="form-group mb-4 text-color-header fw-bold">
                         <label for="Username">Tên đăng nhập</label>
-                        <input type="type" class="form-control border-main-color-logo border bg-main-color-layout focus text-color-header rounded-3 mt-2"
+                        <input type="type" class="form-control border-main-color-logo border  focus text-color-header rounded-3 mt-2"
                                id="Username" asp-for="RegisterModel.Username" placeholder="abc123" minlength="4" required>
                     </div>
 
                     <div class="form-group mb-4 text-color-header fw-bold">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control border-main-color-logo border bg-main-color-layout focus text-color-header rounded-3 mt-2"
+                        <input type="email" class="form-control border-main-color-logo border  focus text-color-header rounded-3 mt-2"
                                id="email" asp-for="RegisterModel.Email" placeholder="daylaemail@gmail.com" required>
                     </div>
                     <div class="form-group mb-4 text-color-header fw-bold">
                         <label for="password">Mật khẩu</label>
-                        <input type="password" class="form-control border-main-color-logo border bg-main-color-layout focus text-color-header rounded-3 mt-2"
+                        <input type="password" class="form-control border-main-color-logo border  focus text-color-header rounded-3 mt-2"
                                id="password" asp-for="RegisterModel.Password" minlength="8" required
                                placeholder="Mật khẩu phải chứa ít nhất 8 ký tự, một chữ cái và một chữ số">
                     </div>
 
                     <div class="form-group mb-4 text-color-header fw-bold">
                         <label for="confirmPassword">Xác nhận mật khẩu</label>
-                        <input type="password" class="form-control border-main-color-logo border bg-main-color-layout focus text-color-header rounded-3 mt-2"
+                        <input type="password" class="form-control border-main-color-logo border  focus text-color-header rounded-3 mt-2"
                                id="confirmPassword" asp-for="RegisterModel.ConfirmPassword" minlength="8" required
                                placeholder="Nhập lại mật khẩu">
                     </div>
                     <div class="form-group mb-4 text-color-header">
-                        <button type="submit" class="d-block px-3 py-2 fw-bold rounded-3 btn-post fw-bold" style=" width: 100%;">Đăng ký</button>
+                        <button type="submit" id="liveToastBtnSignUp" class="d-block px-3 py-2 fw-bold rounded-3 btn-post fw-bold" style=" width: 100%;">Đăng ký</button>
                         <p class="py-2 fs-12">Đã có tài khoản? <a href="#" id="switchToLogin">Đăng nhập</a> ngay</p>
                     </div>
                 </div>
@@ -120,20 +132,32 @@
                             <span class="ms-2 kbridge-text text-color-header fs-4 d-none d-md-inline">K-BRIDGE</span>
                         </div>
                     </h5>
-                    <div id="loginValidationSummary" class="text-danger" style="display:none;"></div>
 
+                    <div  class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+                        <div id="liveToastLogin" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="toast-header bg-main-color-header">
+                                <img src="~/img/Logo_75.png" height="20" width="20" class="rounded me-2" alt="...">
+                                <strong class="me-auto kbridge-text text-color-header spacing-2">K-Bridge</strong>
+                                <small>Ngay bây giờ</small>
+                                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                            <div class="toast-body bg-main-color-background text-color-logo" >
+                                <div id="loginValidationSummary"></div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group mb-4 text-color-header fw-bold">
                         <label for="LoginUser">Email/Tên đăng nhập</label>
-                        <input type="type" class="form-control bg-main-color-layout border border-main-color-logo focus text-color-header rounded-2 mt-2"
+                        <input type="type" class="form-control  border border-main-color-logo focus text-color-header rounded-2 mt-2"
                                id="LoginUser" asp-for="LoginModel.User" required placeholder="daylaemail@gmail.com">
                     </div>
                     <div class="form-group mb-4 text-color-header fw-bold">
                         <label for="LoginPassword">Mật khẩu</label>
-                        <input type="password" class="form-control bg-main-color-layout border border-main-color-logo focus text-color-header rounded-2 mt-2"
+                        <input type="password" class="form-control  border border-main-color-logo focus text-color-header rounded-2 mt-2"
                                id="LoginPassword" asp-for="LoginModel.Password" required placeholder="Nhập mật khẩu">
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="d-block px-3 py-2 fw-bold rounded-3 btn-post fw-bold" style=" width: 100%;">Đăng nhập</button>
+                        <button type="submit" id="liveToastBtnLogin" class="d-block px-3 py-2 fw-bold rounded-3 btn-post fw-bold" style=" width: 100%;">Đăng nhập</button>
                     </div>
                 </div>
             </form>
@@ -195,8 +219,9 @@
         // Kiểm tra mật khẩu có chứa ít nhất một chữ cái và một số
         if (!/(?=.*[A-Za-z])(?=.*\d)/.test(password)) {
             var errorSummary = document.getElementById('registerValidationSummary');
-            errorSummary.innerHTML = '<ul><li>Mật khẩu phải chứa ít nhất một chữ cái và một số.</li></ul>';
+            errorSummary.innerHTML = '<p>Mật khẩu phải chứa ít nhất một chữ cái và một số.</p>';
             errorSummary.style.display = 'block';
+            showToast('liveToastSignUp');
             return;
         }
 
@@ -210,40 +235,30 @@
                 errorSummary.innerHTML = ''; // Xóa nội dung cũ
 
                 if (data.success) {
-                    signupModal.hide(); // Ẩn modal đăng ký
-
-                    // Reset form đăng ký
+                    signupModal.hide();
                     document.getElementById('registerForm').reset();
-
-                    // Hiển thị modal đăng nhập
                     loginModal.show();
-
                 } else {
-                    // Hiển thị lỗi
                     if (data.errors && data.errors.length > 0) {
-                        var ul = document.createElement('ul');
+                        var p = document.createElement('p');
                         data.errors.forEach(function (error) {
-                            var li = document.createElement('li');
-                            li.textContent = error;
-                            ul.appendChild(li);
+                            p.textContent = error;
                         });
-                        errorSummary.appendChild(ul);
-                        errorSummary.style.display = 'block'; // Hiển thị phần tóm tắt lỗi
-                    } else {
-                        errorSummary.innerHTML = '<ul><li>Có lỗi xảy ra trong quá trình đăng ký.</li></ul>';
+                        errorSummary.appendChild(p);
                         errorSummary.style.display = 'block';
+                        showToast('liveToastSignUp');
+                    } else {
+                        errorSummary.innerHTML = '<p>Có lỗi xảy ra trong quá trình đăng ký.</p>';
+                        errorSummary.style.display = 'block';
+                        showToast('liveToastSignUp');
                     }
                 }
             });
     });
-
     // Xử lý đăng nhập
     document.getElementById('loginForm').addEventListener('submit', function (e) {
         e.preventDefault();
         var formData = new FormData(this);
-        formData.forEach((value, key) => {
-            console.log(key + ': ' + value);
-        });
         fetch('/Home/Login', {
             method: 'POST',
             body: formData,
@@ -253,24 +268,23 @@
                 if (data.success) {
                     loginModal.hide();
                     document.getElementById('loginForm').reset();
-                    //updateUIAfterLogin(data.user);
                     window.location.reload();
                 } else {
                     var errorSummary = document.getElementById('loginValidationSummary');
                     errorSummary.innerHTML = ''; // Xóa nội dung cũ
 
                     if (data.errors && data.errors.length > 0) {
-                        var ul = document.createElement('ul');
+                        var p = document.createElement('p');
                         data.errors.forEach(function (error) {
-                            var li = document.createElement('li');
-                            li.textContent = error;
-                            ul.appendChild(li);
+                            p.textContent = error;
                         });
-                        errorSummary.appendChild(ul);
-                        errorSummary.style.display = 'block'; // Hiển thị phần tóm tắt lỗi
-                    } else {
-                        errorSummary.innerHTML = '<ul><li>Có lỗi xảy ra trong quá trình đăng nhập.</li></ul>';
+                        errorSummary.appendChild(p);
                         errorSummary.style.display = 'block';
+                        showToast('liveToastLogin');
+                    } else {
+                        errorSummary.innerHTML = '<p>Có lỗi xảy ra trong quá trình đăng nhập.</p>';
+                        errorSummary.style.display = 'block';
+                        showToast('liveToastLogin');
                     }
                 }
             })
@@ -278,7 +292,11 @@
                 console.error('Error:', error);
             });
     });
-
+    function showToast(toastId) {
+        var toastElement = document.getElementById(toastId);
+        var toast = new bootstrap.Toast(toastElement);
+        toast.show();
+    }
     // function updateUIAfterLogin(user) {
     //     var loginButtons = document.querySelector('.align-items-center.d-flex.justify-content-between');
     //     if (loginButtons) {
@@ -317,4 +335,7 @@
             }
         });
     });
+
+
 </script>
+

@@ -1,29 +1,29 @@
-﻿@model K_Bridge.Models.Post_Like
+﻿@model K_Bridge.Models.Reply_Like
 
 <div id="like-dislike">
     <div class="lidi">
-        <span id="like-count-@Model.PostID" style="display:none">@(Model.Post?.Post_Likes?.Count(pl => pl.IsLike) ?? 0)</span>
-        <i class="up" onclick="likePost(@Model.PostID)"></i>
-        <p class="mt-2 fs-5 fw-bold text-color-logo">
-            @ViewBag.TotalLikesMinusDislikes
+        <span id="like-count-@Model.ReplyID" style="display:none">@(Model.Reply?.Reply_Likes?.Count(pl => pl.IsLike) ?? 0)</span>
+        <i class="up" onclick="likePost(@Model.ReplyID)"></i>
+        <p class="mt-2 fs-3 fw-bold text-color-logo">
+            @((Model.Reply?.Reply_Likes?.Count(pl => pl.IsLike) ?? 0) - (Model.Reply?.Reply_Likes?.Count(pl => !pl.IsLike) ?? 0))
         </p>
-        <i class="down" onclick="dislikePost(@Model.PostID)"></i>
-        <span id="dislike-count-@Model.PostID" style="display:none">@(Model.Post?.Post_Likes?.Count(pl => !pl.IsLike) ?? 0)</span>
+        <i class="down" onclick="dislikePost(@Model.ReplyID)"></i>
+        <span id="dislike-count-@Model.ReplyID" style="display:none">@(Model.Reply?.Reply_Likes?.Count(pl => !pl.IsLike) ?? 0)</span>
     </div>
 
 </div>
 
 
-<script>
+@* <script>
     function lidi(inst) {
         // (A) ATTACH HTML
         inst.target.innerHTML = `  <span id="like-count-@Model.PostID" style="display:none">@(Model.Post?.Post_Likes?.Count(pl => pl.IsLike) ?? 0)</span>
-                    <i class="up"></i>
-                        <p class="mt-2 fs-5 fw-bold text-color-logo">
-    @ViewBag.TotalLikesMinusDislikes
-                    </p>
-                    <i class="down"></i>
-                        <span id="dislike-count-@Model.PostID" style="display:none">@(Model.Post?.Post_Likes?.Count(pl => !pl.IsLike) ?? 0)</span>`;
+                        <i class="up"></i>
+                            <p class="mt-2 fs-5 fw-bold text-color-logo">
+    @((Model.Post?.Post_Likes?.Count(pl => pl.IsLike) ?? 0) - (Model.Post?.Post_Likes?.Count(pl => !pl.IsLike) ?? 0))
+                        </p>
+                        <i class="down"></i>
+                            <span id="dislike-count-@Model.PostID" style="display:none">@(Model.Post?.Post_Likes?.Count(pl => !pl.IsLike) ?? 0)</span>`;
         inst.target.classList.add("lidi");
         inst.up = inst.target.querySelector("i.up");
         inst.down = inst.target.querySelector("i.down");
@@ -125,4 +125,4 @@
             })
             .catch(error => console.error('Error:', error));
     }
-</script>
+</script> *@
