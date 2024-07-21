@@ -47,7 +47,6 @@
     </div>
 </div>
 <script>
-    // Xử lý đăng nhập
     document.getElementById('editUserNameForm').addEventListener('submit', function (e) {
         e.preventDefault();
         var errorSummary = document.getElementById('editUsernameValidationSummary');
@@ -79,7 +78,7 @@
                         errorSummary.style.display = 'block';
                         showToast('liveToastEditUsername');
                     } else {
-                        errorSummary.innerHTML = '<p>Có lỗi xảy ra.</p>';
+                        errorSummary.innerHTML = '<p>Có lỗi xảy ra trong quá trình xử lý.</p>';
                         errorSummary.style.display = 'block';
                         showToast('liveToastEditUsername');
                     }

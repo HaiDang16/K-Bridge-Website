@@ -91,15 +91,55 @@ namespace K_Bridge.Controllers
             _userRepository.UpdateUserClient(user);
 
             // Redirect to profile page or another appropriate location
-            return Json(new { success = true, userId= user.ID });
+            return Json(new { success = true, userId = user.ID });
         }
 
 
-        [Route("/UserProfile/EditEmail")]
+        [HttpGet("/UserProfile/EditEmail")]
         public IActionResult EditEmail(int id)
         {
+            ViewBag.UserID = id;
             return View();
         }
+
+        [HttpPost("/UserProfile/EditEmail")]
+        public IActionResult EditEmail(UpdateEmailViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                return Json(new { success = false, errors = errors });
+            }
+            User? user = HttpContext.Session.GetJson<User>("user");
+
+            if (user == null)
+            {
+                ModelState.AddModelError("", "Người dùng không tồn tại.");
+                return Json(new { success = false, errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList() });
+            }
+
+            if (!model.Username.Equals(user.Username) || !BCrypt.Net.BCrypt.Verify(model.Password, user.Password))
+            {
+                ModelState.AddModelError("", "Tên đăng nhập hoặc mật khẩu không đúng.");
+                return Json(new { success = false, errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList() });
+            }
+
+            if (model.NewEmail.Equals(user.Email))
+            {
+                ModelState.AddModelError("", "Email trùng với email hiện tại.");
+                return Json(new { success = false, errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList() });
+            }
+
+
+            // Update the username
+            user.Email = model.NewEmail;
+            user.UpdatedAt = DateTime.Now;
+            _userRepository.UpdateUserClient(user);
+
+            // Redirect to profile page or another appropriate location
+            return Json(new { success = true, userId = user.ID });
+        }
+
 
         [Route("/UserProfile/EditPhoneNum")]
         public IActionResult EditPhoneNum(int id)
