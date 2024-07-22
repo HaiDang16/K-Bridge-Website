@@ -48,7 +48,7 @@
                         {
                             @if (MaxChoice == "single")
                             {
-                                <div class="custom-radio-group d-flex flex-column">
+                                <div class="custom-radio-group d-flex flex-column mb-2">
                                     <label class="custom-radio rounded-3">
                                         <input type="radio" name="maxChoice" value="@i">
                                         <span class="radio-text">Lựa chọn @i</span>
@@ -57,7 +57,7 @@
                             }
                             else
                             {
-                                <div class="custom-radio-group d-flex flex-column">
+                                <div class="custom-radio-group d-flex flex-column mb-2">
                                     <label class="custom-radio rounded-3">
                                         <input type="checkbox" name="maxChoice" value="@i">
                                         <span class="radio-text">Lựa chọn @i</span>
@@ -100,7 +100,7 @@
                             <img class="align-content-center me-2" src="~/img/vote.png" width="18" height="18" alt="Vote Image" />
                             Bình chọn
                         </button>
-                        <button class="px-3 py-1 btn-account-edit fw-bold rounded-3 mx-2" onclick="toggleResults()">Xem kết quả</button>
+                        <button id="toggleButtonVoting" class="px-3 py-1 btn-account-edit fw-bold rounded-3 mx-2" onclick="toggleResults()">Xem kết quả</button>
                     </div>
                 </div>
             }
@@ -284,14 +284,17 @@
 </script>
 <script>
     function toggleResults() {
+        var toggleButtonVoting = document.getElementById('toggleButtonVoting');
         var pollForm = document.getElementById('pollForm');
         var pollResults = document.getElementById('pollResults');
         if (pollForm.style.display !== 'none') {
             pollForm.style.display = 'none';
             pollResults.style.display = 'block';
+            toggleButtonVoting.textContent = 'Đóng lại';
         } else {
             pollForm.style.display = 'block';
             pollResults.style.display = 'none';
+            toggleButtonVoting.textContent = 'Xem kết quả';
         }
     }
 </script>

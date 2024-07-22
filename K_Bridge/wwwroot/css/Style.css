@@ -598,13 +598,13 @@ body {
 }
 .poll-result {
     margin-bottom: 10px;
-    background-color: #f0f0f0;
+    background-color: #FFE8DA;
     border-radius: 5px;
     overflow: hidden;
 }
 
 .poll-bar {
-    background-color: #007bff;
+    background-color: #8E6745;
     color: white;
     padding: 5px 10px;
     display: flex;
