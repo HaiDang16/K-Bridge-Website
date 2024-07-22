@@ -256,6 +256,25 @@ input:focus {
     display: none !important;
 }
 
+    #pollContent {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+    }
+
+    #pollContent.show {
+        max-height: 1000px; /* Đặt giá trị này cao hơn chiều cao thực tế của nội dung */
+        opacity: 1;
+    }
+
+    #pollArrow {
+        transition: transform 0.5s ease-out;
+    }
+
+    #pollArrow.rotate {
+        transform: rotate(180deg);
+    }
 
 .hover-bold:hover span,
 .active-bold.active span {
@@ -521,3 +540,65 @@ body {
 .spacing-4 {
     letter-spacing: 4px;
 }
+
+.toast-container {
+    pointer-events: none;
+}
+
+.toast {
+    pointer-events: auto;
+    max-width: 350px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    transition: opacity 0.15s linear;
+}
+
+    .toast.show {
+        opacity: 1;
+    }
+
+<style >
+.custom-radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.custom-radio {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+
+    .custom-radio input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+.radio-text {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #FFE8DA;
+    border: 1px solid #FFFFFF;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.custom-radio input:checked + .radio-text {
+    background-color: #8E6745;
+    color: #FFF0E6;
+}
+
+/* Thêm hiệu ứng hover */
+.custom-radio:hover .radio-text {
+    background-color: #f0d0b0;
+}
+
+/* Hiệu ứng khi nhấn (active) */
+.custom-radio:active .radio-text {
+    background-color: #8E6745;
+    color: #FFF0E6;
+}
+
+</style >
