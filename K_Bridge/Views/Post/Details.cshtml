@@ -70,16 +70,21 @@
                     <div id="pollResults" style="display: none;">
                         @{
                             // Dữ liệu giả cho số lượng bình chọn
-                            var fakeVotes = new[] { 50, 30, 20 };
+                            var fakeVotes = new[] { 100, 70, 20 };
                             int maxVotes = fakeVotes.Max();
+                            int totalVotes = fakeVotes.Sum();
                         }
                         @for (int i = 0; i < 3; i++)
                         {
                             int votes = fakeVotes[i];
-                            int percentage = maxVotes > 0 ? (votes * 100) / maxVotes : 0;
+                            int percentageOfTotal = totalVotes > 0 ? (votes * 100) / totalVotes : 0;
+                            int percentageOfMax = maxVotes > 0 ? (votes * 100) / maxVotes : 0;
+                            int displayWidth = Math.Max(30, percentageOfMax); // Đảm bảo width tối thiểu là 30%
                             <div class="poll-result">
-                                <div class="poll-option">Lựa chọn @(i + 1)</div>
-                                <div class="poll-bar" style="width: @(percentage)%;">@(percentage)% (@votes votes)</div>
+                                <div class="poll-bar" style="width: @(displayWidth)%;">
+                                    <span class="poll-option">Lựa chọn @(i + 1)</span>
+                                    <span class="poll-percentage">@(percentageOfTotal)% (@votes votes)</span>
+                                </div>
                             </div>
                         }
                     </div>
