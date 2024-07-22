@@ -515,3 +515,37 @@ html, body {
     background-color: #000; /* Màu sắc của đường hr */
     border: none; /* Xóa border nếu có */
 }
+
+#notificationListAdmin {
+    position: absolute;
+    right: 20px;
+    top: 100%;
+    z-index: 1000;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.notification-itemAdmin {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+    .notification-itemAdmin:hover {
+        background-color: #f8f9fa;
+    }
+
+.notification-contentAdmin {
+    font-size: 0.9rem;
+    line-height: 1.2;
+}
+
+.notification-messageAdmin {
+    margin-bottom: 4px;
+}
+
+.notification-timeAdmin {
+    font-size: 0.75rem;
+    color: #6c757d;
+}
