@@ -449,17 +449,6 @@ namespace K_Bridge.Controllers
                 return Json(new { success = false, messages = "Bài viết không tồn tại." });
             }
 
-/*            // Nếu bài viết chỉ cho 1 opt thì phải xoá opt đã chọn trước
-            var existingVotes = _voteRepository.GetUserVoteForPost(userId, postId);
-
-            if (!post.Vote.IsUnlimited)
-            {
-                // Remove existing votes if the vote is not unlimited
-                _voteRepository.RemoveAllVote(existingVotes);
-
-            }
-*/
-
             var vote = _voteRepository.GetVoteById(post.VoteID);
             if (vote == null)
             {
@@ -476,35 +465,27 @@ namespace K_Bridge.Controllers
                 return Json(new { success = false, message = "Một số lựa chọn không hợp lệ." });
             }
 
-
             // Xử lý bình chọn của người dùng
-            var userVotes = _voteRepository.GetUserVotesListById(userId, vote)
-
-;             // Handle non-unlimited voting
-/*            if (!post.Vote.IsUnlimited)
-            {
-                // Remove existing votes if the vote is not unlimited
-                _voteRepository.RemoveAllVote(userVotes);
-            }*/
-
-            foreach (var optionId in optionIds)
-            {
-                var voteOption = _voteRepository.GetVoteOptionById(optionId);
-                if (voteOption != null)
-                {
-                    var existingVote = userVotes.FirstOrDefault(uv => uv.VoteOptionID == optionId);
-                    if (existingVote == null)
-                    {
-                        // Add new vote
-                        _voteRepository.SaveUserVote(new UserVote { UserID = userId, VoteOptionID = optionId });
-                        _voteRepository.IncreaseOneVoteCount(voteOption);
-                    }
-                }
-            }
+            var userVotes = _voteRepository.GetUserVotesListById(userId, vote);
 
             // Remove votes for options no longer selected if unlimited voting is not allowed
             if (!post.Vote.IsUnlimited) // Nếu chỉ cho 1
             {
+                foreach (var optionId in optionIds)
+                {
+                    var voteOption = _voteRepository.GetVoteOptionById(optionId);
+                    if (voteOption != null)
+                    {
+                        var existingVote = userVotes.FirstOrDefault(uv => uv.VoteOptionID == optionId);
+                        if (existingVote == null)
+                        {
+                            // Add new vote
+                            _voteRepository.SaveUserVote(new UserVote { UserID = userId, VoteOptionID = optionId });
+                            _voteRepository.IncreaseOneVoteCount(voteOption);
+                        }
+                    }
+                }
+
                 foreach (var userVote in userVotes)
                 {
                     if (!optionIds.Contains(userVote.VoteOptionID))
@@ -515,6 +496,32 @@ namespace K_Bridge.Controllers
                             _voteRepository.RemoveUserVote(userVote);
                             _voteRepository.DecreaseOneVoteCount(voteOption);
                         }
+                    }
+                }
+            }
+            else
+            {
+                var existingVoteOptionIds = userVotes.Select(uv => uv.VoteOptionID).ToList();
+                // Xử lý các option mới được chọn (không có trong danh sách cũ)
+                foreach (var optionId in optionIds.Except(existingVoteOptionIds))
+                {
+                    var voteOption = _voteRepository.GetVoteOptionById(optionId);
+                    if (voteOption != null)
+                    {
+                        _voteRepository.SaveUserVote(new UserVote { UserID = userId, VoteOptionID = optionId });
+                        _voteRepository.IncreaseOneVoteCount(voteOption);
+                    }
+                }
+
+                // Xử lý các option không còn được chọn nữa (có trong danh sách cũ nhưng không có trong danh sách mới)
+                foreach (var optionId in existingVoteOptionIds.Except(optionIds))
+                {
+                    var userVote = userVotes.FirstOrDefault(uv => uv.VoteOptionID == optionId);
+                    var voteOption = _voteRepository.GetVoteOptionById(optionId);
+                    if (userVote != null && voteOption != null)
+                    {
+                        _voteRepository.RemoveUserVote(userVote);
+                        _voteRepository.DecreaseOneVoteCount(voteOption);
                     }
                 }
             }
