@@ -66,8 +66,6 @@ app.MapControllerRoute(
 app.MapRazorPages();
 app.MapDefaultControllerRoute();
 // Khởi tạo seed data
-SeedData.EnsurePopulated(app);
-SeedDataStats.EnsurePopulated(app);
 SeedDataAdminAccount.EnsurePopulated(app);
 SeedDataForum.EnsurePopulated(app);
 SeedDataGlobalChat.EnsurePopulated(app);

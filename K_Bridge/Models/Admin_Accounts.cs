@@ -9,5 +9,7 @@
         public DateTime LastLogin { get; set; }
         public string Status { get; set; } = string.Empty;
         public string Role { get; set; } = string.Empty;
+
+        public ICollection<Notification>? Notifications { get; set; }
     }
 }
