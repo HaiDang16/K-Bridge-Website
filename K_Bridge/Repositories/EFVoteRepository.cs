@@ -117,5 +117,16 @@ namespace K_Bridge.Repositories
             return _context.UserVotes
                     .Count(uv => uv.VoteOptionID == id);
         }
+
+        public void UpdateVote(Vote vote)
+        {
+            _context.Votes.Update(vote);
+            _context.SaveChanges();
+        }
+        public IEnumerable<Vote> GetOpenVotes()
+        {
+            return _context.Votes.Where(v => v.Status == "Open").ToList();
+        }
+
     }
 }

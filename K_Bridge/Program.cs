@@ -1,3 +1,5 @@
+using Hangfire;
+using Hangfire.SqlServer;
 using K_Bridge.Models;
 using K_Bridge.Repositories;
 using K_Bridge.Services;
@@ -31,6 +33,7 @@ builder.Services.AddScoped<IVoteRepository, EFVoteRepository>();
 
 builder.Services.AddScoped<CodeGenerationService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<IVoteService, VoteService>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddRazorPages();
@@ -44,6 +47,23 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+// Add Hangfire services
+builder.Services.AddHangfire(configuration => configuration
+    .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+    .UseSimpleAssemblyNameTypeSerializer()
+    .UseRecommendedSerializerSettings()
+    .UseSqlServerStorage(builder.Configuration["ConnectionStrings:KBridgeConnection"], new SqlServerStorageOptions
+    {
+        CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+        SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+        QueuePollInterval = TimeSpan.Zero,
+        UseRecommendedIsolationLevel = true,
+        UsePageLocksOnDequeue = true,
+        DisableGlobalLocks = true
+    }));
+
+builder.Services.AddHangfireServer();
 
 // Đảm bảo bạn có dòng này trong phần cấu hình middleware
 var app = builder.Build(); 
@@ -59,6 +79,7 @@ app.UseRouting();
 app.UseSession();
 
 app.UseAuthorization();
+app.UseHangfireDashboard();
 
 app.MapControllerRoute(
     name: "default",
@@ -66,6 +87,9 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 app.MapDefaultControllerRoute();
+
+RecurringJob.AddOrUpdate<IVoteService>("update-vote-status", service => service.UpdateVoteStatus(), Cron.Minutely);
+
 // Khởi tạo seed data
 SeedDataAdminAccount.EnsurePopulated(app);
 SeedDataForum.EnsurePopulated(app);

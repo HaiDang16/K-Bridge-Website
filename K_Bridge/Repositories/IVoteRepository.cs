@@ -19,5 +19,7 @@ namespace K_Bridge.Repositories
         void DecreaseOneVoteCount(VoteOption voteOption);
         Vote GetVoteWithOptionByPostId(int id);
         int CountUserVoteById(int id);
+        void UpdateVote(Vote vote);
+        IEnumerable<Vote> GetOpenVotes();
     }
 }

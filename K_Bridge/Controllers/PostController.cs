@@ -106,6 +106,7 @@ namespace K_Bridge.Controllers
                         IsUnlimited = post.IsUnlimited,
                         CloseAfter = post.CloseAfter,
                         PostID = newPost.ID,
+                        Status = "Open",
                         VoteOptions = post.Options.Select(o => new VoteOption
                         {
                             Title = o,
@@ -453,6 +454,19 @@ namespace K_Bridge.Controllers
             if (vote == null)
             {
                 return Json(new { success = false, message = "Không tìm thấy thông tin bình chọn." });
+            }
+
+
+            // Kiểm tra trạng thái của bình chọn
+            if (vote.Status == "Close" || DateTime.UtcNow > vote.GetCloseTime())
+            {
+                // Cập nhật trạng thái nếu cần
+                if (vote.Status != "Close")
+                {
+                    vote.Status = "Close";
+                    _voteRepository.UpdateVote(vote);
+                }
+                return Json(new { success = false, message = "Bình chọn đã đóng." });
             }
 
             // Lấy danh sách các option hợp lệ của vote này
