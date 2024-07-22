@@ -241,5 +241,34 @@ namespace K_Bridge.Controllers
         {
             return View();
         }
+
+        [HttpGet("/ForgetPassword")]
+        public IActionResult ForgetPassword()
+        {
+            return View();
+        }
+
+        [HttpPost("/ForgetPassword")]
+        public IActionResult ForgetPassword(ForgetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Json(new { success = false, errors = "Đã xảy ra lỗi trong quá trình xử lý." });
+            }
+
+            var user = _userRepository.GetAllUsers()
+                .FirstOrDefault(u => u.Username == model.Username && u.Email == model.Email);
+
+            if (user == null)
+            {
+                return Json(new { success = false, errors = "Tên đăng nhập hoặc email không hợp lệ." });
+            }
+
+            // Cập nhật mật khẩu và xóa token nếu có
+            user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password);
+            _userRepository.UpdateUser(user);
+
+            return Json(new { success = true });
+        }
     }
 }

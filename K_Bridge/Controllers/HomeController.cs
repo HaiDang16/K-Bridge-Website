@@ -198,12 +198,7 @@ public class HomeController : Controller
         // Redirect to the login page or home page
         return RedirectToAction("Index", "Home"); // or RedirectToAction("Login", "Account");
     }
-    [Route("/ForgetPassword")]
-    public IActionResult ForgetPassword()
-    {
-        return View();
-
-    }
+ 
     [HttpGet("/Topic/List")]
     public IActionResult TopicList(int forum)
     {
