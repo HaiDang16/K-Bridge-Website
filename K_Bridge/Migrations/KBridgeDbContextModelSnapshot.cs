@@ -493,7 +493,7 @@ namespace K_Bridge.Migrations
 
                     b.HasIndex("VoteOptionID");
 
-                    b.ToTable("UserVote");
+                    b.ToTable("UserVotes");
                 });
 
             modelBuilder.Entity("K_Bridge.Models.Vote", b =>

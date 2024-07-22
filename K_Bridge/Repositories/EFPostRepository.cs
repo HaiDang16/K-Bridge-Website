@@ -68,5 +68,11 @@ namespace K_Bridge.Repositories
             _context.Posts.Update(post);
             _context.SaveChanges();
         }
+        public Post GetPostWithVoteById(int id)
+        {
+            return _context.Posts
+                .Include(p => p.Vote)
+                .FirstOrDefault(p => p.ID == id);
+        }
     }
 }

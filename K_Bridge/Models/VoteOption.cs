@@ -1,4 +1,7 @@
-﻿namespace K_Bridge.Models
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
+
+namespace K_Bridge.Models
 {
     public class VoteOption : BaseModel
     {
@@ -10,6 +13,6 @@
         public Vote Vote { get; set; }
 
         public ICollection<UserVote>? UserVotes { get; set; }
-
+      
     }
 }

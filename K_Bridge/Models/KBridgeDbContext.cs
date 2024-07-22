@@ -18,6 +18,7 @@ namespace K_Bridge.Models
         public DbSet<Reply_Like> Reply_Likes => Set<Reply_Like>();
         public DbSet<Vote> Votes => Set<Vote>();
         public DbSet<VoteOption> VoteOptions => Set<VoteOption>();
+        public DbSet<UserVote> UserVotes => Set<UserVote>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

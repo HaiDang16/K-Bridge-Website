@@ -7,6 +7,7 @@ using K_Bridge.Repositories;
 using K_Bridge.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.Diagnostics;
 
 
@@ -74,6 +75,8 @@ namespace K_Bridge.Controllers
         {
             if (ModelState.IsValid)
             {
+                post.Options = post.Options.Where(o => !string.IsNullOrWhiteSpace(o)).ToList();
+
                 User? user = HttpContext.Session.GetJson<User>("user");
 
                 if (user == null)
@@ -164,6 +167,20 @@ namespace K_Bridge.Controllers
                 // Get total like/dislike of post
                 var totalLikes = _likeRepository.GetPostLikeCount(post);
                 var totalDislikes = _likeRepository.GetPostDislikeCount(post);
+
+                // Get vote
+                if (postDetails.IsVote)
+                {
+                    var voteDetails = _voteRepository.GetVoteById(postDetails.VoteID);
+                    ViewBag.IsVote = true;
+                    ViewBag.Vote = voteDetails;
+                    ViewBag.VoteCountArr = voteDetails.VoteOptions.Select(o => o.Quantity).ToArray();
+                    ViewBag.VoteOptionsList = voteDetails.VoteOptions.ToList();
+                }
+                else
+                {
+                    ViewBag.IsVote = false;
+                }
 
                 ViewBag.Post = postDetails;
                 ViewBag.Sort = sort;
@@ -400,5 +417,92 @@ namespace K_Bridge.Controllers
             return Json(new { likeCount, dislikeCount, userLikeStatus });
         }
 
+        [HttpPost("SubmitReply")]
+        public IActionResult SubmitVote(int postId, string selectedOptions)
+        {
+            var currentUser = _userService.GetCurrentUser();
+            if (currentUser == null)
+            {
+                return Json(new { success = false, messages = "Vui lòng đăng nhập để bình chọn." });
+            }
+            if (selectedOptions == null)
+            {
+                return Json(new { success = false, messages = "Vui lòng chọn ít nhất một lựa chọn." });
+            }
+
+            var userId = currentUser.ID;
+            var optionIds = selectedOptions.Split(',').Select(int.Parse);
+
+            // Lấy bài viết từ database
+            var post = _postRepository.GetPostWithVoteById(postId);
+
+            if (post == null)
+            {
+                return Json(new { success = false, messages = "Bài viết không tồn tại." });
+            }
+
+            var vote = _voteRepository.GetVoteById(post.VoteID);
+            if (vote == null)
+            {
+                return Json(new { success = false, message = "Không tìm thấy thông tin bình chọn." });
+            }
+
+            // Lấy danh sách các option hợp lệ của vote này
+            var validOptions = _voteRepository.GetVoteOptionsByVoteId(vote.ID);
+            var validOptionIds = validOptions.Select(vo => vo.ID).ToList();
+
+            // Kiểm tra xem các option được chọn có hợp lệ không
+            if (!optionIds.All(id => validOptionIds.Contains(id)))
+            {
+                return Json(new { success = false, message = "Một số lựa chọn không hợp lệ." });
+            }
+
+
+            // Xử lý bình chọn của người dùng
+            var userVotes = _voteRepository.GetUserVotesListById(userId, vote)
+
+;            // Xóa các bình chọn cũ của người dùng
+            _voteRepository.RemoveAllVote(userVotes);
+
+            foreach (var optionId in optionIds)
+            {
+                var voteOption = _voteRepository.GetVoteOptionById(optionId);
+                if (voteOption != null)
+                {
+                    _voteRepository.SaveUserVote(new UserVote { UserID = userId, VoteOptionID = optionId });
+                    _voteRepository.IncreaseOneVoteCount(voteOption);
+                }
+            }
+            return Json(new { success = true });
+        }
+        [HttpGet("GetVoteResults/{postId}")]
+        public IActionResult GetVoteResults(int postId)
+        {
+            // Giả sử bạn đã có phương thức để lấy dữ liệu bình chọn từ database
+            var votes = _voteRepository.GetVotesByPostId(postId);
+
+            // Tính toán tổng số bình chọn và kết quả bình chọn cho từng tùy chọn
+            var voteResults = votes
+                .GroupBy(v => v.VoteOptions) // Nhóm theo tùy chọn
+                .Select(g => new
+                {
+                    Option = g.Key,
+                    Votes = g.Count()
+                })
+                .ToList();
+
+            var totalVotes = voteResults.Sum(v => v.Votes);
+            var maxVotes = voteResults.Max(v => v.Votes);
+
+            var result = new
+            {
+                PostId = postId,
+                TotalVotes = totalVotes,
+                MaxVotes = maxVotes,
+                VoteOptions = voteResults
+            };
+
+            return Ok(result);
+        }
     }
 }
