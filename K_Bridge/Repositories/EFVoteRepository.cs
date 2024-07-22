@@ -38,6 +38,8 @@ namespace K_Bridge.Repositories
         public void RemoveAllVote(List<UserVote> vote)
         {
             _context.UserVotes.RemoveRange(vote);
+            _context.SaveChanges();
+
         }
         public VoteOption GetVoteOptionById(int id)
         {
@@ -63,8 +65,57 @@ namespace K_Bridge.Repositories
         public List<Vote> GetVotesByPostId(int postId)
         {
             return _context.Votes
+
                            .Where(v => v.PostID == postId)
                            .ToList();
+        }
+        public Vote GetVoteByPostId(int postId)
+        {
+            return _context.Votes.FirstOrDefault(v => v.PostID == postId);
+        }
+        public List<UserVote> GetUserVoteForPost(int userId, int postId)
+        {
+            return _context.UserVotes
+           .Where(uv => uv.UserID == userId && uv.VoteOption.Vote.PostID == postId)
+           .ToList();
+        }
+        public void RemoveUserVote(UserVote userVote)
+        {
+            // Check if the UserVote entity exists in the context
+            var existingVote = _context.UserVotes.Find(userVote.ID);
+            if (existingVote != null)
+            {
+                _context.UserVotes.Remove(existingVote);
+                _context.SaveChanges();
+            }
+        }
+        public void DecreaseOneVoteCount(VoteOption voteOption)
+        {
+            // Find the existing VoteOption entity
+            var existingOption = _context.VoteOptions.Find(voteOption.ID);
+            if (existingOption != null)
+            {
+                // Decrease the vote count if it's greater than 0
+                if (existingOption.Quantity > 0)
+                {
+                    existingOption.Quantity--;
+                    _context.VoteOptions.Update(existingOption);
+                    _context.SaveChanges();
+                }
+            }
+        }
+        public Vote GetVoteWithOptionByPostId(int id)
+        {
+           return _context.Votes
+                .Include(v => v.VoteOptions)
+                .Where(v => v.PostID == id)
+                .FirstOrDefault();
+        }
+
+        public int CountUserVoteById(int id)
+        {
+            return _context.UserVotes
+                    .Count(uv => uv.VoteOptionID == id);
         }
     }
 }

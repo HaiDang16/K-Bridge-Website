@@ -14,6 +14,10 @@ namespace K_Bridge.Repositories
         void IncreaseOneVoteCount(VoteOption vote);
         List<VoteOption> GetVoteOptionsByVoteId(int voteId);
         List<Vote> GetVotesByPostId(int postId);
-
+        List<UserVote> GetUserVoteForPost(int userId, int postId);
+        void RemoveUserVote(UserVote userVote);
+        void DecreaseOneVoteCount(VoteOption voteOption);
+        Vote GetVoteWithOptionByPostId(int id);
+        int CountUserVoteById(int id);
     }
 }

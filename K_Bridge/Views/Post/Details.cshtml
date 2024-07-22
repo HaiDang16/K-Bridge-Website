@@ -10,8 +10,9 @@
     var currentUserId = "Test1"; // Lấy ID của người dùng hiện tại
     var postAuthorId = "Test1"; // ID của tác giả bài viết, giả sử bạn truyền thông tin này từ model
     var voteOptionsList = ViewBag.VoteOptionsList;
-
+    var userVotes = ViewBag.UserVotes as List<UserVote>;
 }
+
 <div class="row mb-5">
     <div class="d-flex justify-content-start fs-4">
         @ViewBag.Post.Title
@@ -59,11 +60,13 @@
                             @for (int i = 1; i <= voteOptionsList.Count; i++)
                             {
                                 var option = voteOptionsList[i - 1];
+                                bool isChecked = userVotes != null && userVotes.Any(uv => uv.VoteOptionID == option.ID);
+
                                 @if (voteDetail.IsUnlimited == false)
                                 {
                                     <div class="custom-radio-group d-flex flex-column mb-2">
                                         <label class="custom-radio rounded-3">
-                                            <input type="radio" name="voteOption" value="@option.ID">
+                                            <input type="radio" name="voteOption" value="@option.ID" @(isChecked ? "checked" : "")>
                                             <span class="radio-text">@option.Title</span>
                                         </label>
                                     </div>
@@ -72,7 +75,7 @@
                                 {
                                     <div class="custom-radio-group d-flex flex-column mb-2">
                                         <label class="custom-radio rounded-3">
-                                            <input type="checkbox" name="voteOptions" value="@option.ID">
+                                            <input type="checkbox" name="voteOptions" value="@option.ID" @(isChecked ? "checked" : "")>
                                             <span class="radio-text">@option.Title</span>
                                         </label>
                                     </div>
@@ -141,7 +144,8 @@
                     </div>
                     } *@
                         <div class="d-flex justify-content-end align-items-center">
-                            <button type="submit" class="px-3 py-1 border-main-color-layout btn-account-log rounded-3 mx-2 align-items-center d-flex text-color-header">
+                            <button type="submit" id="voteButton" style=" display: none"
+                                class="px-3 py-1 border-main-color-layout btn-account-log rounded-3 mx-2 align-items-center d-flex text-color-header">
                                 <img class="align-content-center me-2" src="~/img/vote.png" width="18" height="18" alt="Vote Image" />
                                 Bình chọn
                             </button>
@@ -344,9 +348,19 @@
     function toggleResults() {
         var pollForm = document.getElementById('pollForm');
         var pollResults = document.getElementById('pollResults');
+        var toggleButton = document.getElementById('toggleButtonVoting');
+        var voteButton = document.getElementById('voteButton');
+
         if (pollForm.style.display !== 'none') {
+            // Hiện thị bảng kết quả, ẩn bảng bình chọn
             pollForm.style.display = 'none';
             pollResults.style.display = 'block';
+
+            // Thay đổi chữ của nút
+            toggleButton.innerText = 'Quay về bình chọn';
+
+            // Ẩn nút bình chọn
+            voteButton.style.display = 'none !important';
 
             // Use requestAnimationFrame to ensure DOM is updated
             requestAnimationFrame(function () {
@@ -359,8 +373,15 @@
                 });
             });
         } else {
+            // Hiện thị bảng bình chọn, ẩn bảng kết quả
             pollForm.style.display = 'block';
             pollResults.style.display = 'none';
+
+            // Thay đổi chữ của nút
+            toggleButton.textContent = 'Xem kết quả';
+
+            // Hiển thị lại nút bình chọn
+            //voteButton.style.display = 'block';
 
             // Reset widths to 30% when hiding results
             var pollBars = document.querySelectorAll('.poll-bar');
@@ -400,7 +421,7 @@
             selectedOptionsInput.value = selectedOptions.join(',');
 
             // Submit the form via AJAX
-            fetch('/Post/SubmitReply', {
+            fetch('/Post/SubmitVote', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -440,32 +461,5 @@
             toggleResults();
             localStorage.removeItem('showResults'); // Xóa trạng thái sau khi đã xử lý
         }
-    });
-    function updatePollResults() {
-        const postId = document.querySelector('input[name="postId"]').value;
-        fetch(`/Post/GetVoteResults/${postId}`)
-            .then(response => response.json())
-            .then(voteResults => {
-                updateVoteResults(voteResults);
-            })
-            .catch(error => console.error('Error fetching vote results:', error));
-    }
-
-    function updateVoteResults(voteResults) {
-        const pollResults = document.getElementById('pollResults');
-        const voteOptionsList = document.querySelectorAll('.poll-bar');
-
-        voteOptionsList.forEach((bar, index) => {
-            const result = voteResults.VoteOptions.find(option => option.Option === `Lựa chọn ${index + 1}`);
-            const votes = result ? result.Votes : 0;
-            const totalVotes = voteResults.TotalVotes || 1;
-            const maxVotes = voteResults.MaxVotes || 1;
-            const percentageOfTotal = (votes * 100) / totalVotes;
-            const percentageOfMax = (votes * 100) / maxVotes;
-            const displayWidth = Math.max(30, percentageOfMax);
-
-            bar.style.width = `${displayWidth}%`;
-            bar.querySelector('.poll-percentage').textContent = `${Math.round(percentageOfTotal)}% (${votes} votes)`;
-        });
-    }
+    });  
 </script>

@@ -182,6 +182,14 @@ namespace K_Bridge.Controllers
                     ViewBag.IsVote = false;
                 }
 
+                // Get current user vote
+                if (user != null)
+                {
+                    var userVotes = _voteRepository.GetUserVoteForPost(user.ID, post);
+                    ViewBag.UserVotes = userVotes;
+
+                }
+
                 ViewBag.Post = postDetails;
                 ViewBag.Sort = sort;
                 ViewBag.TotalLikesMinusDislikes = totalLikes - totalDislikes;
@@ -417,7 +425,7 @@ namespace K_Bridge.Controllers
             return Json(new { likeCount, dislikeCount, userLikeStatus });
         }
 
-        [HttpPost("SubmitReply")]
+        [HttpPost("SubmitVote")]
         public IActionResult SubmitVote(int postId, string selectedOptions)
         {
             var currentUser = _userService.GetCurrentUser();
@@ -436,10 +444,21 @@ namespace K_Bridge.Controllers
             // Lấy bài viết từ database
             var post = _postRepository.GetPostWithVoteById(postId);
 
-            if (post == null)
+            if (post == null || post.Vote == null)
             {
                 return Json(new { success = false, messages = "Bài viết không tồn tại." });
             }
+
+/*            // Nếu bài viết chỉ cho 1 opt thì phải xoá opt đã chọn trước
+            var existingVotes = _voteRepository.GetUserVoteForPost(userId, postId);
+
+            if (!post.Vote.IsUnlimited)
+            {
+                // Remove existing votes if the vote is not unlimited
+                _voteRepository.RemoveAllVote(existingVotes);
+
+            }
+*/
 
             var vote = _voteRepository.GetVoteById(post.VoteID);
             if (vote == null)
@@ -461,48 +480,72 @@ namespace K_Bridge.Controllers
             // Xử lý bình chọn của người dùng
             var userVotes = _voteRepository.GetUserVotesListById(userId, vote)
 
-;            // Xóa các bình chọn cũ của người dùng
-            _voteRepository.RemoveAllVote(userVotes);
+;             // Handle non-unlimited voting
+/*            if (!post.Vote.IsUnlimited)
+            {
+                // Remove existing votes if the vote is not unlimited
+                _voteRepository.RemoveAllVote(userVotes);
+            }*/
 
             foreach (var optionId in optionIds)
             {
                 var voteOption = _voteRepository.GetVoteOptionById(optionId);
                 if (voteOption != null)
                 {
-                    _voteRepository.SaveUserVote(new UserVote { UserID = userId, VoteOptionID = optionId });
-                    _voteRepository.IncreaseOneVoteCount(voteOption);
+                    var existingVote = userVotes.FirstOrDefault(uv => uv.VoteOptionID == optionId);
+                    if (existingVote == null)
+                    {
+                        // Add new vote
+                        _voteRepository.SaveUserVote(new UserVote { UserID = userId, VoteOptionID = optionId });
+                        _voteRepository.IncreaseOneVoteCount(voteOption);
+                    }
+                }
+            }
+
+            // Remove votes for options no longer selected if unlimited voting is not allowed
+            if (!post.Vote.IsUnlimited) // Nếu chỉ cho 1
+            {
+                foreach (var userVote in userVotes)
+                {
+                    if (!optionIds.Contains(userVote.VoteOptionID))
+                    {
+                        var voteOption = _voteRepository.GetVoteOptionById(userVote.VoteOptionID);
+                        if (voteOption != null)
+                        {
+                            _voteRepository.RemoveUserVote(userVote);
+                            _voteRepository.DecreaseOneVoteCount(voteOption);
+                        }
+                    }
                 }
             }
             return Json(new { success = true });
         }
-        [HttpGet("GetVoteResults/{postId}")]
         public IActionResult GetVoteResults(int postId)
         {
-            // Giả sử bạn đã có phương thức để lấy dữ liệu bình chọn từ database
-            var votes = _voteRepository.GetVotesByPostId(postId);
+            // Lấy thông tin phiếu bầu từ cơ sở dữ liệu
+            var voteDetail = _voteRepository.GetVoteWithOptionByPostId(postId);
 
-            // Tính toán tổng số bình chọn và kết quả bình chọn cho từng tùy chọn
-            var voteResults = votes
-                .GroupBy(v => v.VoteOptions) // Nhóm theo tùy chọn
-                .Select(g => new
-                {
-                    Option = g.Key,
-                    Votes = g.Count()
-                })
-                .ToList();
-
-            var totalVotes = voteResults.Sum(v => v.Votes);
-            var maxVotes = voteResults.Max(v => v.Votes);
-
-            var result = new
+            if (voteDetail == null)
             {
-                PostId = postId,
-                TotalVotes = totalVotes,
-                MaxVotes = maxVotes,
-                VoteOptions = voteResults
-            };
+                return NotFound();
+            }
 
-            return Ok(result);
+            // Tạo một đối tượng để lưu kết quả bỏ phiếu
+            var voteResults = new List<VoteResultViewModel>();
+
+            foreach (var option in voteDetail.VoteOptions)
+            {
+                var voteCount = _voteRepository.CountUserVoteById(option.ID);
+
+                voteResults.Add(new VoteResultViewModel
+                {
+                    VoteOptionID = option.ID,
+                    Title = option.Title,
+                    VoteCount = voteCount
+                });
+            }
+
+            return Json(voteResults);
         }
     }
 }
