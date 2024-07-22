@@ -6,6 +6,9 @@
     string MaxChoice = "single";
     string CloseAfter = "day";
     bool showResults = false;
+    var currentUserId = "Test1"; // Lấy ID của người dùng hiện tại
+    var postAuthorId = "Test1"; // ID của tác giả bài viết, giả sử bạn truyền thông tin này từ model
+
 }
 <div class="row mb-5">
     <div class="d-flex justify-content-start fs-4">
@@ -38,9 +41,12 @@
                             <h4 class="text-color-header">Câu hỏi bình chọn?</h4>
                         </div>
 
-                        <button class="align-content-center">
-                            <img src="~/img/icon_edit_50.png" width="20" height="20" alt="EditPost" />
-                        </button>
+                        @if (currentUserId == postAuthorId)
+                        {
+                            <button class="align-content-center">
+                                <img src="~/img/icon_edit_50.png" width="20" height="20" alt="EditPost" />
+                            </button>
+                        }
                     </div>
 
                     <div id="pollForm">
