@@ -79,16 +79,18 @@
                         <input type="text" name="Option" placeholder="Lựa chọn 2..." class="option-input w-100 px-3 py-1 rounded-3" style="background-color: #FFE8DA; border: 1px solid #FFFFFF" />
                     </div>
                 </div>
+
                 <div class="text-color-header d-flex flex-column m-2">
                     <div class="my-2">Lựa chọn tối đa</div>
-                    <div class="btn-group d-flex flex-column" role="group" aria-label="Basic radio toggle button group">
-                        <div class="d-grid gap-1">
-                            <input type="radio" class="btn-check px-3 py-1 rounded-3" name="btnradio" id="btnradio1" autocomplete="off" checked>
-                            <label class="px-3 py-1 rounded-3" style="background-color: #FFE8DA; border: 1px solid #FFFFFF" for="btnradio1">Lựa chọn duy nhất</label>
-
-                            <input type="radio" class="btn-check px-3 py-1 rounded-3" name="btnradio" id="btnradio2" autocomplete="off">
-                            <label class="px-3 py-1 rounded-3" style="background-color: #FFE8DA; border: 1px solid #FFFFFF" for="btnradio2">Không giới hạn</label>
-                        </div>
+                    <div class="custom-radio-group d-flex flex-column">
+                        <label class="custom-radio rounded-3">
+                            <input type="radio" name="maxChoice" value="single" checked>
+                            <span class="radio-text">Lựa chọn duy nhất</span>
+                        </label>
+                        <label class="custom-radio rounded-3">
+                            <input type="radio" name="maxChoice" value="unlimited">
+                            <span class="radio-text">Không giới hạn</span>
+                        </label>
                     </div>
                 </div>
                 <div class="text-color-header d-flex flex-column m-2">
@@ -98,22 +100,26 @@
                             Cho phép thành viên thay đổi phiếu bầu
                         </div>
 
-                        <div class="w-100 px-3 py-1 rounded-3" style="background-color: #FFE8DA; border: 1px solid #FFFFFF">
-                            Đóng bình chọn sau
-                        </div>
-                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                            <input type="radio" class="btn-check" name="hour" id="btnradiohour" autocomplete="off" checked>
-                            <label class="btn " style="background-color: #FFE8DA; border: 1px solid #FFFFFF" for="hour">1 giờ</label>
-
-                            <input type="radio" class="btn-check" name="day" id="btnradioday" autocomplete="off">
-                            <label class="btn " style="background-color: #FFE8DA; border: 1px solid #FFFFFF" for="day">1 ngày</label>
-
-                            <input type="radio" class="btn-check" name="week" id="btnradioweek" autocomplete="off">
-                            <label class="btn " style="background-color: #FFE8DA; border: 1px solid #FFFFFF" for="week">1 tuần</label>
-
-                            <input type="radio" class="btn-check" name="month" id="btnradiomonth" autocomplete="off">
-                            <label class="btn " style="background-color: #FFE8DA; border: 1px solid #FFFFFF" for="month">1 tháng</label>
-
+                        <div class="text-color-header d-flex flex-column m-2">
+                            <div class="my-2">Đóng bình chọn sau</div>
+                            <div class="custom-radio-group justify-content-between d-flex text-center">
+                                <label class="custom-radio w-20 ">
+                                    <input type="radio" name="closeAfter" value="1hour" checked>
+                                    <span class="radio-text">1 giờ</span>
+                                </label>
+                                <label class="custom-radio w-20">
+                                    <input type="radio" name="closeAfter" value="1day">
+                                    <span class="radio-text">1 ngày</span>
+                                </label>
+                                <label class="custom-radio w-20">
+                                    <input type="radio" name="closeAfter" value="1week">
+                                    <span class="radio-text">1 tuần</span>
+                                </label>
+                                <label class="custom-radio w-20">
+                                    <input type="radio" name="closeAfter" value="1month">
+                                    <span class="radio-text">1 tháng</span>
+                                </label>
+                            </div>
                         </div>
 
                     </div>
@@ -286,3 +292,4 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
+
