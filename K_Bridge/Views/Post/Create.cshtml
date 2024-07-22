@@ -63,9 +63,11 @@
         <div class="py-2 mt-2 d-flex justify-content-between flex-column">
             <button type="button" id="togglePollBtn" class="flex-grow-0 w-100 px-3 py-1 d-lg-inline-flex justify-content-lg-between" style="border-bottom: 2px solid #495632">
                 <div>Tạo bình chọn</div>
-                <img id="pollArrow" src="/img/arrow_down.png" alt="arrow_down" />
+                <img src="/img/arrow_down.png" alt="arrow_down" id="pollArrow" />
             </button>
-            <div id="pollContent" style="display: none;">
+
+            <div id="pollContent">
+                <!-- Nội dung bình chọn ở đây -->
                 <div class="text-color-header d-flex flex-column m-2">
                     <div class="my-2">Câu hỏi</div>
                     <input type="text" name="Question" placeholder="Nhập câu hỏi" class="w-100 px-3 py-1 rounded-3" style="background-color: #FFE8DA; border: 1px solid #FFFFFF" />
@@ -219,13 +221,8 @@
         const pollArrow = document.getElementById('pollArrow');
 
         togglePollBtn.addEventListener('click', function () {
-            if (pollContent.style.display === 'none') {
-                pollContent.style.display = 'block';
-                pollArrow.style.transform = 'rotate(180deg)';
-            } else {
-                pollContent.style.display = 'none';
-                pollArrow.style.transform = 'rotate(0deg)';
-            }
+            pollContent.classList.toggle('show');
+            pollArrow.classList.toggle('rotate');
         });
     });
 </script>
