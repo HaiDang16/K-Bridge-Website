@@ -1,5 +1,5 @@
 ﻿@page "{id:int}"
-@model K_Bridge.Pages.Admin.ForumsModel
+@model K_Bridge.Pages.Admin.Forums.ListModel
 @{
     ViewData["Title"] = Model.Forum.Name;
 }
@@ -46,14 +46,17 @@
         <tbody>
             @foreach (var topic in Model.Topics)
             {
+                // Đếm số lượng bài viết có trạng thái là "pending"
+                var pendingPostsCount = topic.Posts.Count(p => p.Status == "Pending");
+
                 <tr>
                     <th scope="row">@topic.ID</th>
-                    <td>42</td>
+                    <td>@pendingPostsCount</td>
                     <td>@topic.Name</td>
                     <td>
                         <div class="d-flex justify-content-evenly">
                             <div>@topic.Posts.Count</div>
-                            <a class="text-color-logo" href="/Admin/Forums/Topics/@topic.ID"> <u>Chi tiết</u> </a>
+                            <a class="text-color-logo" href="/Admin/Forums/Topics/List/@topic.ID"> <u>Chi tiết</u> </a>
                         </div>
                     </td>
                     <td>@topic.CreatedAt.ToString("dd/MM/yyyy")</td>

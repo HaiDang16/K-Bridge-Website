@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Duyệt bài viết";
     <link href="/css/Newest.css" rel="stylesheet" />
+    var currentStatus = Model.Status.ToLower();
 }
 
 <div class="row account-navigate mt-3 px-5 align-items-center ">
@@ -13,39 +14,34 @@
         <img src="/img/icon_arrow_right_50_dark.png" class="mx-4 mt-2 py-1"
              alt="Tổng quan" width="10" height="20">
         <div class="account-navigate-text custom-cursor-pointer"
-             onclick="window.location.href='/Admin/Forums'">
-            Lập trình
+             onclick="window.location.href='/Admin/Forums/List/@Model.ForumID'">
+            @Model.ForumName
         </div>
         <img src="/img/icon_arrow_right_50_dark.png" class="mx-4 mt-2 py-1"
              alt="Tổng quan" width="10" height="20">
         <div class="account-navigate-text custom-cursor-pointer "
-             onclick="window.location.href='/Admin/Forums/Topics'">
+             onclick="window.location.href='/Admin/Forums/Topics/List/@Model.TopicID'">
+            @Model.TopicName
+        </div>
+        <img src="/img/icon_arrow_right_50_dark.png" class="mx-4 mt-2 py-1"
+             alt="Tổng quan" width="10" height="20">
+        <div class="account-navigate-text custom-cursor-pointer">
             Bài viết
-        </div>
-        <img src="/img/icon_arrow_right_50_dark.png" class="mx-4 mt-2 py-1"
-             alt="Tổng quan" width="10" height="20">
-        <div class="account-navigate-text custom-cursor-pointer "
-             onclick="window.location.href='/Admin/Forums/Topics/Post'">
-            Bài viết @Model.Post.ID
         </div>
     </div>
     <div class="col-9">
     </div>
 </div>
-<div class="row mt-3 px-5">
-    <p class="account-title pb-3" style="border-bottom: 3px solid #8E6745">Bài viết @Model.Post.ID</p>
-</div>
 <div class="container-fluid">
     <div class="row main-content mt-4 mx-3">
         <div class="col-lg-9 col-md-8 col-12 content mb-4 ">
             <div class="pb-3">
-                <div class="d-flex justify-content-start fs-4">
+                <div class="d-flex justify-content-start fs-4 fw-bold">
                     @Model.Post.Title
                 </div>
                 <div class="d-flex justify-content-between align-items-center" style="border-bottom: 1px solid #493422">
                     <div class="m-0 p-0 d-flex justify-content-between">
-                        <div class="py-2 me-2">0 Câu trả lời</div>
-                        <div class="py-2 ms-2">0 Lượt xem</div>
+                        <div class="py-2 me-2">Đăng vào lúc @Model.Post.CreatedAt.ToString("dd/MM/yyyy, hh:mm:ss")</div>
                     </div>
                     <div class="newest-card-tag px-5 mx-3 "
                          style="background: @GetForumColorHelper.GetForumBackgroundColor(Model.Post.Topic.Forum.ID);
@@ -55,7 +51,6 @@
                 </div>
                 <div class="row m-0 p-0 mt-3 ">
                     <div class="col-lg-1 flex-column">
-                       
                     </div>
                     <div class="col-lg-11">
                         <div>
@@ -70,7 +65,7 @@
         </div>
         <div class="col-lg-3 col-md-12">
             <div class="text-center">
-                <img class="rounded-circle" src="~/img/user.jpg" alt="User" height="150" width="150"/>
+                <img class="rounded-circle" src="~/img/user.jpg" alt="User" height="150" width="150" />
             </div>
             <div class="d-flex text-color-header mt-5">
                 <div class="col-7 text-uppercase ">
@@ -80,27 +75,46 @@
                 </div>
                 <div class="col-5">
                     <p>@Model.Post.User.Username</p>
-                    <p>12 ngày</p>
-                    <p>124 bài viết</p>
+                    <p>@Model.DayJoined ngày</p>
+                    <p>@Model.TotalPost bài viết</p>
                 </div>
             </div>
-            <select style="width: 100%;" class="text-uppercase mb-3 fw-bold px-2 py-2" style="border: 2px solid #8E6745; color: #493422; background-color: #FFF0E6;">
-                <option selected>Chưa phê duyệt</option>
-                <option value="approved" style="color: #FFF0E6; background-color: #00D462;" class="py-3">Phê duyệt</option>
-                <option value="rejected" style="color: #FFF0E6; background-color: #FF4141;" class="py-3">Từ chối</option>
-            </select>
-            <div style="max-width: 300px;" class="mt-2 justify-content-end">
-                <button type="button" style="color: #FFF0E6; background-color: #493422;"
-                        class="p-2 text-uppercase rounded-3 fs-6 w-100" onclick="window.location.href='/Admin/Forums/Topics'">
-                    Xác nhận
-                </button>
-            </div>
+            <form method="post" enctype="multipart/form-data">
+                <input type="hidden" name="id" value="@Model.Post.ID" />
+                <select id="statusDropdown" name="status" style="width: 100%;" class="text-uppercase mb-3 fw-bold px-2 py-2" style="border: 2px solid #8E6745; color: #493422; background-color: #FFF0E6;">
+                    <option value="pending">Chưa phê duyệt</option>
+                    <option value="approved" style="color: #FFF0E6; background-color: #00D462;" class="py-3">Phê duyệt</option>
+                    <option value="rejected" style="color: #FFF0E6; background-color: #FF4141;" class="py-3">Từ chối</option>
+                    <option value="blocked" style="color: #000000; background-color: #B8B8B8;" class="py-3">Khóa</option>
+
+                </select>
+                <div style="max-width: 300px;" class="mt-2 justify-content-end">
+                    <button type="submit" style="color: #FFF0E6; background-color: #493422;"
+                            class="p-2 text-uppercase rounded-3 fs-6 w-100">
+                        Xác nhận
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
-
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var statusDropdown = document.getElementById('statusDropdown');
+        var currentStatus = '@currentStatus';
+
+        for (var i = 0; i < statusDropdown.options.length; i++) {
+            if (statusDropdown.options[i].value === currentStatus) {
+                statusDropdown.selectedIndex = i;
+                break;
+            }
+        }
+    });
+</script>
+
+
+@* <script>
     document.addEventListener('DOMContentLoaded', function () {
         const boldBtn = document.getElementById('bold-btn');
         const italicBtn = document.getElementById('italic-btn');
@@ -192,3 +206,4 @@
         contentArea.addEventListener('keyup', debouncedUpdateButtonStates);
     });
 </script>
+ *@
