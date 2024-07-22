@@ -2,6 +2,10 @@
     ViewData["Title"] = "Bài viết";
     <link href="/css/Newest.css" rel="stylesheet" />
     bool isCmtAvaiable = true;
+    bool isVoteAvaiable = true;
+    string MaxChoice = "single";
+    string CloseAfter = "day";
+    bool showResults = false;
 }
 <div class="row mb-5">
     <div class="d-flex justify-content-start fs-4">
@@ -23,6 +27,80 @@
             <partial name="_LikeDislikePartial" model="new Post_Like { PostID = ViewBag.Post.ID, Post = ViewBag.Post }" />
         </div>
         <div class="col-lg-11">
+            @if (isVoteAvaiable)
+            {
+                <div class="my-3">
+                    <div class="d-flex justify-content-between my-2">
+                        <div class="d-flex justify-content-between">
+                            <div class="mx-2 align-content-center">
+                                <img src="~/img/chart.png" width="20" height="20" alt="Chart Icon" />
+                            </div>
+                            <h4 class="text-color-header">Câu hỏi bình chọn?</h4>
+                        </div>
+
+                        <button class="align-content-center">
+                            <img src="~/img/icon_edit_50.png" width="20" height="20" alt="EditPost" />
+                        </button>
+                    </div>
+
+                    <div id="pollForm">
+                        @for (int i = 1; i < 4; i++)
+                        {
+                            @if (MaxChoice == "single")
+                            {
+                                <div class="custom-radio-group d-flex flex-column">
+                                    <label class="custom-radio rounded-3">
+                                        <input type="radio" name="maxChoice" value="@i">
+                                        <span class="radio-text">Lựa chọn @i</span>
+                                    </label>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="custom-radio-group d-flex flex-column">
+                                    <label class="custom-radio rounded-3">
+                                        <input type="checkbox" name="maxChoice" value="@i">
+                                        <span class="radio-text">Lựa chọn @i</span>
+                                    </label>
+                                </div>
+                            }
+                        }
+                    </div>
+
+                    <div id="pollResults" style="display: none;">
+                        @{
+                            // Dữ liệu giả cho số lượng bình chọn
+                            var fakeVotes = new[] { 50, 30, 20 };
+                            int maxVotes = fakeVotes.Max();
+                        }
+                        @for (int i = 0; i < 3; i++)
+                        {
+                            int votes = fakeVotes[i];
+                            int percentage = maxVotes > 0 ? (votes * 100) / maxVotes : 0;
+                            <div class="poll-result">
+                                <div class="poll-option">Lựa chọn @(i + 1)</div>
+                                <div class="poll-bar" style="width: @(percentage)%;">@(percentage)% (@votes votes)</div>
+                            </div>
+                        }
+                    </div>
+
+                    @if (CloseAfter == "day")
+                    {
+                        <div class="mt-2">
+                            <small class="fs-12 text-color-header">Bình chọn sẽ đóng sau: <small class="fw-bold text-color-logo"> 1 ngày</small> </small>
+                        </div>
+                    }
+                    <div class="d-flex justify-content-end align-items-center">
+                        <button class="px-3 py-1 border-main-color-layout btn-account-log rounded-3 mx-2 align-items-center d-flex text-color-header">
+                            <img class="align-content-center me-2" src="~/img/vote.png" width="18" height="18" alt="Vote Image" />
+                            Bình chọn
+                        </button>
+                        <button class="px-3 py-1 btn-account-edit fw-bold rounded-3 mx-2" onclick="toggleResults()">Xem kết quả</button>
+                    </div>
+                </div>
+            }
+
+
             <div class="reply-content">
                 @Html.Raw(ViewBag.Post.Content)
             </div>
@@ -198,4 +276,17 @@
                 });
         });
     });
+</script>
+<script>
+    function toggleResults() {
+        var pollForm = document.getElementById('pollForm');
+        var pollResults = document.getElementById('pollResults');
+        if (pollForm.style.display !== 'none') {
+            pollForm.style.display = 'none';
+            pollResults.style.display = 'block';
+        } else {
+            pollForm.style.display = 'block';
+            pollResults.style.display = 'none';
+        }
+    }
 </script>
