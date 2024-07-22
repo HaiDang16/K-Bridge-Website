@@ -33,7 +33,7 @@
 
     @* Bài viết mới nhất *@
     <div class="d-flex flex-column mt-4 h-auto w-auto rounded-8" style="background:#FFF0E6; border-top:5px solid #493422;">
-        <button id="toggle-new-1" class="flex-grow-0 border-main-color-logo border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between">
+        <button id="toggle-new-1" class="flex-grow-0 border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between">
             <a class="text-uppercase text-decoration-none text-black" href="/Newest">Bài viết mới nhất </a>
             <img id="arrow-icon-new-1" src="/img/arrow_down.png" alt="arrow_down" />
         </button>
@@ -76,7 +76,7 @@
         @* Forum *@
         <div class="d-flex flex-column mt-4 h-auto w-auto rounded-8 bg-main-color-background"
              style="border-top:5px solid @GetForumColorHelper.GetForumBackgroundColor(forum.ID);">
-            <button id="toggle-cate-@forum.ID" class="flex-grow-0 border-main-color-logo border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between">
+            <button id="toggle-cate-@forum.ID" class="flex-grow-0 border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between">
                 <div class="text-uppercase text-decoration-none text-black" onclick="window.location.href='/Topic/List?forum=@forum.ID'">@forum.Name</div>
                 <img id="arrow-icon-cate-@forum.ID" src="/img/arrow_down.png" alt="arrow_down" />
             </button>
