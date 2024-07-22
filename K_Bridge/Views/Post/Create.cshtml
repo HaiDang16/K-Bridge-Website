@@ -70,13 +70,15 @@
                 <!-- Nội dung bình chọn ở đây -->
                 <div class="text-color-header d-flex flex-column m-2">
                     <div class="my-2">Câu hỏi</div>
-                    <input type="text" name="Question" placeholder="Nhập câu hỏi" class="w-100 px-3 py-1 rounded-3" style="background-color: #FFE8DA; border: 1px solid #FFFFFF" />
+                    <input type="text" name="Question" asp-for="Question"
+                        placeholder="Nhập câu hỏi" class="w-100 px-3 py-1 rounded-3" 
+                        style="background-color: #FFE8DA; border: 1px solid #FFFFFF" />
                 </div>
                 <div class="text-color-header d-flex flex-column m-2">
                     <div class="my-2">Các đáp án bình chọn</div>
                     <div id="optionsContainer" class="d-grid gap-1">
-                        <input type="text" name="Option" placeholder="Lựa chọn 1..." class="option-input w-100 px-3 py-1 rounded-3" style="background-color: #FFE8DA; border: 1px solid #FFFFFF" />
-                        <input type="text" name="Option" placeholder="Lựa chọn 2..." class="option-input w-100 px-3 py-1 rounded-3" style="background-color: #FFE8DA; border: 1px solid #FFFFFF" />
+                        <input type="text" name="Options" placeholder="Lựa chọn 1..." class="option-input w-100 px-3 py-1 rounded-3" style="background-color: #FFE8DA; border: 1px solid #FFFFFF" />
+                        <input type="text" name="Options" placeholder="Lựa chọn 2..." class="option-input w-100 px-3 py-1 rounded-3" style="background-color: #FFE8DA; border: 1px solid #FFFFFF" />
                     </div>
                 </div>
 
@@ -84,11 +86,11 @@
                     <div class="my-2">Lựa chọn tối đa</div>
                     <div class="custom-radio-group d-flex flex-column">
                         <label class="custom-radio rounded-3">
-                            <input type="radio" name="maxChoice" value="single" checked>
+                            <input type="radio" name="maxChoice" value="false" asp-for="IsUnlimited" checked>
                             <span class="radio-text">Lựa chọn duy nhất</span>
                         </label>
                         <label class="custom-radio rounded-3">
-                            <input type="radio" name="maxChoice" value="unlimited">
+                            <input type="radio" name="maxChoice" value="true" asp-for="IsUnlimited">
                             <span class="radio-text">Không giới hạn</span>
                         </label>
                     </div>
@@ -96,27 +98,28 @@
                 <div class="text-color-header d-flex flex-column m-2">
                     <div class="my-2">Tuỳ chọn</div>
                     <div class="d-grid gap-1">
+                        @* 
                         <div class="w-100 px-3 py-1 rounded-3" style="background-color: #FFE8DA; border: 1px solid #FFFFFF">
                             Cho phép thành viên thay đổi phiếu bầu
-                        </div>
+                        </div> *@
 
                         <div class="text-color-header d-flex flex-column m-2">
                             <div class="my-2">Đóng bình chọn sau</div>
                             <div class="custom-radio-group justify-content-between d-flex text-center">
                                 <label class="custom-radio w-20 ">
-                                    <input type="radio" name="closeAfter" value="1hour" checked>
+                                    <input type="radio" name="closeAfter" value="hour" asp-for="CloseAfter" checked>
                                     <span class="radio-text">1 giờ</span>
                                 </label>
                                 <label class="custom-radio w-20">
-                                    <input type="radio" name="closeAfter" value="1day">
+                                    <input type="radio" name="closeAfter" value="day" asp-for="CloseAfter">
                                     <span class="radio-text">1 ngày</span>
                                 </label>
                                 <label class="custom-radio w-20">
-                                    <input type="radio" name="closeAfter" value="1week">
+                                    <input type="radio" name="closeAfter" value="week" asp-for="CloseAfter">
                                     <span class="radio-text">1 tuần</span>
                                 </label>
                                 <label class="custom-radio w-20">
-                                    <input type="radio" name="closeAfter" value="1month">
+                                    <input type="radio" name="closeAfter" value="month" asp-for="CloseAfter">
                                     <span class="radio-text">1 tháng</span>
                                 </label>
                             </div>
@@ -241,7 +244,7 @@ document.addEventListener('DOMContentLoaded', function () {
         optionCount++;
         const newInput = document.createElement('input');
         newInput.type = 'text';
-        newInput.name = 'Option';
+        newInput.name = 'Options';
         newInput.placeholder = `Lựa chọn ${optionCount}...`;
         newInput.className = 'option-input w-100 px-3 py-1 rounded-3';
         newInput.style.backgroundColor = '#FFE8DA';

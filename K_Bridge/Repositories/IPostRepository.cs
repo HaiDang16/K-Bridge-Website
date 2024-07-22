@@ -10,5 +10,6 @@ namespace K_Bridge.Repositories
         Post GetPostByID(int id);
         void IncrementViewCount(int postId);
         List<Post> GetPostsByTopic(int topicId);
+        void UpdatePost(Post post);
     }
 }

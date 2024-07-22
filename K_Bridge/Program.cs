@@ -27,6 +27,7 @@ builder.Services.AddScoped<IPostRepository, EFPostRepository>();
 builder.Services.AddScoped<ITopicRepository, EFTopicRepository>();
 builder.Services.AddScoped<IReplyRepository, EFReplyRepository>();
 builder.Services.AddScoped<ILikeRepository, EFLikeRepository>();
+builder.Services.AddScoped<IVoteRepository, EFVoteRepository>();
 
 builder.Services.AddScoped<CodeGenerationService>();
 builder.Services.AddScoped<UserService>();

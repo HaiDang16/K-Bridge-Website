@@ -62,5 +62,11 @@ namespace K_Bridge.Repositories
                 .ToList();
         }
 
+        public void UpdatePost(Post post)
+        {
+            post.UpdatedAt = DateTime.Now;
+            _context.Posts.Update(post);
+            _context.SaveChanges();
+        }
     }
 }

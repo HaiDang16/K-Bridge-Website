@@ -19,6 +19,7 @@ namespace K_Bridge.Controllers
         private IPostRepository _postRepository;
         private IReplyRepository _replyRepository;
         private ILikeRepository _likeRepository;
+        private IVoteRepository _voteRepository;
 
         private CodeGenerationService _codeGenerationService;
         private UserService _userService;
@@ -30,6 +31,7 @@ namespace K_Bridge.Controllers
         public PostController(IPostRepository postRepository,
             IReplyRepository replyRepository,
             ILikeRepository likeRepository,
+            IVoteRepository voteRepository,
             CodeGenerationService codeGenerationService,
             UserService userService,
             IHttpContextAccessor httpContextAccessor)
@@ -37,6 +39,7 @@ namespace K_Bridge.Controllers
             _postRepository = postRepository;
             _replyRepository = replyRepository;
             _likeRepository = likeRepository;
+            _voteRepository = voteRepository;
 
             _codeGenerationService = codeGenerationService;
             _userService = userService;
@@ -85,15 +88,39 @@ namespace K_Bridge.Controllers
                     Code = newCode,
                     Content = post.Content,
                     Title = post.Title,
-                    Status = "Enable",
+                    Status = "Pending",
                     UserID = user.ID,
-                    TopicID = topicID
+                    TopicID = topicID,
                 };
                 _postRepository.SavePost(newPost);
-                return RedirectToAction("Index", "Home"); // Redirect to a page that lists all posts
+
+                if (!string.IsNullOrEmpty(post.Question))
+                {
+                    var vote = new Vote
+                    {
+                        Question = post.Question,
+                        OptionCount = post.Options.Count(),
+                        IsUnlimited = post.IsUnlimited,
+                        CloseAfter = post.CloseAfter,
+                        PostID = newPost.ID,
+                        VoteOptions = post.Options.Select(o => new VoteOption
+                        {
+                            Title = o,
+                            Quantity = 0
+                        }).ToList()
+                    };
+
+                    _voteRepository.SaveVote(vote);
+
+                    newPost.IsVote = true;
+                    newPost.VoteID = vote.ID;
+                    _postRepository.UpdatePost(newPost);
+                }
+                return RedirectToAction("Index", "User", new { id = user.ID });
             }
             return View(post);
         }
+
 
         [HttpGet("Details")]
         public IActionResult Details([FromQuery] int post, [FromQuery] string sort = "helpful")
