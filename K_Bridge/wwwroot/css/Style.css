@@ -665,3 +665,12 @@ body {
     font-size: 0.75rem;
     color: #6c757d;
 }
+
+
+.btn-point {
+    background-color: rgba(142, 103, 69, 0.3);
+}
+
+    .btn-point:hover {
+        background-color: #FFF0E6 !important;
+    }
