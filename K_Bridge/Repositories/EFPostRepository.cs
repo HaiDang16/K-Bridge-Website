@@ -1,5 +1,6 @@
 ﻿using K_Bridge.Models;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace K_Bridge.Repositories
 {
@@ -25,6 +26,7 @@ namespace K_Bridge.Repositories
                 .Include(p => p.Replies)
                 .Include(p => p.Topic) // Bao gồm thông tin về Topic của mỗi bài viết
             .ThenInclude(t => t.Forum) // Bao gồm thông tin về Forum của từng Topic
+            .Where(p => p.Status == "Approved")
                 .OrderByDescending(p => p.CreatedAt)
                 .Take(4)
                 .ToList();
@@ -58,7 +60,9 @@ namespace K_Bridge.Repositories
                 .Include(p => p.Replies)
                 .Include(p => p.Topic)
                 .ThenInclude(t => t.Forum)
+                .Where(p => p.Status == "Approved")
                 .OrderByDescending(p => p.CreatedAt)
+
                 .ToList();
         }
         public void UpdatePost(Post post)
@@ -84,6 +88,47 @@ namespace K_Bridge.Repositories
         {
             _context.Replies.Remove(reply);
             _context.SaveChanges();
+        }
+
+        public IEnumerable<Post> GetPostsByTopicFilter(int topicId)
+        {
+            return _context.Posts
+                .Where(p => p.TopicID == topicId)
+                .Include(p => p.User)
+                .Include(p => p.Replies)
+                .Include(p => p.Topic)
+                .ThenInclude(t => t.Forum)
+                .Where(p => p.Status == "Approved")
+                .OrderByDescending(p => p.CreatedAt)
+                .AsQueryable()
+                .ToList();
+        }
+        public IEnumerable<Post> PostsFilterTrending(IEnumerable<Post> posts)
+        {
+            var sevenDaysAgo = DateTime.Now.AddDays(-7);
+            return posts
+                .Select(p => new
+                {
+                    Post = p,
+                    LikesInLast7Days = _context.Post_Likes.Count(l => l.PostID == p.ID && l.CreatedAt >= sevenDaysAgo)
+                })
+                    .OrderByDescending(p => p.LikesInLast7Days)
+                    .Select(p => p.Post)
+                     .AsQueryable()
+                .ToList();
+        }   
+        public IEnumerable<Post> PostsFilterHelpful(IEnumerable<Post> posts)
+        {
+            return posts
+                .Select(p => new
+                {
+                    Post = p,
+                    TotalLikes = _context.Post_Likes.Count(l => l.PostID == p.ID)
+                })
+                .OrderByDescending(p => p.TotalLikes)
+                .Select(p => p.Post)
+                .AsQueryable()
+                .ToList();
         }
     }
 }

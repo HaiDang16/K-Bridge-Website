@@ -25,8 +25,9 @@ namespace K_Bridge.Repositories
         {
             var forums = _context.Forums
                 .Include(f => f.Topics)
-                .ThenInclude(t => t.Posts.OrderByDescending(p => p.CreatedAt))
-            .ThenInclude(p => p.User)
+                .ThenInclude(t => t.Posts.Where(p => p.Status == "Approved")
+                                         .OrderByDescending(p => p.CreatedAt))
+                .ThenInclude(p => p.User)
                 .ToList();
 
             // Lọc chỉ lấy những chủ đề có bài viết

@@ -14,5 +14,8 @@ namespace K_Bridge.Repositories
         Post GetPostWithVoteById(int id);
         Reply GetReplyById(int id);
         void RemoveReply(Reply reply);
+        IEnumerable<Post> GetPostsByTopicFilter(int topicId);
+        IEnumerable<Post> PostsFilterTrending(IEnumerable<Post> posts);
+        IEnumerable<Post> PostsFilterHelpful(IEnumerable<Post> posts);
     }
 }
