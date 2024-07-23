@@ -12,5 +12,7 @@ namespace K_Bridge.Repositories
         List<Post> GetPostsByTopic(int topicId);
         void UpdatePost(Post post);
         Post GetPostWithVoteById(int id);
+        Reply GetReplyById(int id);
+        void RemoveReply(Reply reply);
     }
 }

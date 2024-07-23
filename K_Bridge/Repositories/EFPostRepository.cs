@@ -41,7 +41,6 @@ namespace K_Bridge.Repositories
             .ThenInclude(v => v.VoteOptions)
                 .FirstOrDefault(p => p.ID == id);
         }
-
         public void IncrementViewCount(int postId)
         {
             var post = _context.Posts.Find(postId);
@@ -51,7 +50,6 @@ namespace K_Bridge.Repositories
                 _context.SaveChanges();
             }
         }
-
         public List<Post> GetPostsByTopic(int topicId)
         {
             return _context.Posts
@@ -63,7 +61,6 @@ namespace K_Bridge.Repositories
                 .OrderByDescending(p => p.CreatedAt)
                 .ToList();
         }
-
         public void UpdatePost(Post post)
         {
             post.UpdatedAt = DateTime.Now;
@@ -76,6 +73,17 @@ namespace K_Bridge.Repositories
                 .Include(p => p.Vote)
                  .ThenInclude(v => v.VoteOptions)
                 .FirstOrDefault(p => p.ID == id);
+        }
+        public Reply GetReplyById(int id)
+        {
+            return _context.Replies
+            .Include(r => r.User)
+            .FirstOrDefault(r => r.ID == id);
+        }
+        public void RemoveReply(Reply reply)
+        {
+            _context.Replies.Remove(reply);
+            _context.SaveChanges();
         }
     }
 }

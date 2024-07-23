@@ -27,9 +27,9 @@
                     <div id="notificationItemsAdmin">
                         @foreach (var notification in noti)
                         {
-                            <div class="notification-item @(!notification.IsRead ? "fw-bold" : "")" data-id="@notification.ID" data-title="@notification.Title">
+                            <div class="notification-item @(!notification.IsRead ? "fw-bold" : "")" data-id="@notification.ID" data-message="@notification.Message">
                                 <div class="notification-content">
-                                    <div class="notification-message">@notification.Message</div>
+                                    <div class="notification-title">@notification.Title</div>
                                     <div class="notification-time d-flex justify-content-end">@notification.CreatedAt.ToString("dd/MM/yy hh:mm")</div>
                                 </div>
                             </div>
@@ -119,8 +119,8 @@
             var notificationItem = event.target.closest('.notification-item');
             if (notificationItem) {
                 var notificationId = notificationItem.getAttribute('data-id');
-                var notificationTitle = notificationItem.getAttribute('data-title');
-                var notificationMessage = notificationItem.querySelector('.notification-message').textContent;
+                var notificationTitle = notificationItem.querySelector('.notification-title').textContent;
+                var notificationMessage = notificationItem.getAttribute('data-message');
 
                 // Update modal content
                 document.getElementById('notificationDetail').textContent = notificationMessage;

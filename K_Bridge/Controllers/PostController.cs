@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Diagnostics;
+using System.Security.Claims;
 
 
 
@@ -134,7 +135,6 @@ namespace K_Bridge.Controllers
             return View(post);
         }
 
-
         [HttpGet("Details")]
         public IActionResult Details([FromQuery] int post, [FromQuery] string sort = "helpful")
         {
@@ -197,7 +197,7 @@ namespace K_Bridge.Controllers
                 {
                     var userVotes = _voteRepository.GetUserVoteForPost(user.ID, post);
                     ViewBag.UserVotes = userVotes;
-
+                    ViewBag.CurrentUser = user;
                 }
 
                 ViewBag.Post = postDetails;
@@ -609,6 +609,20 @@ namespace K_Bridge.Controllers
             string notiMessage = NotificationHelper.GetNotiMessageForUser(NotificationType.NewVote);
             _notificationRepository.SendNotificationForVoteAuthor(currentUser.ID, post.VoteID, notiTitle, notiMessage, NotificationType.NewVote);
 
+            return Json(new { success = true });
+        }
+
+        [HttpPost("DeleteReply")]
+        public IActionResult DeleteReply(int replyId)
+        {
+            var reply = _postRepository.GetReplyById(replyId);
+
+            if (reply == null)
+            {
+                return Json(new { success = false, messages = "Không tìm thấy bình luận nào" });
+            }
+
+            _postRepository.RemoveReply(reply);
             return Json(new { success = true });
         }
     }
