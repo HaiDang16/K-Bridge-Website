@@ -67,5 +67,14 @@ namespace K_Bridge.Repositories
         .Include(u => u.Posts)
         .FirstOrDefault(u => u.ID == id);
         }
+        public void IncreaseUserReputation(int userId, int increment)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.ID == userId);
+            if (user != null)
+            {
+                user.Reputation += increment;
+                _context.SaveChanges();
+            }
+        }
     }
 }

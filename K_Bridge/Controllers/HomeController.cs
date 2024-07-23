@@ -63,6 +63,9 @@ public class HomeController : Controller
         var lstForum = _forumRepository.GetForumsWithTopicsAndLatestPosts();
         ViewBag.Forum = lstForum;
 
+        User? user = HttpContext.Session.GetJson<User>("user");
+        ViewBag.UserLastLogin = user?.LastLogin;
+
         return View();
     }
 
@@ -142,6 +145,11 @@ public class HomeController : Controller
                 var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
                 return Json(new { success = false, errors = errors });
             }
+
+            // Update LastLogin property
+            user.LastLogin = DateTime.UtcNow;
+            
+            _userRepository.UpdateUser(user);
 
             HttpContext.Session.SetJson("user", user);
 

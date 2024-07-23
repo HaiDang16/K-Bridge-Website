@@ -23,6 +23,7 @@ namespace K_Bridge.Controllers
         private ILikeRepository _likeRepository;
         private IVoteRepository _voteRepository;
         private INotificationRepository _notificationRepository;
+        private IUserRepository _userRepository;
 
         private CodeGenerationService _codeGenerationService;
         private UserService _userService;
@@ -34,6 +35,7 @@ namespace K_Bridge.Controllers
             ILikeRepository likeRepository,
             IVoteRepository voteRepository,
             INotificationRepository notificationRepository,
+            IUserRepository userRepository,
             CodeGenerationService codeGenerationService,
             UserService userService,
             IHttpContextAccessor httpContextAccessor)
@@ -43,6 +45,7 @@ namespace K_Bridge.Controllers
             _likeRepository = likeRepository;
             _voteRepository = voteRepository;
             _notificationRepository = notificationRepository;
+            _userRepository = userRepository;
 
             _codeGenerationService = codeGenerationService;
             _userService = userService;
@@ -130,6 +133,10 @@ namespace K_Bridge.Controllers
                     newPost.VoteID = vote.ID;
                     _postRepository.UpdatePost(newPost);
                 }
+
+                //Add reputation
+                _userRepository.IncreaseUserReputation(user.ID, 10);
+
                 return RedirectToAction("Index", "User", new { id = user.ID });
             }
             return View(post);
@@ -248,6 +255,10 @@ namespace K_Bridge.Controllers
                 _notificationRepository.SendNotificationForPostAuthor(user.ID, reply.PostID, notiTitle, notiMessage, NotificationType.NewReply);
             }
             _replyRepository.SaveReply(reply);
+
+            // Update user's reputation
+            _userRepository.IncreaseUserReputation(user.ID, 3);
+
 
             return RedirectToAction("Details", new { post = postId });
         }

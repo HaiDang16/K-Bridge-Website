@@ -2,14 +2,31 @@
 @inject IHttpContextAccessor HttpContextAccessor
 @{
     ViewData["Title"] = "Trang chủ";
+    var lastLoginDate = ViewBag.UserLastLogin as DateTime?;
     string? username = HttpContextAccessor?.HttpContext?.Session?.GetJson<User>("user")?.Username;
-    string welcomeText = "Đã 7 ngày kể từ lần cuối bạn thăm diễn đàn. Hãy tạo bài viết mới trên các diễn đàn để cùng thảo luận với mọi người nào.";
+
+    string welcomeText;
     if (username == null)
     {
         username = "người dùng";
         welcomeText = "Bạn đang đăng nhập với vai trò tài khoản khách vãng lai. Đăng nhập tài khoản để có thể đăng bài và bình luận trên các diễn đàn.";
     }
-    <link href="/css/Newest.css" rel="stylesheet" />
+    else
+    {
+        if (lastLoginDate.HasValue)
+        {
+            var daysSinceLastLogin = (DateTime.Now - lastLoginDate.Value).Days;
+            if (daysSinceLastLogin < 1)
+                welcomeText = "Chào mừng bạn trở lại! Hãy tạo bài viết mới trên các diễn đàn để cùng thảo luận với mọi người nào.";
+            else
+                welcomeText = $"Đã {daysSinceLastLogin} ngày kể từ lần cuối bạn thăm diễn đàn. Hãy tạo bài viết mới trên các diễn đàn để cùng thảo luận với mọi người nào.";
+        }
+        else
+        {
+            welcomeText = "Chào mừng bạn trở lại! Hãy tạo bài viết mới trên các diễn đàn để cùng thảo luận với mọi người nào.";
+        }
+    }
+     <link href="/css/Newest.css" rel="stylesheet" />
 }
 <div class="h-auto text-color-logo">
     <div class="w-auto container-fluid rounded-3" style="background:#FFF0E6">
