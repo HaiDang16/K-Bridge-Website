@@ -144,7 +144,7 @@ namespace K_Bridge.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<int>("AdminID")
+                    b.Property<int?>("AdminID")
                         .HasColumnType("int");
 
                     b.Property<string>("Code")
@@ -588,8 +588,7 @@ namespace K_Bridge.Migrations
                     b.HasOne("K_Bridge.Models.Admin_Accounts", "Admin")
                         .WithMany("Notifications")
                         .HasForeignKey("AdminID")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("K_Bridge.Models.Post", "Post")
                         .WithMany("Notifications")

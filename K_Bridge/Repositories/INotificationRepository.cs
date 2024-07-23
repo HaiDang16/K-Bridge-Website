@@ -11,5 +11,7 @@ namespace K_Bridge.Repositories
         void SendNotificationForAllAdmins(string title, string message, NotificationType notificationType);
         List<Notification> GetAdminNotificationsById(int adminId);
         void MarkNotificationAsRead(int notificationId);
+        List<Notification> GetUserNotificationsById(int id);
+
     }
 }

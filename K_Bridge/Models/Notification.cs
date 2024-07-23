@@ -2,12 +2,14 @@
 {
     public enum NotificationType
     {
-        PostApproval,
+        PostApproved,
         NewUser,
         Periodic,
         Global,
         PostUpdate,
-        NewPost
+        NewPost,
+        PostRejected,
+        PostBlocked
     }
 
     public class Notification : BaseModel
@@ -23,7 +25,7 @@
         public int? PostID { get; set; }
         public Post? Post { get; set; }
 
-        public int AdminID { get; set; }
+        public int? AdminID { get; set; }
         public Admin_Accounts? Admin { get; set; }
         public int? ReplyID { get; set; }
         public Reply? Reply { get; set; }

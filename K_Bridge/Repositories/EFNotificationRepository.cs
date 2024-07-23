@@ -22,7 +22,7 @@ namespace K_Bridge.Repositories
             };
 
             _context.Notifications.Add(notification);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
 
         public void SendNotificationForAdmin(int adminId, string title, string message, NotificationType notificationType)
@@ -36,7 +36,7 @@ namespace K_Bridge.Repositories
             };
 
             _context.Notifications.Add(notification);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
 
         public void SendNotificationForAllUsers(string title, string message, NotificationType notificationType)
@@ -88,6 +88,13 @@ namespace K_Bridge.Repositories
                 notification.IsRead = true;
                 _context.SaveChanges();
             }
+        }
+        public List<Notification> GetUserNotificationsById(int id)
+        {
+            return _context.Notifications
+                .Where(n => n.UserID == id)
+                .OrderByDescending(n => n.CreatedAt)
+                .ToList();
         }
     }
 }

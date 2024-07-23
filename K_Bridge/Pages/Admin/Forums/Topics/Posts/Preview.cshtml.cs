@@ -1,4 +1,5 @@
-﻿using K_Bridge.Models;
+﻿using K_Bridge.Helpers;
+using K_Bridge.Models;
 using K_Bridge.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,14 +12,18 @@ namespace K_Bridge.Pages.Admin.Forums.Topics.Posts
         private readonly IKBridgeRepository _repository;
         private readonly IUserRepository _userRepository;
         private readonly ITopicRepository _topicRepository;
+        private readonly INotificationRepository _notificationRepository;
 
 
-        public PreviewModel(IPostRepository postRepository, IKBridgeRepository repository, IUserRepository userRepository, ITopicRepository topicRepository)
+        public PreviewModel(IPostRepository postRepository, IKBridgeRepository repository,
+            IUserRepository userRepository, ITopicRepository topicRepository,
+            INotificationRepository notificationRepository)
         {
             _postRepository = postRepository;
             _repository = repository;
             _userRepository = userRepository;
             _topicRepository = topicRepository;
+            _notificationRepository = notificationRepository;
         }
 
 
@@ -75,6 +80,23 @@ namespace K_Bridge.Pages.Admin.Forums.Topics.Posts
                 _ => post.Status // No change if status is not recognized
             };
             _postRepository.UpdatePost(post);
+
+            // Send notification for user
+            if (status != null)
+            {
+                NotificationType notificationType = NotificationType.PostApproved;
+                if (post.Status.Equals("Approved"))
+                    notificationType = NotificationType.PostApproved;
+                else if (post.Status.Equals("Rejected"))
+                    notificationType = NotificationType.PostRejected;
+                else if (post.Status.Equals("Blocked"))
+                    notificationType = NotificationType.PostBlocked;
+
+                string notiTitle = NotificationHelper.GetNotiTitleForUser(notificationType);
+                string notiMessage = NotificationHelper.GetNotiMessageForUser(notificationType);
+
+                _notificationRepository.SendNotificationForUser(post.UserID, notiTitle, notiMessage, notificationType);
+            }
 
             return RedirectToPage("/Admin/Forums/Topics/List", new { id = post.Topic.ID });
 
