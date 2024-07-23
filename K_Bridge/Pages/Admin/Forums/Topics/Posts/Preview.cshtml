@@ -154,11 +154,18 @@
                     <p>124 bài viết</p>
                 </div>
             </div>
-            <select style="width: 100%;" class="text-uppercase mb-3 fw-bold px-2 py-2" style="border: 2px solid #8E6745; color: #493422; background-color: #FFF0E6;">
-                <option selected>Chưa phê duyệt</option>
-                <option value="approved" style="color: #FFF0E6; background-color: #00D462;" class="py-3">Phê duyệt</option>
-                <option value="rejected" style="color: #FFF0E6; background-color: #FF4141;" class="py-3">Từ chối</option>
-            </select>
+            <div class="custom-select-wrapper">
+                <div class="custom-select">
+                    <div class="custom-select__trigger">
+                        <span>Chưa phê duyệt</span>
+                        <div class="arrow"></div>
+                    </div>
+                    <div class="custom-options">
+                        <span class="custom-option approved" data-value="approved">Phê duyệt</span>
+                        <span class="custom-option rejected" data-value="rejected">Từ chối</span>
+                    </div>
+                </div>
+            </div>
             <div style="max-width: 300px;" class="mt-2 justify-content-end">
                 <button type="button" style="color: #FFF0E6; background-color: #493422;"
                         class="p-2 text-uppercase rounded-3 fs-6 w-100" onclick="window.location.href='/Admin/Forums/Topics'">
@@ -262,3 +269,40 @@
         contentArea.addEventListener('keyup', debouncedUpdateButtonStates);
     });
 </script>
+
+
+        <script>
+    document.querySelector('.custom-select-wrapper').addEventListener('click', function () {
+        this.querySelector('.custom-select').classList.toggle('open');
+    })
+
+    for (const option of document.querySelectorAll(".custom-option")) {
+        option.addEventListener('click', function () {
+            if (!this.classList.contains('selected')) {
+                const select = this.closest('.custom-select');
+                const trigger = select.querySelector('.custom-select__trigger');
+
+                // Remove previous classes
+                trigger.classList.remove('approved', 'rejected');
+
+                // Add new class and update text
+                trigger.classList.add(this.classList[1]); // 'approved' or 'rejected'
+                trigger.querySelector('span').textContent = this.textContent;
+
+                // Update background and text color of trigger
+                trigger.style.backgroundColor = window.getComputedStyle(this).backgroundColor;
+                trigger.style.color = window.getComputedStyle(this).color;
+
+                // Close the dropdown
+                select.classList.remove('open');
+            }
+        })
+    }
+
+    window.addEventListener('click', function (e) {
+        const select = document.querySelector('.custom-select')
+        if (!select.contains(e.target)) {
+            select.classList.remove('open');
+        }
+    });
+        </script>
