@@ -71,7 +71,7 @@ namespace K_Bridge.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Admin_Accounts");
+                    b.ToTable("Admin_Accounts", (string)null);
                 });
 
             modelBuilder.Entity("K_Bridge.Models.Forum", b =>
@@ -109,7 +109,7 @@ namespace K_Bridge.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Forums");
+                    b.ToTable("Forums", (string)null);
                 });
 
             modelBuilder.Entity("K_Bridge.Models.GlobalChat", b =>
@@ -136,7 +136,7 @@ namespace K_Bridge.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("GlobalChats");
+                    b.ToTable("GlobalChats", (string)null);
                 });
 
             modelBuilder.Entity("K_Bridge.Models.Notification", b =>
@@ -198,7 +198,7 @@ namespace K_Bridge.Migrations
 
                     b.HasIndex("VoteID");
 
-                    b.ToTable("Notifications");
+                    b.ToTable("Notifications", (string)null);
                 });
 
             modelBuilder.Entity("K_Bridge.Models.Post", b =>
@@ -254,7 +254,7 @@ namespace K_Bridge.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("K_Bridge.Models.Post_Like", b =>
@@ -292,7 +292,7 @@ namespace K_Bridge.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Post_Likes");
+                    b.ToTable("Post_Likes", (string)null);
                 });
 
             modelBuilder.Entity("K_Bridge.Models.Reply", b =>
@@ -333,7 +333,7 @@ namespace K_Bridge.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Replies");
+                    b.ToTable("Replies", (string)null);
                 });
 
             modelBuilder.Entity("K_Bridge.Models.Reply_Like", b =>
@@ -371,7 +371,7 @@ namespace K_Bridge.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Reply_Likes");
+                    b.ToTable("Reply_Likes", (string)null);
                 });
 
             modelBuilder.Entity("K_Bridge.Models.Topic", b =>
@@ -413,7 +413,7 @@ namespace K_Bridge.Migrations
 
                     b.HasIndex("ForumID");
 
-                    b.ToTable("Topics");
+                    b.ToTable("Topics", (string)null);
                 });
 
             modelBuilder.Entity("K_Bridge.Models.User", b =>
@@ -471,7 +471,7 @@ namespace K_Bridge.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("K_Bridge.Models.UserVote", b =>
@@ -506,7 +506,7 @@ namespace K_Bridge.Migrations
 
                     b.HasIndex("VoteOptionID");
 
-                    b.ToTable("UserVotes");
+                    b.ToTable("UserVotes", (string)null);
                 });
 
             modelBuilder.Entity("K_Bridge.Models.Vote", b =>
@@ -552,7 +552,7 @@ namespace K_Bridge.Migrations
                     b.HasIndex("PostID")
                         .IsUnique();
 
-                    b.ToTable("Votes");
+                    b.ToTable("Votes", (string)null);
                 });
 
             modelBuilder.Entity("K_Bridge.Models.VoteOption", b =>
@@ -588,7 +588,7 @@ namespace K_Bridge.Migrations
 
                     b.HasIndex("VoteID");
 
-                    b.ToTable("VoteOptions");
+                    b.ToTable("VoteOptions", (string)null);
                 });
 
             modelBuilder.Entity("K_Bridge.Models.Notification", b =>

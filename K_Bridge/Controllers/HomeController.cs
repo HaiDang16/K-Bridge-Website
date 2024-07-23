@@ -181,12 +181,13 @@ public class HomeController : Controller
     public IActionResult Searching([FromQuery] string key)
     {
         var searchResults = _postRepository.Posts
+
         .Include(p => p.User) // Include user details of the post
         .Include(p => p.Topic) // Include topic details of the post
             .ThenInclude(t => t.Forum) // Include forum details of the topic
         .Include(p => p.Replies) // Include replies of the post
             .ThenInclude(r => r.User) // Include user details of each reply
-        .Where(p => p.Title.Contains(key) || p.Content.Contains(key))
+         .Where(p => (p.Title.Contains(key) || p.Content.Contains(key)) && p.Status == "Approved")
         .ToList();
 
         ViewBag.SearchKey = key;

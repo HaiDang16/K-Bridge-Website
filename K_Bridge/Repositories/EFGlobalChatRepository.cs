@@ -12,7 +12,7 @@ namespace K_Bridge.Repositories
         public IQueryable<GlobalChat> GlobalChats => _context.GlobalChats;
         public IEnumerable<GlobalChat> GetRecentMessages()
         {
-            DeleteOldMessages(DateTime.Now.AddHours(-1)); // Xoá tin nhắn cũ hơn 1 giờ
+            DeleteOldMessages(DateTime.Now.AddHours(-100)); // Xoá tin nhắn cũ hơn 1 giờ
             return _context.GlobalChats.OrderByDescending(m => m.SendAt);
         }
 
