@@ -4,6 +4,9 @@
     ViewData["Title"] = "Duyệt bài viết";
     <link href="/css/Newest.css" rel="stylesheet" />
     var currentStatus = Model.Status.ToLower();
+    bool isVoteAvaiable = true;
+    string MaxChoice = "single";
+    string CloseAfter = "day";
 }
 
 <div class="row account-navigate mt-3 px-5 align-items-center ">
@@ -54,6 +57,73 @@
                     </div>
                     <div class="col-lg-11">
                         <div>
+                            @if (isVoteAvaiable)
+                            {
+                                <div class="my-3">
+                                    <div class="d-flex justify-content-between my-2">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="mx-2 align-content-center">
+                                                <img src="~/img/chart.png" width="20" height="20" alt="Chart Icon" />
+                                            </div>
+                                            <h4 style="color: #8E6745;">Câu hỏi bình chọn?</h4>
+                                        </div>
+                                    </div>
+
+                                    <div id="pollForm">
+                                        @for (int i = 1; i < 4; i++)
+                                        {
+                                            @if (MaxChoice == "single")
+                                            {
+                                                <div class="custom-radio-group d-flex flex-column mb-2">
+                                                    <label class="custom-radio rounded-3">
+                                                        <input type="radio" name="maxChoice" value="@i">
+                                                        <span class="radio-text">Lựa chọn @i</span>
+                                                    </label>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="custom-radio-group d-flex flex-column mb-2">
+                                                    <label class="custom-radio rounded-3">
+                                                        <input type="checkbox" name="maxChoice" value="@i">
+                                                        <span class="radio-text">Lựa chọn @i</span>
+                                                    </label>
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+
+                                    <div id="pollResults" style="display: none;">
+                                        @{
+                                            var fakeVotes = new[] { 50, 30, 20 };
+                                            int maxVotes = fakeVotes.Max();
+                                            int totalVotes = fakeVotes.Sum();
+                                        }
+                                        @for (int i = 0; i < 3; i++)
+                                        {
+                                            int votes = fakeVotes[i];
+                                            int percentageOfTotal = totalVotes > 0 ? (votes * 100) / totalVotes : 0;
+                                            int percentageOfMax = maxVotes > 0 ? (votes * 100) / maxVotes : 0;
+                                            int displayWidth = Math.Max(30, percentageOfMax);
+                                            <div class="poll-result">
+                                                <div class="poll-bar" data-width="@displayWidth">
+                                                    <span class="poll-option">Lựa chọn @(i + 1)</span>
+                                                    <span class="poll-percentage">@(percentageOfTotal)% (@votes votes)</span>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+
+                                    @if (CloseAfter == "day")
+                                    {
+                                        <div class="mt-2">
+                                            <small class="fs-12 text-color-header">Bình chọn sẽ đóng sau: <small class="fw-bold text-color-logo"> 1 ngày</small> </small>
+                                        </div>
+                                    }
+                                </div>
+                            }
+
+
                             <p>
                                 @Html.Raw(@Model.Post.Content)
                             </p>
@@ -207,3 +277,40 @@
     });
 </script>
  *@
+
+
+        <script>
+    document.querySelector('.custom-select-wrapper').addEventListener('click', function () {
+        this.querySelector('.custom-select').classList.toggle('open');
+    })
+
+    for (const option of document.querySelectorAll(".custom-option")) {
+        option.addEventListener('click', function () {
+            if (!this.classList.contains('selected')) {
+                const select = this.closest('.custom-select');
+                const trigger = select.querySelector('.custom-select__trigger');
+
+                // Remove previous classes
+                trigger.classList.remove('approved', 'rejected');
+
+                // Add new class and update text
+                trigger.classList.add(this.classList[1]); // 'approved' or 'rejected'
+                trigger.querySelector('span').textContent = this.textContent;
+
+                // Update background and text color of trigger
+                trigger.style.backgroundColor = window.getComputedStyle(this).backgroundColor;
+                trigger.style.color = window.getComputedStyle(this).color;
+
+                // Close the dropdown
+                select.classList.remove('open');
+            }
+        })
+    }
+
+    window.addEventListener('click', function (e) {
+        const select = document.querySelector('.custom-select')
+        if (!select.contains(e.target)) {
+            select.classList.remove('open');
+        }
+    });
+        </script>

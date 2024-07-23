@@ -15,7 +15,7 @@
     <div class="w-auto container-fluid rounded-3" style="background:#FFF0E6">
         <div class="row flex-nowrap p-2">
             <div class="col-lg-1 p-0 my-2">
-                <img src="/img/avatar_40.png" alt="avatar" class="rounded-circle" style="width: 40px; height: 40px; overflow-x:hidden" />
+                <img src="~/img/avatar_default.png" alt="avatar" class="rounded-circle" style="width: 40px; height: 40px; overflow-x:hidden" />
             </div>
             <div class="col-lg-11">
                 <div class="col-lg-11 d-flex text-color-logo">
@@ -33,7 +33,7 @@
 
     @* Bài viết mới nhất *@
     <div class="d-flex flex-column mt-4 h-auto w-auto rounded-8" style="background:#FFF0E6; border-top:5px solid #493422;">
-        <button id="toggle-new-1" class="flex-grow-0 border-main-color-logo border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between">
+        <button id="toggle-new-1" class="flex-grow-0 border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between">
             <a class="text-uppercase text-decoration-none text-black" href="/Newest">Bài viết mới nhất </a>
             <img id="arrow-icon-new-1" src="/img/arrow_down.png" alt="arrow_down" />
         </button>
@@ -61,7 +61,7 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-end mt-2">
-                            <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
+                            <img src="/img/avatar_default.png" class="rounded-circle" alt="Avatar" width="30" height="30">
                             <div class="newest-card-username mx-2">@latestPost.User.Username hỏi @GetTimeAgoHelper.GetTimeAgo(latestPost.CreatedAt)</div>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
         @* Forum *@
         <div class="d-flex flex-column mt-4 h-auto w-auto rounded-8 bg-main-color-background"
              style="border-top:5px solid @GetForumColorHelper.GetForumBackgroundColor(forum.ID);">
-            <button id="toggle-cate-@forum.ID" class="flex-grow-0 border-main-color-logo border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between">
+            <button id="toggle-cate-@forum.ID" class="flex-grow-0 border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between">
                 <div class="text-uppercase text-decoration-none text-black" onclick="window.location.href='/Topic/List?forum=@forum.ID'">@forum.Name</div>
                 <img id="arrow-icon-cate-@forum.ID" src="/img/arrow_down.png" alt="arrow_down" />
             </button>
@@ -102,8 +102,8 @@
                                 </div>
                             </div>
                             <div class="col-lg-4 p-0 d-flex align-items-center">
-                                <div class="col-lg-2 p-0 m-2 d-flex align-items-center">
-                                    <img src="/img/avatar_40.png" alt="avatar" style="width: 40px; height: 40px;" />
+                                <div class="col-lg-2 p-0 m-2 d-flex align-items-center ">
+                                    <img src="/img/avatar_default.png" alt="avatar" class="rounded-circle" style="width: 40px; height: 40px;" />
                                 </div>
                                 <div class="col-lg-8 d-flex flex-column justify-content-center">
                                     <div class="fw-12 p-0 m-0 home-topic-latest-post-title">

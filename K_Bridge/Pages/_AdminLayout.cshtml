@@ -13,6 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
+
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll('.sidebar .nav-link').forEach(function (element) {
@@ -69,11 +70,21 @@
                 </div>
                 <div class="col-7"> </div>
                 <div class="col-1 d-flex p-0">
-                    <div class="notification-icon" style="margin-right:30px;">
-                        <img src="/img/notification50.png" class="img-fluid" alt="Name" width="25" height="25">
-                        <span class="notification-badge">1</span>
+                    <div class="position-relative" style="margin-right: 20px;">
+                        <button class="p-2 border-main-color-layout rounded-3" id="notificationButtonAdmin" style="background-color: #493422;">
+                            <img src="~/img/notification50.png" class="img-fluid" alt="Notifications" width="25" height="25">
+                        </button>
+                        <div class="position-absolute fs-12 translate-middle badge rounded-circle bg-danger" id="notificationCountAdmin" style="left:40px;">
+                            <!-- Notification count will be dynamically inserted here -->
+                        </div>
+                        <div id="notificationListAdmin" class="dropdown-menu dropdown-menu-end p-0 " style="display: none; width: 300px; max-height: 400px; overflow-y: auto; background-color:#FDE7D2; cursor: pointer;">
+                            <div class="p-2 border-bottom">
+                                <h6 class="mb-0">Thông báo</h6>
+                            </div>
+                            <div id="notificationItemsAdmin"></div>
+                        </div>
                     </div>
-                    <img src="/img/user.jpg" class="avatar" alt="Avatar">
+                    <img src="/img/avatar_default.png" class="avatar" alt="Avatar">
                 </div>
                 <div class="col-1 username">
                     @Context.Session.GetString("AdminUsername")
@@ -97,3 +108,53 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var notificationCount = 3;
+        var notificationCountElement = document.getElementById('notificationCountAdmin');
+        var notificationList = document.getElementById('notificationListAdmin');
+        var notificationItems = document.getElementById('notificationItemsAdmin');
+        var notificationButton = document.getElementById('notificationButtonAdmin');
+
+        if (notificationCount > 0) {
+            notificationCountElement.innerHTML = notificationCount;
+            notificationCountElement.style.display = 'inline-block';
+
+            var notifications = [
+                { id: 1, message: '12 bài viết mới đang chờ phê duyệt.', time: '2 phút trước' },
+                { id: 2, message: 'Đã có 13 người dùng mới đến diễn đàn K-Bridge', time: '5 phút trước' }
+            ];
+
+            notifications.forEach(function (notification) {
+                var notificationItem = document.createElement('div');
+                notificationItem.className = 'notification-item';
+                notificationItem.innerHTML = `
+                            <div class="notification-content">
+                                <div class="notification-message">${notification.message}</div>
+                                <div class="notification-time d-flex justify-content-end">${notification.time}</div>
+                            </div>
+                        `;
+                notificationItems.appendChild(notificationItem);
+            });
+        } else {
+            notificationCountElement.style.display = 'none';
+        }
+
+        notificationButton.addEventListener('click', function (event) {
+            event.stopPropagation(); // Ngăn sự kiện click lan ra document
+            if (notificationList.style.display === 'none') {
+                notificationList.style.display = 'block';
+            } else {
+                notificationList.style.display = 'none';
+            }
+        });
+
+        // Đóng danh sách thông báo khi click bên ngoài
+        document.addEventListener('click', function (event) {
+            if (!notificationButton.contains(event.target) && !notificationList.contains(event.target)) {
+                notificationList.style.display = 'none';
+            }
+        });
+    });
+</script>

@@ -11,7 +11,7 @@
     {
         @foreach (var topic in ViewBag.Topics)
         {
-            <a class="w-1 border-bottom border-main-color-logo text-decoration-none text-black" href="/Topic/Post/List?topic=@topic.ID">
+            <a class="w-1 border-bottom text-decoration-none text-black" href="/Topic/Post/List?topic=@topic.ID">
                 <div class="row flex-nowrap p-2 m-0">
                     <div class="col-lg-1 p-0 m-2 d-flex justify-content-center">
                         <img src="/img/cate_1.png" alt="avatar" style="width: 50px; height: 50px;" />
@@ -30,7 +30,7 @@
                     </div>
                     <div class="col-lg-4 p-0 d-flex align-items-center">
                         <div class="col-lg-2 p-0 m-2 d-flex align-items-center">
-                            <img src="/img/avatar_40.png" alt="avatar" style="width: 40px; height: 40px;" />
+                            <img src="~/img/avatar_default.png" alt="avatar" style="width: 40px; height: 40px;" />
                         </div>
                         <div class="col-lg-8 d-flex flex-column justify-content-center">
                             <div class="fw-12 p-0 m-0 home-topic-latest-post-title">@topic.Posts[0].Title</div>

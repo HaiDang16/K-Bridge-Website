@@ -3,27 +3,91 @@
     ViewData["Title"] = "Bài viết";
     <link href="/css/Newest.css" rel="stylesheet" />
 }
-<div class="row mb-5">
-    <div class="col-6 d-flex justify-content-start fw-bold fs-4 text-uppercase">
+<div class="row mb-3 d-flex justify-content-between">
+    <div class="col-6  fw-bold fs-4 text-uppercase">
         @ViewBag.TopicName
     </div>
-    <button class="col-3 filter-forum d-flex justify-content-center align-items-center mx-4">
-        <div class="px-2">
-            Diễn đàn
-        </div>
-        <img src="/img/icon_filter_forum_50.png" alt="Filter" width="15" height="15">
-    </button>
-    <button class="col-3 filter-forum d-flex justify-content-center align-items-center mx-2">
+    <button id="filterButton" class="col-3 filter-forum d-flex justify-content-center align-items-center mx-2">
         <div class="px-2">
             Bộ lọc
         </div>
         <img src="/img/icon_filter_sort_50.png" alt="Filter" width="20" height="20">
     </button>
 </div>
+<div id="filterFrame" class="p-2 bg-main-color-background rounded-3 border-color-layout">
+    <div class="d-flex justify-content-between mb-3 p-2 px-4">
+        <div class="flex-column">
+            <p class="fw-bold text-color-header fs-6">Lọc bài viết</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="noAnswer">
+                    <label class="form-check-label" for="noAnswer">
+                        Chưa có câu trả lời nào
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="noView">
+                    <label class="form-check-label" for="noView">
+                        Chưa có lượt xem nào
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="flex-column">
+            <p class="fw-bold text-color-header fs-6">Sắp xếp theo</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="sortOrder" id="newest" checked>
+                    <label class="form-check-label" for="newest">
+                        Bài mới nhất
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="sortOrder" id="trending">
+                    <label class="form-check-label" for="trending">
+                        Đang xu hướng
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="sortOrder" id="mostHelpful">
+                    <label class="form-check-label" for="mostHelpful">
+                        Hữu ích nhất
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="flex-column">
+            <p class="fw-bold text-color-header fs-6">Thời gian</p>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="timeOrder" id="ascending" checked>
+                    <label class="form-check-label" for="ascending">
+                        Tăng dần
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="timeOrder" id="descending">
+                    <label class="form-check-label" for="descending">
+                        Giảm dần
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between mt-3 text-color-header">
+        <div>
+            <button id="filterButtonClose" class="btn">Huỷ</button>
+        </div>
+        <div>
+            <button class="btn btn-edit-profile">Lưu bộ lọc</button>
+            <button class="btn btn-account-edit ms-2">Áp dụng bộ lọc</button>
+        </div>
+    </div>
+</div>
 
 @foreach (var post in ViewBag.Posts)
 {
-    <div class="row" onclick="window.location.href='/Post/Details?post=@post.ID'">
+    <div class="row mt-2" onclick="window.location.href='/Post/Details?post=@post.ID'">
         <div class="col-2 d-flex flex-column justify-content-center">
             <div class="newest-card-stat py-2">@(post.Replies?.Count ?? 0) Câu trả lời</div>
             <div class="newest-card-stat py-2">@post.ViewCount Lượt xem</div>
@@ -43,10 +107,26 @@
                 </div>
             </div>
             <div class="d-flex justify-content-end mt-2">
-                <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
+                <img src="/img/avatar_default.png" class="rounded-circle" alt="Avatar" width="30" height="30">
                 <div class="newest-card-username mx-2">@post.User.Username hỏi @GetTimeAgoHelper.GetTimeAgo(post.CreatedAt)</div>
             </div>
         </div>
         <hr class="mt-2">
     </div>
 }
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const filterButton = document.getElementById('filterButton');
+        const filterFrame = document.getElementById('filterFrame');
+        const filterButtonClose = document.getElementById('filterButtonClose');
+
+        filterButton.addEventListener('click', function () {
+            this.classList.toggle('active');
+            filterFrame.classList.toggle('active');
+        });
+        filterButtonClose.addEventListener('click', function () {
+            this.classList.toggle('active');
+            filterFrame.classList.toggle('active');
+        });
+    });
+</script>

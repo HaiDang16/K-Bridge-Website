@@ -174,7 +174,7 @@
                 <img class="h-50" src="~/img/Github.png" alt="Github" />
             </div>
             <div class="d-flex justify-content-end mt-2">
-                <img src="~/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
+                <img src="~/img/avatar_default.png" class="rounded-circle" alt="Avatar" width="30" height="30">
                 <div class="newest-card-username mx-2">@ViewBag.Post.User.Username hỏi @GetTimeAgoHelper.GetTimeAgo(@ViewBag.Post.CreatedAt)</div>
             </div>
             @if (isCmtAvaiable)
@@ -183,10 +183,10 @@
                     <div class="fw-bold fs-4 d-flex text-color-logo">
                         @ViewBag.Post.Replies.Count Câu trả lời
                     </div>
-                    <div class="d-flex text-color-header">
-                        <div class="form-group">
-                            <label for="sortSelect">Sắp xếp theo:</label>
-                            <select class="form-control" id="sortSelect">
+                    <div class="d-flex text-color-header  w-50">
+                        <div class="form-group d-flex w-100 align-items-center justify-content-between">
+                            <label class="w-100" for="sortSelect">Sắp xếp theo:</label>
+                            <select class="form-control " id="sortSelect">
                                 <option value="newest" selected="@(ViewBag.Sort == "newest" ? "selected" : "")">Mới nhất</option>
                                 <option value="oldest" selected="@(ViewBag.Sort == "oldest" ? "selected" : "")">Cũ nhất</option>
                                 <option value="helpful" selected="@(ViewBag.Sort == "helpful" ? "selected" : "")">Hữu ích nhất</option>
