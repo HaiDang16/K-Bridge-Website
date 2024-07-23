@@ -1,4 +1,4 @@
-using K_Bridge.Models;
+﻿using K_Bridge.Models;
 using K_Bridge.Repositories;
 using K_Bridge.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +27,7 @@ namespace K_Bridge.Pages.Admin.Forums
         public int ForumID { get; set; }
 
         [BindProperty]
-        [Required]
+        [Required(ErrorMessage = "Vui lòng nhập tên chủ đề")]
         public string Name { get; set; }
 
         [BindProperty]
@@ -42,11 +42,23 @@ namespace K_Bridge.Pages.Admin.Forums
         {
             if (!ModelState.IsValid)
             {
-                return Page();
+                return new JsonResult(new
+                {
+                    success = false,
+                    errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList()
+                });
+            }
+
+            if (_topicRepository.TopicNameExists(Name))
+            {
+                return new JsonResult(new
+                {
+                    success = false,
+                    errors = new List<string> { "Tên chủ đề đã tồn tại." }
+                });
             }
 
             string newCode = _codeGenerationService.GenerateNewCode<Topic>("TOPIC");
-
 
             var newTopic = new Topic
             {
@@ -56,9 +68,15 @@ namespace K_Bridge.Pages.Admin.Forums
                 ForumID = ForumID
             };
 
-            _topicRepository.SaveTopic(newTopic);
-
-            return RedirectToPage("/Admin/Forums/List", new { id = ForumID });
+            try
+            {
+                _topicRepository.SaveTopic(newTopic);
+                return new JsonResult(new { success = true, forumId = ForumID });
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new { success = false, errors = new List<string> { "Có lỗi xảy ra khi lưu chủ đề." } });
+            }
         }
     }
 }

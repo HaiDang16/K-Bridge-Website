@@ -27,5 +27,9 @@ namespace K_Bridge.Repositories
                 _context.Topics.Add(topic);
             _context.SaveChanges();
         }
+        public bool TopicNameExists(string name)
+        {
+            return _context.Topics.Any(t => t.Name == name);
+        }
     }
 }

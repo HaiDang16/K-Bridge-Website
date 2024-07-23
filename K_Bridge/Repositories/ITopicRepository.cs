@@ -8,5 +8,6 @@ namespace K_Bridge.Repositories
         List<Topic> GetAllTopics();
         Topic GetTopicById(int id);
         void SaveTopic(Topic topic);
+        bool TopicNameExists(string name);
     }
 }

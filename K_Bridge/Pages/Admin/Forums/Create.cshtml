@@ -12,13 +12,12 @@
         <img src="/img/icon_arrow_right_50_dark.png" class="mx-4 mt-2"
              alt="Tổng quan" width="10" height="20">
         <div class="account-navigate-text custom-cursor-pointer"
-             onclick="window.location.href='/Admin/Forums'">
+             onclick="window.location.href='/Admin/Forums/List/@Model.ForumID'">
             Lập trình
         </div>
         <img src="/img/icon_arrow_right_50_dark.png" class="mx-4 mt-2"
              alt="Tổng quan" width="10" height="20">
-        <div class="account-navigate-text custom-cursor-pointer"
-             onclick="window.location.href='/Admin/Forums/Create'">
+        <div class="account-navigate-text custom-cursor-pointer">
             Tạo chủ đề
         </div>
     </div>
@@ -29,7 +28,7 @@
         <div class="account-subtitle">Cung cấp thông tin chủ đề mới</div>
     </div>
 </div>
-<form method="post" enctype="multipart/form-data">
+<form id="createTopicForm" method="post" enctype="multipart/form-data">
     <div class="row mt-4 create-padding-form">
         <div class="col-5">
             <div class="form-group mb-3">
@@ -58,7 +57,7 @@
     <div class="row mt-5 create-padding-form">
         <div class="col-2">
             <button class="w-75 h-100 d-flex justify-content-center align-items-center create-back-btn py-1" 
-            onclick="window.location.href='/Admin/Forums'">
+            onclick="window.location.href='/Admin/Forums/List/@Model.ForumID'">
                 Quay về
             </button>
         </div>
@@ -74,3 +73,59 @@
         </div>
     </div>
 </form>
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+    <div id="liveToastCreateTopic" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-body text-color-background fw-bold text-center rounded-bottom rounded-3"
+             style="background-color: #493422; border: 2px solid #FFF0E6; color:white">
+            <div style="color:white" id="createTopicValidationSummary"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('createTopicForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var errorSummary = document.getElementById('createTopicValidationSummary');
+        errorSummary.innerHTML = ''; // Xóa nội dung cũ
+
+        var formData = new FormData(this);
+        fetch('/Admin/Forums/Create', {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    errorSummary.innerHTML = '<div>Tạo chủ đề thành công</div>';
+                    errorSummary.style.display = 'block';
+                    showToast('liveToastCreateTopic');
+                    setTimeout(() => {
+                        window.location.href = '/Admin/Forums/List/' + data.forumId;
+                    }, 2000);
+                } else {
+                    if (data.errors && data.errors.length > 0) {
+                        var p = document.createElement('div');
+                        data.errors.forEach(function (error) {
+                            p.textContent = error;
+                        });
+                        errorSummary.appendChild(p);
+                        errorSummary.style.display = 'block';
+                        showToast('liveToastCreateTopic');
+                    } else {
+                        errorSummary.innerHTML = '<div>Có lỗi xảy ra trong quá trình xử lý.</div>';
+                        errorSummary.style.display = 'block';
+                        showToast('liveToastCreateTopic');
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+
+    function showToast(toastId) {
+        var toastElement = document.getElementById(toastId);
+        var toast = new bootstrap.Toast(toastElement);
+        toast.show();
+    }
+</script>
