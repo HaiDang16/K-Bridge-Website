@@ -1,4 +1,90 @@
 ﻿@page
 @model K_Bridge.Pages.Admin.Manager.CreateModel
 @{
+    ViewData["Title"] = "Tạo tài khoản quản trị";
 }
+
+<div class="row account-navigate mt-3 px-5 align-items-center ">
+    <div class="col-12 d-flex justify-content-star">
+        <img src="/img/icon_dashboard_50_dark.png"
+             onclick="window.location.href='/Admin/Dashboard'"
+             class="account-navigate-icon mt-2 custom-cursor-pointer" alt="Tổng quan">
+        <img src="/img/icon_arrow_right_50_dark.png" class="mx-4 mt-2"
+             alt="Tổng quan" width="10" height="20">
+        <div class="account-navigate-text custom-cursor-pointer"
+             onclick="window.location.href='/Admin/Accounts'">
+            Tài khoản
+        </div>
+        <img src="/img/icon_arrow_right_50_dark.png" class="mx-4 mt-2"
+             alt="Tổng quan" width="10" height="20">
+        <div class="account-navigate-text custom-cursor-pointer"
+             onclick="window.location.href='/Admin/Manager/Create'">
+            Tạo tài khoản quản trị
+        </div>
+    </div>
+</div>
+<div class="row mt-3 create-padding-form">
+    <div class="col-4">
+        <div class="account-title">Tạo tài khoản quản trị</div>
+        <div class="account-subtitle">Cung cấp tài khoản quản trị viên mới</div>
+    </div>
+</div>
+
+@* Validation Summary *@
+<div class="validation-summary">
+    <validation-summary />
+</div>
+<form method="post" enctype="multipart/form-data">
+    <div class="row mt-4 create-padding-form">
+        <div class="col-5">
+            <div class="form-group mb-3">
+                <label class="create-form-title" for="CodeAdmin">Mã tài khoản</label>
+                <input type="text" class="form-id" id="CodeAdmin" name="Code" value="AD2321" readonly>
+            </div>
+            <div class="form-group mb-3">
+                <label class="create-form-title" for="ReqAdmin">Tên đăng nhập</label>
+                <input type="text" class="form-custom" id="ReqAdmin" name="ReqAdmin" placeholder="abcxyz" required>
+            </div>
+            <div class="form-group mb-3">
+                <label class="create-form-title" for="ReqEmailAdmin">Email</label>
+                <input type="email" class="form-custom" id="ReqEmail" name="ReqEmailAdmin" placeholder="abc@gmail.com" required>
+            </div>
+        </div>
+        <div class="col-2">
+        </div>
+
+        <div class="col-5">
+            <div class="form-group mb-3">
+                <label class="create-form-title" for="ReqDateOnlineAdmin">Trực tuyến</label>
+                <input type="date" class="form-custom" id="ReqDateOnlineAdmin" name="ReqDateOnlineAdmin" value="2/7/2024" readonly>
+            </div>
+            <div class="form-group mb-3">
+                <label class="create-form-title" for="ReqPasswordAdmin">Mật khẩu</label>
+                <input type="password" class="form-custom" id="ReqPasswordAdmin" name="ReqPasswordAdmin" placeholder="Phải bao gồm 8 ký tự" required>
+            </div>
+            <div class="form-group mb-3">
+                <label class="create-form-title" for="ReqProfilePictureAdmin">Ảnh đại diện</label>
+                <input type="file" class="form-custom" id="ReqProfilePictureAdmin" name="ReqProfilePictureAdmin" accept="image/*">
+            </div>
+        </div>
+
+    </div>
+    <div class="row mt-5 create-padding-form">
+        <div class="col-2">
+            <button class="w-75 h-100 d-flex justify-content-center align-items-center create-back-btn py-1" onclick="window.location.href='/Admin/Accounts'">
+                Quay về
+            </button>
+        </div>
+        <div class="col-5"></div>
+
+        <div class="col-2 d-flex justify-content-end">
+            <button class="w-75 h-100 d-flex justify-content-center align-items-center create-reset-btn py-1" type="reset">
+                Đặt lại
+            </button>
+        </div>
+
+        <div class="col-3 d-flex justify-content-end">
+            <button type="submit" class="w-75 h-100 d-flex justify-content-center align-items-center create-btn py-1">Tạo tài khoản</button>
+        </div>
+    </div>
+</form>
