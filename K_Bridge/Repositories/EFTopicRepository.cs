@@ -31,5 +31,10 @@ namespace K_Bridge.Repositories
         {
             return _context.Topics.Any(t => t.Name == name);
         }
+        public void UpdateTopic(Topic topic)
+        {
+            _context.Topics.Update(topic);
+            _context.SaveChanges();
+        }
     }
 }

@@ -62,7 +62,7 @@
                     <td>@(topic.UpdatedAt?.ToString("dd/MM/yyyy")??"")</td>
                     <td>
                         <div>
-                            <button class="account-table-edit-btn" onclick="window.location.href='/Admin/Forums/Edit'">
+                            <button class="account-table-edit-btn" onclick="window.location.href='/Admin/Forums/Edit?id=@topic.ID'">
                                 <img src="/img/icon_edit_50.png" alt="Chỉnh sửa" width="20" height="20">
                             </button>
                             <button class="account-table-delete-btn">
