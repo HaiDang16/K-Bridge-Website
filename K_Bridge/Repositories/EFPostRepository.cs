@@ -130,5 +130,20 @@ namespace K_Bridge.Repositories
                 .AsQueryable()
                 .ToList();
         }
+
+        public List<Post> GetAllPostsWithTopicPaging(int topicId, int pageIndex, int pageSize)
+        {
+            return _context.Posts
+               .Where(t => t.TopicID == topicId)
+               .Skip((pageIndex - 1) * pageSize)
+               .Take(pageSize)
+               .ToList();
+        }
+        public int CountPostWithTopic(int topicId)
+        {
+            return _context.Posts
+               .Where(t => t.TopicID == topicId)
+               .Count();
+        }
     }
 }

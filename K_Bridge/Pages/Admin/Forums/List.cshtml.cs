@@ -26,7 +26,7 @@ namespace K_Bridge.Pages.Admin.Forums
         public List<Topic> Topics { get; set; }
 
         public int PageIndex { get; set; } = 1; // Trang hiện tại
-        public int PageSize { get; set; } = 1; // Số lượng bản ghi trên mỗi trang
+        public int PageSize { get; set; } = 8; // Số lượng bản ghi trên mỗi trang
         public int TotalPages { get; set; } // Tổng số trang
         public List<int> DisplayPages { get; set; } // Các trang để hiển thị
         public void OnGet(int id, int? pageIndex = 1)
