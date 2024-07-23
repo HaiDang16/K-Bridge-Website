@@ -10,5 +10,8 @@ namespace K_Bridge.Repositories
         void SaveTopic(Topic topic);
         bool TopicNameExists(string name);
         void UpdateTopic(Topic topic);
+        void SetTopicStatusInactive(int id);
+        List<Topic> GetAllTopicsWithForumPaging(int forumID, int pageIndex, int pageSize);
+        int CountTopicWithForum(int forumID);
     }
 }

@@ -65,7 +65,8 @@ namespace K_Bridge.Pages.Admin.Forums
                 Code = newCode,
                 Name = Name,
                 Description = Description,
-                ForumID = ForumID
+                ForumID = ForumID,
+                Status = "Active"
             };
 
             try

@@ -36,5 +36,32 @@ namespace K_Bridge.Repositories
             _context.Topics.Update(topic);
             _context.SaveChanges();
         }
+        public void SetTopicStatusInactive(int id)
+        {
+            var topic = _context.Topics.Find(id);
+            if (topic != null)
+            {
+                topic.Status = "Inactive";
+                _context.Topics.Update(topic);
+                _context.SaveChanges();
+            }
+        }
+        public List<Topic> GetAllTopicsWithForumPaging(int forumID, int pageIndex, int pageSize)
+        {
+            return _context.Topics
+                .Where(t => t.ForumID == forumID)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+        }
+
+        public int CountTopicWithForum(int forumID)
+        {
+            return _context.Topics
+                .Where(t => t.ForumID == forumID)
+                .Count();
+        }
+
+
     }
 }
