@@ -340,6 +340,7 @@
                 .then(html => {
                     document.getElementById('repliesContainer').innerHTML = html;
                 });
+            loadReplies(postId, selectedSort, 1);
         });
     });
 </script>
@@ -462,4 +463,15 @@
             localStorage.removeItem('showResults'); // Xóa trạng thái sau khi đã xử lý
         }
     });  
+</script>
+<script>
+    function loadReplies(postId, sort, page) {
+        $.ajax({
+            url: `/Post/GetReplies?postId=${postId}&sort=${sort}&page=${page}`,
+            type: 'GET',
+            success: function (result) {
+                $('#repliesContainer').html(result);
+            }
+        });
+    }
 </script>

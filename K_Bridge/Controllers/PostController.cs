@@ -236,45 +236,39 @@ namespace K_Bridge.Controllers
         }
 
         [HttpGet("GetReplies")]
-        public IActionResult GetReplies(int postId, string sort = "newest")
+        public IActionResult GetReplies(int postId, string sort = "newest", int page = 1, int pageSize = 10)
         {
             var postDetails = _postRepository.GetPostByID(postId);
-
-            // Initialize status like/dislike post of user
-            var userLikeStatus = 0; // 0: chưa like/dislike, 1: đã like, -1: đã dislike
-
             User? user = HttpContext.Session.GetJson<User>("user");
 
-            if (user != null)
-            {
-                // Get status like / dislike post of user
-                var existingLike = _likeRepository.GetExistPostLike(postId, user.ID);
-                if (existingLike != null)
-                    userLikeStatus = existingLike.IsLike ? 1 : -1;
-            }
+            var allReplies = postDetails.Replies.AsQueryable();
 
-            // Get all reply of post
-            var allRepliesWithLike = postDetails.Replies.Select(r => new ReplyViewModel
+            // Sắp xếp
+            allReplies = sort switch
             {
-                Reply = r,
-                UserLikeStatus = user != null
-                                ? _likeRepository.GetUserReplyLikeStatus(r.ID, user.ID)
-                                : 0,
-                LikeCount = _likeRepository.GetReplyLikeCount(r.ID),
-                DislikeCount = _likeRepository.GetReplyDislikeCount(r.ID),
-                AllLikeCount = _likeRepository.GetReplyLikeCount(r.ID) - _likeRepository.GetReplyDislikeCount(r.ID)
-            }).ToList();
-
-            // Sort reply
-            allRepliesWithLike = sort switch
-            {
-                "newest" => allRepliesWithLike.OrderByDescending(r => r.Reply.CreatedAt).ToList(),
-                "oldest" => allRepliesWithLike.OrderBy(r => r.Reply.CreatedAt).ToList(),
-                "helpful" => allRepliesWithLike.OrderByDescending(r => r.LikeCount).ThenByDescending(r => r.Reply.CreatedAt).ToList(),
-                _ => allRepliesWithLike.OrderBy(r => r.Reply.CreatedAt).ToList()
+                "newest" => allReplies.OrderByDescending(r => r.CreatedAt),
+                "oldest" => allReplies.OrderBy(r => r.CreatedAt),
+                "helpful" => allReplies.OrderByDescending(r => r.Reply_Likes.Count(l => l.IsLike)).ThenByDescending(r => r.CreatedAt),
+                _ => allReplies.OrderBy(r => r.CreatedAt)
             };
 
-            return PartialView("_RepliesPartial", allRepliesWithLike);
+            // Phân trang
+            var totalReplies = allReplies.Count();
+            var totalPages = (int)Math.Ceiling(totalReplies / (double)pageSize);
+            var paginatedReplies = allReplies.Skip((page - 1) * pageSize).Take(pageSize);
+
+            var repliesWithLike = paginatedReplies.Select(r => new ReplyViewModel
+            {
+                Reply = r,
+                UserLikeStatus = user != null ? _likeRepository.GetUserReplyLikeStatus(r.ID, user.ID) : 0,
+                LikeCount = _likeRepository.GetReplyLikeCount(r.ID),
+                DislikeCount = _likeRepository.GetReplyDislikeCount(r.ID),
+                AllLikeCount = _likeRepository.GetReplyLikeCount(r.ID) - _likeRepository.GetReplyDislikeCount(r.ID),
+                PageNumber = page,
+                TotalPages = totalPages
+            }).ToList();
+
+            return PartialView("_RepliesPartial", repliesWithLike);
         }
 
         [HttpPost("Like")]
