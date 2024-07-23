@@ -7,5 +7,6 @@ namespace K_Bridge.Repositories
         IQueryable<Topic> Topics { get; }
         List<Topic> GetAllTopics();
         Topic GetTopicById(int id);
+        void SaveTopic(Topic topic);
     }
 }

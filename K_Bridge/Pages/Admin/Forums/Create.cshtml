@@ -34,11 +34,11 @@
         <div class="col-5">
             <div class="form-group mb-3">
                 <label class="create-form-title" for="ForumsCode">Mã chủ đề</label>
-                <input type="text" class="form-id" id="ForumsCode" name="ForumsCode" placeholder="FOR001" readonly>
+                <input type="text" class="form-id" id="ForumsCode" name="ForumsCode" value="@Model.NewCode" readonly>
             </div>
             <div class="form-group mb-3">
-                <label class="create-form-title" for="Email">Ngày khởi tạo</label>
-                <input type="date" class="form-custom" id="DateCreate" name="DateCreate" disabled>
+                <label class="create-form-title" for="Name">Tên chủ đề</label>
+                <input type="text" class="form-custom" id="Name" name="Name" placeholder="Nhập tên chủ đề" required>
             </div>
         </div>
         <div class="col-2">
@@ -46,31 +46,29 @@
 
         <div class="col-5">
             <div class="form-group mb-3">
-                <label class="create-form-title" for="Username">Tên chủ đề</label>
-                <input type="text" class="form-custom" id="Username" name="Username" placeholder="abcxyz" required>
-            </div>
-            <div class="form-group mb-3">
-                <label class="create-form-title" for="Email">Ngày cập nhật</label>
-                <input type="date" class="form-custom" id="DateUpdate" name="DateUpdate" disabled>
-            </div>
+                <label class="create-form-title" for="Description">Mô tả chủ đề</label>
+                <textarea class="form-custom" id="Description" name="Description" rows="4"
+                          placeholder="Mô tả chủ đề..."></textarea>
 
+            </div>
         </div>
+        <input type="hidden" name="ForumID" id="ForumID" value="@Model.ForumID" />
 
     </div>
     <div class="row mt-5 create-padding-form">
         <div class="col-2">
-            <button class="w-75 h-100 d-flex justify-content-center align-items-center create-back-btn py-1" onclick="window.location.href='/Admin/Forumss'">
+            <button class="w-75 h-100 d-flex justify-content-center align-items-center create-back-btn py-1" 
+            onclick="window.location.href='/Admin/Forums'">
                 Quay về
             </button>
         </div>
         <div class="col-5"></div>
-
         <div class="col-2 d-flex justify-content-end">
-            <button class="w-75 h-100 d-flex justify-content-center align-items-center create-reset-btn py-1" type="reset">
+            <button class="w-75 h-100 d-flex justify-content-center align-items-center create-reset-btn py-1" 
+            type="reset">
                 Đặt lại
             </button>
         </div>
-
         <div class="col-3 d-flex justify-content-end">
             <button type="submit" class="w-75 h-100 d-flex justify-content-center align-items-center create-btn py-1">Tạo chủ đề</button>
         </div>

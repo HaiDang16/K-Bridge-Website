@@ -51,8 +51,20 @@
                     <td>@account.Username</td>
                     <td>@account.Email</td>
                     <td>@account.PhoneNumber</td>
-
-                    <td>@account.Status</td>
+                    <td>
+                    @if (account.Status == "Active")
+                    {
+                        <span>Đang hoạt động</span>
+                    }
+                    else if (account.Status == "Inactive")
+                    {
+                        <span>Tạm khóa</span>
+                    }
+                    else
+                    {
+                        <span>Không xác định</span>
+                    }
+                    </td>
                     <td>@account.Reputation</td>
                     <td>
                         <div>

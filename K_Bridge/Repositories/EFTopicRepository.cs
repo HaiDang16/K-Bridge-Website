@@ -20,5 +20,12 @@ namespace K_Bridge.Repositories
         {
             return _context.Topics.FirstOrDefault(p => p.ID == id);
         }
+        public void SaveTopic(Topic topic)
+        {
+            // Kiểm tra xem có id này chưa
+            if (topic.ID == 0)
+                _context.Topics.Add(topic);
+            _context.SaveChanges();
+        }
     }
 }

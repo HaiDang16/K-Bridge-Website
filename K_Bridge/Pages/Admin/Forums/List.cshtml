@@ -23,7 +23,8 @@
         <div class="account-subtitle">Quản lý diễn đàn @Model.Forum.Name </div>
     </div>
     <div class="col-3 d-flex justify-content-end align-items-center custom-cursor-pointer">
-        <div class=" account-create-button px-4 h-75 d-flex align-items-center" onclick="window.location.href='/Admin/Forums/Create'">
+        <div class=" account-create-button px-4 h-75 d-flex align-items-center" 
+        onclick="window.location.href='/Admin/Forums/Create?id=@Model.Forum.ID'">
             + Tạo chủ đề
         </div>
     </div>
