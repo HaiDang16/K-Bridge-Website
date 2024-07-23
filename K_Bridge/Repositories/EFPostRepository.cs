@@ -150,5 +150,12 @@ namespace K_Bridge.Repositories
                .Where(t => t.TopicID == topicId)
                .Count();
         }
+        public void RemovePost(int id)
+        {
+            var post = _context.Posts.Find(id);
+            _context.Posts.Remove(post);
+            _context.SaveChanges();
+
+        }
     }
 }

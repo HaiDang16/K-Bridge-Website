@@ -27,6 +27,7 @@ namespace K_Bridge.Controllers
 
         private CodeGenerationService _codeGenerationService;
         private UserService _userService;
+        private KBridgeDbContext _context;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly HtmlSanitizer _sanitizer;
@@ -757,8 +758,16 @@ namespace K_Bridge.Controllers
                 post.VoteID = vote.ID;
             }
             _postRepository.UpdatePost(post);
-            return RedirectToAction("Details", new {post = postID}); 
+            return RedirectToAction("Details", new { post = postID });
         }
 
+        [HttpDelete("Delete/{id}")]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            // Fetch the post from the database
+            _postRepository.RemovePost(id);
+            return Ok();
+        }
     }
 }

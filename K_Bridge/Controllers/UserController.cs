@@ -5,12 +5,14 @@ using K_Bridge.Models.ViewModels;
 using K_Bridge.Repositories;
 using K_Bridge.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace K_Bridge.Controllers
 {
     public class UserController : Controller
     {
         private IUserRepository _userRepository;
+        private IPostRepository _postRepository;
         private CodeGenerationService _codeGenerationService;
         private UserService _userService;
 
@@ -21,11 +23,13 @@ namespace K_Bridge.Controllers
 
         public UserController(
             IUserRepository userRepository,
+            IPostRepository postRepository,
             CodeGenerationService codeGenerationService,
             UserService userService,
             IHttpContextAccessor httpContextAccessor)
         {
             _userRepository = userRepository;
+            _postRepository = postRepository;
             _codeGenerationService = codeGenerationService;
             _userService = userService;
             _httpContextAccessor = httpContextAccessor;
@@ -38,6 +42,25 @@ namespace K_Bridge.Controllers
         {
             var user = _userRepository.GetUserById(id);
             ViewBag.UserInfo = user;
+
+            // Lấy top 3 bài viết hàng đầu của người dùng
+            var topPosts = _postRepository.Posts
+                .Where(p => p.UserID == id)
+                .OrderByDescending(p => p.Post_Likes.Count(pl => pl.IsLike) - p.Post_Likes.Count(pl => !pl.IsLike))
+                .ThenByDescending(p => p.CreatedAt)
+                .Select(p => new
+                {
+                    p.ID,
+                    p.Title,
+                    p.CreatedAt,
+                    p.Status,
+                    LikeCount = p.Post_Likes.Count(pl => pl.IsLike),
+                    DislikeCount = p.Post_Likes.Count(pl => !pl.IsLike),
+                    TotalLikeDislike = p.Post_Likes.Count(pl => pl.IsLike) - p.Post_Likes.Count(pl => !pl.IsLike)
+                })
+                .ToList();
+
+            ViewBag.TopPosts = topPosts;
             return View();
         }
 

@@ -19,6 +19,7 @@ namespace K_Bridge.Repositories
         IEnumerable<Post> PostsFilterHelpful(IEnumerable<Post> posts);
         List<Post> GetAllPostsWithTopicPaging(int topicId, int pageIndex, int pageSize);
         int CountPostWithTopic(int topicId);
+        void RemovePost(int id);
 
     }
 }
