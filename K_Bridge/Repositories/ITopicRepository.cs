@@ -13,5 +13,6 @@ namespace K_Bridge.Repositories
         void SetTopicStatusInactive(int id);
         List<Topic> GetAllTopicsWithForumPaging(int forumID, int pageIndex, int pageSize);
         int CountTopicWithForum(int forumID);
+        void SetTopicStatusActive(int id);
     }
 }

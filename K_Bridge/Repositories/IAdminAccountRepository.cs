@@ -11,5 +11,6 @@ namespace K_Bridge.Repositories
         Admin_Accounts GetAdminAccountById(int id);
         void SetAdminAccountStatusInactive(int id);
         void UpdateAdminAccount (Admin_Accounts account);
+        void SetAdminAccountStatusActive(int id);
     }
 }

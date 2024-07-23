@@ -48,5 +48,14 @@ namespace K_Bridge.Repositories
             _context.Admin_Accounts.Update(account);
             _context.SaveChanges();
         }
+        public void SetAdminAccountStatusActive(int id)
+        {
+            var admin = _context.Admin_Accounts.Find(id);
+            if (admin != null)
+            {
+                admin.Status = "Active";
+                _context.SaveChanges();
+            }
+        }
     }
 }

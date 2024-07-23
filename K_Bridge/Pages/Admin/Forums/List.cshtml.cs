@@ -63,7 +63,17 @@ namespace K_Bridge.Pages.Admin.Forums
             // Redirect back to the list page
             return RedirectToPage("/Admin/Forums/List", new { id = ForumID });
         }
-
+        public IActionResult OnPostUnlock(int id)
+        {
+            var topic = _topicRepository.GetTopicById(id);
+            if (topic == null)
+            {
+                return NotFound();
+            }
+            _topicRepository.SetTopicStatusActive(id);
+            // Redirect back to the list page
+            return RedirectToPage("/Admin/Forums/List", new { id = ForumID });
+        }
         private List<int> GenerateDisplayPages(int currentPage, int totalPages)
         {
             const int maxDisplayPages = 3; // Số lượng trang tối đa để hiển thị

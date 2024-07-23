@@ -87,5 +87,17 @@ namespace K_Bridge.Pages.Admin.Manager
             // Redirect back to the list page
             return RedirectToPage("/Admin/Managers/List");
         }
+
+        public IActionResult OnPostUnlock(int id)
+        {
+            var admin = _adminAccountRepository.GetAdminAccountById(id);
+            if (admin == null)
+            {
+                return NotFound();
+            }
+            _adminAccountRepository.SetAdminAccountStatusActive(id);
+            // Redirect back to the list page
+            return RedirectToPage("/Admin/Managers/List");
+        }
     }
 }

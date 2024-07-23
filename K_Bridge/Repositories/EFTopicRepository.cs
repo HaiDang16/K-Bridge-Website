@@ -62,6 +62,15 @@ namespace K_Bridge.Repositories
                 .Count();
         }
 
+        public void SetTopicStatusActive(int id)
+        {
+            var topic = _context.Topics.Find(id);
+            if (topic != null)
+            {
+                topic.Status = "Active";
+                _context.SaveChanges();
+            }
+        }
 
     }
 }

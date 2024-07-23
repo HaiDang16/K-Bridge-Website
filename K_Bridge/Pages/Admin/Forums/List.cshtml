@@ -23,8 +23,8 @@
         <div class="account-subtitle">Quản lý diễn đàn @Model.Forum.Name </div>
     </div>
     <div class="col-3 d-flex justify-content-end align-items-center custom-cursor-pointer">
-        <div class=" account-create-button px-4 h-75 d-flex align-items-center" 
-        onclick="window.location.href='/Admin/Forums/Create?id=@Model.Forum.ID'">
+        <div class=" account-create-button px-4 h-75 d-flex align-items-center"
+             onclick="window.location.href='/Admin/Forums/Create?id=@Model.Forum.ID'">
             + Tạo chủ đề
         </div>
     </div>
@@ -79,16 +79,30 @@
                             <button class="account-table-edit-btn" onclick="window.location.href='/Admin/Forums/Edit?id=@topic.ID'">
                                 <img src="/img/icon_edit_50.png" alt="Chỉnh sửa" width="20" height="20">
                             </button>
-                            <button class="account-table-delete-btn" type="button"
-                                    data-bs-toggle="modal" data-bs-target="#lockTopicModal">
-                                <img src="/img/icon_lock_50.png" alt="Khoá" width="25" height="25">
-                            </button>
+
+                            @if (topic.Status == "Active")
+                            {
+                                <button class="account-table-delete-btn" type="button"
+                                        data-bs-toggle="modal" data-bs-target="#lockTopicModal@(topic.ID)">
+                                    <img src="/img/icon_lock_50.png" alt="Khoá" width="25" height="25">
+                                </button>
+                            }
+                            else
+                            {
+                                <button class="account-table-delete-btn" type="button"
+                                        data-bs-toggle="modal" data-bs-target="#unlockTopicModal@(topic.ID)">
+                                    <img src="/img/icon_unlock_50.png" alt="Mở khoá" width="25" height="25">
+                                </button>
+                            }
+
+
+
                         </div>
                     </td>
                 </tr>
-                <!-- Modal -->
-                <div class="modal fade modal-new-post-overall rounded-3" s style="overflow-x: hidden;" id="lockTopicModal" tabindex="-1"
-                     aria-labelledby="newPostModalLabel" aria-hidden="true">
+                <!-- Lock Modal -->
+                <div class="modal fade modal-new-post-overall rounded-3" style="overflow-x: hidden;" id="lockTopicModal@(topic.ID)" tabindex="-1"
+                     aria-labelledby="lockTopicModalLabel@(topic.ID)" aria-hidden="true">
                     <div class="modal-dialog" style="border-radius: 20px;">
                         <div class="modal-content">
                             <div class="modal-header modal-new-post-header py-2 px-3">
@@ -111,6 +125,35 @@
                                     </button>
                                     <input type="hidden" name="ForumID" id="ForumID" value="@Model.ForumID" />
 
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Unlock Modal -->
+                <div class="modal fade modal-new-post-overall rounded-3" style="overflow-x: hidden;" id="unlockTopicModal@(topic.ID)" tabindex="-1"
+                     aria-labelledby="unlockTopicModalLabel@(topic.ID)" aria-hidden="true">
+                    <div class="modal-dialog" style="border-radius: 20px;">
+                        <div class="modal-content">
+                            <div class="modal-header modal-new-post-header py-2 px-3">
+                                <h5 class="modal-title text-uppercase" id="unlockTopicModalLabel@(topic.ID)">Xác nhận</h5>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body bg-main-color-layout d-flex flex-column py-4">
+                                <div class="text-color-header justify-content-center flex-column m-auto" style="min-height:100px;">
+                                    <p class="fs-3 text-color-header fw-bold m-0 mt-2">Bạn chắc chắn chứ?</p>
+                                    <p class="text-color-headerfw-bold m-0 p-0">Xác nhận mở khóa chủ đề này!</p>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center bg-main-color-layout pb-4 rounded-bottom">
+                                <button type="button" class="rounded-2 px-3 py-1 btn-confirm me-1" data-bs-dismiss="modal" style="min-width:148px;">Huỷ</button>
+                                <form method="post">
+                                    <button type="submit" class="rounded-2 px-3 py-1 btn-confirm ms-1" style="min-width:148px;" asp-page-handler="Unlock" asp-route-id="@topic.ID">
+                                        Mở khóa
+                                    </button>
+                                    <input type="hidden" name="ForumID" id="ForumID" value="@Model.ForumID" />
                                 </form>
                             </div>
                         </div>
