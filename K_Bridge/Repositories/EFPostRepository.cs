@@ -116,7 +116,7 @@ namespace K_Bridge.Repositories
                     .Select(p => p.Post)
                      .AsQueryable()
                 .ToList();
-        }   
+        }
         public IEnumerable<Post> PostsFilterHelpful(IEnumerable<Post> posts)
         {
             return posts
@@ -134,10 +134,15 @@ namespace K_Bridge.Repositories
         public List<Post> GetAllPostsWithTopicPaging(int topicId, int pageIndex, int pageSize)
         {
             return _context.Posts
-               .Where(t => t.TopicID == topicId)
-               .Skip((pageIndex - 1) * pageSize)
-               .Take(pageSize)
-               .ToList();
+                .Where(t => t.TopicID == topicId)
+                .OrderBy(p => p.Status == "Pending" ? 0 :
+                              p.Status == "Approved" ? 1 :
+                              p.Status == "Rejected" ? 2 :
+                              p.Status == "Blocked" ? 3 : 4)
+                .ThenByDescending(p => p.CreatedAt)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
         }
         public int CountPostWithTopic(int topicId)
         {

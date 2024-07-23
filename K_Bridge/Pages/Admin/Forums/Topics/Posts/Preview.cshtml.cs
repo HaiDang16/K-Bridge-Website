@@ -13,10 +13,11 @@ namespace K_Bridge.Pages.Admin.Forums.Topics.Posts
         private readonly IUserRepository _userRepository;
         private readonly ITopicRepository _topicRepository;
         private readonly INotificationRepository _notificationRepository;
+        private readonly IVoteRepository _voteRepository;
 
 
         public PreviewModel(IPostRepository postRepository, IKBridgeRepository repository,
-            IUserRepository userRepository, ITopicRepository topicRepository,
+            IUserRepository userRepository, ITopicRepository topicRepository, IVoteRepository voteRepository,
             INotificationRepository notificationRepository)
         {
             _postRepository = postRepository;
@@ -24,9 +25,9 @@ namespace K_Bridge.Pages.Admin.Forums.Topics.Posts
             _userRepository = userRepository;
             _topicRepository = topicRepository;
             _notificationRepository = notificationRepository;
+            _voteRepository = voteRepository;
         }
-
-
+        
         public Post Post { get; set; }
         public int TotalPost { get; set; } = 0;
         public int DayJoined { get; set; }
@@ -34,8 +35,14 @@ namespace K_Bridge.Pages.Admin.Forums.Topics.Posts
         public int TopicID { get; set; }
         public string TopicName { get; set; }
         public int ForumID { get; set; }
-
         public string ForumName { get; set; }
+
+
+        public bool IsVote { get; set; }
+        public Vote Vote { get; set; }
+        public int[] VoteCountArr { get; set; }
+        public List<VoteOption> VoteOptionsList { get; set; }
+
         public void OnGet(int id, int userId)
         {
             var postDetails = _postRepository.GetPostByID(id);
@@ -60,6 +67,19 @@ namespace K_Bridge.Pages.Admin.Forums.Topics.Posts
             TopicName = postDetails.Topic.Name ?? "Diễn đàn";
             ForumID = postDetails.Topic.ForumID;
             ForumName = postDetails.Topic.Forum.Name;
+
+            if (Post.IsVote)
+            {
+                var voteDetails = _voteRepository.GetVoteById(Post.VoteID);
+                IsVote = true;
+                Vote = voteDetails;
+                VoteCountArr = voteDetails.VoteOptions.Select(o => o.Quantity).ToArray();
+                VoteOptionsList = voteDetails.VoteOptions.ToList();
+            }
+            else
+            {
+                IsVote = false;
+            }
         }
 
         public IActionResult OnPost(int id, string status)

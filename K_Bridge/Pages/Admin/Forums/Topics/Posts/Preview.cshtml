@@ -57,7 +57,7 @@
                     </div>
                     <div class="col-lg-11">
                         <div>
-                            @if (isVoteAvaiable)
+                            @if (Model.IsVote)
                             {
                                 <div class="my-3">
                                     <div class="d-flex justify-content-between my-2">
@@ -65,19 +65,20 @@
                                             <div class="mx-2 align-content-center">
                                                 <img src="~/img/chart.png" width="20" height="20" alt="Chart Icon" />
                                             </div>
-                                            <h4 style="color: #8E6745;">Câu hỏi bình chọn?</h4>
+                                            <h4 style="color: #8E6745;">@Model.Vote.Question</h4>
                                         </div>
                                     </div>
 
                                     <div id="pollForm">
-                                        @for (int i = 1; i < 4; i++)
+                                        @for (int i = 0; i < Model.VoteOptionsList.Count; i++)
                                         {
-                                            @if (MaxChoice == "single")
+                                            var option = Model.VoteOptionsList[i];
+                                            @if (!Model.Vote.IsUnlimited)
                                             {
                                                 <div class="custom-radio-group d-flex flex-column mb-2">
                                                     <label class="custom-radio rounded-3">
-                                                        <input type="radio" name="maxChoice" value="@i">
-                                                        <span class="radio-text">Lựa chọn @i</span>
+                                                        <input type="radio" name="voteOption" value="@option.ID" disabled>
+                                                        <span class="radio-text">@option.Title</span>
                                                     </label>
                                                 </div>
                                             }
@@ -85,8 +86,8 @@
                                             {
                                                 <div class="custom-radio-group d-flex flex-column mb-2">
                                                     <label class="custom-radio rounded-3">
-                                                        <input type="checkbox" name="maxChoice" value="@i">
-                                                        <span class="radio-text">Lựa chọn @i</span>
+                                                        <input type="checkbox" name="voteOptions" value="@option.ID" disabled>
+                                                        <span class="radio-text">@option.Title</span>
                                                     </label>
                                                 </div>
                                             }
@@ -95,31 +96,57 @@
 
                                     <div id="pollResults" style="display: none;">
                                         @{
-                                            var fakeVotes = new[] { 50, 30, 20 };
-                                            int maxVotes = fakeVotes.Max();
-                                            int totalVotes = fakeVotes.Sum();
+                                            int maxVotes = Model.VoteCountArr.Max();
+                                            int totalVotes = Model.VoteCountArr.Sum();
                                         }
-                                        @for (int i = 0; i < 3; i++)
+                                        @for (int i = 0; i < Model.VoteOptionsList.Count; i++)
                                         {
-                                            int votes = fakeVotes[i];
+                                            int votes = Model.VoteCountArr[i];
                                             int percentageOfTotal = totalVotes > 0 ? (votes * 100) / totalVotes : 0;
                                             int percentageOfMax = maxVotes > 0 ? (votes * 100) / maxVotes : 0;
                                             int displayWidth = Math.Max(30, percentageOfMax);
                                             <div class="poll-result">
                                                 <div class="poll-bar" data-width="@displayWidth">
-                                                    <span class="poll-option">Lựa chọn @(i + 1)</span>
+                                                    <span class="poll-option">@Model.VoteOptionsList[i].Title</span>
                                                     <span class="poll-percentage">@(percentageOfTotal)% (@votes votes)</span>
                                                 </div>
                                             </div>
                                         }
                                     </div>
-
+                                    @{
+                                        string closeAfterText = "Bình chọn sẽ đóng sau: ";
+                                        switch (Model.Vote.CloseAfter)
+                                        {
+                                            case "day":
+                                                closeAfterText += "<small class=\"fw-bold text-color-logo\">1 ngày</small>";
+                                                break;
+                                            case "hour":
+                                                closeAfterText += "<small class=\"fw-bold text-color-logo\">1 giờ</small>";
+                                                break;
+                                            case "week":
+                                                closeAfterText += "<small class=\"fw-bold text-color-logo\">1 tuần</small>";
+                                                break;
+                                            case "month":
+                                                closeAfterText += "<small class=\"fw-bold text-color-logo\">1 tháng</small>";
+                                                break;
+                                            default:
+                                                closeAfterText = "";
+                                                break;
+                                        }
+                                    }
+                                    @if (!string.IsNullOrEmpty(closeAfterText))
+                                    {
+                                        <div class="mt-2">
+                                            <small class="fs-12 text-color-header">@Html.Raw(closeAfterText)</small>
+                                        </div>
+                                    }
+@* 
                                     @if (CloseAfter == "day")
                                     {
                                         <div class="mt-2">
                                             <small class="fs-12 text-color-header">Bình chọn sẽ đóng sau: <small class="fw-bold text-color-logo"> 1 ngày</small> </small>
                                         </div>
-                                    }
+                                    } *@
                                 </div>
                             }
 
