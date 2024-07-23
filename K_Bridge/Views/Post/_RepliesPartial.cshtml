@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<K_Bridge.Models.ViewModels.ReplyViewModel>
 @{
-    var currentUserID = ViewBag.CurrentUser.ID;
 }
 @foreach (var reply in Model)
 {
@@ -25,7 +24,7 @@
         </div>
         <div class="col-lg-11">
             <div class="d-flex justify-content-end">
-                @if (reply.Reply.UserID == currentUserID)
+                @if (ViewBag.CurrentUser.ID != null && reply.Reply.UserID == ViewBag.CurrentUser.ID)
                 {
                     <button class="p-2 btn-point rounded-2" onclick="showDeleteCommentModal(@reply.Reply.ID)">
                         <img src="~/img/icon_trash_50.png" height="20" width="20" alt="thr point" />

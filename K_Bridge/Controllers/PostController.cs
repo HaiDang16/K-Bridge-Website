@@ -625,5 +625,129 @@ namespace K_Bridge.Controllers
             _postRepository.RemoveReply(reply);
             return Json(new { success = true });
         }
+
+        [HttpGet("Edit")]
+        public IActionResult Edit(int id)
+        {
+            User? user = HttpContext.Session.GetJson<User>("user");
+
+            if (user == null)
+                ViewBag.Username = "người dùng";
+            else
+                ViewBag.Username = user.Username;
+
+            var post = _postRepository.GetPostByID(id);
+
+            ViewBag.TopicID = post.TopicID;
+            ViewBag.Post = post;
+            ViewBag.Options = post.Vote?.VoteOptions.Select(vo => vo.Title).ToList();
+            return View();
+        }
+
+        [HttpPost("Edit")]
+        public IActionResult Edit(EditPostViewModel model, int topicID, int postID)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var post = _postRepository.GetPostByID(postID);
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            // Update post properties
+            post.Title = model.Title;
+            if (!string.IsNullOrWhiteSpace(model.Content))
+            {
+                post.Content = model.Content;
+            }
+            if (!string.IsNullOrWhiteSpace(model.ImageLink))
+            {
+                post.ImageLink = model.ImageLink;
+            }
+
+            // Update vote information
+            if (post.IsVote)
+            {
+                var vote = post.Vote ?? new Vote
+                {
+                    PostID = post.ID
+                };
+
+                vote.Question = model.Question;
+                vote.IsUnlimited = model.IsUnlimited;
+                vote.CloseAfter = model.CloseAfter;
+
+                // Update vote options
+                var existingOptions = _voteRepository.GetVoteOptionsByVoteId(vote.ID);
+                var newOptions = model.Options.Where(o => !string.IsNullOrWhiteSpace(o)).ToList();
+
+                foreach (var option in existingOptions)
+                {
+                    if (!newOptions.Contains(option.Title))
+                    {
+                        _voteRepository.RemoveVoteOption(option);
+                    }
+                    else
+                    {
+                        newOptions.Remove(option.Title);
+                    }
+                }
+
+                foreach (var newOption in newOptions)
+                {
+                    var voteOption = new VoteOption
+                    {
+                        Title = newOption,
+                        VoteID = vote.ID
+                    };
+                    _voteRepository.SaveVoteOption(voteOption);
+                }
+
+                // Ensure vote entity is tracked
+                if (post.Vote == null)
+                {
+                    _voteRepository.SaveVote(vote);
+                }
+                else
+                {
+                    _voteRepository.UpdateVote(vote);
+                }
+            }
+            else if (post.Vote != null)
+            {
+                _voteRepository.RemoveVote(post.Vote);
+            }
+            else if (!string.IsNullOrEmpty(model.Question))
+            {
+                model.Options = model.Options.Where(o => !string.IsNullOrWhiteSpace(o)).ToList();
+
+                var vote = new Vote
+                {
+                    Question = model.Question,
+                    OptionCount = model.Options.Count(),
+                    IsUnlimited = model.IsUnlimited,
+                    CloseAfter = model.CloseAfter,
+                    PostID = post.ID,
+                    Status = "Open",
+                    VoteOptions = model.Options.Select(o => new VoteOption
+                    {
+                        Title = o,
+                        Quantity = 0
+                    }).ToList()
+                };
+
+                _voteRepository.SaveVote(vote);
+
+                post.IsVote = true;
+                post.VoteID = vote.ID;
+            }
+            _postRepository.UpdatePost(post);
+            return RedirectToAction("Details", new {post = postID}); 
+        }
+
     }
 }

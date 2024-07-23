@@ -1,8 +1,8 @@
-﻿ @model PostViewModel
+﻿@model PostViewModel
 @{
-    ViewData["Title"] = "Đăng bài viết";
+    ViewData["Title"] = "Chỉnh sửa bài viết";
     <link href="/css/Post.css" rel="stylesheet" />
-
+    var post = ViewBag.Post;
 }
 <div class="row post-welcome-container p-3 flex align-items-center m-0">
     <div class="col-1 m-0 p-1">
@@ -16,12 +16,12 @@
         <div>Tích cực đăng bài là điều cần thiết để gia tăng lượt thích và uy tín của bản thân!!</div>
     </div>
 </div>
-<div class="post-new-post-text my-3">ĐĂNG BÀI VIẾT MỚI</div>
-<form asp-action="Create" method="post">
+<div class="post-new-post-text my-3">CHỈNH SỬA BÀI VIẾT</div>
+<form asp-action="Edit" method="post">
     <div class="post-container p-3">
         <div class="post-title-text">Tiêu đề:</div>
         <input class="post-title-input h-100 w-100 p-2 my-3"
-               asp-for="Title"
+               asp-for="Title" value="@post.Title"
                placeholder="Hãy cụ thể và tưởng tượng bạn đang đặt câu hỏi cho người khác"></input>
         <div class="post-title-text my-3">Nội dung:</div>
         <div class="post-content-input-container mt-2">
@@ -50,7 +50,9 @@
             </div>
             <div class="border-top ">
                 <div id="editor" class="post-content-textarea w-100 p-2" style="min-height: 100px; width: calc(100% - 1rem); resize: vertical;"
-                     contenteditable="true"></div>
+                     contenteditable="true">
+                    @Html.Raw(post.Content)
+                </div>
                 <input type="hidden" id="content-area" asp-for="Content">
 
             </div>
@@ -59,10 +61,19 @@
             </div>
         </div>
         <input type="hidden" name="topicID" value="@ViewBag.TopicID" />
+        <input type="hidden" name="postID" value="@post.ID" />
+
 
         <div class="py-2 mt-2 d-flex justify-content-between flex-column">
             <button type="button" id="togglePollBtn" class="flex-grow-0 w-100 px-3 py-1 d-lg-inline-flex justify-content-lg-between" style="border-bottom: 2px solid #495632">
-                <div>Tạo bình chọn</div>
+                @if (ViewBag.Options != null)
+                {
+                    <div>Thay đổi bình chọn</div>
+                }
+                else
+                {
+                    <div>Tạo bình chọn</div>
+                }
                 <img src="/img/arrow_down.png" alt="arrow_down" id="pollArrow" />
             </button>
 
@@ -70,70 +81,149 @@
                 <!-- Nội dung bình chọn ở đây -->
                 <div class="text-color-header d-flex flex-column m-2">
                     <div class="my-2">Câu hỏi</div>
-                    <input type="text" name="Question" asp-for="Question"
-                           placeholder="Nhập câu hỏi" class="w-100 px-3 py-1 rounded-3"
-                           style="background-color: #FFE8DA; border: 1px solid #FFFFFF" />
+                    @if (ViewBag.Options != null)
+                    {
+                        <input type="text" name="Question" asp-for="Question"
+                               placeholder="Nhập câu hỏi" class="w-100 px-3 py-1 rounded-3"
+                               value="@post.Vote.Question"
+                               style="background-color: #FFE8DA; border: 1px solid #FFFFFF" />
+                    }
+                    else
+                    {
+                        <input type="text" name="Question" asp-for="Question"
+                               placeholder="Nhập câu hỏi" class="w-100 px-3 py-1 rounded-3"
+                               style="background-color: #FFE8DA; border: 1px solid #FFFFFF" />
+
+                    }
+
                 </div>
                 <div class="text-color-header d-flex flex-column m-2">
                     <div class="my-2">Các đáp án bình chọn</div>
                     <div id="optionsContainer" class="d-grid gap-1">
-                        <input type="text" name="Options" placeholder="Lựa chọn 1..." class="option-input w-100 px-3 py-1 rounded-3" style="background-color: #FFE8DA; border: 1px solid #FFFFFF" />
-                        <input type="text" name="Options" placeholder="Lựa chọn 2..." class="option-input w-100 px-3 py-1 rounded-3" style="background-color: #FFE8DA; border: 1px solid #FFFFFF" />
+                        @{
+                            var options = ViewBag.Options as IEnumerable<string>;
+                            if (options != null)
+                            {
+                                int index = 1;
+                                foreach (var option in options)
+                                {
+                                    <input type="text" name="Options" placeholder="Lựa chọn @index..."
+                                           class="option-input w-100 px-3 py-1 rounded-3"
+                                           style="background-color: #FFE8DA; border: 1px solid #FFFFFF"
+                                           value="@option" />
+                                    index++;
+                                }
+                                <input type="text" name="Options" placeholder="Lựa chọn @index..."
+                                       class="option-input w-100 px-3 py-1 rounded-3"
+                                       style="background-color: #FFE8DA; border: 1px solid #FFFFFF" />
+                            }
+                            else
+                            {
+                                <input type="text" name="Options" placeholder="Lựa chọn 1..." class="option-input w-100 px-3 py-1 rounded-3" style="background-color: #FFE8DA; border: 1px solid #FFFFFF" />
+                                <input type="text" name="Options" placeholder="Lựa chọn 2..." class="option-input w-100 px-3 py-1 rounded-3" style="background-color: #FFE8DA; border: 1px solid #FFFFFF" />
+                            }
+                        }
                     </div>
                 </div>
+                @if (ViewBag.Options != null)
+                {
 
-                <div class="text-color-header d-flex flex-column m-2">
-                    <div class="my-2">Lựa chọn tối đa</div>
-                    <div class="custom-radio-group d-flex flex-column">
-                        <label class="custom-radio rounded-3">
-                            <input type="radio" name="IsUnlimited" value="false" asp-for="IsUnlimited" checked>
-                            <span class="radio-text">Lựa chọn duy nhất</span>
-                        </label>
-                        <label class="custom-radio rounded-3">
-                            <input type="radio" name="IsUnlimited" value="true" asp-for="IsUnlimited">
-                            <span class="radio-text">Không giới hạn</span>
-                        </label>
+                    <div class="text-color-header d-flex flex-column m-2">
+                        <div class="my-2">Lựa chọn tối đa</div>
+                        <div class="custom-radio-group d-flex flex-column">
+                            <label class="custom-radio rounded-3" data-selected="@post.Vote.IsUnlimited.ToString().ToLower()">
+                                <input type="radio" name="IsUnlimited" value="false" asp-for="IsUnlimited" checked>
+                                <span class="radio-text">Lựa chọn duy nhất</span>
+                            </label>
+                            <label class="custom-radio rounded-3" data-selected="@post.Vote.IsUnlimited.ToString().ToLower()">
+                                <input type="radio" name="IsUnlimited" value="true" asp-for="IsUnlimited">
+                                <span class="radio-text">Không giới hạn</span>
+                            </label>
+                        </div>
                     </div>
-                </div>
-                <div class="text-color-header d-flex flex-column m-2">
-                    <div class="my-2">Tuỳ chọn</div>
-                    <div class="d-grid gap-1">
-                        @*
+                    <div class="text-color-header d-flex flex-column m-2">
+                        <div class="my-2">Tuỳ chọn</div>
+                        <div class="d-grid gap-1">
+                            @*
                         <div class="w-100 px-3 py-1 rounded-3" style="background-color: #FFE8DA; border: 1px solid #FFFFFF">
                         Cho phép thành viên thay đổi phiếu bầu
                         </div> *@
 
-                        <div class="text-color-header d-flex flex-column m-2">
-                            <div class="my-2">Đóng bình chọn sau</div>
-                            <div class="custom-radio-group justify-content-between d-flex text-center">
-                                <label class="custom-radio w-20 ">
-                                    <input type="radio" name="closeAfter" value="hour" asp-for="CloseAfter" checked>
-                                    <span class="radio-text">1 giờ</span>
-                                </label>
-                                <label class="custom-radio w-20">
-                                    <input type="radio" name="closeAfter" value="day" asp-for="CloseAfter">
-                                    <span class="radio-text">1 ngày</span>
-                                </label>
-                                <label class="custom-radio w-20">
-                                    <input type="radio" name="closeAfter" value="week" asp-for="CloseAfter">
-                                    <span class="radio-text">1 tuần</span>
-                                </label>
-                                <label class="custom-radio w-20">
-                                    <input type="radio" name="closeAfter" value="month" asp-for="CloseAfter">
-                                    <span class="radio-text">1 tháng</span>
-                                </label>
+                            <div class="text-color-header d-flex flex-column m-2">
+                                <div class="my-2">Đóng bình chọn sau</div>
+                                <div class="custom-radio-group justify-content-between d-flex text-center">
+                                    <label class="custom-radio w-20 " data-close-after="hour">
+                                        <input type="radio" name="closeAfter" value="hour" asp-for="CloseAfter" checked>
+                                        <span class="radio-text">1 giờ</span>
+                                    </label>
+                                    <label class="custom-radio w-20" data-close-after="day">
+                                        <input type="radio" name="closeAfter" value="day" asp-for="CloseAfter">
+                                        <span class="radio-text">1 ngày</span>
+                                    </label>
+                                    <label class="custom-radio w-20" data-close-after="week">
+                                        <input type="radio" name="closeAfter" value="week" asp-for="CloseAfter">
+                                        <span class="radio-text">1 tuần</span>
+                                    </label>
+                                    <label class="custom-radio w-20" ata-close-after="month">
+                                        <input type="radio" name="closeAfter" value="month" asp-for="CloseAfter">
+                                        <span class="radio-text">1 tháng</span>
+                                    </label>
+                                </div>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
-                </div>
+                }
+                else
+                {
+                    <div class="text-color-header d-flex flex-column m-2">
+                        <div class="my-2">Lựa chọn tối đa</div>
+                        <div class="custom-radio-group d-flex flex-column">
+                            <label class="custom-radio rounded-3">
+                                <input type="radio" name="IsUnlimited" value="false" asp-for="IsUnlimited" checked>
+                                <span class="radio-text">Lựa chọn duy nhất</span>
+                            </label>
+                            <label class="custom-radio rounded-3">
+                                <input type="radio" name="IsUnlimited" value="true" asp-for="IsUnlimited">
+                                <span class="radio-text">Không giới hạn</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="text-color-header d-flex flex-column m-2">
+                        <div class="my-2">Tuỳ chọn</div>
+                        <div class="d-grid gap-1">
+                            <div class="text-color-header d-flex flex-column m-2">
+                                <div class="my-2">Đóng bình chọn sau</div>
+                                <div class="custom-radio-group justify-content-between d-flex text-center">
+                                    <label class="custom-radio w-20 ">
+                                        <input type="radio" name="closeAfter" value="hour" asp-for="CloseAfter" checked>
+                                        <span class="radio-text">1 giờ</span>
+                                    </label>
+                                    <label class="custom-radio w-20">
+                                        <input type="radio" name="closeAfter" value="day" asp-for="CloseAfter">
+                                        <span class="radio-text">1 ngày</span>
+                                    </label>
+                                    <label class="custom-radio w-20">
+                                        <input type="radio" name="closeAfter" value="week" asp-for="CloseAfter">
+                                        <span class="radio-text">1 tuần</span>
+                                    </label>
+                                    <label class="custom-radio w-20">
+                                        <input type="radio" name="closeAfter" value="month" asp-for="CloseAfter">
+                                        <span class="radio-text">1 tháng</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                }
             </div>
 
         </div>
 
 
         <div class="w-100 flex justify-content-end">
-            <button class="post-button p-2" type="submit">Đăng bài viết của bạn<button />
+            <button type="submit" class="post-button p-2" id="submitPostBtn">Chỉnh sửa bài viểt</button>
         </div>
     </div>
 </form>
@@ -248,6 +338,7 @@
         });
     });
 </script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const optionsContainer = document.getElementById('optionsContainer');
@@ -302,7 +393,31 @@
         initialInputs.forEach(input => {
             input.addEventListener('input', handleInputChange);
         });
+
+     
     });
 
-</script>
+    // Initalize IsUnlimited and CloseAfter select
+    if ('@ViewBag.Options' !== null && '@ViewBag.Options' !== undefined) {
+        const isUnlimited = '@ViewBag.Post?.Vote?.IsUnlimited'.toLowerCase();
+        const closeAfter = '@ViewBag.Post?.Vote?.CloseAfter';
 
+        // Set IsUnlimited radio buttons
+        document.querySelectorAll('label[data-selected]').forEach(label => {
+            const value = label.querySelector('input').value;
+            if (value === isUnlimited) {
+                label.classList.add('selected');
+                label.querySelector('input').checked = true;
+            }
+        });
+
+        // Set closeAfter radio buttons
+        document.querySelectorAll('label[data-close-after]').forEach(label => {
+            const value = label.getAttribute('data-close-after');
+            if (value === closeAfter) {
+                label.classList.add('selected');
+                label.querySelector('input').checked = true;
+            }
+        });
+    }
+</script>

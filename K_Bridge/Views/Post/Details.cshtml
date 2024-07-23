@@ -4,11 +4,8 @@
     bool isCmtAvaiable = true;
     bool isVoteAvaiable = ViewBag.IsVote;
     var voteDetail = ViewBag.Vote;
-    string MaxChoice = "single";
     string CloseAfter = "day";
     bool showResults = false;
-    var currentUserId = "Test1"; // Lấy ID của người dùng hiện tại
-    var postAuthorId = "Test1"; // ID của tác giả bài viết, giả sử bạn truyền thông tin này từ model
     var voteOptionsList = ViewBag.VoteOptionsList;
     var userVotes = ViewBag.UserVotes as List<UserVote>;
 }
@@ -32,6 +29,8 @@
         <div class="col-lg-1 flex-column">
             <partial name="_LikeDislikePartial" model="new Post_Like { PostID = ViewBag.Post.ID, Post = ViewBag.Post }" />
         </div>
+
+
         <div class="col-lg-11">
             @if (isVoteAvaiable)
             {
@@ -44,13 +43,8 @@
                             <h4 class="text-color-header">@voteDetail.Question</h4>
                         </div>
 
-                        @*                         @if (currentUserId == postAuthorId)
-                    {
-                    <button class="align-content-center">
-                    <img src="~/img/icon_edit_50.png" width="20" height="20" alt="EditPost" />
-                    </button>
-                    }
-                    *@
+
+
                     </div>
                     <form id="voteForm" method="post" asp-action="SubmitVote">
                         <input type="hidden" name="postId" value="@ViewBag.Post.ID" />
@@ -145,7 +139,7 @@
                     } *@
                         <div class="d-flex justify-content-end align-items-center">
                             <button type="submit" id="voteButton"
-                                class="px-3 py-1 border-main-color-layout btn-account-log rounded-3 mx-2 align-items-center d-flex text-color-header">
+                                    class="px-3 py-1 border-main-color-layout btn-account-log rounded-3 mx-2 align-items-center d-flex text-color-header">
                                 <img class="align-content-center me-2" src="~/img/vote.png" width="18" height="18" alt="Vote Image" />
                                 Bình chọn
                             </button>
@@ -176,6 +170,13 @@
             <div class="d-flex justify-content-end mt-2">
                 <img src="~/img/avatar_default.png" class="rounded-circle" alt="Avatar" width="30" height="30">
                 <div class="newest-card-username mx-2">@ViewBag.Post.User.Username hỏi @GetTimeAgoHelper.GetTimeAgo(@ViewBag.Post.CreatedAt)</div>
+                @if (ViewBag.CurrentUser != null && ViewBag.Post != null && ViewBag.CurrentUser.ID != null && ViewBag.Post.UserID == ViewBag.CurrentUser.ID)
+                {
+                    <button class="align-content-center" onclick="window.location.href='/Post/Edit?id=@ViewBag.Post.ID'">
+                        <img src="~/img/icon_edit_50.png" width="20" height="20" alt="EditPost" />
+                    </button>
+                }
+
             </div>
             @if (isCmtAvaiable)
             {
@@ -462,5 +463,5 @@
             toggleResults();
             localStorage.removeItem('showResults'); // Xóa trạng thái sau khi đã xử lý
         }
-    });  
+    });
 </script>
