@@ -7,14 +7,14 @@
     <div class="col-6  fw-bold fs-4 text-uppercase">
         @ViewBag.TopicName
     </div>
-    <button class="col-3 filter-forum d-flex justify-content-center align-items-center mx-2">
+    <button id="filterButton" class="col-3 filter-forum d-flex justify-content-center align-items-center mx-2">
         <div class="px-2">
             Bộ lọc
         </div>
         <img src="/img/icon_filter_sort_50.png" alt="Filter" width="20" height="20">
     </button>
 </div>
-<div class="p-2 mb-5 bg-main-color-background rounded-3 border-color-layout">
+<div id="filterFrame" class="p-2 bg-main-color-background rounded-3 border-color-layout">
     <div class="d-flex justify-content-between mb-3 p-2 px-4">
         <div class="flex-column">
             <p class="fw-bold text-color-header fs-6">Lọc bài viết</p>
@@ -76,7 +76,7 @@
     </div>
     <div class="d-flex justify-content-between mt-3 text-color-header">
         <div>
-            <button class="btn">Huỷ</button>
+            <button id="filterButtonClose" class="btn">Huỷ</button>
         </div>
         <div>
             <button class="btn btn-edit-profile">Lưu bộ lọc</button>
@@ -87,7 +87,7 @@
 
 @foreach (var post in ViewBag.Posts)
 {
-    <div class="row" onclick="window.location.href='/Post/Details?post=@post.ID'">
+    <div class="row mt-2" onclick="window.location.href='/Post/Details?post=@post.ID'">
         <div class="col-2 d-flex flex-column justify-content-center">
             <div class="newest-card-stat py-2">@(post.Replies?.Count ?? 0) Câu trả lời</div>
             <div class="newest-card-stat py-2">@post.ViewCount Lượt xem</div>
@@ -107,10 +107,26 @@
                 </div>
             </div>
             <div class="d-flex justify-content-end mt-2">
-                <img src="/img/user.jpg" class="rounded-circle" alt="Avatar" width="30" height="30">
+                <img src="/img/avatar_default.png" class="rounded-circle" alt="Avatar" width="30" height="30">
                 <div class="newest-card-username mx-2">@post.User.Username hỏi @GetTimeAgoHelper.GetTimeAgo(post.CreatedAt)</div>
             </div>
         </div>
         <hr class="mt-2">
     </div>
 }
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const filterButton = document.getElementById('filterButton');
+        const filterFrame = document.getElementById('filterFrame');
+        const filterButtonClose = document.getElementById('filterButtonClose');
+
+        filterButton.addEventListener('click', function () {
+            this.classList.toggle('active');
+            filterFrame.classList.toggle('active');
+        });
+        filterButtonClose.addEventListener('click', function () {
+            this.classList.toggle('active');
+            filterFrame.classList.toggle('active');
+        });
+    });
+</script>

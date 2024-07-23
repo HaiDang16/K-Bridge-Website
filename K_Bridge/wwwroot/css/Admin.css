@@ -516,6 +516,7 @@ html, body {
     border: none; /* Xóa border nếu có */
 }
 
+
 #notificationListAdmin {
     position: absolute;
     right: 20px;
@@ -527,25 +528,29 @@ html, body {
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
-.notification-itemAdmin {
+.notification-item {
     padding: 10px;
     border-bottom: 1px solid #eee;
 }
 
-    .notification-itemAdmin:hover {
+    .notification-item:hover {
         background-color: #f8f9fa;
     }
 
-.notification-contentAdmin {
+.notification-content {
     font-size: 0.9rem;
     line-height: 1.2;
 }
 
-.notification-messageAdmin {
+.notification-message {
     margin-bottom: 4px;
 }
 
-.notification-timeAdmin {
+.notification-time {
     font-size: 0.75rem;
     color: #6c757d;
+}
+
+.border-main-color-layout {
+    border: 2px solid #FFBE98;
 }

@@ -71,7 +71,7 @@
                 <div class="col-7"> </div>
                 <div class="col-1 d-flex p-0">
                     <div class="position-relative" style="margin-right: 20px;">
-                        <button class="p-2 bg-main-color-logo border-main-color-layout rounded-3" id="notificationButtonAdmin">
+                        <button class="p-2 border-main-color-layout rounded-3" id="notificationButtonAdmin" style="background-color: #493422;">
                             <img src="~/img/notification50.png" class="img-fluid" alt="Notifications" width="25" height="25">
                         </button>
                         <div class="position-absolute fs-12 translate-middle badge rounded-circle bg-danger" id="notificationCountAdmin" style="left:40px;">
@@ -109,8 +109,7 @@
 </body>
 </html>
 
-
-            <script>
+<script>
     document.addEventListener('DOMContentLoaded', function () {
         var notificationCount = 3;
         var notificationCountElement = document.getElementById('notificationCountAdmin');
@@ -123,9 +122,8 @@
             notificationCountElement.style.display = 'inline-block';
 
             var notifications = [
-                { id: 1, message: 'John đã bình luận vào bài viết của bạn.', time: '2 phút trước' },
-                { id: 2, message: 'Bài viết của bạn đã bị từ chối. Kiểm tra kỹ các thông tin liên quan để bài viết hợp lệ!!', time: '5 phút trước' },
-                { id: 3, message: 'Thay đổi mật khẩu thành công. Vui lòng kiểm tra email để xác nhận.', time: '10 phút trước' }
+                { id: 1, message: '12 bài viết mới đang chờ phê duyệt.', time: '2 phút trước' },
+                { id: 2, message: 'Đã có 13 người dùng mới đến diễn đàn K-Bridge', time: '5 phút trước' }
             ];
 
             notifications.forEach(function (notification) {
@@ -159,4 +157,4 @@
             }
         });
     });
-            </script>
+</script>
