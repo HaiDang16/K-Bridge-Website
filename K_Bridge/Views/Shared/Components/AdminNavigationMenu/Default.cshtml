@@ -1,11 +1,17 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var currentPath = HttpContextAccessor.HttpContext.Request.Path.Value;
+    var isDashboardActive = currentPath == "/Admin/Dashboard";
+}
+
 <ul class="nav flex-column" id="nav_accordion">
     <li class="nav-item sidebar-title">
         <h5>TRANG QUẢN TRỊ</h5>
     </li>
     <li class="nav-item mt-3">
-        <a class="nav-link nav-link-text" href="/admin/dashboard">
+        <a class="nav-link nav-link-text @(isDashboardActive ? "active" : "")" href="/Admin/Dashboard">
             <img src="~/img/icon_dashboard_50.png" class="sidebar-icon" /> Tổng quan
         </a>
     </li>
@@ -23,42 +29,28 @@
             @foreach (var forum in ViewBag.NavForum ?? Enumerable.Empty<Forum>())
             {
                 <li class="nav-item mt-1">
-                    <a class="nav-link nav-link-text" href="/Admin/Forums/@forum.ID">
+                    <a class="nav-link nav-link-text" href="/Admin/Forums/List/@forum.ID">
                         <img src="~/img/@forum.IconLink" class="sidebar-subicon" />@forum.Name
                     </a>
                 </li>
             }
-@*             <li class="nav-item mt-1">
-                <a class="nav-link nav-link-text" href="#">
-                    <img src="~/img/icon_tutorial_50.png" class="sidebar-subicon" />Hướng dẫn
-                </a>
-            </li>
-            <li class="nav-item mt-1">
-                <a class="nav-link nav-link-text" href="#">
-                    <img src="~/img/icon_report_50.png" class="sidebar-subicon" />Mẫu báo cáo
-                </a>
-            </li>
-            <li class="nav-item mt-1">
-                <a class="nav-link nav-link-text" href="#">
-                    <img src="~/img/icon_document_50.png" class="sidebar-subicon" />Tài liệu tổng hợp
-                </a>
-            </li>
-            <li class="nav-item mt-1">
-                <a class="nav-link nav-link-text" href="#">
-                    <img src="~/img/icon_video_50.png" class="sidebar-subicon" />Bài giảng trên lớp
-                </a>
-            </li>
-            <li class="nav-item mt-1">
-                <a class="nav-link nav-link-text" href="#">
-                    <img src="~/img/icon_drl_50.png" class="sidebar-subicon" />Hoạt động điểm rèn luyện
-                </a>
-            </li>
- *@        </ul>
+      </ul>
+    </li>
+  @*   <li class="nav-item mt-2">
+        <a class="nav-link nav-link-text" href="/Admin/Manager/List">
+            <img src="~/img/icon_topic_50.png" class="sidebar-icon" /> Chủ đề
+        </a>
+    </li> *@
+    <li class="nav-item mt-2">
+        <a class="nav-link nav-link-text" href="/Admin/Manager/List">
+            <img src="~/img/icon_vote_50.png" class="sidebar-icon" /> Bình chọn
+        </a>
     </li>
     @{
         var role = HttpContextAccessor.HttpContext.Session.GetString("AdminRole");
         // Debug: Hiển thị giá trị Role trên trang để kiểm tra
-    }@if (role == "Mgr")
+    }
+    @if (role == "Mgr")
     {
         <li class="nav-item mt-2">
             <a class="nav-link nav-link-text" href="/Admin/Manager/List">

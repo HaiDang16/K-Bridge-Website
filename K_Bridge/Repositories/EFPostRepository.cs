@@ -37,6 +37,8 @@ namespace K_Bridge.Repositories
                     .ThenInclude(t => t.Forum) // Include forum details of the topic
                 .Include(p => p.Replies) // Include replies of the post
                     .ThenInclude(r => r.User) // Include user details of each reply
+                     .Include(p => p.Vote)
+            .ThenInclude(v => v.VoteOptions)
                 .FirstOrDefault(p => p.ID == id);
         }
 
@@ -62,5 +64,18 @@ namespace K_Bridge.Repositories
                 .ToList();
         }
 
+        public void UpdatePost(Post post)
+        {
+            post.UpdatedAt = DateTime.Now;
+            _context.Posts.Update(post);
+            _context.SaveChanges();
+        }
+        public Post GetPostWithVoteById(int id)
+        {
+            return _context.Posts
+                .Include(p => p.Vote)
+                 .ThenInclude(v => v.VoteOptions)
+                .FirstOrDefault(p => p.ID == id);
+        }
     }
 }

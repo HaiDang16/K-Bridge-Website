@@ -1,10 +1,29 @@
-﻿.filter-forum {
+﻿#filterFrame {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, opacity 0.3s ease-out, margin-bottom 0.3s ease-out;
+    opacity: 0;
+    margin-bottom: 0;
+}
+
+    #filterFrame.active {
+        max-height: 500px; /* Điều chỉnh giá trị này tùy theo nội dung thực tế của bạn */
+        opacity: 1;
+        margin-bottom: 1rem;
+    }
+
+.filter-forum {
     border: solid 1px #FFBE98;
     color: #8E6745;
     border-radius: 5px;
     width: 17%;
     font-size: 15px;
+    transition: background-color 0.3s ease;
 }
+
+    .filter-forum.active {
+        background-color: #FFF0E6;
+    }
 
 .newest-card-stat {
     color: #493422;
@@ -101,3 +120,237 @@
     .lidi i.down.set {
         background: #dd3d3d;
     }
+
+
+.custom-radio-group {
+    width: 100%;
+    gap: 10px;
+}
+
+.custom-radio {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+
+    .custom-radio input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+.radio-text {
+    width: 100%;
+    display: inline-block;
+    padding: 5px 16px;
+    background-color: #FFE8DA;
+    border: 1px solid #FFFFFF;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.custom-radio input:checked + .radio-text {
+    background-color: #8E6745;
+    color: #FFF0E6;
+}
+
+.custom-radio input:not(:checked) + .radio-text {
+    background-color: #FFE8DA;
+    color: #8E6745;
+}
+
+.custom-select-wrapper {
+    position: relative;
+    user-select: none;
+    width: 100%;
+}
+
+.custom-select {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #8E6745;
+    border-radius: 0.25rem;
+}
+
+.custom-select__trigger {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #493422;
+    background: #FFF0E6;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.custom-options {
+    position: absolute;
+    display: block;
+    top: 100%;
+    left: 0;
+    right: 0;
+    border: 2px solid #8E6745;
+    border-top: 0;
+    background: #fff;
+    transition: all 0.5s;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.custom-select.open .custom-options {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+}
+
+.custom-option {
+    position: relative;
+    display: block;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 400;
+    color: #493422;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+    .custom-option:hover {
+        cursor: pointer;
+        background-color: #f5f5f5;
+    }
+
+    .custom-option.selected {
+        color: #493422;
+        background-color: #FFF0E6;
+    }
+
+    .custom-option.approved {
+        color: #FFF0E6;
+        background-color: #00D462;
+    }
+
+    .custom-option.rejected {
+        color: #FFF0E6;
+        background-color: #FF4141;
+    }
+
+.custom-select-wrapper {
+    position: relative;
+    user-select: none;
+    width: 100%;
+}
+
+.custom-select {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #8E6745;
+    border-radius: 0.25rem;
+}
+
+.custom-select__trigger {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #493422;
+    background: #FFF0E6;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.custom-options {
+    position: absolute;
+    display: block;
+    top: 100%;
+    left: 0;
+    right: 0;
+    border: 2px solid #8E6745;
+    border-top: 0;
+    background: #fff;
+    transition: all 0.5s;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.custom-select.open .custom-options {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+}
+
+.custom-option {
+    position: relative;
+    display: block;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+    .custom-option:hover {
+        cursor: pointer;
+        filter: brightness(90%);
+    }
+
+    .custom-option.approved {
+        color: #FFF0E6;
+        background-color: #00D462;
+    }
+
+    .custom-option.rejected {
+        color: #FFF0E6;
+        background-color: #FF4141;
+    }
+
+.arrow {
+    position: relative;
+    height: 6px;
+    width: 6px;
+    margin-right: 5px;
+}
+
+    .arrow::before, .arrow::after {
+        content: "";
+        position: absolute;
+        bottom: 0px;
+        width: 0.1rem;
+        height: 100%;
+        transition: all 0.5s;
+    }
+
+    .arrow::before {
+        left: -3px;
+        transform: rotate(45deg);
+        background-color: #8E6745;
+    }
+
+    .arrow::after {
+        transform: rotate(-45deg);
+        background-color: #8E6745;
+    }
+
+.open .arrow::before {
+    left: -3px;
+    transform: rotate(-45deg);
+}
+
+.open .arrow::after {
+    transform: rotate(45deg);
+}
+
+.custom-select__trigger span {
+    padding-right: 10px;
+}

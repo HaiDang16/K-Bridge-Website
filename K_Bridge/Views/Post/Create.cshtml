@@ -59,6 +59,79 @@
             </div>
         </div>
         <input type="hidden" name="topicID" value="@ViewBag.TopicID" />
+
+        <div class="py-2 mt-2 d-flex justify-content-between flex-column">
+            <button type="button" id="togglePollBtn" class="flex-grow-0 w-100 px-3 py-1 d-lg-inline-flex justify-content-lg-between" style="border-bottom: 2px solid #495632">
+                <div>Tạo bình chọn</div>
+                <img src="/img/arrow_down.png" alt="arrow_down" id="pollArrow" />
+            </button>
+
+            <div id="pollContent">
+                <!-- Nội dung bình chọn ở đây -->
+                <div class="text-color-header d-flex flex-column m-2">
+                    <div class="my-2">Câu hỏi</div>
+                    <input type="text" name="Question" asp-for="Question"
+                           placeholder="Nhập câu hỏi" class="w-100 px-3 py-1 rounded-3"
+                           style="background-color: #FFE8DA; border: 1px solid #FFFFFF" />
+                </div>
+                <div class="text-color-header d-flex flex-column m-2">
+                    <div class="my-2">Các đáp án bình chọn</div>
+                    <div id="optionsContainer" class="d-grid gap-1">
+                        <input type="text" name="Options" placeholder="Lựa chọn 1..." class="option-input w-100 px-3 py-1 rounded-3" style="background-color: #FFE8DA; border: 1px solid #FFFFFF" />
+                        <input type="text" name="Options" placeholder="Lựa chọn 2..." class="option-input w-100 px-3 py-1 rounded-3" style="background-color: #FFE8DA; border: 1px solid #FFFFFF" />
+                    </div>
+                </div>
+
+                <div class="text-color-header d-flex flex-column m-2">
+                    <div class="my-2">Lựa chọn tối đa</div>
+                    <div class="custom-radio-group d-flex flex-column">
+                        <label class="custom-radio rounded-3">
+                            <input type="radio" name="IsUnlimited" value="false" asp-for="IsUnlimited" checked>
+                            <span class="radio-text">Lựa chọn duy nhất</span>
+                        </label>
+                        <label class="custom-radio rounded-3">
+                            <input type="radio" name="IsUnlimited" value="true" asp-for="IsUnlimited">
+                            <span class="radio-text">Không giới hạn</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="text-color-header d-flex flex-column m-2">
+                    <div class="my-2">Tuỳ chọn</div>
+                    <div class="d-grid gap-1">
+                        @*
+                        <div class="w-100 px-3 py-1 rounded-3" style="background-color: #FFE8DA; border: 1px solid #FFFFFF">
+                        Cho phép thành viên thay đổi phiếu bầu
+                        </div> *@
+
+                        <div class="text-color-header d-flex flex-column m-2">
+                            <div class="my-2">Đóng bình chọn sau</div>
+                            <div class="custom-radio-group justify-content-between d-flex text-center">
+                                <label class="custom-radio w-20 ">
+                                    <input type="radio" name="closeAfter" value="hour" asp-for="CloseAfter" checked>
+                                    <span class="radio-text">1 giờ</span>
+                                </label>
+                                <label class="custom-radio w-20">
+                                    <input type="radio" name="closeAfter" value="day" asp-for="CloseAfter">
+                                    <span class="radio-text">1 ngày</span>
+                                </label>
+                                <label class="custom-radio w-20">
+                                    <input type="radio" name="closeAfter" value="week" asp-for="CloseAfter">
+                                    <span class="radio-text">1 tuần</span>
+                                </label>
+                                <label class="custom-radio w-20">
+                                    <input type="radio" name="closeAfter" value="month" asp-for="CloseAfter">
+                                    <span class="radio-text">1 tháng</span>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
         <div class="w-100 flex justify-content-end">
             <button class="post-button p-2" type="submit">Đăng bài viết của bạn<button />
         </div>
@@ -143,9 +216,93 @@
 
         // Xử lý form submit
         document.querySelector('form').addEventListener('submit', function (e) {
+            e.preventDefault(); // Ngăn form submit ngay lập tức
+
             hiddenInput.value = editor.innerHTML;
+
+
+            const inputs = optionsContainer.querySelectorAll('.option-input');
+            inputs.forEach(input => {
+                if (input.value.trim() === '') {
+                    input.remove();
+                }
+            });
+
+            this.submit();
+
         });
     });
 
 
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const togglePollBtn = document.getElementById('togglePollBtn');
+        const pollContent = document.getElementById('pollContent');
+        const pollArrow = document.getElementById('pollArrow');
+
+        togglePollBtn.addEventListener('click', function () {
+            pollContent.classList.toggle('show');
+            pollArrow.classList.toggle('rotate');
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const optionsContainer = document.getElementById('optionsContainer');
+        let optionCount = 2; // Bắt đầu với 2 lựa chọn
+
+        function addNewOption() {
+            optionCount++;
+            const newInput = document.createElement('input');
+            newInput.type = 'text';
+            newInput.name = 'Options';
+            newInput.placeholder = `Lựa chọn ${optionCount}...`;
+            newInput.className = 'option-input w-100 px-3 py-1 rounded-3';
+            newInput.style.backgroundColor = '#FFE8DA';
+            newInput.style.border = '1px solid #FFFFFF';
+            optionsContainer.appendChild(newInput);
+
+            newInput.addEventListener('input', handleInputChange);
+            handleInputChange();
+        }
+
+        function handleInputChange() {
+            const inputs = optionsContainer.querySelectorAll('.option-input');
+            const filledInputs = Array.from(inputs).filter(input => input.value.trim() !== '');
+
+            if (inputs.length > 2) {
+                if (filledInputs.length === inputs.length && this === inputs[inputs.length - 1]) {
+                    addNewOption();
+                } else if (filledInputs.length < inputs.length - 1) {
+                    while (filledInputs.length < inputs.length - 1 && inputs.length > 2) {
+                        optionsContainer.removeChild(inputs[inputs.length - 1]);
+                        optionCount--;
+                    }
+                }
+            } else if (filledInputs.length === 2) {
+                addNewOption();
+            }
+
+
+            // Cập nhật placeholder cho tất cả input
+            updatePlaceholders();
+        }
+
+        function updatePlaceholders() {
+            const inputs = optionsContainer.querySelectorAll('.option-input');
+            inputs.forEach((input, index) => {
+                input.placeholder = `Lựa chọn ${index + 1}...`;
+            });
+        }
+
+        // Thêm event listener cho 2 input ban đầu
+        const initialInputs = optionsContainer.querySelectorAll('.option-input');
+        initialInputs.forEach(input => {
+            input.addEventListener('input', handleInputChange);
+        });
+    });
+
+</script>
+

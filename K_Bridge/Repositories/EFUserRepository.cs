@@ -61,5 +61,11 @@ namespace K_Bridge.Repositories
             _context.Users.Update(user);
             _context.SaveChanges();
         }
+        public User GetUserWithPostById(int id)
+        {
+            return _context.Users
+        .Include(u => u.Posts)
+        .FirstOrDefault(u => u.ID == id);
+        }
     }
 }

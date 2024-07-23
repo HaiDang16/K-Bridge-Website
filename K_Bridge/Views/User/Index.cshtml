@@ -10,14 +10,14 @@
     </div>
     <div class="rounded-8 bg-main-color-layout position-relative pb-2" style="min-height: 400px;">
         <div class="rounded-top bg-main-color-header" style="min-height: 100px;"></div>
-        <div class="rounded-3 position-absolute " style="top: 50px; left: 80px;">
+        <div class="rounded-3 position-absolute " style="top: 50px; left: 80px; border:10px solid #FFBE98;">
             @if (user.Avatar == null)
             {
-                <img src="~/img/user.jpg" alt="Avatar" height="100" width="100" class=" rounded-3" style="border:10px solid #FFBE98; " />
+                <img src="~/img/avatar_default.png" alt="Avatar" height="80" width="80"/>
             }
             else
             {
-                <img src="~/uploads/@user.Avatar" alt="Avatar" height="100" width="100" class=" rounded-3" style="border:10px solid #FFBE98; " />
+                <img src="~/uploads/@user.Avatar" alt="Avatar" height="80" width="80"/>
             }
         </div>
 

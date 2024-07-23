@@ -7,8 +7,6 @@ namespace K_Bridge.Models
     {
         public KBridgeDbContext(DbContextOptions<KBridgeDbContext> options)
         : base(options) { }
-        public DbSet<Category> Categories => Set<Category>();
-        public DbSet<Stats> Statses => Set<Stats>();
         public DbSet<User> Users => Set<User>();
         public DbSet<Topic> Topics => Set<Topic>();
         public DbSet<Admin_Accounts> Admin_Accounts => Set<Admin_Accounts>();
@@ -18,6 +16,9 @@ namespace K_Bridge.Models
         public DbSet<Reply> Replies => Set<Reply>();
         public DbSet<Post_Like> Post_Likes => Set<Post_Like>();
         public DbSet<Reply_Like> Reply_Likes => Set<Reply_Like>();
+        public DbSet<Vote> Votes => Set<Vote>();
+        public DbSet<VoteOption> VoteOptions => Set<VoteOption>();
+        public DbSet<UserVote> UserVotes => Set<UserVote>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -64,6 +65,27 @@ namespace K_Bridge.Models
                 .WithMany(p => p.Reply_Likes)
                 .HasForeignKey(r => r.UserID)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<VoteOption>()
+                .HasOne(r => r.Vote)
+                .WithMany(p => p.VoteOptions)
+                .HasForeignKey(r => r.VoteID);
+
+            modelBuilder.Entity<UserVote>()
+                .HasOne(uv => uv.User)
+                .WithMany(u => u.UserVotes)
+                .HasForeignKey(uv => uv.UserID);
+
+            modelBuilder.Entity<UserVote>()
+               .HasOne(uv => uv.VoteOption)
+               .WithMany(vo => vo.UserVotes)
+               .HasForeignKey(uv => uv.VoteOptionID)
+               .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Vote>()
+               .HasOne(v => v.Post)
+               .WithOne(p => p.Vote)
+               .HasForeignKey<Vote>(v => v.PostID);
 
             base.OnModelCreating(modelBuilder);
         }

@@ -14,8 +14,8 @@
         </div>
         <div class="col col-md-7 d-flex justify-content-center">
             <div class="input-group rounded-2 border border-main-color-layout px-2" style="max-width: 420px;">
-                <input type="text" class="focus flex-grow-1 bg-transparent text-color-layout text-white" 
-                placeholder="Tìm kiếm..." aria-label="Search" aria-describedby="button-addon2"
+                <input type="text" class="focus flex-grow-1 bg-transparent text-color-layout text-white"
+                       placeholder="Tìm kiếm..." aria-label="Search" aria-describedby="button-addon2"
                        id="searchInput">
                 <button class="btn btn-main-color-header" type="button" id="button-addon2">
                     <img src="/img/iconSearch.png" alt="Search Icon">
@@ -35,8 +35,22 @@
             }
             else
             {
+                <div class="position-relative" style="margin-right: 20px;">
+                    <button class="p-2 bg-main-color-logo border-main-color-layout rounded-3" id="notificationButton">
+                        <img src="~/img/notification50.png" class="img-fluid" alt="Notifications" width="25" height="25">
+                    </button>
+                    <div class="position-absolute fs-12 translate-middle badge rounded-circle bg-danger" id="notificationCount" style="left:40px;">
+                        <!-- Notification count will be dynamically inserted here -->
+                    </div>
+                    <div id="notificationList" class="dropdown-menu dropdown-menu-end p-0 " style="display: none; width: 300px; max-height: 400px; overflow-y: auto; background-color:#FDE7D2; cursor: pointer;">
+                        <div class="p-2 border-bottom">
+                            <h6 class="mb-0">Thông báo</h6>
+                        </div>
+                        <div id="notificationItems"></div>
+                    </div>
+                </div>
                 <div class="d-md-flex align-items-center mx-3 pointer-event" onclick="window.location.href='/UserProfile?id=@ViewBag.UserID'">
-                    <img src="/img/avatar_40.png" alt="avatar" class="me-2 rounded-3" style="width: 40px; height: 40px;" />
+                    <img src="/img/avatar_default.png" alt="avatar" class="me-2 rounded-3" style="width: 40px; height: 40px;" />
                     <div class=" text-color-background mb-1 fw-bold flex-grow-1 pe-none">@ViewBag.UsernameLoggedIn</div>
                 </div>
             }
@@ -66,13 +80,7 @@
 
             <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
                 <div id="liveToastSignUp" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                    <div class="toast-header bg-main-color-layout">
-                        <img src="~/img/Logo_75.png" height="20" width="20" class="rounded me-2" alt="...">
-                        <strong class="me-auto kbridge-text text-color-header spacing-2">K-Bridge</strong>
-                        <small class="text-color-header">Ngay bây giờ</small>
-                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                    </div>
-                    <div class="toast-body bg-main-color-background text-color-logo" >
+                    <div class="toast-body text-color-background fw-bold text-center rounded-bottom rounded-3" style="background-color: #493422; border: 2px solid #FFF0E6;">
                         <div id="registerValidationSummary"></div>
                     </div>
                 </div>
@@ -94,7 +102,7 @@
                         <label for="password">Mật khẩu</label>
                         <input type="password" class="form-control border-main-color-logo border  focus text-color-header rounded-3 mt-2"
                                id="password" asp-for="RegisterModel.Password" minlength="8" required
-                               placeholder="Mật khẩu phải chứa ít nhất 8 ký tự, một chữ cái và một chữ số">
+                               placeholder="Mật khẩu chứa ít nhất 8 ký tự, một chữ cái và một chữ số">
                     </div>
 
                     <div class="form-group mb-4 text-color-header fw-bold">
@@ -133,15 +141,9 @@
                         </div>
                     </h5>
 
-                    <div  class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+                    <div class="position-fixed top-0 end-0 rounded-3 m-2 mt-4" style="z-index: 11;">
                         <div id="liveToastLogin" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                            <div class="toast-header bg-main-color-header">
-                                <img src="~/img/Logo_75.png" height="20" width="20" class="rounded me-2" alt="...">
-                                <strong class="me-auto kbridge-text text-color-header spacing-2">K-Bridge</strong>
-                                <small>Ngay bây giờ</small>
-                                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                            </div>
-                            <div class="toast-body bg-main-color-background text-color-logo" >
+                            <div class="toast-body text-color-background fw-bold text-center rounded-bottom rounded-3" style="background-color: #493422; border: 2px solid #FFF0E6;">
                                 <div id="loginValidationSummary"></div>
                             </div>
                         </div>
@@ -164,7 +166,7 @@
             <div class="p-3 d-flex justify-content-between">
                 <p class="mt-2 text-color-logo fs-12">Chưa có tài khoản? <a href="#" id="switchToSignup">Đăng ký</a> ngay</p>
                 <p class="mt-2 text-color-logo fs-12"><a href="/ForgetPassword">Quên mật khẩu? </a> </p>
-            </div>            
+            </div>
         </div>
     </div>
 </div>
@@ -219,7 +221,7 @@
         // Kiểm tra mật khẩu có chứa ít nhất một chữ cái và một số
         if (!/(?=.*[A-Za-z])(?=.*\d)/.test(password)) {
             var errorSummary = document.getElementById('registerValidationSummary');
-            errorSummary.innerHTML = '<p>Mật khẩu phải chứa ít nhất một chữ cái và một số.</p>';
+            errorSummary.innerHTML = '<div>Mật khẩu chứa ít nhất một chữ cái và một số.</div>';
             errorSummary.style.display = 'block';
             showToast('liveToastSignUp');
             return;
@@ -240,15 +242,15 @@
                     loginModal.show();
                 } else {
                     if (data.errors && data.errors.length > 0) {
-                        var p = document.createElement('p');
+                        var div = document.createElement('div');
                         data.errors.forEach(function (error) {
-                            p.textContent = error;
+                            div.textContent = error;
                         });
-                        errorSummary.appendChild(p);
+                        errorSummary.appendChild(div);
                         errorSummary.style.display = 'block';
                         showToast('liveToastSignUp');
                     } else {
-                        errorSummary.innerHTML = '<p>Có lỗi xảy ra trong quá trình đăng ký.</p>';
+                        errorSummary.innerHTML = '<div>Có lỗi xảy ra trong quá trình đăng ký!!</div>';
                         errorSummary.style.display = 'block';
                         showToast('liveToastSignUp');
                     }
@@ -274,15 +276,15 @@
                     errorSummary.innerHTML = ''; // Xóa nội dung cũ
 
                     if (data.errors && data.errors.length > 0) {
-                        var p = document.createElement('p');
+                        var div = document.createElement('div');
                         data.errors.forEach(function (error) {
-                            p.textContent = error;
+                            div.textContent = error;
                         });
-                        errorSummary.appendChild(p);
+                        errorSummary.appendChild(div);
                         errorSummary.style.display = 'block';
                         showToast('liveToastLogin');
                     } else {
-                        errorSummary.innerHTML = '<p>Có lỗi xảy ra trong quá trình đăng nhập.</p>';
+                        errorSummary.innerHTML = '<div>Có lỗi xảy ra trong quá trình đăng nhập!!</div>';
                         errorSummary.style.display = 'block';
                         showToast('liveToastLogin');
                     }
@@ -339,3 +341,53 @@
 
 </script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var notificationCount = 3;
+        var notificationCountElement = document.getElementById('notificationCount');
+        var notificationList = document.getElementById('notificationList');
+        var notificationItems = document.getElementById('notificationItems');
+        var notificationButton = document.getElementById('notificationButton');
+
+        if (notificationCount > 0) {
+            notificationCountElement.innerHTML = notificationCount;
+            notificationCountElement.style.display = 'inline-block';
+
+            var notifications = [
+                { id: 1, message: 'John đã bình luận vào bài viết của bạn.', time: '2 phút trước' },
+                { id: 2, message: 'Bài viết của bạn đã bị từ chối. Kiểm tra kỹ các thông tin liên quan để bài viết hợp lệ!!', time: '5 phút trước' },
+                { id: 3, message: 'Thay đổi mật khẩu thành công. Vui lòng kiểm tra email để xác nhận.', time: '10 phút trước' }
+            ];
+
+            notifications.forEach(function (notification) {
+                var notificationItem = document.createElement('div');
+                notificationItem.className = 'notification-item';
+                notificationItem.innerHTML = `
+                        <div class="notification-content">
+                            <div class="notification-message">${notification.message}</div>
+                            <div class="notification-time d-flex justify-content-end">${notification.time}</div>
+                        </div>
+                    `;
+                notificationItems.appendChild(notificationItem);
+            });
+        } else {
+            notificationCountElement.style.display = 'none';
+        }
+
+        notificationButton.addEventListener('click', function (event) {
+            event.stopPropagation(); // Ngăn sự kiện click lan ra document
+            if (notificationList.style.display === 'none') {
+                notificationList.style.display = 'block';
+            } else {
+                notificationList.style.display = 'none';
+            }
+        });
+
+        // Đóng danh sách thông báo khi click bên ngoài
+        document.addEventListener('click', function (event) {
+            if (!notificationButton.contains(event.target) && !notificationList.contains(event.target)) {
+                notificationList.style.display = 'none';
+            }
+        });
+    });
+</script>

@@ -4,15 +4,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
-namespace K_Bridge.Pages.Admin
+namespace K_Bridge.Pages.Admin.Forums
 {
-    public class ForumsModel : PageModel
+    public class ListModel : PageModel
     {
         private readonly IForumRepository _forumRepository;
         private readonly IKBridgeRepository _repository;
 
 
-        public ForumsModel(IForumRepository forumRepository, IKBridgeRepository repository)
+        public ListModel(IForumRepository forumRepository, IKBridgeRepository repository)
         {
             _forumRepository = forumRepository;
             _repository = repository;
@@ -24,6 +24,7 @@ namespace K_Bridge.Pages.Admin
         {
             Forum = _repository.Forums
                .Include(f => f.Topics)
+               .ThenInclude(p=>p.Posts)
                .FirstOrDefault(f => f.ID == id);
 
             Topics = Forum?.Topics.ToList();

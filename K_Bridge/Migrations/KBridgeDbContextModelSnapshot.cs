@@ -74,33 +74,6 @@ namespace K_Bridge.Migrations
                     b.ToTable("Admin_Accounts");
                 });
 
-            modelBuilder.Entity("K_Bridge.Models.Category", b =>
-                {
-                    b.Property<long?>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("ID"), 1L, 1);
-
-                    b.Property<DateTime>("JoinDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LinkIcon")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TopicCount")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Categories");
-                });
-
             modelBuilder.Entity("K_Bridge.Models.Forum", b =>
                 {
                     b.Property<int>("ID")
@@ -163,6 +136,58 @@ namespace K_Bridge.Migrations
                     b.ToTable("GlobalChats");
                 });
 
+            modelBuilder.Entity("K_Bridge.Models.Notification", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+
+                    b.Property<int?>("Admin_AccountsID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PostID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("UserID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("Admin_AccountsID");
+
+                    b.HasIndex("PostID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Notification");
+                });
+
             modelBuilder.Entity("K_Bridge.Models.Post", b =>
                 {
                     b.Property<int>("ID")
@@ -186,6 +211,9 @@ namespace K_Bridge.Migrations
                     b.Property<string>("ImageLink")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsVote")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
@@ -202,6 +230,9 @@ namespace K_Bridge.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("ViewCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VoteID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
@@ -330,33 +361,6 @@ namespace K_Bridge.Migrations
                     b.ToTable("Reply_Likes");
                 });
 
-            modelBuilder.Entity("K_Bridge.Models.Stats", b =>
-                {
-                    b.Property<long?>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("ID"), 1L, 1);
-
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("JoinDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LinkIcon")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Statses");
-                });
-
             modelBuilder.Entity("K_Bridge.Models.Topic", b =>
                 {
                     b.Property<int>("ID")
@@ -457,6 +461,142 @@ namespace K_Bridge.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("K_Bridge.Models.UserVote", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VoteOptionID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("UserID");
+
+                    b.HasIndex("VoteOptionID");
+
+                    b.ToTable("UserVotes");
+                });
+
+            modelBuilder.Entity("K_Bridge.Models.Vote", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+
+                    b.Property<string>("CloseAfter")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsUnlimited")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("OptionCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PostID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Question")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("PostID")
+                        .IsUnique();
+
+                    b.ToTable("Votes");
+                });
+
+            modelBuilder.Entity("K_Bridge.Models.VoteOption", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("VoteID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("VoteID");
+
+                    b.ToTable("VoteOptions");
+                });
+
+            modelBuilder.Entity("K_Bridge.Models.Notification", b =>
+                {
+                    b.HasOne("K_Bridge.Models.Admin_Accounts", null)
+                        .WithMany("Notifications")
+                        .HasForeignKey("Admin_AccountsID");
+
+                    b.HasOne("K_Bridge.Models.Post", "Post")
+                        .WithMany("Notifications")
+                        .HasForeignKey("PostID");
+
+                    b.HasOne("K_Bridge.Models.User", "User")
+                        .WithMany("Notifications")
+                        .HasForeignKey("UserID");
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("K_Bridge.Models.Post", b =>
                 {
                     b.HasOne("K_Bridge.Models.Topic", "Topic")
@@ -544,6 +684,52 @@ namespace K_Bridge.Migrations
                     b.Navigation("Forum");
                 });
 
+            modelBuilder.Entity("K_Bridge.Models.UserVote", b =>
+                {
+                    b.HasOne("K_Bridge.Models.User", "User")
+                        .WithMany("UserVotes")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("K_Bridge.Models.VoteOption", "VoteOption")
+                        .WithMany("UserVotes")
+                        .HasForeignKey("VoteOptionID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("User");
+
+                    b.Navigation("VoteOption");
+                });
+
+            modelBuilder.Entity("K_Bridge.Models.Vote", b =>
+                {
+                    b.HasOne("K_Bridge.Models.Post", "Post")
+                        .WithOne("Vote")
+                        .HasForeignKey("K_Bridge.Models.Vote", "PostID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("K_Bridge.Models.VoteOption", b =>
+                {
+                    b.HasOne("K_Bridge.Models.Vote", "Vote")
+                        .WithMany("VoteOptions")
+                        .HasForeignKey("VoteID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Vote");
+                });
+
+            modelBuilder.Entity("K_Bridge.Models.Admin_Accounts", b =>
+                {
+                    b.Navigation("Notifications");
+                });
+
             modelBuilder.Entity("K_Bridge.Models.Forum", b =>
                 {
                     b.Navigation("Topics");
@@ -551,9 +737,13 @@ namespace K_Bridge.Migrations
 
             modelBuilder.Entity("K_Bridge.Models.Post", b =>
                 {
+                    b.Navigation("Notifications");
+
                     b.Navigation("Post_Likes");
 
                     b.Navigation("Replies");
+
+                    b.Navigation("Vote");
                 });
 
             modelBuilder.Entity("K_Bridge.Models.Reply", b =>
@@ -568,6 +758,8 @@ namespace K_Bridge.Migrations
 
             modelBuilder.Entity("K_Bridge.Models.User", b =>
                 {
+                    b.Navigation("Notifications");
+
                     b.Navigation("Post_Likes");
 
                     b.Navigation("Posts");
@@ -575,6 +767,18 @@ namespace K_Bridge.Migrations
                     b.Navigation("Replies");
 
                     b.Navigation("Reply_Likes");
+
+                    b.Navigation("UserVotes");
+                });
+
+            modelBuilder.Entity("K_Bridge.Models.Vote", b =>
+                {
+                    b.Navigation("VoteOptions");
+                });
+
+            modelBuilder.Entity("K_Bridge.Models.VoteOption", b =>
+                {
+                    b.Navigation("UserVotes");
                 });
 #pragma warning restore 612, 618
         }
