@@ -10,9 +10,8 @@
              class="account-navigate-icon mt-2 custom-cursor-pointer" alt="Tổng quan">
         <img src="/img/icon_arrow_right_50_dark.png" class="mx-4 mt-2"
              alt="Tổng quan" width="10" height="20">
-        <div class="account-navigate-text custom-cursor-pointer"
-             onclick="window.location.href='/Admin/Manager/List'">
-            Quản trị viên
+        <div class="account-navigate-text custom-cursor-pointer">
+            Tài khoản quản trị
         </div>
     </div>
     <div class="col-9">
@@ -20,7 +19,7 @@
 </div>
 <div class="row mt-3 px-5">
     <div class="col-3">
-        <div class="account-title">Quản trị</div>
+        <div class="account-title">Tài khoản quản trị</div>
         <div class="account-subtitle">Quản lý tài khoản quản trị</div>
     </div>
     <div class="col-9 d-flex justify-content-end align-items-center custom-cursor-pointer">
@@ -36,20 +35,46 @@
                 <th scope="col">#</th>
                 <th scope="col">Tên đăng nhập</th>
                 <th scope="col">Email</th>
-                <th scope="col">Trực truyến</th>
+                <th scope="col">Vai trò</th>
                 <th scope="col">Trạng thái</th>
                 <th scope="col">Hành động</th>
             </tr>
         </thead>
         <tbody>
-            @for (int i = 1; i <= 9; i++)
+            @foreach (var account in Model.Admin_Accounts)
             {
                 <tr>
-                    <th scope="row">@i</th>
-                    <td>Admin2</td>
-                    <td>admin2@gmail.com</td>
-                    <td>20/07/2024</td>
-                    <td>Đang hoạt động</td>
+                    <th scope="row">@account.ID</th>
+                    <td>@account.Username</td>
+                    <td>@account.Email</td>
+                    <td>
+                        @if (account.Role == "Mgr")
+                        {
+                            <span>Quản lý</span>
+                        }
+                        else if (account.Role == "Emp")
+                        {
+                            <span>Quản trị</span>
+                        }
+                        else
+                        {
+                            <span>Chưa có</span>
+                        }
+                    </td>
+                    <td>
+                        @if (account.Status == "Active")
+                        {
+                            <span>Đang hoạt động</span>
+                        }
+                        else if (account.Status == "Inactive")
+                        {
+                            <span>Tạm khóa</span>
+                        }
+                        else
+                        {
+                            <span>Không xác định</span>
+                        }
+                    </td>
                     <td>
                         <div>
                             <button class="account-table-edit-btn" onclick="window.location.href='/Admin/Accounts/Edit'">
@@ -57,14 +82,14 @@
                             </button>
                             <button class="account-table-delete-btn"
                                     type="button"
-                                    data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                <img src="/img/icon_trash_50.png" alt="Xoá" width="25" height="25">
+                                    data-bs-toggle="modal" data-bs-target="#adminAccModal">
+                                <img src="/img/icon_lock_50.png" alt="Khoá" width="25" height="25">
                             </button>
                         </div>
                     </td>
                 </tr>
-@*                 <!-- Modal -->
-                <div class="modal fade modal-new-post-overall rounded-3" s style="overflow-x: hidden;" id="exampleModal" tabindex="-1"
+                <!-- Modal -->
+                <div class="modal fade modal-new-post-overall rounded-3" s style="overflow-x: hidden;" id="adminAccModal" tabindex="-1"
                      aria-labelledby="newPostModalLabel" aria-hidden="true">
                     <div class="modal-dialog" style="border-radius: 20px;">
                         <div class="modal-content">
@@ -77,25 +102,44 @@
                             <div class="modal-body bg-main-color-layout d-flex flex-column py-4">
                                 <div class="text-color-header  justify-content-center flex-column m-auto" style="min-height:100px;">
                                     <p class="fs-3 text-color-header fw-bold m-0 mt-2">Bạn chắc chắn chứ?</p>
-                                    <p class="text-color-headerfw-bold m-0 p-0">Các thay đổi sẽ không được lưu lại!</p>
+                                    <p class="text-color-headerfw-bold m-0 p-0">Xác nhận khoá tài khoản quản trị này!</p>
                                 </div>
                             </div>
                             <div class="d-flex justify-content-center bg-main-color-layout pb-4 rounded-bottom">
                                 <button type="button" class="rounded-2 px-3 py-1 btn-confirm me-1" data-bs-dismiss="modal" style="min-width:148px;">Huỷ</button>
-
-
                                 <form method="post">
                                     <button type="submit" class="rounded-2 px-3 py-1 btn-confirm ms-1" style="min-width:148px;" asp-page-handler="Delete" asp-route-id="@account.ID">
-                                        Xoá
+                                        Khoá
                                     </button>
                                 </form>
                             </div>
                         </div>
                     </div>
-                </div> *@
+                </div>
             }
 
         </tbody>
     </table>
 </div>
 
+<div class="row px-5">
+    <ul class="pagination justify-content-center m-0 p-0">
+        <div class="d-flex account-paging">
+            @foreach (var pages in Model.DisplayPages)
+            {
+                @if (pages == -1)
+                {
+                <li class="page-item disabled"><span class="page-link">...</span></li>
+                }
+                else if (pages == Model.PageIndex)
+                {
+                <li class="page-item active"><span class="page-link">@pages</span></li>
+                }
+                else
+                {
+                <li class="page-item"><a class="page-link" href="/Admin/Managers/List?pageIndex=@pages">@pages</a></li>
+                }
+            }
+</div>
+    </ul>
+</div>
