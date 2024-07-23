@@ -50,7 +50,7 @@ namespace K_Bridge.Pages.Admin
                 if (admin != null)
                 {
                     // Lưu thông tin phiên
-                    HttpContext.Session.SetInt32("AdminAccountID", admin.ID);
+                    HttpContext.Session.SetInt32("AdminID", admin.ID);
                     HttpContext.Session.SetString("AdminUsername", admin.Username);
                     HttpContext.Session.SetString("AdminRole", admin.Role);
                     return RedirectToPage("/Admin/Dashboard");

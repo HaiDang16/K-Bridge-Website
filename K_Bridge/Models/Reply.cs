@@ -12,6 +12,8 @@
         public Post Post { get; set; }
 
         public ICollection<Reply_Like>? Reply_Likes { get; set; }
+        public ICollection<Notification>? Notifications { get; set; }
+
 
     }
 }

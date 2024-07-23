@@ -1,8 +1,7 @@
 ﻿@page "{id:int}"
 @model K_Bridge.Pages.Admin.Forums.Topics.ListModel
 @{
-    ViewData["Title"] = @Model.Topic.Name
-        ;
+    ViewData["Title"] = @Model.Topic.Name;
 
 }
 
@@ -27,7 +26,7 @@
     </div>
 </div>
 <div class="row mt-3 px-5">
-    <div class="col-5">
+    <div class="col-12">
         <div class="account-title">@Model.Topic.Name</div>
         <div class="account-subtitle">Quản lý bài viết mục @Model.Topic.Name</div>
     </div>

@@ -21,18 +21,18 @@ namespace K_Bridge.Controllers
         private IReplyRepository _replyRepository;
         private ILikeRepository _likeRepository;
         private IVoteRepository _voteRepository;
+        private INotificationRepository _notificationRepository;
 
         private CodeGenerationService _codeGenerationService;
         private UserService _userService;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly HtmlSanitizer _sanitizer;
-
-
         public PostController(IPostRepository postRepository,
             IReplyRepository replyRepository,
             ILikeRepository likeRepository,
             IVoteRepository voteRepository,
+            INotificationRepository notificationRepository,
             CodeGenerationService codeGenerationService,
             UserService userService,
             IHttpContextAccessor httpContextAccessor)
@@ -41,13 +41,13 @@ namespace K_Bridge.Controllers
             _replyRepository = replyRepository;
             _likeRepository = likeRepository;
             _voteRepository = voteRepository;
+            _notificationRepository = notificationRepository;
 
             _codeGenerationService = codeGenerationService;
             _userService = userService;
             _httpContextAccessor = httpContextAccessor;
 
             _sanitizer = new HtmlSanitizer();
-
             /*            _sanitizer.AllowedTags.Clear();
                         _sanitizer.AllowedTags.Add("b");
                         _sanitizer.AllowedTags.Add("i");
@@ -70,6 +70,7 @@ namespace K_Bridge.Controllers
             ViewBag.TopicID = Topic;
             return View();
         }
+
         [HttpPost("Create")]
         public IActionResult Create(PostViewModel post, int topicID)
         {
@@ -86,6 +87,8 @@ namespace K_Bridge.Controllers
                 }
 
                 string newCode = _codeGenerationService.GenerateNewCode<Post>("POST");
+
+                // Create new post
                 var newPost = new Post
                 {
                     Code = newCode,
@@ -96,6 +99,12 @@ namespace K_Bridge.Controllers
                     TopicID = topicID,
                 };
                 _postRepository.SavePost(newPost);
+
+                // Send notification for admin
+                string notiTitle = NotificationHelper.GetNotiTitleForAdmin(NotificationType.NewPost);
+                string notiMessage = NotificationHelper.GetNotiMessageForAdmin(NotificationType.NewPost);
+
+                _notificationRepository.SendNotificationForAllAdmins(notiTitle, notiMessage, NotificationType.NewPost);
 
                 if (!string.IsNullOrEmpty(post.Question))
                 {
