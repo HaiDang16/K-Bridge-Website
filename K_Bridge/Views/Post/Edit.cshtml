@@ -1,0 +1,314 @@
+﻿
+
+@{
+    ViewData["Title"] = "Chỉnh sửa bài viết";
+    <link href="/css/Post.css" rel="stylesheet" />
+    int Id = 1;
+    string Title = "Làm thế nào để học lập trình hiệu quả?";
+    string Content = "<p>Xin chào mọi người,</p><p>Mình đang muốn bắt đầu học lập trình nhưng chưa biết bắt đầu từ đâu. Mọi người có thể chia sẻ kinh nghiệm và lộ trình học lập trình hiệu quả không?</p><p>Cảm ơn rất nhiều!</p>";
+    string Question = "Ngôn ngữ lập trình nào nên học đầu tiên?";
+    List<string> Options = new List<string> { "Python", "JavaScript", "Java", "C#" };
+    bool IsUnlimited = false;
+    string CloseAfter = "week";
+    int TopicId = 5;
+}
+
+<div class="row post-welcome-container p-3 flex align-items-center m-0">
+    <div class="col-1 m-0 p-1">
+        <img src="/img/user.jpg" alt="avatar" class="rounded-circle w-100 h-100" />
+    </div>
+    <div class="col-11 text-color-logo px-3">
+        <div class="d-flex">
+            <div>Chào</div>
+            <div class="fw-bold px-1">@ViewBag.Username,</div>
+        </div>
+        <div>Tích cực đăng bài là điều cần thiết để gia tăng lượt thích và uy tín của bản thân!!</div>
+    </div>
+</div>
+<div class="post-new-post-text my-3">CHỈNH SỬA BÀI VIẾT</div>
+<form asp-action="Edit" method="post">
+    <input type="hidden" name="Id" value="@Id" />
+    <div class="post-container p-3">
+        <div class="post-title-text">Tiêu đề:</div>
+        <input class="post-title-input h-100 w-100 p-2 my-3"
+               name="Title"
+               value="@Title"
+               placeholder="Hãy cụ thể và tưởng tượng bạn đang đặt câu hỏi cho người khác" />
+        <div class="post-title-text my-3">Nội dung:</div>
+        <div class="post-content-input-container mt-2">
+            <div class="d-flex col-lg-3 justify-content-evenly fs-5">
+                <button type="button" id="bold-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3 hover-bold" style="min-width: 32px;">
+                    <span>B</span>
+                </button>
+                <button type="button" id="italic-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3 hover-italic" style="min-width: 32px;">
+                    <span>I</span>
+                </button>
+                <button type="button" id="underline-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3 hover-underline" style="min-width: 32px;">
+                    <span>U</span>
+                </button>
+                <button type="button" id="ordered-list-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
+                    <span>1.</span>
+                </button>
+                <button type="button" id="unordered-list-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
+                    <span>•</span>
+                </button>
+                <button type="button" id="undo-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
+                    <span>↶</span>
+                </button>
+                <button type="button" id="redo-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
+                    <span>↷</span>
+                </button>
+            </div>
+            <div class="border-top ">
+                <div id="editor" class="post-content-textarea w-100 p-2" style="min-height: 100px; width: calc(100% - 1rem); resize: vertical;"
+                     contenteditable="true">
+                    @Html.Raw(Content)
+                </div>
+                <input type="hidden" id="content-area" name="Content" value="@Content">
+            </div>
+            <div class="post-end-content flex justify-content-center align-items-center">
+                <img src="/img/frame_end_content.png" style="width:50px; height:10px;" />
+            </div>
+        </div>
+        <input type="hidden" name="topicID" value="@TopicId" />
+
+        <div class="py-2 mt-2 d-flex justify-content-between flex-column">
+            <button type="button" id="togglePollBtn" class="flex-grow-0 w-100 px-3 py-1 d-lg-inline-flex justify-content-lg-between" style="border-bottom: 2px solid #495632">
+                <div>Chỉnh sửa bình chọn</div>
+                <img src="/img/arrow_down.png" alt="arrow_down" id="pollArrow" />
+            </button>
+
+            <div id="pollContent">
+                <div class="text-color-header d-flex flex-column m-2">
+                    <div class="my-2">Câu hỏi</div>
+                    <input type="text" name="Question"
+                           value="@Question"
+                           placeholder="Nhập câu hỏi" class="w-100 px-3 py-1 rounded-3"
+                           style="background-color: #FFE8DA; border: 1px solid #FFFFFF" />
+                </div>
+                <div class="text-color-header d-flex flex-column m-2">
+                    <div class="my-2">Các đáp án bình chọn</div>
+                    <div id="optionsContainer" class="d-grid gap-1">
+                        @for (int i = 0; i < Options.Count; i++)
+                        {
+                            <input type="text" name="Options" value="@Options[i]" placeholder="Lựa chọn @(i+1)..." class="option-input w-100 px-3 py-1 rounded-3" style="background-color: #FFE8DA; border: 1px solid #FFFFFF" />
+                        }
+                    </div>
+                </div>
+
+                <div class="text-color-header d-flex flex-column m-2">
+                    <div class="my-2">Lựa chọn tối đa</div>
+                    <div class="custom-radio-group d-flex flex-column">
+                        <label class="custom-radio rounded-3">
+                            <input type="radio" name="IsUnlimited" value="false" @(IsUnlimited ? "" : "checked")>
+                            <span class="radio-text">Lựa chọn duy nhất</span>
+                        </label>
+                        <label class="custom-radio rounded-3">
+                            <input type="radio" name="IsUnlimited" value="true" @(IsUnlimited ? "checked" : "")>
+                            <span class="radio-text">Không giới hạn</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="text-color-header d-flex flex-column m-2">
+                    <div class="my-2">Tuỳ chọn</div>
+                    <div class="d-grid gap-1">
+                        <div class="text-color-header d-flex flex-column m-2">
+                            <div class="my-2">Đóng bình chọn sau</div>
+                            <div class="custom-radio-group justify-content-between d-flex text-center">
+                                <label class="custom-radio w-20 ">
+                                    <input type="radio" name="closeAfter" value="hour" @(CloseAfter == "hour" ? "checked" : "")>
+                                    <span class="radio-text">1 giờ</span>
+                                </label>
+                                <label class="custom-radio w-20">
+                                    <input type="radio" name="closeAfter" value="day" @(CloseAfter == "day" ? "checked" : "")>
+                                    <span class="radio-text">1 ngày</span>
+                                </label>
+                                <label class="custom-radio w-20">
+                                    <input type="radio" name="closeAfter" value="week" @(CloseAfter == "week" ? "checked" : "")>
+                                    <span class="radio-text">1 tuần</span>
+                                </label>
+                                <label class="custom-radio w-20">
+                                    <input type="radio" name="closeAfter" value="month" @(CloseAfter == "month" ? "checked" : "")>
+                                    <span class="radio-text">1 tháng</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-100 flex justify-content-end">
+            <button class="post-button p-2" type="submit">Cập nhật bài viết</button>
+        </div>
+    </div>
+</form>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const textarea = document.querySelector('.post-title-input');
+        const maxWords = 10; // Set the maximum number of words
+
+        textarea.addEventListener('input', function () {
+            const words = textarea.value.split(/\s+/).filter(word => word.length > 0);
+            if (words.length > maxWords) {
+                textarea.value = words.slice(0, maxWords).join(' ');
+            }
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const editor = document.getElementById('editor');
+        const boldBtn = document.getElementById('bold-btn');
+        const italicBtn = document.getElementById('italic-btn');
+        const underlineBtn = document.getElementById('underline-btn');
+        const undoBtn = document.getElementById('undo-btn');
+        const redoBtn = document.getElementById('redo-btn');
+        const orderedListBtn = document.getElementById('ordered-list-btn');
+        const unorderedListBtn = document.getElementById('unordered-list-btn');
+        const hiddenInput = document.getElementById('content-area');
+
+        function execCommand(command) {
+            document.execCommand(command, false, null);
+            editor.focus();
+        }
+
+        boldBtn.addEventListener('click', () => execCommand('bold'));
+        italicBtn.addEventListener('click', () => execCommand('italic'));
+        underlineBtn.addEventListener('click', () => execCommand('underline'));
+        undoBtn.addEventListener('click', () => execCommand('undo'));
+        redoBtn.addEventListener('click', () => execCommand('redo'));
+
+        orderedListBtn.addEventListener('click', function () {
+            createList('ol');
+        });
+
+        unorderedListBtn.addEventListener('click', function () {
+            createList('ul');
+        });
+
+        function createList(type) {
+            const selection = window.getSelection();
+            const range = selection.getRangeAt(0);
+            const listElement = document.createElement(type);
+            const listItem = document.createElement('li');
+
+            if (range.commonAncestorContainer.nodeName === 'DIV' && range.commonAncestorContainer.id === 'editor') {
+                // Nếu không có nội dung được chọn, tạo một mục danh sách trống
+                listItem.appendChild(document.createElement('br'));
+                listElement.appendChild(listItem);
+                range.insertNode(listElement);
+            } else {
+                // Nếu có nội dung được chọn, bọc nó trong một mục danh sách
+                listItem.appendChild(range.extractContents());
+                listElement.appendChild(listItem);
+                range.insertNode(listElement);
+            }
+
+            // Di chuyển con trỏ vào cuối mục danh sách vừa tạo
+            const newRange = document.createRange();
+            newRange.selectNodeContents(listItem);
+            newRange.collapse(false);
+            selection.removeAllRanges();
+            selection.addRange(newRange);
+
+            editor.focus();
+        }
+
+        editor.addEventListener('input', function () {
+            hiddenInput.value = editor.innerHTML;
+        });
+
+        // Xử lý form submit
+        document.querySelector('form').addEventListener('submit', function (e) {
+            e.preventDefault(); // Ngăn form submit ngay lập tức
+
+            hiddenInput.value = editor.innerHTML;
+
+
+            const inputs = optionsContainer.querySelectorAll('.option-input');
+            inputs.forEach(input => {
+                if (input.value.trim() === '') {
+                    input.remove();
+                }
+            });
+
+            this.submit();
+
+        });
+    });
+
+
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const togglePollBtn = document.getElementById('togglePollBtn');
+        const pollContent = document.getElementById('pollContent');
+        const pollArrow = document.getElementById('pollArrow');
+
+        togglePollBtn.addEventListener('click', function () {
+            pollContent.classList.toggle('show');
+            pollArrow.classList.toggle('rotate');
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const optionsContainer = document.getElementById('optionsContainer');
+        let optionCount = 2; // Bắt đầu với 2 lựa chọn
+
+        function addNewOption() {
+            optionCount++;
+            const newInput = document.createElement('input');
+            newInput.type = 'text';
+            newInput.name = 'Options';
+            newInput.placeholder = `Lựa chọn ${optionCount}...`;
+            newInput.className = 'option-input w-100 px-3 py-1 rounded-3';
+            newInput.style.backgroundColor = '#FFE8DA';
+            newInput.style.border = '1px solid #FFFFFF';
+            optionsContainer.appendChild(newInput);
+
+            newInput.addEventListener('input', handleInputChange);
+            handleInputChange();
+        }
+
+        function handleInputChange() {
+            const inputs = optionsContainer.querySelectorAll('.option-input');
+            const filledInputs = Array.from(inputs).filter(input => input.value.trim() !== '');
+
+            if (inputs.length > 2) {
+                if (filledInputs.length === inputs.length && this === inputs[inputs.length - 1]) {
+                    addNewOption();
+                } else if (filledInputs.length < inputs.length - 1) {
+                    while (filledInputs.length < inputs.length - 1 && inputs.length > 2) {
+                        optionsContainer.removeChild(inputs[inputs.length - 1]);
+                        optionCount--;
+                    }
+                }
+            } else if (filledInputs.length === 2) {
+                addNewOption();
+            }
+
+
+            // Cập nhật placeholder cho tất cả input
+            updatePlaceholders();
+        }
+
+        function updatePlaceholders() {
+            const inputs = optionsContainer.querySelectorAll('.option-input');
+            inputs.forEach((input, index) => {
+                input.placeholder = `Lựa chọn ${index + 1}...`;
+            });
+        }
+
+        // Thêm event listener cho 2 input ban đầu
+        const initialInputs = optionsContainer.querySelectorAll('.option-input');
+        initialInputs.forEach(input => {
+            input.addEventListener('input', handleInputChange);
+        });
+    });
+
+</script>
+
