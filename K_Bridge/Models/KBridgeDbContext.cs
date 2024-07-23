@@ -115,6 +115,14 @@ namespace K_Bridge.Models
                 .HasForeignKey(n => n.ReplyID)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            // Configurations for Notification and Vote relationship
+            modelBuilder.Entity<Notification>()
+                .HasOne(n => n.Vote)
+                .WithMany(a => a.Notifications)
+                .HasForeignKey(n => n.VoteID)
+                .OnDelete(DeleteBehavior.NoAction);
+
+
             base.OnModelCreating(modelBuilder);
         }
     }

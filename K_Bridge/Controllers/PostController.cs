@@ -230,7 +230,6 @@ namespace K_Bridge.Controllers
                 return RedirectToAction("Details", new { post = postId });
             }
 
-
             var reply = new Reply
             {
                 PostID = postId,
@@ -239,6 +238,15 @@ namespace K_Bridge.Controllers
                 UserID = user.ID,
             };
 
+            var post = _postRepository.GetPostByID(postId);
+
+            if (post != null)
+            {
+                // Send notification for author of post
+                string notiTitle = NotificationHelper.GetNotiTitleForUser(NotificationType.NewReply);
+                string notiMessage = $"{post.User.Username} {NotificationHelper.GetNotiMessageForUser(NotificationType.NewReply)}";
+                _notificationRepository.SendNotificationForPostAuthor(user.ID, reply.PostID, notiTitle, notiMessage, NotificationType.NewReply);
+            }
             _replyRepository.SaveReply(reply);
 
             return RedirectToAction("Details", new { post = postId });
@@ -303,7 +311,14 @@ namespace K_Bridge.Controllers
                 if (existingLike.IsLike)
                     _likeRepository.DeleteExistPostLike(existingLike);
                 else
+                {
                     _likeRepository.UpdatePostLike(existingLike, true);
+
+                    //Send notification for author of post
+                    string notiTitle = NotificationHelper.GetNotiTitleForUser(NotificationType.NewLike);
+                    string notiMessage = NotificationHelper.GetNotiMessageForUser(NotificationType.NewLike);
+                    _notificationRepository.SendNotificationForPostAuthor(currentUser.ID, postId, notiTitle, notiMessage, NotificationType.NewLike);
+                }
             }
             else
             {
@@ -315,7 +330,13 @@ namespace K_Bridge.Controllers
                 };
 
                 _likeRepository.SavePostLike(postLike);
+
+                //Send notification for author of post
+                string notiTitle = NotificationHelper.GetNotiTitleForUser(NotificationType.NewLike);
+                string notiMessage = NotificationHelper.GetNotiMessageForUser(NotificationType.NewLike);
+                _notificationRepository.SendNotificationForPostAuthor(currentUser.ID, postId, notiTitle, notiMessage, NotificationType.NewLike);
             }
+
             var likeCount = _likeRepository.GetPostLikeCount(postId);
             var dislikeCount = _likeRepository.GetPostDislikeCount(postId);
 
@@ -339,7 +360,14 @@ namespace K_Bridge.Controllers
                 if (!existingLike.IsLike)
                     _likeRepository.DeleteExistPostLike(existingLike);
                 else
+                {
                     _likeRepository.UpdatePostLike(existingLike, false);
+
+                    //Send notification for author of post
+                    string notiTitle = NotificationHelper.GetNotiTitleForUser(NotificationType.NewDisLike);
+                    string notiMessage = NotificationHelper.GetNotiMessageForUser(NotificationType.NewDisLike);
+                    _notificationRepository.SendNotificationForPostAuthor(currentUser.ID, postId, notiTitle, notiMessage, NotificationType.NewDisLike);
+                }
             }
             else
             {
@@ -351,6 +379,11 @@ namespace K_Bridge.Controllers
                 };
 
                 _likeRepository.SavePostLike(postLike);
+
+                //Send notification for author of post
+                string notiTitle = NotificationHelper.GetNotiTitleForUser(NotificationType.NewDisLike);
+                string notiMessage = NotificationHelper.GetNotiMessageForUser(NotificationType.NewDisLike);
+                _notificationRepository.SendNotificationForPostAuthor(currentUser.ID, postId, notiTitle, notiMessage, NotificationType.NewDisLike);
             }
             var likeCount = _likeRepository.GetPostLikeCount(postId);
             var dislikeCount = _likeRepository.GetPostDislikeCount(postId);
@@ -375,7 +408,14 @@ namespace K_Bridge.Controllers
                 if (existingLike.IsLike)
                     _likeRepository.DeleteExistReplyLike(existingLike);
                 else
+                {
                     _likeRepository.UpdateReplyLike(existingLike, true);
+
+                    //Send notification for author of reply
+                    string notiTitle = NotificationHelper.GetNotiTitleForUser(NotificationType.NewLikeReply);
+                    string notiMessage = NotificationHelper.GetNotiMessageForUser(NotificationType.NewLikeReply);
+                    _notificationRepository.SendNotificationForReplyAuthor(currentUser.ID, replyId, notiTitle, notiMessage, NotificationType.NewLikeReply);
+                }
             }
             else
             {
@@ -387,6 +427,11 @@ namespace K_Bridge.Controllers
                 };
 
                 _likeRepository.SaveReplyLike(replyLike);
+
+                //Send notification for author of reply
+                string notiTitle = NotificationHelper.GetNotiTitleForUser(NotificationType.NewLikeReply);
+                string notiMessage = NotificationHelper.GetNotiMessageForUser(NotificationType.NewLikeReply);
+                _notificationRepository.SendNotificationForReplyAuthor(currentUser.ID, replyId, notiTitle, notiMessage, NotificationType.NewLikeReply);
             }
             var likeCount = _likeRepository.GetReplyLikeCount(replyId);
             var dislikeCount = _likeRepository.GetReplyDislikeCount(replyId);
@@ -414,7 +459,14 @@ namespace K_Bridge.Controllers
                 if (!existingLike.IsLike)
                     _likeRepository.DeleteExistReplyLike(existingLike);
                 else
+                {
                     _likeRepository.UpdateReplyLike(existingLike, true);
+
+                    //Send notification for author of reply
+                    string notiTitle = NotificationHelper.GetNotiTitleForUser(NotificationType.NewDislikeReply);
+                    string notiMessage = NotificationHelper.GetNotiMessageForUser(NotificationType.NewDislikeReply);
+                    _notificationRepository.SendNotificationForReplyAuthor(currentUser.ID, replyId, notiTitle, notiMessage, NotificationType.NewDislikeReply);
+                }
             }
             else
             {
@@ -426,11 +478,15 @@ namespace K_Bridge.Controllers
                 };
 
                 _likeRepository.SaveReplyLike(replyLike);
+
+                //Send notification for author of reply
+                string notiTitle = NotificationHelper.GetNotiTitleForUser(NotificationType.NewDislikeReply);
+                string notiMessage = NotificationHelper.GetNotiMessageForUser(NotificationType.NewDislikeReply);
+                _notificationRepository.SendNotificationForReplyAuthor(currentUser.ID, replyId, notiTitle, notiMessage, NotificationType.NewDislikeReply);
             }
             var likeCount = _likeRepository.GetReplyLikeCount(replyId);
             var dislikeCount = _likeRepository.GetReplyDislikeCount(replyId);
             int userLikeStatus = _likeRepository.ToggleReplyLike(replyId, currentUser.ID, false);
-
 
             return Json(new { likeCount, dislikeCount, userLikeStatus });
         }
@@ -464,7 +520,6 @@ namespace K_Bridge.Controllers
             {
                 return Json(new { success = false, message = "Không tìm thấy thông tin bình chọn." });
             }
-
 
             // Kiểm tra trạng thái của bình chọn
             if (vote.Status == "Close" || DateTime.UtcNow > vote.GetCloseTime())
@@ -548,34 +603,13 @@ namespace K_Bridge.Controllers
                     }
                 }
             }
+
+            //Send notification for author of reply
+            string notiTitle = NotificationHelper.GetNotiTitleForUser(NotificationType.NewVote);
+            string notiMessage = NotificationHelper.GetNotiMessageForUser(NotificationType.NewVote);
+            _notificationRepository.SendNotificationForVoteAuthor(currentUser.ID, post.VoteID, notiTitle, notiMessage, NotificationType.NewVote);
+
             return Json(new { success = true });
-        }
-        public IActionResult GetVoteResults(int postId)
-        {
-            // Lấy thông tin phiếu bầu từ cơ sở dữ liệu
-            var voteDetail = _voteRepository.GetVoteWithOptionByPostId(postId);
-
-            if (voteDetail == null)
-            {
-                return NotFound();
-            }
-
-            // Tạo một đối tượng để lưu kết quả bỏ phiếu
-            var voteResults = new List<VoteResultViewModel>();
-
-            foreach (var option in voteDetail.VoteOptions)
-            {
-                var voteCount = _voteRepository.CountUserVoteById(option.ID);
-
-                voteResults.Add(new VoteResultViewModel
-                {
-                    VoteOptionID = option.ID,
-                    Title = option.Title,
-                    VoteCount = voteCount
-                });
-            }
-
-            return Json(voteResults);
         }
     }
 }

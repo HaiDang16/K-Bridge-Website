@@ -96,5 +96,48 @@ namespace K_Bridge.Repositories
                 .OrderByDescending(n => n.CreatedAt)
                 .ToList();
         }
+
+        public void SendNotificationForPostAuthor(int userId, int postId, string title,
+            string message, NotificationType notificationType)
+        {
+            var notification = new Notification
+            {
+                UserID = userId,
+                PostID = postId,
+                Title = title,
+                Message = message,
+                NotiType = notificationType
+            };
+            _context.Notifications.Add(notification);
+            _context.SaveChanges();
+        }
+
+        public void SendNotificationForReplyAuthor(int userId, int replyId, string title, string message, NotificationType notificationType)
+        {
+            var notification = new Notification
+            {
+                UserID = userId,
+                ReplyID = replyId,
+                Title = title,
+                Message = message,
+                NotiType = notificationType
+            };
+            _context.Notifications.Add(notification);
+            _context.SaveChanges();
+        }
+        public void SendNotificationForVoteAuthor(int userId, int voteId, string title, string message, NotificationType notificationType)
+        {
+            var notification = new Notification
+            {
+                UserID = userId,
+                VoteID = voteId,
+                Title = title,
+                Message = message,
+                NotiType = notificationType
+            };
+            _context.Notifications.Add(notification);
+            _context.SaveChanges();
+
+        }
     }
 }

@@ -12,6 +12,9 @@ namespace K_Bridge.Repositories
         List<Notification> GetAdminNotificationsById(int adminId);
         void MarkNotificationAsRead(int notificationId);
         List<Notification> GetUserNotificationsById(int id);
+        void SendNotificationForPostAuthor(int userId, int postId, string title, string message, NotificationType notificationType);
+        void SendNotificationForReplyAuthor(int userId, int replyId, string title, string message, NotificationType notificationType);
+        void SendNotificationForVoteAuthor(int userId, int voteId, string title, string message, NotificationType notificationType);
 
     }
 }

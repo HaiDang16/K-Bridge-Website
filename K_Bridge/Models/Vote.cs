@@ -13,6 +13,7 @@
         public Post Post { get; set; }
 
         public ICollection<VoteOption>? VoteOptions { get; set; }
+        public ICollection<Notification>? Notifications { get; set; }
 
         public DateTime GetCloseTime()
         {

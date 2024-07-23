@@ -27,15 +27,14 @@ namespace K_Bridge.Components
             {
                 ViewBag.UsernameLoggedIn = user.Username;
                 ViewBag.UserID = user.ID;
+
                 var notifications = _notificationRepository.GetUserNotificationsById(user.ID);
                 ViewBag.Notifications = notifications;
                 ViewBag.UnreadCount = notifications.Count(n => !n.IsRead);
-
             }
 
             bool isLoggedIn = (user != null);
             ViewBag.IsLoggedIn = isLoggedIn;
-
 
             return View();
         }

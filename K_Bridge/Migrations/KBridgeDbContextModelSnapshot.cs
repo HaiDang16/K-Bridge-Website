@@ -180,6 +180,9 @@ namespace K_Bridge.Migrations
                     b.Property<int?>("UserID")
                         .HasColumnType("int");
 
+                    b.Property<int?>("VoteID")
+                        .HasColumnType("int");
+
                     b.HasKey("ID");
 
                     b.HasIndex("AdminID");
@@ -189,6 +192,8 @@ namespace K_Bridge.Migrations
                     b.HasIndex("ReplyID");
 
                     b.HasIndex("UserID");
+
+                    b.HasIndex("VoteID");
 
                     b.ToTable("Notifications");
                 });
@@ -605,6 +610,11 @@ namespace K_Bridge.Migrations
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.NoAction);
 
+                    b.HasOne("K_Bridge.Models.Vote", "Vote")
+                        .WithMany("Notifications")
+                        .HasForeignKey("VoteID")
+                        .OnDelete(DeleteBehavior.NoAction);
+
                     b.Navigation("Admin");
 
                     b.Navigation("Post");
@@ -612,6 +622,8 @@ namespace K_Bridge.Migrations
                     b.Navigation("Reply");
 
                     b.Navigation("User");
+
+                    b.Navigation("Vote");
                 });
 
             modelBuilder.Entity("K_Bridge.Models.Post", b =>
@@ -792,6 +804,8 @@ namespace K_Bridge.Migrations
 
             modelBuilder.Entity("K_Bridge.Models.Vote", b =>
                 {
+                    b.Navigation("Notifications");
+
                     b.Navigation("VoteOptions");
                 });
 
