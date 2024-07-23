@@ -43,5 +43,10 @@ namespace K_Bridge.Repositories
                 _context.SaveChanges();
             }
         }
+        public void UpdateAdminAccount(Admin_Accounts account)
+        {
+            _context.Admin_Accounts.Update(account);
+            _context.SaveChanges();
+        }
     }
 }

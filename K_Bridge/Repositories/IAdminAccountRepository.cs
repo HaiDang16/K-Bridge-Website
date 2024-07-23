@@ -10,5 +10,6 @@ namespace K_Bridge.Repositories
         List<Admin_Accounts> GetAllAdminAccountsPaging(int pageIndex, int pageSize);
         Admin_Accounts GetAdminAccountById(int id);
         void SetAdminAccountStatusInactive(int id);
+        void UpdateAdminAccount (Admin_Accounts account);
     }
 }
