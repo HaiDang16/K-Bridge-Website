@@ -10,7 +10,16 @@
             {
                 <ul class="mb-2 d-md-flex p-0">
                     <li class="d-md-flex">
-                        <img src="/img/avatar_default.png" alt="avatar" class="me-2 rounded-circle" style="width: 20px; height: 20px;" />
+                        @if (chat.Avatar != null)
+                        {
+                            <img src="/avatars/@chat.Avatar" alt="avatar"
+                                 class="me-2 rounded-circle" style="width: 20px; height: 20px;" />
+                        }
+                        else
+                        {
+                            <img src="/img/avatar_default.png" alt="avatar"
+                                 class="me-2 rounded-circle" style="width: 20px; height: 20px;" />
+                        }
                         <div class="fs-12 text-color-logo mb-1 fw-bold me-2">@chat.Username</div>
                         <div class=" fs-12  text-color-logo  text-break">@chat.Content</div>
                     </li>
@@ -44,9 +53,12 @@
             const messageContent = messageInput.value.trim();
             if (messageContent !== '') {
                 const username = "@ViewBag.Username"; // Ensure username is properly escaped
+                const avatar = "@ViewBag.Avatar";
+
                 const message = {
                     Username: username,
-                    Content: messageContent
+                    Content: messageContent,
+                    Avatar: avatar
                 };
 
                 // Send message to server using AJAX
@@ -65,33 +77,39 @@
                         return response.json();
                     })
                     .then(data => {
-                        
+
                         const messageElement = document.createElement('div');
                         messageElement.classList.add('mb-2', 'd-md-flex', 'flex-column');
+                        const avatar2 = avatar || 'img/avatar_default.png';
                         messageElement.innerHTML = `
                         <div class="d-md-flex align-items-center">
-                            <img src="/img/avatar.png" alt="avatar" class="me-2 rounded-circle" style="width: 20px; height: 20px;" />
+                                <img src="/avatars/${avatar2}" alt="avatar" class="me-2 rounded-circle" style="width: 20px; height: 20px;" />
                             <div class="fs-12 text-color-logo mb-1 fw-bold flex-grow-1">${username}</div>
                         </div>
                         <div class="message fs-12 rounded-3 text-color-logo mb-1 text-break" style="margin-right: 4px;">${messageContent}</div>
-                    `;
+                        `;
+
                         chatMessages.appendChild(messageElement);
                         messageInput.value = '';
                     })
                     .catch(error => console.error('Error:', error));
             }
         });
-        
-        
+
+
         messageInput.addEventListener('keypress', function (event) {
 
             if (event.key === 'Enter') {
                 const messageContent = messageInput.value.trim();
                 if (messageContent !== '') {
                     const username = "@ViewBag.Username"; // Ensure username is properly escaped
+                    const avatar = "@ViewBag.Avatar";
+
                     const message = {
                         Username: username,
-                        Content: messageContent
+                        Content: messageContent,
+                        Avatar: avatar
+
                     };
 
                     // Send message to server using AJAX
@@ -113,13 +131,15 @@
 
                             const messageElement = document.createElement('div');
                             messageElement.classList.add('mb-2', 'd-md-flex', 'flex-column');
+                            const avatar2 = avatar || 'img/avatar_default.png';
                             messageElement.innerHTML = `
-                                <div class="d-md-flex align-items-center">
-                                    <img src="/img/avatar.png" alt="avatar" class="me-2 rounded-circle" style="width: 20px; height: 20px;" />
-                                    <div class="fs-12 text-color-logo mb-1 fw-bold flex-grow-1">${username}</div>
-                                </div>
-                                <div class="message fs-12 rounded-3 text-color-logo mb-1 text-break" style="margin-right: 4px;">${messageContent}</div>
+                            <div class="d-md-flex align-items-center">
+                                    <img src="/avatars/${avatar2}" alt="avatar" class="me-2 rounded-circle" style="width: 20px; height: 20px;" />
+                                <div class="fs-12 text-color-logo mb-1 fw-bold flex-grow-1">${username}</div>
+                            </div>
+                            <div class="message fs-12 rounded-3 text-color-logo mb-1 text-break" style="margin-right: 4px;">${messageContent}</div>
                             `;
+
                             chatMessages.appendChild(messageElement);
                             messageInput.value = '';
                         })
@@ -130,6 +150,6 @@
 
         });
 
-    
+
     });
 </script>

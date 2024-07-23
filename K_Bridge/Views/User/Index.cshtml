@@ -9,7 +9,14 @@
         <p class="text-color-header fw-bold fs-5">Tài khoản của tôi</p>
     </div>
     <div class="rounded-8 bg-main-color-layout position-relative pb-2" style="min-height: 400px;">
-        <div class="rounded-top bg-main-color-header" style="min-height: 100px;"></div>
+        @if (user.ProfileColor != null)
+        {
+            <div class="rounded-top" style="min-height: 100px; background-color: @user.ProfileColor"></div>
+        }
+        else
+        {
+            <div class="rounded-top bg-main-color-header" style="min-height: 100px;"></div>
+        }
         <div class="rounded-3 position-absolute " style="top: 50px; left: 80px; border:10px solid #FFBE98;">
             @if (user.Avatar == null)
             {
@@ -17,11 +24,11 @@
             }
             else
             {
-                <img src="~/uploads/@user.Avatar" alt="Avatar" height="80" width="80"/>
+                <img src="~/avatars/@user.Avatar" alt="Avatar" height="80" width="80"/>
             }
         </div>
 
-        <div class="d-flex justify-content-end mt-2 " onclick="window.location.href='/UserProfile/EditProfile/test1'">
+        <div class="d-flex justify-content-end mt-2 " onclick="window.location.href='/UserProfile/EditProfile?id=@user.ID'">
             <button class="rounded-pill btn-account-edit fw-bold mt-2 me-4 text-color-background px-4 py-2">Chỉnh sửa hồ sơ người dùng</button>
 
         </div>

@@ -120,6 +120,9 @@ namespace K_Bridge.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
+                    b.Property<string>("Avatar")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

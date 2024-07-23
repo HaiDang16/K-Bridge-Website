@@ -27,6 +27,7 @@ namespace K_Bridge.Components
             {
                 ViewBag.UsernameLoggedIn = user.Username;
                 ViewBag.UserID = user.ID;
+                ViewBag.CurrentUser = user;
 
                 var notifications = _notificationRepository.GetUserNotificationsById(user.ID);
                 ViewBag.Notifications = notifications;
