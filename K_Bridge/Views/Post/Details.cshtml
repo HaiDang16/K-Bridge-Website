@@ -470,14 +470,32 @@
         }
     });  
 </script>
+
 <script>
+    // function loadReplies(postId, sort, page) {
+    //     $.ajax({
+    //         url: `/Post/GetReplies?postId=${postId}&sort=${sort}&page=${page}`,
+    //         type: 'GET',
+    //         success: function (result) {
+    //             $('#repliesContainer').html(result);
+    //         }
+    //     });
+    // }
+
     function loadReplies(postId, sort, page) {
         $.ajax({
-            url: `/Post/GetReplies?postId=${postId}&sort=${sort}&page=${page}`,
+            url: '/Post/GetReplies',
+            data: { postId: postId, sort: sort, page: page },
             type: 'GET',
             success: function (result) {
                 $('#repliesContainer').html(result);
             }
         });
     }
+
+    $(document).ready(function () {
+        var postId = '@ViewBag.Post.ID'; // Lấy postId từ ViewBag
+        var initialSort = '@ViewBag.Sort'; // Lấy sort ban đầu từ ViewBag
+        loadReplies(postId, initialSort, 1); // Load trang đầu tiên
+    });
 </script>

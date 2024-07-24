@@ -8,6 +8,7 @@ using K_Bridge.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using System.Diagnostics;
 using System.Security.Claims;
@@ -28,7 +29,6 @@ namespace K_Bridge.Controllers
 
         private CodeGenerationService _codeGenerationService;
         private UserService _userService;
-        private KBridgeDbContext _context;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly HtmlSanitizer _sanitizer;
@@ -208,6 +208,7 @@ namespace K_Bridge.Controllers
                     ViewBag.UserVotes = userVotes;
                     ViewBag.CurrentUser = user;
                 }
+
                 var initialReplies = allRepliesWithLike.Take(3).ToList();
                 var viewModel = new ReplyPaginationViewModel
                 {
@@ -327,6 +328,12 @@ namespace K_Bridge.Controllers
                 PostId = postId,
                 Sort = sort
             };
+
+
+            if (user != null)
+            {
+                ViewBag.CurrentUser = user;
+            }
             return PartialView("_RepliesPartial", viewModel);
         }
 
