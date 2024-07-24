@@ -191,7 +191,7 @@ namespace K_Bridge.Controllers
                     ViewBag.UserVotes = userVotes;
 
                 }
-                var initialReplies = allRepliesWithLike.Take(5).ToList();
+                var initialReplies = allRepliesWithLike.Take(3).ToList();
                 var viewModel = new ReplyPaginationViewModel
                 {
                     Replies = initialReplies,
@@ -247,7 +247,7 @@ namespace K_Bridge.Controllers
         }
 
         [HttpGet("GetReplies")]
-        public IActionResult GetReplies(int postId, string sort = "newest", int page = 1, int pageSize = 5)
+        public IActionResult GetReplies(int postId, string sort = "newest", int page = 1, int pageSize = 3)
         {
             var postDetails = _postRepository.GetPostByID(postId);
 
@@ -302,7 +302,7 @@ namespace K_Bridge.Controllers
         }
         private List<int> GenerateDisplayPages(int currentPage, int totalPages)
         {
-            const int maxDisplayPages = 5;
+            const int maxDisplayPages = 3;
             var displayPages = new List<int>();
 
             if (totalPages <= maxDisplayPages)
