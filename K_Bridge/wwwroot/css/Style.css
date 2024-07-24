@@ -674,3 +674,19 @@ body {
     .btn-point:hover {
         background-color: #FFF0E6 !important;
     }
+
+.page-item .page-link {
+    color: #8E6745;
+    border: none
+}
+
+.page-item:hover .page-link {
+    color: #493422;
+    background: #FFBE98;
+}
+
+.page-item.active .page-link {
+    background-color: #FFBE98 !important;
+    color: #493422 !important;
+    font-weight: bold;
+}
