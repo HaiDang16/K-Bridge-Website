@@ -300,37 +300,7 @@ namespace K_Bridge.Controllers
             };
             return PartialView("_RepliesPartial", viewModel);
         }
-        private List<int> GenerateDisplayPages(int currentPage, int totalPages)
-        {
-            const int maxDisplayPages = 3;
-            var displayPages = new List<int>();
 
-            if (totalPages <= maxDisplayPages)
-            {
-                for (int i = 1; i <= totalPages; i++)
-                {
-                    displayPages.Add(i);
-                }
-            }
-            else
-            {
-                displayPages.Add(1);
-                int start = Math.Max(2, currentPage - 1);
-                int end = Math.Min(currentPage + 1, totalPages - 1);
-
-                if (start > 2) displayPages.Add(-1);
-
-                for (int i = start; i <= end; i++)
-                {
-                    displayPages.Add(i);
-                }
-
-                if (end < totalPages - 1) displayPages.Add(-1);
-                displayPages.Add(totalPages);
-            }
-
-            return displayPages;
-        }
         [HttpPost("Like")]
         public IActionResult Like(int postId)
         {
