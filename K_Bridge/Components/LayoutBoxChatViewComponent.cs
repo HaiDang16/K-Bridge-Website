@@ -21,9 +21,10 @@ namespace K_Bridge.Components
             if (user == null)
                 ViewBag.Username = "User";
             else
+            {
                 ViewBag.Username = user.Username;
-
-
+                ViewBag.Avatar = user.Avatar;
+            }
             return View();
         }
     }

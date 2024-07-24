@@ -4,14 +4,13 @@
     bool isCmtAvaiable = true;
     bool isVoteAvaiable = ViewBag.IsVote;
     var voteDetail = ViewBag.Vote;
-    string MaxChoice = "single";
     string CloseAfter = "day";
     bool showResults = false;
-    var currentUserId = "Test1"; // Lấy ID của người dùng hiện tại
-    var postAuthorId = "Test1"; // ID của tác giả bài viết, giả sử bạn truyền thông tin này từ model
     var voteOptionsList = ViewBag.VoteOptionsList;
     var userVotes = ViewBag.UserVotes as List<UserVote>;
 }
+@using K_Bridge.Models.ViewModels
+@model Post
 
 <div class="row mb-5">
     <div class="d-flex justify-content-start fs-4">
@@ -32,6 +31,8 @@
         <div class="col-lg-1 flex-column">
             <partial name="_LikeDislikePartial" model="new Post_Like { PostID = ViewBag.Post.ID, Post = ViewBag.Post }" />
         </div>
+
+
         <div class="col-lg-11">
             @if (isVoteAvaiable)
             {
@@ -44,13 +45,8 @@
                             <h4 class="text-color-header">@voteDetail.Question</h4>
                         </div>
 
-                        @*                         @if (currentUserId == postAuthorId)
-                    {
-                    <button class="align-content-center">
-                    <img src="~/img/icon_edit_50.png" width="20" height="20" alt="EditPost" />
-                    </button>
-                    }
-                    *@
+
+
                     </div>
                     <form id="voteForm" method="post" asp-action="SubmitVote">
                         <input type="hidden" name="postId" value="@ViewBag.Post.ID" />
@@ -112,7 +108,7 @@
 
                         @{
                             string closeAfterText = "Bình chọn sẽ đóng sau: ";
-                            switch (CloseAfter)
+                            switch (voteDetail.CloseAfter)
                             {
                                 case "day":
                                     closeAfterText += "<small class=\"fw-bold text-color-logo\">1 ngày</small>";
@@ -145,7 +141,7 @@
                     } *@
                         <div class="d-flex justify-content-end align-items-center">
                             <button type="submit" id="voteButton"
-                                class="px-3 py-1 border-main-color-layout btn-account-log rounded-3 mx-2 align-items-center d-flex text-color-header">
+                                    class="px-3 py-1 border-main-color-layout btn-account-log rounded-3 mx-2 align-items-center d-flex text-color-header">
                                 <img class="align-content-center me-2" src="~/img/vote.png" width="18" height="18" alt="Vote Image" />
                                 Bình chọn
                             </button>
@@ -155,8 +151,6 @@
 
                 </div>
             }
-
-
             <div class="reply-content">
                 @Html.Raw(ViewBag.Post.Content)
             </div>
@@ -176,6 +170,13 @@
             <div class="d-flex justify-content-end mt-2">
                 <img src="~/img/avatar_default.png" class="rounded-circle" alt="Avatar" width="30" height="30">
                 <div class="newest-card-username mx-2">@ViewBag.Post.User.Username hỏi @GetTimeAgoHelper.GetTimeAgo(@ViewBag.Post.CreatedAt)</div>
+                @if (ViewBag.CurrentUser != null && ViewBag.Post != null && ViewBag.CurrentUser.ID != null && ViewBag.Post.UserID == ViewBag.CurrentUser.ID)
+                {
+                    <button class="align-content-center" onclick="window.location.href='/Post/Edit?id=@ViewBag.Post.ID'">
+                        <img src="~/img/icon_edit_50.png" width="20" height="20" alt="EditPost" />
+                    </button>
+                }
+
             </div>
             @if (isCmtAvaiable)
             {
@@ -195,55 +196,59 @@
                     </div>
                 </div>
                 <div id="repliesContainer">
-                    <partial name="_RepliesPartial" model="ViewBag.RepliesWithLike" />
+                    @await Html.PartialAsync("_RepliesPartial", (ReplyPaginationViewModel)ViewBag.ReplyViewModel)
                 </div>
             }
-            <div>
-                <p class="fs-5 text-color-logo">
-                    Câu trả lời của bạn:
-                </p>
-            </div>
-            <form method="post" asp-action="SubmitReply">
-                <input type="hidden" name="postId" value="@ViewBag.Post.ID" />
+            @if (ViewBag.CurrentUser != null && ViewBag.Post != null && ViewBag.CurrentUser.ID != null)
+            {
+                <div>
+                    <p class="fs-5 text-color-logo">
+                        Câu trả lời của bạn:
+                    </p>
+                </div>
+                <form method="post" asp-action="SubmitReply">
+                    <input type="hidden" name="postId" value="@ViewBag.Post.ID" />
 
-                <div class="border-2 rounded-3 border-main-color-header p-2 text-color-logo">
-                    <div class="d-flex col-lg-3 justify-content-evenly fs-5">
-                        <button type="button" id="bold-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3 hover-bold" style="min-width: 32px;">
-                            <span>B</span>
-                        </button>
-                        <button type="button" id="italic-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3 hover-italic" style="min-width: 32px;">
-                            <span>I</span>
-                        </button>
-                        <button type="button" id="underline-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3 hover-underline" style="min-width: 32px;">
-                            <span>U</span>
-                        </button>
-                        <button type="button" id="ordered-list-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
-                            <span>1.</span>
-                        </button>
-                        <button type="button" id="unordered-list-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
-                            <span>•</span>
-                        </button>
-                        <button type="button" id="undo-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
-                            <span>↶</span>
-                        </button>
-                        <button type="button" id="redo-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
-                            <span>↷</span>
-                        </button>
-                    </div>
-                    <div class="border-top">
-                        @* <textarea id="content-area" class="focus form-control m-2 p-2" style="min-height: 100px; width: calc(100% - 1rem); resize: vertical;"
+                    <div class="border-2 rounded-3 border-main-color-header p-2 text-color-logo">
+                        <div class="d-flex col-lg-3 justify-content-evenly fs-5">
+                            <button type="button" id="bold-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3 hover-bold" style="min-width: 32px;">
+                                <span>B</span>
+                            </button>
+                            <button type="button" id="italic-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3 hover-italic" style="min-width: 32px;">
+                                <span>I</span>
+                            </button>
+                            <button type="button" id="underline-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3 hover-underline" style="min-width: 32px;">
+                                <span>U</span>
+                            </button>
+                            <button type="button" id="ordered-list-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
+                                <span>1.</span>
+                            </button>
+                            <button type="button" id="unordered-list-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
+                                <span>•</span>
+                            </button>
+                            <button type="button" id="undo-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
+                                <span>↶</span>
+                            </button>
+                            <button type="button" id="redo-btn" class="btn btn-outline-secondary m-2 px-2 py-1 rounded-3" style="min-width: 32px;">
+                                <span>↷</span>
+                            </button>
+                        </div>
+                        <div class="border-top">
+                            @* <textarea id="content-area" class="focus form-control m-2 p-2" style="min-height: 100px; width: calc(100% - 1rem); resize: vertical;"
                         name="answerContent" placeholder="Viết câu trả lời tại đây..."></textarea> *@
-                        <div id="editor" class="focus form-control m-2 p-2" style="min-height: 100px; width: calc(100% - 1rem); resize: vertical;"
-                             contenteditable="true"></div>
-                        <input type="hidden" id="content-area" name="answerContent">
+                            <div id="editor" class="focus form-control m-2 p-2" style="min-height: 100px; width: calc(100% - 1rem); resize: vertical;"
+                                 contenteditable="true"></div>
+                            <input type="hidden" id="content-area" name="answerContent">
 
+                        </div>
                     </div>
-                </div>
-                <div class="d-flex justify-content-end mt-2">
-                    <button type="submit" class="m-2 px-3 py-2 bg-main-color-layout text-color-logo rounded-3">Đăng câu trả lời của bạn</button>
-                </div>
-            </form>
 
+                    <div class="d-flex justify-content-end mt-2">
+                        <button type="submit" class="m-2 px-3 py-2 bg-main-color-layout text-color-logo rounded-3">Đăng câu trả lời của bạn</button>
+                    </div>
+
+                </form>
+            }
             <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
                 <div id="liveToastDetail" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
                     <div class="toast-body text-color-background fw-bold text-center rounded-bottom rounded-3" style="background-color: #493422; border: 2px solid #FFF0E6;">
@@ -252,9 +257,9 @@
                 </div>
             </div>
 
-
         </div>
     </div>
+
 </div>
 
 <script>
@@ -340,6 +345,7 @@
                 .then(html => {
                     document.getElementById('repliesContainer').innerHTML = html;
                 });
+            loadReplies(postId, selectedSort, 1);
         });
     });
 </script>
@@ -456,10 +462,40 @@
                 .catch(error => console.error('Error:', error));
         });
     });
+
     window.addEventListener('load', function () {
         if (localStorage.getItem('showResults') === 'true') {
             toggleResults();
             localStorage.removeItem('showResults'); // Xóa trạng thái sau khi đã xử lý
         }
     });  
+</script>
+
+<script>
+    // function loadReplies(postId, sort, page) {
+    //     $.ajax({
+    //         url: `/Post/GetReplies?postId=${postId}&sort=${sort}&page=${page}`,
+    //         type: 'GET',
+    //         success: function (result) {
+    //             $('#repliesContainer').html(result);
+    //         }
+    //     });
+    // }
+
+    function loadReplies(postId, sort, page) {
+        $.ajax({
+            url: '/Post/GetReplies',
+            data: { postId: postId, sort: sort, page: page },
+            type: 'GET',
+            success: function (result) {
+                $('#repliesContainer').html(result);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        var postId = '@ViewBag.Post.ID'; // Lấy postId từ ViewBag
+        var initialSort = '@ViewBag.Sort'; // Lấy sort ban đầu từ ViewBag
+        loadReplies(postId, initialSort, 1); // Load trang đầu tiên
+    });
 </script>

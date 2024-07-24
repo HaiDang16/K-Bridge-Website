@@ -2,20 +2,46 @@
 @inject IHttpContextAccessor HttpContextAccessor
 @{
     ViewData["Title"] = "Trang chủ";
+    var lastLoginDate = ViewBag.UserLastLogin as DateTime?;
     string? username = HttpContextAccessor?.HttpContext?.Session?.GetJson<User>("user")?.Username;
-    string welcomeText = "Đã 7 ngày kể từ lần cuối bạn thăm diễn đàn. Hãy tạo bài viết mới trên các diễn đàn để cùng thảo luận với mọi người nào.";
+    string? avatar = HttpContextAccessor?.HttpContext?.Session?.GetJson<User>("user")?.Avatar;
+
+
+    string welcomeText;
     if (username == null)
     {
         username = "người dùng";
         welcomeText = "Bạn đang đăng nhập với vai trò tài khoản khách vãng lai. Đăng nhập tài khoản để có thể đăng bài và bình luận trên các diễn đàn.";
     }
-    <link href="/css/Newest.css" rel="stylesheet" />
+    else
+    {
+        if (lastLoginDate.HasValue)
+        {
+            var daysSinceLastLogin = (DateTime.Now - lastLoginDate.Value).Days;
+            if (daysSinceLastLogin < 1)
+                welcomeText = "Chào mừng bạn trở lại! Hãy tạo bài viết mới trên các diễn đàn để cùng thảo luận với mọi người nào.";
+            else
+                welcomeText = $"Đã {daysSinceLastLogin} ngày kể từ lần cuối bạn thăm diễn đàn. Hãy tạo bài viết mới trên các diễn đàn để cùng thảo luận với mọi người nào.";
+        }
+        else
+        {
+            welcomeText = "Chào mừng bạn trở lại! Hãy tạo bài viết mới trên các diễn đàn để cùng thảo luận với mọi người nào.";
+        }
+    }
+     <link href="/css/Newest.css" rel="stylesheet" />
 }
 <div class="h-auto text-color-logo">
     <div class="w-auto container-fluid rounded-3" style="background:#FFF0E6">
         <div class="row flex-nowrap p-2">
             <div class="col-lg-1 p-0 my-2">
-                <img src="~/img/avatar_default.png" alt="avatar" class="rounded-circle" style="width: 40px; height: 40px; overflow-x:hidden" />
+                @if (avatar != null)
+                {
+                    <img src="~/avatars/@avatar" alt="avatar" class="rounded-circle" style="width: 40px; height: 40px; overflow-x:hidden" />
+                }
+                else
+                {
+                    <img src="~/img/avatar_default.png" alt="avatar" class="rounded-circle" style="width: 40px; height: 40px; overflow-x:hidden" />
+                }
             </div>
             <div class="col-lg-11">
                 <div class="col-lg-11 d-flex text-color-logo">
@@ -61,7 +87,14 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-end mt-2">
-                            <img src="/img/avatar_default.png" class="rounded-circle" alt="Avatar" width="30" height="30">
+                            @if (latestPost.User.Avatar != null)
+                            {
+                                <img src="~/avatars/@latestPost.User.Avatar" alt="avatar" class="rounded-circle" style="width: 40px; height: 40px; overflow-x:hidden" />
+                            }
+                            else
+                            {
+                                <img src="/img/avatar_default.png" class="rounded-circle" alt="Avatar" width="30" height="30">
+                            }
                             <div class="newest-card-username mx-2">@latestPost.User.Username hỏi @GetTimeAgoHelper.GetTimeAgo(latestPost.CreatedAt)</div>
                         </div>
                     </div>
@@ -103,7 +136,14 @@
                             </div>
                             <div class="col-lg-4 p-0 d-flex align-items-center">
                                 <div class="col-lg-2 p-0 m-2 d-flex align-items-center ">
-                                    <img src="/img/avatar_default.png" alt="avatar" class="rounded-circle" style="width: 40px; height: 40px;" />
+                                    @if (topic.Posts[0].User.Avatar != null)
+                                    {
+                                        <img src="~/avatars/@topic.Posts[0].User.Avatar" alt="avatar" class="rounded-circle" style="width: 40px; height: 40px; overflow-x:hidden" />
+                                    }
+                                    else
+                                    {
+                                        <img src="/img/avatar_default.png" alt="avatar" class="rounded-circle" style="width: 40px; height: 40px;" />
+                                    }
                                 </div>
                                 <div class="col-lg-8 d-flex flex-column justify-content-center">
                                     <div class="fw-12 p-0 m-0 home-topic-latest-post-title">

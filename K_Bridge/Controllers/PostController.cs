@@ -6,9 +6,12 @@ using K_Bridge.Models.ViewModels;
 using K_Bridge.Repositories;
 using K_Bridge.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using System.Diagnostics;
+using System.Security.Claims;
 
 
 
@@ -21,18 +24,20 @@ namespace K_Bridge.Controllers
         private IReplyRepository _replyRepository;
         private ILikeRepository _likeRepository;
         private IVoteRepository _voteRepository;
+        private INotificationRepository _notificationRepository;
+        private IUserRepository _userRepository;
 
         private CodeGenerationService _codeGenerationService;
         private UserService _userService;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly HtmlSanitizer _sanitizer;
-
-
         public PostController(IPostRepository postRepository,
             IReplyRepository replyRepository,
             ILikeRepository likeRepository,
             IVoteRepository voteRepository,
+            INotificationRepository notificationRepository,
+            IUserRepository userRepository,
             CodeGenerationService codeGenerationService,
             UserService userService,
             IHttpContextAccessor httpContextAccessor)
@@ -41,13 +46,14 @@ namespace K_Bridge.Controllers
             _replyRepository = replyRepository;
             _likeRepository = likeRepository;
             _voteRepository = voteRepository;
+            _notificationRepository = notificationRepository;
+            _userRepository = userRepository;
 
             _codeGenerationService = codeGenerationService;
             _userService = userService;
             _httpContextAccessor = httpContextAccessor;
 
             _sanitizer = new HtmlSanitizer();
-
             /*            _sanitizer.AllowedTags.Clear();
                         _sanitizer.AllowedTags.Add("b");
                         _sanitizer.AllowedTags.Add("i");
@@ -70,6 +76,7 @@ namespace K_Bridge.Controllers
             ViewBag.TopicID = Topic;
             return View();
         }
+
         [HttpPost("Create")]
         public IActionResult Create(PostViewModel post, int topicID)
         {
@@ -86,6 +93,8 @@ namespace K_Bridge.Controllers
                 }
 
                 string newCode = _codeGenerationService.GenerateNewCode<Post>("POST");
+
+                // Create new post
                 var newPost = new Post
                 {
                     Code = newCode,
@@ -96,6 +105,12 @@ namespace K_Bridge.Controllers
                     TopicID = topicID,
                 };
                 _postRepository.SavePost(newPost);
+
+                // Send notification for admin
+                string notiTitle = NotificationHelper.GetNotiTitleForAdmin(NotificationType.NewPost);
+                string notiMessage = NotificationHelper.GetNotiMessageForAdmin(NotificationType.NewPost);
+
+                _notificationRepository.SendNotificationForAllAdmins(notiTitle, notiMessage, NotificationType.NewPost);
 
                 if (!string.IsNullOrEmpty(post.Question))
                 {
@@ -120,11 +135,14 @@ namespace K_Bridge.Controllers
                     newPost.VoteID = vote.ID;
                     _postRepository.UpdatePost(newPost);
                 }
+
+                //Add reputation
+                _userRepository.IncreaseUserReputation(user.ID, 10);
+
                 return RedirectToAction("Index", "User", new { id = user.ID });
             }
             return View(post);
         }
-
 
         [HttpGet("Details")]
         public IActionResult Details([FromQuery] int post, [FromQuery] string sort = "helpful")
@@ -188,14 +206,25 @@ namespace K_Bridge.Controllers
                 {
                     var userVotes = _voteRepository.GetUserVoteForPost(user.ID, post);
                     ViewBag.UserVotes = userVotes;
-
+                    ViewBag.CurrentUser = user;
                 }
 
+                var initialReplies = allRepliesWithLike.Take(3).ToList();
+                var viewModel = new ReplyPaginationViewModel
+                {
+                    Replies = initialReplies,
+                    CurrentPage = 1,
+                    TotalPages = (int)Math.Ceiling(allRepliesWithLike.Count / 5.0),
+                    PostId = post,
+                    Sort = sort
+                };
                 ViewBag.Post = postDetails;
                 ViewBag.Sort = sort;
                 ViewBag.TotalLikesMinusDislikes = totalLikes - totalDislikes;
                 ViewBag.UserLikeStatus = userLikeStatus;
                 ViewBag.RepliesWithLike = allRepliesWithLike;
+                ViewBag.ReplyViewModel = viewModel;
+
 
                 return View();
             }
@@ -221,7 +250,6 @@ namespace K_Bridge.Controllers
                 return RedirectToAction("Details", new { post = postId });
             }
 
-
             var reply = new Reply
             {
                 PostID = postId,
@@ -230,13 +258,26 @@ namespace K_Bridge.Controllers
                 UserID = user.ID,
             };
 
+            var post = _postRepository.GetPostByID(postId);
+
+            if (post != null)
+            {
+                // Send notification for author of post
+                string notiTitle = NotificationHelper.GetNotiTitleForUser(NotificationType.NewReply);
+                string notiMessage = $"{post.User.Username} {NotificationHelper.GetNotiMessageForUser(NotificationType.NewReply)}";
+                _notificationRepository.SendNotificationForPostAuthor(user.ID, reply.PostID, notiTitle, notiMessage, NotificationType.NewReply);
+            }
             _replyRepository.SaveReply(reply);
+
+            // Update user's reputation
+            _userRepository.IncreaseUserReputation(user.ID, 3);
+
 
             return RedirectToAction("Details", new { post = postId });
         }
 
         [HttpGet("GetReplies")]
-        public IActionResult GetReplies(int postId, string sort = "newest")
+        public IActionResult GetReplies(int postId, string sort = "newest", int page = 1, int pageSize = 3)
         {
             var postDetails = _postRepository.GetPostByID(postId);
 
@@ -274,7 +315,26 @@ namespace K_Bridge.Controllers
                 _ => allRepliesWithLike.OrderBy(r => r.Reply.CreatedAt).ToList()
             };
 
-            return PartialView("_RepliesPartial", allRepliesWithLike);
+            // Pagination
+            int totalReplies = allRepliesWithLike.Count;
+            int totalPages = (int)Math.Ceiling(totalReplies / (double)pageSize);
+            var paginatedReplies = allRepliesWithLike.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            var viewModel = new ReplyPaginationViewModel
+            {
+                Replies = paginatedReplies,
+                CurrentPage = page,
+                TotalPages = totalPages,
+                PostId = postId,
+                Sort = sort
+            };
+
+
+            if (user != null)
+            {
+                ViewBag.CurrentUser = user;
+            }
+            return PartialView("_RepliesPartial", viewModel);
         }
 
         [HttpPost("Like")]
@@ -294,7 +354,14 @@ namespace K_Bridge.Controllers
                 if (existingLike.IsLike)
                     _likeRepository.DeleteExistPostLike(existingLike);
                 else
+                {
                     _likeRepository.UpdatePostLike(existingLike, true);
+
+                    //Send notification for author of post
+                    string notiTitle = NotificationHelper.GetNotiTitleForUser(NotificationType.NewLike);
+                    string notiMessage = NotificationHelper.GetNotiMessageForUser(NotificationType.NewLike);
+                    _notificationRepository.SendNotificationForPostAuthor(currentUser.ID, postId, notiTitle, notiMessage, NotificationType.NewLike);
+                }
             }
             else
             {
@@ -306,7 +373,13 @@ namespace K_Bridge.Controllers
                 };
 
                 _likeRepository.SavePostLike(postLike);
+
+                //Send notification for author of post
+                string notiTitle = NotificationHelper.GetNotiTitleForUser(NotificationType.NewLike);
+                string notiMessage = NotificationHelper.GetNotiMessageForUser(NotificationType.NewLike);
+                _notificationRepository.SendNotificationForPostAuthor(currentUser.ID, postId, notiTitle, notiMessage, NotificationType.NewLike);
             }
+
             var likeCount = _likeRepository.GetPostLikeCount(postId);
             var dislikeCount = _likeRepository.GetPostDislikeCount(postId);
 
@@ -330,7 +403,14 @@ namespace K_Bridge.Controllers
                 if (!existingLike.IsLike)
                     _likeRepository.DeleteExistPostLike(existingLike);
                 else
+                {
                     _likeRepository.UpdatePostLike(existingLike, false);
+
+                    //Send notification for author of post
+                    string notiTitle = NotificationHelper.GetNotiTitleForUser(NotificationType.NewDisLike);
+                    string notiMessage = NotificationHelper.GetNotiMessageForUser(NotificationType.NewDisLike);
+                    _notificationRepository.SendNotificationForPostAuthor(currentUser.ID, postId, notiTitle, notiMessage, NotificationType.NewDisLike);
+                }
             }
             else
             {
@@ -342,6 +422,11 @@ namespace K_Bridge.Controllers
                 };
 
                 _likeRepository.SavePostLike(postLike);
+
+                //Send notification for author of post
+                string notiTitle = NotificationHelper.GetNotiTitleForUser(NotificationType.NewDisLike);
+                string notiMessage = NotificationHelper.GetNotiMessageForUser(NotificationType.NewDisLike);
+                _notificationRepository.SendNotificationForPostAuthor(currentUser.ID, postId, notiTitle, notiMessage, NotificationType.NewDisLike);
             }
             var likeCount = _likeRepository.GetPostLikeCount(postId);
             var dislikeCount = _likeRepository.GetPostDislikeCount(postId);
@@ -366,7 +451,14 @@ namespace K_Bridge.Controllers
                 if (existingLike.IsLike)
                     _likeRepository.DeleteExistReplyLike(existingLike);
                 else
+                {
                     _likeRepository.UpdateReplyLike(existingLike, true);
+
+                    //Send notification for author of reply
+                    string notiTitle = NotificationHelper.GetNotiTitleForUser(NotificationType.NewLikeReply);
+                    string notiMessage = NotificationHelper.GetNotiMessageForUser(NotificationType.NewLikeReply);
+                    _notificationRepository.SendNotificationForReplyAuthor(currentUser.ID, replyId, notiTitle, notiMessage, NotificationType.NewLikeReply);
+                }
             }
             else
             {
@@ -378,6 +470,11 @@ namespace K_Bridge.Controllers
                 };
 
                 _likeRepository.SaveReplyLike(replyLike);
+
+                //Send notification for author of reply
+                string notiTitle = NotificationHelper.GetNotiTitleForUser(NotificationType.NewLikeReply);
+                string notiMessage = NotificationHelper.GetNotiMessageForUser(NotificationType.NewLikeReply);
+                _notificationRepository.SendNotificationForReplyAuthor(currentUser.ID, replyId, notiTitle, notiMessage, NotificationType.NewLikeReply);
             }
             var likeCount = _likeRepository.GetReplyLikeCount(replyId);
             var dislikeCount = _likeRepository.GetReplyDislikeCount(replyId);
@@ -405,7 +502,14 @@ namespace K_Bridge.Controllers
                 if (!existingLike.IsLike)
                     _likeRepository.DeleteExistReplyLike(existingLike);
                 else
+                {
                     _likeRepository.UpdateReplyLike(existingLike, true);
+
+                    //Send notification for author of reply
+                    string notiTitle = NotificationHelper.GetNotiTitleForUser(NotificationType.NewDislikeReply);
+                    string notiMessage = NotificationHelper.GetNotiMessageForUser(NotificationType.NewDislikeReply);
+                    _notificationRepository.SendNotificationForReplyAuthor(currentUser.ID, replyId, notiTitle, notiMessage, NotificationType.NewDislikeReply);
+                }
             }
             else
             {
@@ -417,11 +521,15 @@ namespace K_Bridge.Controllers
                 };
 
                 _likeRepository.SaveReplyLike(replyLike);
+
+                //Send notification for author of reply
+                string notiTitle = NotificationHelper.GetNotiTitleForUser(NotificationType.NewDislikeReply);
+                string notiMessage = NotificationHelper.GetNotiMessageForUser(NotificationType.NewDislikeReply);
+                _notificationRepository.SendNotificationForReplyAuthor(currentUser.ID, replyId, notiTitle, notiMessage, NotificationType.NewDislikeReply);
             }
             var likeCount = _likeRepository.GetReplyLikeCount(replyId);
             var dislikeCount = _likeRepository.GetReplyDislikeCount(replyId);
             int userLikeStatus = _likeRepository.ToggleReplyLike(replyId, currentUser.ID, false);
-
 
             return Json(new { likeCount, dislikeCount, userLikeStatus });
         }
@@ -455,7 +563,6 @@ namespace K_Bridge.Controllers
             {
                 return Json(new { success = false, message = "Không tìm thấy thông tin bình chọn." });
             }
-
 
             // Kiểm tra trạng thái của bình chọn
             if (vote.Status == "Close" || DateTime.UtcNow > vote.GetCloseTime())
@@ -539,34 +646,159 @@ namespace K_Bridge.Controllers
                     }
                 }
             }
+
+            //Send notification for author of reply
+            string notiTitle = NotificationHelper.GetNotiTitleForUser(NotificationType.NewVote);
+            string notiMessage = NotificationHelper.GetNotiMessageForUser(NotificationType.NewVote);
+            _notificationRepository.SendNotificationForVoteAuthor(currentUser.ID, post.VoteID, notiTitle, notiMessage, NotificationType.NewVote);
+
             return Json(new { success = true });
         }
-        public IActionResult GetVoteResults(int postId)
-        {
-            // Lấy thông tin phiếu bầu từ cơ sở dữ liệu
-            var voteDetail = _voteRepository.GetVoteWithOptionByPostId(postId);
 
-            if (voteDetail == null)
+        [HttpPost("DeleteReply")]
+        public IActionResult DeleteReply(int replyId)
+        {
+            var reply = _postRepository.GetReplyById(replyId);
+
+            if (reply == null)
+            {
+                return Json(new { success = false, messages = "Không tìm thấy bình luận nào" });
+            }
+
+            _postRepository.RemoveReply(reply);
+            return Json(new { success = true });
+        }
+
+        [HttpGet("Edit")]
+        public IActionResult Edit(int id)
+        {
+            User? user = HttpContext.Session.GetJson<User>("user");
+
+            if (user == null)
+                ViewBag.Username = "người dùng";
+            else
+                ViewBag.Username = user.Username;
+
+            var post = _postRepository.GetPostByID(id);
+
+            ViewBag.TopicID = post.TopicID;
+            ViewBag.Post = post;
+            ViewBag.Options = post.Vote?.VoteOptions.Select(vo => vo.Title).ToList();
+            return View();
+        }
+
+        [HttpPost("Edit")]
+        public IActionResult Edit(EditPostViewModel model, int topicID, int postID)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var post = _postRepository.GetPostByID(postID);
+            if (post == null)
             {
                 return NotFound();
             }
 
-            // Tạo một đối tượng để lưu kết quả bỏ phiếu
-            var voteResults = new List<VoteResultViewModel>();
-
-            foreach (var option in voteDetail.VoteOptions)
+            // Update post properties
+            post.Title = model.Title;
+            if (!string.IsNullOrWhiteSpace(model.Content))
             {
-                var voteCount = _voteRepository.CountUserVoteById(option.ID);
-
-                voteResults.Add(new VoteResultViewModel
-                {
-                    VoteOptionID = option.ID,
-                    Title = option.Title,
-                    VoteCount = voteCount
-                });
+                post.Content = model.Content;
+            }
+            if (!string.IsNullOrWhiteSpace(model.ImageLink))
+            {
+                post.ImageLink = model.ImageLink;
             }
 
-            return Json(voteResults);
+            // Update vote information
+            if (post.IsVote)
+            {
+                var vote = post.Vote ?? new Vote
+                {
+                    PostID = post.ID
+                };
+
+                vote.Question = model.Question;
+                vote.IsUnlimited = model.IsUnlimited;
+                vote.CloseAfter = model.CloseAfter;
+
+                // Update vote options
+                var existingOptions = _voteRepository.GetVoteOptionsByVoteId(vote.ID);
+                var newOptions = model.Options.Where(o => !string.IsNullOrWhiteSpace(o)).ToList();
+
+                foreach (var option in existingOptions)
+                {
+                    if (!newOptions.Contains(option.Title))
+                    {
+                        _voteRepository.RemoveVoteOption(option);
+                    }
+                    else
+                    {
+                        newOptions.Remove(option.Title);
+                    }
+                }
+
+                foreach (var newOption in newOptions)
+                {
+                    var voteOption = new VoteOption
+                    {
+                        Title = newOption,
+                        VoteID = vote.ID
+                    };
+                    _voteRepository.SaveVoteOption(voteOption);
+                }
+
+                // Ensure vote entity is tracked
+                if (post.Vote == null)
+                {
+                    _voteRepository.SaveVote(vote);
+                }
+                else
+                {
+                    _voteRepository.UpdateVote(vote);
+                }
+            }
+            else if (post.Vote != null)
+            {
+                _voteRepository.RemoveVote(post.Vote);
+            }
+            else if (!string.IsNullOrEmpty(model.Question))
+            {
+                model.Options = model.Options.Where(o => !string.IsNullOrWhiteSpace(o)).ToList();
+
+                var vote = new Vote
+                {
+                    Question = model.Question,
+                    OptionCount = model.Options.Count(),
+                    IsUnlimited = model.IsUnlimited,
+                    CloseAfter = model.CloseAfter,
+                    PostID = post.ID,
+                    Status = "Open",
+                    VoteOptions = model.Options.Select(o => new VoteOption
+                    {
+                        Title = o,
+                        Quantity = 0
+                    }).ToList()
+                };
+
+                _voteRepository.SaveVote(vote);
+
+                post.IsVote = true;
+                post.VoteID = vote.ID;
+            }
+            _postRepository.UpdatePost(post);
+            return RedirectToAction("Details", new { post = postID });
+        }
+
+        [HttpDelete("Delete/{id}")]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            // Fetch the post from the database
+            _postRepository.RemovePost(id);
+            return Ok();
         }
     }
 }

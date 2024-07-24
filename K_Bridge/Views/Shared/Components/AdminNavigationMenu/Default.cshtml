@@ -36,16 +36,6 @@
             }
       </ul>
     </li>
-  @*   <li class="nav-item mt-2">
-        <a class="nav-link nav-link-text" href="/Admin/Manager/List">
-            <img src="~/img/icon_topic_50.png" class="sidebar-icon" /> Chủ đề
-        </a>
-    </li> *@
-    <li class="nav-item mt-2">
-        <a class="nav-link nav-link-text" href="/Admin/Manager/List">
-            <img src="~/img/icon_vote_50.png" class="sidebar-icon" /> Bình chọn
-        </a>
-    </li>
     @{
         var role = HttpContextAccessor.HttpContext.Session.GetString("AdminRole");
         // Debug: Hiển thị giá trị Role trên trang để kiểm tra
@@ -53,7 +43,7 @@
     @if (role == "Mgr")
     {
         <li class="nav-item mt-2">
-            <a class="nav-link nav-link-text" href="/Admin/Manager/List">
+            <a class="nav-link nav-link-text" href="/Admin/Managers/List">
                 <img src="~/img/icon_admin_50.png" class="sidebar-icon" /> Quản trị viên
             </a>
         </li>
@@ -61,7 +51,7 @@
 
 
     <li class="nav-item mt-2">
-        <a class="nav-link nav-link-text" href="/Account/Login?action=logout">
+        <a class="nav-link nav-link-text" href="/Admin/Logout">
             <img src="~/img/icon_logout_50.png" class="sidebar-icon" /> Đăng xuất
         </a>
     </li>

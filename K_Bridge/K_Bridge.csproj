@@ -39,6 +39,7 @@
 <ItemGroup>
   <Folder Include="TagHelpers\" />
   <Folder Include="Views\Admin\" />
+  <Folder Include="wwwroot\avatars\" />
 </ItemGroup>
 <ItemGroup>
   <None Include="Views\Home\Search.cshtml" />

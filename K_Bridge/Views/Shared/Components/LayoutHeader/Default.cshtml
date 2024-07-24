@@ -1,6 +1,7 @@
 ﻿@{
-
     bool isLoggedIn = ViewBag.IsLoggedIn ?? false;
+    var noti = ViewBag.Notifications;
+    var unreadCount = ViewBag.UnreadCount;
 }
 @model LoginRegisterViewModel
 
@@ -39,18 +40,37 @@
                     <button class="p-2 bg-main-color-logo border-main-color-layout rounded-3" id="notificationButton">
                         <img src="~/img/notification50.png" class="img-fluid" alt="Notifications" width="25" height="25">
                     </button>
-                    <div class="position-absolute fs-12 translate-middle badge rounded-circle bg-danger" id="notificationCount" style="left:40px;">
-                        <!-- Notification count will be dynamically inserted here -->
+                    <div class="position-absolute fs-12 translate-middle badge rounded-circle bg-danger"
+                         id="notificationCount" style="left:40px;">
+                        @unreadCount
                     </div>
-                    <div id="notificationList" class="dropdown-menu dropdown-menu-end p-0 " style="display: none; width: 300px; max-height: 400px; overflow-y: auto; background-color:#FDE7D2; cursor: pointer;">
+                    <div id="notificationList" class="dropdown-menu dropdown-menu-end p-0 "
+                         style="display: none; width: 300px; max-height: 400px; overflow-y: auto; background-color:#FDE7D2; cursor: pointer;">
                         <div class="p-2 border-bottom">
                             <h6 class="mb-0">Thông báo</h6>
                         </div>
-                        <div id="notificationItems"></div>
+                        <div id="notificationItems">
+                            @foreach (var notification in noti)
+                            {
+                                <div class="notification-item @(!notification.IsRead ? "fw-bold" : "")" data-id="@notification.ID" data-message="@notification.Message">
+                                    <div class="notification-content">
+                                        <div class="notification-title">@notification.Title</div>
+                                        <div class="notification-time d-flex justify-content-end">@notification.CreatedAt.ToString("dd/MM/yy hh:mm")</div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
                 <div class="d-md-flex align-items-center mx-3 pointer-event" onclick="window.location.href='/UserProfile?id=@ViewBag.UserID'">
-                    <img src="/img/avatar_default.png" alt="avatar" class="me-2 rounded-3" style="width: 40px; height: 40px;" />
+                    @if (ViewBag.CurrentUser.Avatar != null)
+                    {
+                        <img src="~/avatars/@ViewBag.CurrentUser.Avatar" alt="avatar" class="me-2 rounded-3" style="width: 40px; height: 40px;" />
+                    }
+                    else
+                    {
+                        <img src="/img/avatar_default.png" alt="avatar" class="me-2 rounded-3" style="width: 40px; height: 40px;" />
+                    }
                     <div class=" text-color-background mb-1 fw-bold flex-grow-1 pe-none">@ViewBag.UsernameLoggedIn</div>
                 </div>
             }
@@ -123,8 +143,6 @@
     </div>
 </div>
 
-@* <partial name="ModalLogin" />
- *@
 <!-- Modal Login -->
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -171,8 +189,33 @@
     </div>
 </div>
 
+@*Read notification modal*@
+<div class="modal fade modal-new-post-overall rounded-3" id="notificationUserModal" tabindex="-1"
+     aria-labelledby="notificationUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="border-radius: 20px;">
+        <div class="modal-content">
+            <div class="modal-header modal-new-post-header py-2 px-3">
+                <h5 class="modal-title text-uppercase" id="notificationUserModalLabel"></h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body bg-main-color-layout d-flex flex-column py-4">
+                <div id="notificationUserDetail" class="text-color-header justify-content-center flex-column m-auto fs-4"
+                     style="min-height:60px;">
+                </div>
+            </div>
+            <div class="d-flex justify-content-center bg-main-color-layout pb-4 rounded-bottom">
+                <button type="button" class="rounded-2 px-3 py-1 btn-confirm me-1"
+                        data-bs-dismiss="modal" style="min-width:148px;">
+                    Đóng
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
-
+<!-- Sccipt cho đăng ký/ đăng nhập -->
 <script>
     var signupModal;
     var loginModal;
@@ -299,21 +342,9 @@
         var toast = new bootstrap.Toast(toastElement);
         toast.show();
     }
-    // function updateUIAfterLogin(user) {
-    //     var loginButtons = document.querySelector('.align-items-center.d-flex.justify-content-between');
-    //     if (loginButtons) {
-    //         var userInfo = document.createElement('div');
-    //         userInfo.className = 'd-md-flex align-items-center mx-3';
-    //         userInfo.innerHTML = `
-    //                 <img src="/img/avatar_40.png" alt="avatar" class="me-2 rounded-3" style="width: 40px; height: 40px;" href="/Newest"/>
-    //                     <div class="text-color-background mb-1 fw-bold flex-grow-1" onclick="window.location.href='/Newest'">${user.username}</div>
-    //             `;
-    //         loginButtons.parentNode.replaceChild(userInfo, loginButtons);
-    //     }
-    // }
 </script>
 
-
+<!-- Sccipt cho chức năng tìm kiếm -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var searchButton = document.getElementById('button-addon2');
@@ -349,31 +380,6 @@
         var notificationItems = document.getElementById('notificationItems');
         var notificationButton = document.getElementById('notificationButton');
 
-        if (notificationCount > 0) {
-            notificationCountElement.innerHTML = notificationCount;
-            notificationCountElement.style.display = 'inline-block';
-
-            var notifications = [
-                { id: 1, message: 'John đã bình luận vào bài viết của bạn.', time: '2 phút trước' },
-                { id: 2, message: 'Bài viết của bạn đã bị từ chối. Kiểm tra kỹ các thông tin liên quan để bài viết hợp lệ!!', time: '5 phút trước' },
-                { id: 3, message: 'Thay đổi mật khẩu thành công. Vui lòng kiểm tra email để xác nhận.', time: '10 phút trước' }
-            ];
-
-            notifications.forEach(function (notification) {
-                var notificationItem = document.createElement('div');
-                notificationItem.className = 'notification-item';
-                notificationItem.innerHTML = `
-                        <div class="notification-content">
-                            <div class="notification-message">${notification.message}</div>
-                            <div class="notification-time d-flex justify-content-end">${notification.time}</div>
-                        </div>
-                    `;
-                notificationItems.appendChild(notificationItem);
-            });
-        } else {
-            notificationCountElement.style.display = 'none';
-        }
-
         notificationButton.addEventListener('click', function (event) {
             event.stopPropagation(); // Ngăn sự kiện click lan ra document
             if (notificationList.style.display === 'none') {
@@ -387,6 +393,43 @@
         document.addEventListener('click', function (event) {
             if (!notificationButton.contains(event.target) && !notificationList.contains(event.target)) {
                 notificationList.style.display = 'none';
+            }
+        });
+
+        notificationItems.addEventListener('click', function (event) {
+            var notificationItem = event.target.closest('.notification-item');
+            if (notificationItem) {
+                var notificationId = notificationItem.getAttribute('data-id');
+                var notificationTitle = notificationItem.querySelector('.notification-title').textContent;
+                var notificationMessage = notificationItem.getAttribute('data-message');
+
+                // Update modal content
+                document.getElementById('notificationUserDetail').textContent = notificationMessage;
+                document.getElementById('notificationUserModalLabel').textContent = notificationTitle;
+
+                // Show modal
+                var notificationModal = new bootstrap.Modal(document.getElementById('notificationUserModal'));
+                notificationModal.show();
+
+                // Mark notification as read
+                fetch('/Notification/MarkAsRead?id=' + notificationId, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': '@Html.AntiForgeryToken()'
+                    },
+                    body: JSON.stringify({ id: notificationId })
+                }).then(response => response.json()).then(data => {
+                    if (data.success) {
+                        notificationItem.classList.remove('fw-bold');
+                        // Update notification count
+                        var notificationCountElement = document.getElementById('notificationCount');
+                        var currentCount = parseInt(notificationCountElement.textContent);
+                        if (currentCount > 0) {
+                            notificationCountElement.textContent = currentCount - 1;
+                        }
+                    }
+                });
             }
         });
     });

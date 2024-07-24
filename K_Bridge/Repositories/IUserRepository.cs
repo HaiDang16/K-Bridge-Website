@@ -15,6 +15,7 @@ namespace K_Bridge.Repositories
         bool DeleteUser(int id);
         void UpdateUserClient(User user);
         User GetUserWithPostById(int id);
+        void IncreaseUserReputation(int userId, int increment);
 
     }
 }

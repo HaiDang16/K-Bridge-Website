@@ -5,12 +5,14 @@ using K_Bridge.Models.ViewModels;
 using K_Bridge.Repositories;
 using K_Bridge.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace K_Bridge.Controllers
 {
     public class UserController : Controller
     {
         private IUserRepository _userRepository;
+        private IPostRepository _postRepository;
         private CodeGenerationService _codeGenerationService;
         private UserService _userService;
 
@@ -21,11 +23,13 @@ namespace K_Bridge.Controllers
 
         public UserController(
             IUserRepository userRepository,
+            IPostRepository postRepository,
             CodeGenerationService codeGenerationService,
             UserService userService,
             IHttpContextAccessor httpContextAccessor)
         {
             _userRepository = userRepository;
+            _postRepository = postRepository;
             _codeGenerationService = codeGenerationService;
             _userService = userService;
             _httpContextAccessor = httpContextAccessor;
@@ -38,6 +42,25 @@ namespace K_Bridge.Controllers
         {
             var user = _userRepository.GetUserById(id);
             ViewBag.UserInfo = user;
+
+            // Lấy top 3 bài viết hàng đầu của người dùng
+            var topPosts = _postRepository.Posts
+                .Where(p => p.UserID == id)
+                .OrderByDescending(p => p.Post_Likes.Count(pl => pl.IsLike) - p.Post_Likes.Count(pl => !pl.IsLike))
+                .ThenByDescending(p => p.CreatedAt)
+                .Select(p => new
+                {
+                    p.ID,
+                    p.Title,
+                    p.CreatedAt,
+                    p.Status,
+                    LikeCount = p.Post_Likes.Count(pl => pl.IsLike),
+                    DislikeCount = p.Post_Likes.Count(pl => !pl.IsLike),
+                    TotalLikeDislike = p.Post_Likes.Count(pl => pl.IsLike) - p.Post_Likes.Count(pl => !pl.IsLike)
+                })
+                .ToList();
+
+            ViewBag.TopPosts = topPosts;
             return View();
         }
 
@@ -90,6 +113,8 @@ namespace K_Bridge.Controllers
             user.UpdatedAt = DateTime.Now;
             _userRepository.UpdateUserClient(user);
 
+            HttpContext.Session.SetJson("user", user);
+
             // Redirect to profile page or another appropriate location
             return Json(new { success = true, userId = user.ID });
         }
@@ -136,6 +161,8 @@ namespace K_Bridge.Controllers
             user.UpdatedAt = DateTime.Now;
             _userRepository.UpdateUserClient(user);
 
+            HttpContext.Session.SetJson("user", user);
+
             // Redirect to profile page or another appropriate location
             return Json(new { success = true, userId = user.ID });
         }
@@ -180,6 +207,8 @@ namespace K_Bridge.Controllers
             user.PhoneNumber = model.NewPhoneNumber;
             user.UpdatedAt = DateTime.Now;
             _userRepository.UpdateUserClient(user);
+
+            HttpContext.Session.SetJson("user", user);
 
             // Redirect to profile page or another appropriate location
             return Json(new { success = true, userId = user.ID });
@@ -233,13 +262,60 @@ namespace K_Bridge.Controllers
             user.UpdatedAt = DateTime.Now;
             _userRepository.UpdateUserClient(user);
 
+            HttpContext.Session.SetJson("user", user);
+
             // Redirect to profile page or another appropriate location
             return Json(new { success = true, userId = user.ID });
         }
-        [Route("/UserProfile/EditProfile")]
-        public IActionResult EditProfile()
+        [HttpGet("/UserProfile/EditProfile")]
+        public IActionResult EditProfile(int id)
         {
+            var user = _userRepository.GetUserById(id);
+            ViewBag.CurrentUser = user;
+
             return View();
+        }
+
+        [HttpPost("/UserProfile/EditProfile")]
+        public IActionResult EditProfile(UpdateUserProfileViewModel model, string NewBiography)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                return Json(new { success = false, errors = errors });
+            }
+
+            User? user = HttpContext.Session.GetJson<User>("user");
+            if (user == null)
+            {
+                return Json(new { success = false, errors = new List<string> { "Người dùng không tồn tại." } });
+            }
+
+            // Lưu avatar mới
+            if (model.AvatarFile != null && model.AvatarFile.Length > 0)
+            {
+                // Tạo tên file mới với dấu thời gian
+                var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+                var fileName = $"{timestamp}_{Path.GetFileName(model.AvatarFile.FileName)}";
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "avatars", fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.AvatarFile.CopyTo(stream);
+                }
+
+                user.Avatar = fileName; // Lưu tên file avatar vào cơ sở dữ liệu
+            }
+
+            user.Biography = NewBiography;
+            user.ProfileColor = model.ProfileColor;
+            user.UpdatedAt = DateTime.Now;
+
+            _userRepository.UpdateUserClient(user);
+
+            HttpContext.Session.SetJson("user", user);
+
+            return Json(new { success = true, userId = user.ID });
         }
 
         [HttpGet("/ForgetPassword")]

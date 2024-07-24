@@ -1,0 +1,156 @@
+﻿@{
+    var noti = ViewBag.Notifications;
+    var unreadCount = ViewBag.UnreadCount;
+}
+
+<div id="header-container">
+    <div class="row align-items-center w-100 mr-0">
+        <div class="col-1 d-flex justify-content-end">
+            <img src="/img/Logo_75.png" class="img-fluid" alt="Logo" width="50" height="50">
+        </div>
+        <div class="col-2 p-0">
+            <img src="/img/logo_name.png" class="img-fluid" alt="Name" width="100" height="100">
+        </div>
+        <div class="col-7"> </div>
+        <div class="col-1 d-flex p-0">
+            <div class="position-relative" style="margin-right: 20px;">
+                <button class="p-2 border-main-color-layout rounded-3" id="notificationButtonAdmin" style="background-color: #493422;">
+                    <img src="~/img/notification50.png" class="img-fluid" alt="Notifications" width="25" height="25">
+                </button>
+                <div class="position-absolute fs-12 translate-middle badge rounded-circle bg-danger" id="notificationCountAdmin" style="left:40px;">
+                    @unreadCount
+                </div>
+                <div id="notificationListAdmin" class="dropdown-menu dropdown-menu-end p-0 " style="display: none; width: 300px; max-height: 400px; overflow-y: auto; background-color:#FDE7D2; cursor: pointer;">
+                    <div class="p-2 border-bottom">
+                        <h6 class="mb-0">Thông báo</h6>
+                    </div>
+                    <div id="notificationItemsAdmin">
+                        @foreach (var notification in noti)
+                        {
+                            <div class="notification-item @(!notification.IsRead ? "fw-bold" : "")" data-id="@notification.ID" data-message="@notification.Message">
+                                <div class="notification-content">
+                                    <div class="notification-title">@notification.Title</div>
+                                    <div class="notification-time d-flex justify-content-end">@notification.CreatedAt.ToString("dd/MM/yy hh:mm")</div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <img src="/img/avatar_default.png" class="avatar" alt="Avatar">
+        </div>
+        <div class="col-1 username">
+            @Context.Session.GetString("AdminUsername")
+        </div>
+    </div>
+</div>
+
+@*Read notification modal*@
+<div class="modal fade modal-new-post-overall rounded-3" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="border-radius: 20px;">
+        <div class="modal-content">
+            <div class="modal-header modal-new-post-header py-2 px-3">
+                <h5 class="modal-title text-uppercase" id="notificationModalLabel"></h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body bg-main-color-layout d-flex flex-column py-4">
+                <div id="notificationDetail" class="text-color-header justify-content-center flex-column m-auto fs-4" style="min-height:60px;">
+                </div>
+            </div>
+            <div class="d-flex justify-content-center bg-main-color-layout pb-4 rounded-bottom">
+                <button type="button" class="rounded-2 px-3 py-1 btn-confirm me-1" data-bs-dismiss="modal" style="min-width:148px;">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var notificationCount = 3;
+        var notificationCountElement = document.getElementById('notificationCountAdmin');
+        var notificationList = document.getElementById('notificationListAdmin');
+        var notificationItems = document.getElementById('notificationItemsAdmin');
+        var notificationButton = document.getElementById('notificationButtonAdmin');
+
+        // if (notificationCount > 0) {
+        //     notificationCountElement.innerHTML = notificationCount;
+        //     notificationCountElement.style.display = 'inline-block';
+
+        //     var notifications = [
+        //         { id: 1, message: '12 bài viết mới đang chờ phê duyệt.', time: '2 phút trước' },
+        //         { id: 2, message: 'Đã có 13 người dùng mới đến diễn đàn K-Bridge', time: '5 phút trước' }
+        //     ];
+
+        //     notifications.forEach(function (notification) {
+        //         var notificationItem = document.createElement('div');
+        //         notificationItem.className = 'notification-item';
+        //         notificationItem.innerHTML = `
+        //                             <div class="notification-content">
+        //                                 <div class="notification-message">${notification.message}</div>
+        //                                 <div class="notification-time d-flex justify-content-end">${notification.time}</div>
+        //                             </div>
+        //                         `;
+        //         notificationItems.appendChild(notificationItem);
+        //     });
+        // } else {
+        //     notificationCountElement.style.display = 'none';
+        // }
+
+        notificationButton.addEventListener('click', function (event) {
+            event.stopPropagation(); // Ngăn sự kiện click lan ra document
+            if (notificationList.style.display === 'none') {
+                notificationList.style.display = 'block';
+            } else {
+                notificationList.style.display = 'none';
+            }
+        });
+
+        // Đóng danh sách thông báo khi click bên ngoài
+        document.addEventListener('click', function (event) {
+            if (!notificationButton.contains(event.target) && !notificationList.contains(event.target)) {
+                notificationList.style.display = 'none';
+            }
+        });
+
+        notificationItems.addEventListener('click', function (event) {
+            var notificationItem = event.target.closest('.notification-item');
+            if (notificationItem) {
+                var notificationId = notificationItem.getAttribute('data-id');
+                var notificationTitle = notificationItem.querySelector('.notification-title').textContent;
+                var notificationMessage = notificationItem.getAttribute('data-message');
+
+                // Update modal content
+                document.getElementById('notificationDetail').textContent = notificationMessage;
+                document.getElementById('notificationModalLabel').textContent = notificationTitle;
+
+
+                // Show modal
+                var notificationModal = new bootstrap.Modal(document.getElementById('notificationModal'));
+                notificationModal.show();
+
+                // Mark notification as read
+                fetch('/Notification/MarkAsRead?id=' + notificationId, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': '@Html.AntiForgeryToken()'
+                    },
+                    body: JSON.stringify({ id: notificationId })
+                }).then(response => response.json()).then(data => {
+                    if (data.success) {
+                        notificationItem.classList.remove('fw-bold');
+                        // Update notification count
+                        var notificationCountElement = document.getElementById('notificationCountAdmin');
+                        var currentCount = parseInt(notificationCountElement.textContent);
+                        if (currentCount > 0) {
+                            notificationCountElement.textContent = currentCount - 1;
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>

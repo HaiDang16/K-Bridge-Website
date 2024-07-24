@@ -18,29 +18,24 @@ namespace K_Bridge.Models
                 {
                     Username = "Admin1",
                     Email = "admin1@gmail.com",
-                    Password = "123",
+                    Password = "$2a$11$aExLHS3N.Yfs2NUiYaMUAOuXuxEILBjUiCMT6I99/18ZxSaF8SCyi",
                     LastLogin = DateTime.Now,
                     Status = "Active",
-                    Role = "Emp"
+                    Role = "Emp",
+                    Code = "ADMIN001"
+
                 },
                 new Admin_Accounts
                 {
                     Username = "Admin2",
                     Email = "admin2@gmail.com",
-                    Password = "123",
+                    Password = "$2a$11$aExLHS3N.Yfs2NUiYaMUAOuXuxEILBjUiCMT6I99/18ZxSaF8SCyi",
                     LastLogin = DateTime.Now,
                     Status = "Active",
-                    Role = "Mgr"
-                },
-                new Admin_Accounts
-                {
-                    Username = "Admin3",
-                    Email = "admin4@gmail.com",
-                    Password = "123123",
-                    LastLogin = DateTime.Now,
-                    Status = "Active",
-                    Role = "Emp"
+                    Role = "Mgr",
+                    Code = "ADMIN002"
                 }
+
                 );
                 context.SaveChanges();
             }

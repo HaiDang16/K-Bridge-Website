@@ -1,5 +1,6 @@
 ﻿using K_Bridge.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
 namespace K_Bridge.Repositories
 {
@@ -106,10 +107,10 @@ namespace K_Bridge.Repositories
         }
         public Vote GetVoteWithOptionByPostId(int id)
         {
-           return _context.Votes
-                .Include(v => v.VoteOptions)
-                .Where(v => v.PostID == id)
-                .FirstOrDefault();
+            return _context.Votes
+                 .Include(v => v.VoteOptions)
+                 .Where(v => v.PostID == id)
+                 .FirstOrDefault();
         }
 
         public int CountUserVoteById(int id)
@@ -126,6 +127,24 @@ namespace K_Bridge.Repositories
         public IEnumerable<Vote> GetOpenVotes()
         {
             return _context.Votes.Where(v => v.Status == "Open").ToList();
+        }
+        public void RemoveVoteOption(VoteOption voteOption)
+        {
+            _context.VoteOptions.Remove(voteOption);
+            _context.SaveChanges();
+
+        }
+        public void SaveVoteOption(VoteOption vote)
+        {
+            _context.VoteOptions.Add(vote);
+            _context.SaveChanges();
+
+        }
+        public void RemoveVote(Vote vote)
+        {
+            _context.Votes.Remove(vote);
+            _context.SaveChanges();
+
         }
 
     }

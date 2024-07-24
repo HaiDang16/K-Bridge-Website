@@ -120,6 +120,9 @@ namespace K_Bridge.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
+                    b.Property<string>("Avatar")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -144,7 +147,7 @@ namespace K_Bridge.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<int?>("Admin_AccountsID")
+                    b.Property<int?>("AdminID")
                         .HasColumnType("int");
 
                     b.Property<string>("Code")
@@ -162,14 +165,17 @@ namespace K_Bridge.Migrations
                     b.Property<string>("Message")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("NotiType")
+                        .HasColumnType("int");
+
                     b.Property<int?>("PostID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ReplyID")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -177,15 +183,22 @@ namespace K_Bridge.Migrations
                     b.Property<int?>("UserID")
                         .HasColumnType("int");
 
+                    b.Property<int?>("VoteID")
+                        .HasColumnType("int");
+
                     b.HasKey("ID");
 
-                    b.HasIndex("Admin_AccountsID");
+                    b.HasIndex("AdminID");
 
                     b.HasIndex("PostID");
 
+                    b.HasIndex("ReplyID");
+
                     b.HasIndex("UserID");
 
-                    b.ToTable("Notification");
+                    b.HasIndex("VoteID");
+
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("K_Bridge.Models.Post", b =>
@@ -580,21 +593,40 @@ namespace K_Bridge.Migrations
 
             modelBuilder.Entity("K_Bridge.Models.Notification", b =>
                 {
-                    b.HasOne("K_Bridge.Models.Admin_Accounts", null)
+                    b.HasOne("K_Bridge.Models.Admin_Accounts", "Admin")
                         .WithMany("Notifications")
-                        .HasForeignKey("Admin_AccountsID");
+                        .HasForeignKey("AdminID")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("K_Bridge.Models.Post", "Post")
                         .WithMany("Notifications")
-                        .HasForeignKey("PostID");
+                        .HasForeignKey("PostID")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("K_Bridge.Models.Reply", "Reply")
+                        .WithMany("Notifications")
+                        .HasForeignKey("ReplyID")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("K_Bridge.Models.User", "User")
                         .WithMany("Notifications")
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("K_Bridge.Models.Vote", "Vote")
+                        .WithMany("Notifications")
+                        .HasForeignKey("VoteID")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Admin");
 
                     b.Navigation("Post");
 
+                    b.Navigation("Reply");
+
                     b.Navigation("User");
+
+                    b.Navigation("Vote");
                 });
 
             modelBuilder.Entity("K_Bridge.Models.Post", b =>
@@ -748,6 +780,8 @@ namespace K_Bridge.Migrations
 
             modelBuilder.Entity("K_Bridge.Models.Reply", b =>
                 {
+                    b.Navigation("Notifications");
+
                     b.Navigation("Reply_Likes");
                 });
 
@@ -773,6 +807,8 @@ namespace K_Bridge.Migrations
 
             modelBuilder.Entity("K_Bridge.Models.Vote", b =>
                 {
+                    b.Navigation("Notifications");
+
                     b.Navigation("VoteOptions");
                 });
 

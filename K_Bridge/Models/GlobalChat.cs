@@ -13,5 +13,6 @@ namespace K_Bridge.Models
 
         public string Content { get; set; } = string.Empty;
         public DateTime SendAt { get; set; } = DateTime.Now;
+        public string? Avatar { get; set; }
     }
 }

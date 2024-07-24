@@ -45,15 +45,32 @@ namespace K_Bridge.Pages.Admin
 
             if (ModelState.IsValid)
             {
-                var admin = await _context.Admin_Accounts.FirstOrDefaultAsync(u => u.Username == Username && u.Password == Password);
+                var admin = await _context.Admin_Accounts.FirstOrDefaultAsync(u => u.Username == Username);
 
                 if (admin != null)
                 {
-                    // Lưu thông tin phiên
-                    HttpContext.Session.SetInt32("AdminAccountID", admin.ID);
-                    HttpContext.Session.SetString("AdminUsername", admin.Username);
-                    HttpContext.Session.SetString("AdminRole", admin.Role);
-                    return RedirectToPage("/Admin/Dashboard");
+                    if (admin.Status == "Active")
+                    {
+                        bool isPasswordValid = BCrypt.Net.BCrypt.Verify(Password, admin.Password);
+
+                        // bool isPasswordValid = true;
+                        if (isPasswordValid)
+                        {
+                            // Lưu thông tin phiên
+                            HttpContext.Session.SetInt32("AdminID", admin.ID);
+                            HttpContext.Session.SetString("AdminUsername", admin.Username);
+                            HttpContext.Session.SetString("AdminRole", admin.Role);
+                            return RedirectToPage("/Admin/Dashboard");
+                        }
+                        else
+                        {
+                            ErrorMessage = "Tên đăng nhập hoặc mật khẩu không đúng.";
+                        }
+                    }
+                    else
+                    {
+                        ErrorMessage = "Tài khoản đã bị khoá.";
+                    }
                 }
                 else
                 {
@@ -66,6 +83,5 @@ namespace K_Bridge.Pages.Admin
             }
             return Page();
         }
-
     }
 }

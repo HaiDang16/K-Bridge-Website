@@ -9,6 +9,7 @@ using K_Bridge.Infrastructure;
 using K_Bridge.Pages.Admin;
 using K_Bridge.Repositories;
 using Ganss.Xss;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace K_Bridge.Controllers;
 
@@ -62,6 +63,9 @@ public class HomeController : Controller
         // Forum with topics
         var lstForum = _forumRepository.GetForumsWithTopicsAndLatestPosts();
         ViewBag.Forum = lstForum;
+
+        User? user = HttpContext.Session.GetJson<User>("user");
+        ViewBag.UserLastLogin = user?.LastLogin;
 
         return View();
     }
@@ -143,6 +147,11 @@ public class HomeController : Controller
                 return Json(new { success = false, errors = errors });
             }
 
+            // Update LastLogin property
+            user.LastLogin = DateTime.UtcNow;
+
+            _userRepository.UpdateUser(user);
+
             HttpContext.Session.SetJson("user", user);
 
             return Json(new { success = true, user = new { username = user.Username, email = user.Email } });
@@ -172,12 +181,13 @@ public class HomeController : Controller
     public IActionResult Searching([FromQuery] string key)
     {
         var searchResults = _postRepository.Posts
+
         .Include(p => p.User) // Include user details of the post
         .Include(p => p.Topic) // Include topic details of the post
             .ThenInclude(t => t.Forum) // Include forum details of the topic
         .Include(p => p.Replies) // Include replies of the post
             .ThenInclude(r => r.User) // Include user details of each reply
-        .Where(p => p.Title.Contains(key) || p.Content.Contains(key))
+         .Where(p => (p.Title.Contains(key) || p.Content.Contains(key)) && p.Status == "Approved")
         .ToList();
 
         ViewBag.SearchKey = key;
@@ -198,7 +208,7 @@ public class HomeController : Controller
         // Redirect to the login page or home page
         return RedirectToAction("Index", "Home"); // or RedirectToAction("Login", "Account");
     }
- 
+
     [HttpGet("/Topic/List")]
     public IActionResult TopicList(int forum)
     {
@@ -211,12 +221,60 @@ public class HomeController : Controller
     }
 
     [HttpGet("/Topic/Post/List")]
-    public IActionResult PostList(int topic)
+    public IActionResult PostList(int topic, int page = 1, int pageSize = 3)
     {
-        var postList = _postRepository.GetPostsByTopic(topic);
-        ViewBag.Posts = postList;
+        var postList = _postRepository.GetPostsByTopicFilter(topic);
 
+        ViewBag.Posts = postList.ToList();
+        ViewBag.TopicID = _topicRepository.GetTopicById(topic).ID;
         ViewBag.TopicName = _topicRepository.GetTopicById(topic).Name;
         return View();
+    }
+    [HttpGet("/Topic/Post/PostListPartial")]
+    public IActionResult PostListPartial(int topic, bool noAnswer, bool noView, string sortOrder, string timeOrder)
+    {
+        var postList = _postRepository.GetPostsByTopicFilter(topic);
+
+        // Apply filters
+        if (noAnswer)
+        {
+            postList = postList.Where(p => !p.Replies.Any());
+        }
+
+        if (noView)
+        {
+            postList = postList.Where(p => p.ViewCount == 0);
+        }
+
+        // Apply sorting
+        switch (sortOrder)
+        {
+            case "trending":
+                var sevenDaysAgo = DateTime.Now.AddDays(-7);
+                postList = _postRepository.PostsFilterTrending(postList);
+                break;
+
+            case "mostHelpful":
+                postList = _postRepository.PostsFilterHelpful(postList);
+                break;
+            default:
+                postList = postList.OrderByDescending(p => p.CreatedAt);
+                break;
+        }
+
+        // Apply time order
+        if (timeOrder == "ascending")
+        {
+            postList = postList.OrderBy(p => p.CreatedAt);
+        }
+        else
+        {
+            postList = postList.OrderByDescending(p => p.CreatedAt);
+        }
+
+        ViewBag.Posts = postList.ToList();
+        ViewBag.TopicID = _topicRepository.GetTopicById(topic).ID;
+        ViewBag.TopicName = _topicRepository.GetTopicById(topic).Name;
+        return PartialView("_PostListPartial");
     }
 }

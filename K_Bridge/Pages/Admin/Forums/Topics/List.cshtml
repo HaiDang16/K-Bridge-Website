@@ -1,8 +1,7 @@
 ﻿@page "{id:int}"
 @model K_Bridge.Pages.Admin.Forums.Topics.ListModel
 @{
-    ViewData["Title"] = @Model.Topic.Name
-        ;
+    ViewData["Title"] = @Model.Topic.Name;
 
 }
 
@@ -27,7 +26,7 @@
     </div>
 </div>
 <div class="row mt-3 px-5">
-    <div class="col-5">
+    <div class="col-12">
         <div class="account-title">@Model.Topic.Name</div>
         <div class="account-subtitle">Quản lý bài viết mục @Model.Topic.Name</div>
     </div>
@@ -93,19 +92,22 @@
 <div class="row px-5">
     <ul class="pagination justify-content-center m-0 p-0">
         <div class="d-flex account-paging">
-        <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1">Trước</a>
-        </li>
-        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item"><a class="page-link" href="#">4</a></li>
-        <li class="page-item"><a class="page-link" href="#">5</a></li>
-        <li class="page-item">
-            <a class="page-link" href="#">Sau</a>
-        </li>
-
+            @foreach (var pages in Model.DisplayPages)
+            {
+                @if (pages == -1)
+                {
+                <li class="page-item disabled"><span class="page-link">...</span></li>
+                }
+                else if (pages == Model.PageIndex)
+                {
+                <li class="page-item active"><span class="page-link">@pages</span></li>
+                }
+                else
+                {
+                <li class="page-item"><a class="page-link" href="/Admin/Forums/Topics/List/@Model.Topic.ID?pageIndex=@pages">@pages</a></li>
+                }
+            }
+</div>
     </ul>
 </div>
 
-</div>

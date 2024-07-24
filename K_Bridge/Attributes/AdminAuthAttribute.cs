@@ -13,7 +13,7 @@ namespace K_Bridge.Attributes
         {
             public void OnPageHandlerExecuting(PageHandlerExecutingContext context)
             {
-                var adminId = context.HttpContext.Session.GetInt32("AdminAccountID");
+                var adminId = context.HttpContext.Session.GetInt32("AdminID");
                 if (!adminId.HasValue)
                 {
                     context.Result = new RedirectToPageResult("/Admin/Login");

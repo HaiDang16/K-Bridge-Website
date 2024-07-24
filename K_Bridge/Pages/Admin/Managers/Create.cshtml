@@ -1,0 +1,142 @@
+﻿@page
+@model K_Bridge.Pages.Admin.Manager.CreateModel
+@{
+    ViewData["Title"] = "Tạo tài khoản quản trị";
+}
+<div class="row account-navigate mt-3 px-5 align-items-center ">
+    <div class="col-12 d-flex justify-content-star">
+        <img src="/img/icon_dashboard_50_dark.png"
+             onclick="window.location.href='/Admin/Dashboard'"
+             class="account-navigate-icon mt-2 custom-cursor-pointer" alt="Tổng quan">
+        <img src="/img/icon_arrow_right_50_dark.png" class="mx-4 mt-2"
+             alt="Tổng quan" width="10" height="20">
+        <div class="account-navigate-text custom-cursor-pointer"
+             onclick="window.location.href='/Admin/Managers/List'">
+            Tài khoản
+        </div>
+        <img src="/img/icon_arrow_right_50_dark.png" class="mx-4 mt-2"
+             alt="Tổng quan" width="10" height="20">
+        <div class="account-navigate-text custom-cursor-pointer">
+            Tạo tài khoản quản trị
+        </div>
+    </div>
+</div>
+<div class="row mt-3 create-padding-form">
+    <div class="col-4">
+        <div class="account-title">Tạo tài khoản quản trị</div>
+        <div class="account-subtitle">Cung cấp thông tin tài khoản quản trị mới</div>
+    </div>
+</div>
+
+<form id="createAdminAccForm" method="post" enctype="multipart/form-data">
+    <div class="row mt-4 create-padding-form">
+        <div class="col-5">
+            <div class="form-group mb-3">
+                <label class="create-form-title" for="Code">Mã tài khoản</label>
+                <input type="text" class="form-id" id="Code" name="Code" value="@Model.NewCode" readonly>
+            </div>
+            <div class="form-group mb-3">
+                <label class="create-form-title" for="Username">Tên đăng nhập</label>
+                <input type="text" class="form-custom" id="Username" name="Username" placeholder="Nhập tên đăng nhập" required>
+            </div>
+            <div class="form-group mb-3">
+                <label class="create-form-title" for="Email">Email</label>
+                <input type="email" class="form-custom" id="Email" name="Email" placeholder="Nhập email" required>
+            </div>
+        </div>
+        <div class="col-2">
+        </div>
+        <div class="col-5">
+            <div class="form-group mb-3">
+                <label class="create-form-title" for="Password">Mật khẩu</label>
+                <input type="password" class="form-custom" id="Password" name="Password" placeholder="Nhập mật khẩu" required>
+            </div>
+            <div class="form-group mb-3">
+                <label class="create-form-title" for="Avatar">Ảnh đại diện</label>
+                <input type="file" class="form-custom" id="Avatar" name="Avatar" accept="image/*">
+            </div>
+            <div class="form-group mb-3">
+                <label class="create-form-title" for="Role">Vai trò</label>
+                <input type="text" class="form-custom" id="Role" name="Role" value="Quản trị viên - Emp" readonly>
+            </div>
+
+        </div>
+    </div>
+    <div class="row mt-5 create-padding-form">
+        <div class="col-2">
+            <button class="w-75 h-100 d-flex justify-content-center align-items-center create-back-btn py-1" onclick="window.location.href='/Admin/Managers/List'">
+                Quay về
+            </button>
+        </div>
+        <div class="col-5"></div>
+
+        <div class="col-2 d-flex justify-content-end">
+            <button class="w-75 h-100 d-flex justify-content-center align-items-center create-reset-btn py-1" type="reset">
+                Đặt lại
+            </button>
+        </div>
+
+        <div class="col-3 d-flex justify-content-end">
+            <button type="submit" class="w-75 h-100 d-flex justify-content-center align-items-center create-btn py-1">Tạo tài khoản</button>
+        </div>
+    </div>
+</form>
+
+<!--Modal-->
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+    <div id="liveToastCreateAdminAcc" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-body text-color-background fw-bold text-center rounded-bottom rounded-3"
+             style="background-color: #493422; border: 2px solid #FFF0E6; color:white">
+            <div style="color:white" id="createAdminAccValidationSummary"></div>
+        </div>
+    </div>
+</div>
+
+<!--Scrip modal-->
+<script>
+    document.getElementById('createAdminAccForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var errorSummary = document.getElementById('createAdminAccValidationSummary');
+        errorSummary.innerHTML = ''; // Xóa nội dung cũ
+
+        var formData = new FormData(this);
+        fetch('/Admin/Managers/Create', {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    errorSummary.innerHTML = '<div>Tạo tài khoản quản trị thành công</div>';
+                    errorSummary.style.display = 'block';
+                    showToast('liveToastCreateAdminAcc');
+                    setTimeout(() => {
+                        window.location.href = '/Admin/Managers/List';
+                    }, 2000);
+                } else {
+                    if (data.errors && data.errors.length > 0) {
+                        var p = document.createElement('div');
+                        data.errors.forEach(function (error) {
+                            p.textContent = error;
+                        });
+                        errorSummary.appendChild(p);
+                        errorSummary.style.display = 'block';
+                        showToast('liveToastCreateAdminAcc');
+                    } else {
+                        errorSummary.innerHTML = '<div>Có lỗi xảy ra trong quá trình xử lý.</div>';
+                        errorSummary.style.display = 'block';
+                        showToast('liveToastCreateAdminAcc');
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+
+    function showToast(toastId) {
+        var toastElement = document.getElementById(toastId);
+        var toast = new bootstrap.Toast(toastElement);
+        toast.show();
+    }
+</script>
