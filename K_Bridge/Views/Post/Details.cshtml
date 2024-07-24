@@ -9,6 +9,8 @@
     var voteOptionsList = ViewBag.VoteOptionsList;
     var userVotes = ViewBag.UserVotes as List<UserVote>;
 }
+@using K_Bridge.Models.ViewModels
+@model Post
 
 <div class="row mb-5">
     <div class="d-flex justify-content-start fs-4">
@@ -194,7 +196,7 @@
                     </div>
                 </div>
                 <div id="repliesContainer">
-                    <partial name="_RepliesPartial" model="ViewBag.RepliesWithLike" />
+                    @await Html.PartialAsync("_RepliesPartial", (ReplyPaginationViewModel)ViewBag.ReplyViewModel)
                 </div>
             }
             @if (ViewBag.CurrentUser != null && ViewBag.Post != null && ViewBag.CurrentUser.ID != null)
@@ -255,9 +257,9 @@
                 </div>
             </div>
 
-
         </div>
     </div>
+
 </div>
 
 <script>
@@ -343,6 +345,7 @@
                 .then(html => {
                     document.getElementById('repliesContainer').innerHTML = html;
                 });
+            loadReplies(postId, selectedSort, 1);
         });
     });
 </script>
@@ -465,6 +468,16 @@
             toggleResults();
             localStorage.removeItem('showResults'); // Xóa trạng thái sau khi đã xử lý
         }
-    });
+    });  
 </script>
-
+<script>
+    function loadReplies(postId, sort, page) {
+        $.ajax({
+            url: `/Post/GetReplies?postId=${postId}&sort=${sort}&page=${page}`,
+            type: 'GET',
+            success: function (result) {
+                $('#repliesContainer').html(result);
+            }
+        });
+    }
+</script>

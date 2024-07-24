@@ -221,7 +221,7 @@ public class HomeController : Controller
     }
 
     [HttpGet("/Topic/Post/List")]
-    public IActionResult PostList(int topic)
+    public IActionResult PostList(int topic, int page = 1, int pageSize = 3)
     {
         var postList = _postRepository.GetPostsByTopicFilter(topic);
 

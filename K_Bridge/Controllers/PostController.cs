@@ -6,6 +6,7 @@ using K_Bridge.Models.ViewModels;
 using K_Bridge.Repositories;
 using K_Bridge.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Diagnostics;
@@ -207,12 +208,22 @@ namespace K_Bridge.Controllers
                     ViewBag.UserVotes = userVotes;
                     ViewBag.CurrentUser = user;
                 }
-
+                var initialReplies = allRepliesWithLike.Take(3).ToList();
+                var viewModel = new ReplyPaginationViewModel
+                {
+                    Replies = initialReplies,
+                    CurrentPage = 1,
+                    TotalPages = (int)Math.Ceiling(allRepliesWithLike.Count / 5.0),
+                    PostId = post,
+                    Sort = sort
+                };
                 ViewBag.Post = postDetails;
                 ViewBag.Sort = sort;
                 ViewBag.TotalLikesMinusDislikes = totalLikes - totalDislikes;
                 ViewBag.UserLikeStatus = userLikeStatus;
                 ViewBag.RepliesWithLike = allRepliesWithLike;
+                ViewBag.ReplyViewModel = viewModel;
+
 
                 return View();
             }
@@ -265,7 +276,7 @@ namespace K_Bridge.Controllers
         }
 
         [HttpGet("GetReplies")]
-        public IActionResult GetReplies(int postId, string sort = "newest")
+        public IActionResult GetReplies(int postId, string sort = "newest", int page = 1, int pageSize = 3)
         {
             var postDetails = _postRepository.GetPostByID(postId);
 
@@ -303,7 +314,20 @@ namespace K_Bridge.Controllers
                 _ => allRepliesWithLike.OrderBy(r => r.Reply.CreatedAt).ToList()
             };
 
-            return PartialView("_RepliesPartial", allRepliesWithLike);
+            // Pagination
+            int totalReplies = allRepliesWithLike.Count;
+            int totalPages = (int)Math.Ceiling(totalReplies / (double)pageSize);
+            var paginatedReplies = allRepliesWithLike.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            var viewModel = new ReplyPaginationViewModel
+            {
+                Replies = paginatedReplies,
+                CurrentPage = page,
+                TotalPages = totalPages,
+                PostId = postId,
+                Sort = sort
+            };
+            return PartialView("_RepliesPartial", viewModel);
         }
 
         [HttpPost("Like")]

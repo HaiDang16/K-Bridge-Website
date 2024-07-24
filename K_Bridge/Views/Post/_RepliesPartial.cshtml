@@ -1,7 +1,6 @@
-﻿@model IEnumerable<K_Bridge.Models.ViewModels.ReplyViewModel>
-@{
-}
-@foreach (var reply in Model)
+@* @model IEnumerable<K_Bridge.Models.ViewModels.ReplyViewModel> *@
+@model ReplyPaginationViewModel
+@foreach (var reply in Model.Replies)
 {
     <div class="row my-3 m-0" style="border-bottom: 1px solid #8E6745">
         <div class="col-lg-1 flex-column">
@@ -61,6 +60,20 @@
 </div>
 
 
+
+@if (Model.TotalPages > 1)
+{
+    <nav aria-label="Page navigation" class="reply-pagination">
+        <ul class="pagination justify-content-center">
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.CurrentPage ? "active" : "") @(i == 1 ? "first-page" : "") @(i == Model.TotalPages ? "last-page" : "")">
+                    <a class="page-link" href="javascript:void(0);" onclick="loadReplies(@Model.PostId, '@Model.Sort', @i)">@i</a>
+                </li>
+            }
+        </ul>
+    </nav>
+}
 <script>
     document.addEventListener('DOMContentLoaded', (event) => {
         document.querySelectorAll('[id^="reply-like-dislike-"]').forEach(element => {
@@ -220,4 +233,22 @@
                 }
             })
             .catch(error => console.error('Error:', error));
-    }</script>
+    }
+
+  function deleteComment() {
+    // Thực hiện xóa bình luận ở đây
+    $('#deleteCommentModal').modal('hide');
+  }
+
+
+function loadReplies(postId, sort, page) {
+    $.ajax({
+        url: '/Post/GetReplies',
+        data: { postId: postId, sort: sort, page: page },
+        type: 'GET',
+        success: function(result) {
+            $('#repliesContainer').html(result);
+        }
+    });
+}
+    </script>
