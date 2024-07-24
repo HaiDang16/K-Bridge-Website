@@ -6,6 +6,7 @@ using K_Bridge.Models.ViewModels;
 using K_Bridge.Repositories;
 using K_Bridge.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Diagnostics;
@@ -190,12 +191,22 @@ namespace K_Bridge.Controllers
                     ViewBag.UserVotes = userVotes;
 
                 }
-
+                var initialReplies = allRepliesWithLike.Take(5).ToList();
+                var viewModel = new ReplyPaginationViewModel
+                {
+                    Replies = initialReplies,
+                    CurrentPage = 1,
+                    TotalPages = (int)Math.Ceiling(allRepliesWithLike.Count / 5.0),
+                    PostId = post,
+                    Sort = sort
+                };
                 ViewBag.Post = postDetails;
                 ViewBag.Sort = sort;
                 ViewBag.TotalLikesMinusDislikes = totalLikes - totalDislikes;
                 ViewBag.UserLikeStatus = userLikeStatus;
                 ViewBag.RepliesWithLike = allRepliesWithLike;
+                ViewBag.ReplyViewModel = viewModel;
+
 
                 return View();
             }
@@ -236,41 +247,90 @@ namespace K_Bridge.Controllers
         }
 
         [HttpGet("GetReplies")]
-        public IActionResult GetReplies(int postId, string sort = "newest", int page = 1, int pageSize = 10)
+        public IActionResult GetReplies(int postId, string sort = "newest", int page = 1, int pageSize = 5)
         {
             var postDetails = _postRepository.GetPostByID(postId);
+
+            // Initialize status like/dislike post of user
+            var userLikeStatus = 0; // 0: chưa like/dislike, 1: đã like, -1: đã dislike
+
             User? user = HttpContext.Session.GetJson<User>("user");
 
-            var allReplies = postDetails.Replies.AsQueryable();
-
-            // Sắp xếp
-            allReplies = sort switch
+            if (user != null)
             {
-                "newest" => allReplies.OrderByDescending(r => r.CreatedAt),
-                "oldest" => allReplies.OrderBy(r => r.CreatedAt),
-                "helpful" => allReplies.OrderByDescending(r => r.Reply_Likes.Count(l => l.IsLike)).ThenByDescending(r => r.CreatedAt),
-                _ => allReplies.OrderBy(r => r.CreatedAt)
-            };
+                // Get status like / dislike post of user
+                var existingLike = _likeRepository.GetExistPostLike(postId, user.ID);
+                if (existingLike != null)
+                    userLikeStatus = existingLike.IsLike ? 1 : -1;
+            }
 
-            // Phân trang
-            var totalReplies = allReplies.Count();
-            var totalPages = (int)Math.Ceiling(totalReplies / (double)pageSize);
-            var paginatedReplies = allReplies.Skip((page - 1) * pageSize).Take(pageSize);
-
-            var repliesWithLike = paginatedReplies.Select(r => new ReplyViewModel
+            // Get all reply of post
+            var allRepliesWithLike = postDetails.Replies.Select(r => new ReplyViewModel
             {
                 Reply = r,
-                UserLikeStatus = user != null ? _likeRepository.GetUserReplyLikeStatus(r.ID, user.ID) : 0,
+                UserLikeStatus = user != null
+                                ? _likeRepository.GetUserReplyLikeStatus(r.ID, user.ID)
+                                : 0,
                 LikeCount = _likeRepository.GetReplyLikeCount(r.ID),
                 DislikeCount = _likeRepository.GetReplyDislikeCount(r.ID),
-                AllLikeCount = _likeRepository.GetReplyLikeCount(r.ID) - _likeRepository.GetReplyDislikeCount(r.ID),
-                PageNumber = page,
-                TotalPages = totalPages
+                AllLikeCount = _likeRepository.GetReplyLikeCount(r.ID) - _likeRepository.GetReplyDislikeCount(r.ID)
             }).ToList();
 
-            return PartialView("_RepliesPartial", repliesWithLike);
-        }
+            // Sort reply
+            allRepliesWithLike = sort switch
+            {
+                "newest" => allRepliesWithLike.OrderByDescending(r => r.Reply.CreatedAt).ToList(),
+                "oldest" => allRepliesWithLike.OrderBy(r => r.Reply.CreatedAt).ToList(),
+                "helpful" => allRepliesWithLike.OrderByDescending(r => r.LikeCount).ThenByDescending(r => r.Reply.CreatedAt).ToList(),
+                _ => allRepliesWithLike.OrderBy(r => r.Reply.CreatedAt).ToList()
+            };
 
+            // Pagination
+            int totalReplies = allRepliesWithLike.Count;
+            int totalPages = (int)Math.Ceiling(totalReplies / (double)pageSize);
+            var paginatedReplies = allRepliesWithLike.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            var viewModel = new ReplyPaginationViewModel
+            {
+                Replies = paginatedReplies,
+                CurrentPage = page,
+                TotalPages = totalPages,
+                PostId = postId,
+                Sort = sort
+            };
+            return PartialView("_RepliesPartial", viewModel);
+        }
+        private List<int> GenerateDisplayPages(int currentPage, int totalPages)
+        {
+            const int maxDisplayPages = 5;
+            var displayPages = new List<int>();
+
+            if (totalPages <= maxDisplayPages)
+            {
+                for (int i = 1; i <= totalPages; i++)
+                {
+                    displayPages.Add(i);
+                }
+            }
+            else
+            {
+                displayPages.Add(1);
+                int start = Math.Max(2, currentPage - 1);
+                int end = Math.Min(currentPage + 1, totalPages - 1);
+
+                if (start > 2) displayPages.Add(-1);
+
+                for (int i = start; i <= end; i++)
+                {
+                    displayPages.Add(i);
+                }
+
+                if (end < totalPages - 1) displayPages.Add(-1);
+                displayPages.Add(totalPages);
+            }
+
+            return displayPages;
+        }
         [HttpPost("Like")]
         public IActionResult Like(int postId)
         {

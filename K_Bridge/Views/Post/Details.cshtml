@@ -12,6 +12,8 @@
     var voteOptionsList = ViewBag.VoteOptionsList;
     var userVotes = ViewBag.UserVotes as List<UserVote>;
 }
+@using K_Bridge.Models.ViewModels
+@model Post
 
 <div class="row mb-5">
     <div class="d-flex justify-content-start fs-4">
@@ -195,7 +197,7 @@
                     </div>
                 </div>
                 <div id="repliesContainer">
-                    <partial name="_RepliesPartial" model="ViewBag.RepliesWithLike" />
+                    @await Html.PartialAsync("_RepliesPartial", (ReplyPaginationViewModel)ViewBag.ReplyViewModel)
                 </div>
             }
             <div>
@@ -252,9 +254,9 @@
                 </div>
             </div>
 
-
         </div>
     </div>
+
 </div>
 
 <script>
