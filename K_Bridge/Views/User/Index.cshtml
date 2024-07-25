@@ -88,15 +88,17 @@
             </div>
         </div>
     </div>
-    <div class="d-flex justify-content-between mt-5">
+    @if (ViewBag.TopPosts != null)
+    {
+         <div class="d-flex justify-content-between mt-5">
         <p class="text-color-header fw-bold fs-5 ">Bài chủ đề hàng đầu</p>
     </div>
     <div class="top-posts-container px-3" style="height: 300px; overflow-y: auto; overflow-x:hidden;">
-    @foreach (var post in ViewBag.TopPosts)
-    {
+        @foreach (var post in ViewBag.TopPosts)
+        {
 
-        <div class="rounded-3 p-3 d-flex align-content-center justify-content-around row my-1" style="border: 1px solid #FFbe98;">
-            <div class="mx-3 align-content-center col-2">
+            <div class="rounded-3 p-3 d-flex align-content-center justify-content-around row my-1" style="border: 1px solid #FFbe98;" onclick="window.location.href='/Post/Details?post=@post.ID'">
+                <div class="mx-3 align-content-center col-2">
                     @if (post.Status == "Approved")
                     {
                         <img src="~/img/help_chat_good.png" alt="Help Chat" width="30" data-bs-toggle="tooltip" data-bs-placement="top" title="Đã được duyệt" />
@@ -109,62 +111,65 @@
                     {
                         <img src="~/img/help_chat.png" alt="Help Chat" width="30" data-bs-toggle="tooltip" data-bs-placement="top" title="Đang chờ duyệt" />
                     }
-            </div>
+                </div>
                 <div class="d-flex rounded-3 align-items-center justify-content-center col-1"
-                 style="background-color: @(post.TotalLikeDislike > 0 ? "#00D462" : post.TotalLikeDislike < 0 ? "#FF4141" : "#FFbe98");">
-                @post.TotalLikeDislike
-            </div>
+                     style="background-color: @(post.TotalLikeDislike > 0 ? "#00D462" : post.TotalLikeDislike < 0 ? "#FF4141" : "#FFbe98");">
+                    @post.TotalLikeDislike
+                </div>
                 <div class="d-flex rounded-3 justify-content-center text-color-header col-5" style="width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                @(post.Title.Length > 20 ? post.Title.Substring(0, 20) + "..." : post.Title)
-            </div>
+                    @(post.Title.Length > 20 ? post.Title.Substring(0, 20) + "..." : post.Title)
+                </div>
                 <div class="d-flex rounded-3 justify-content-center text-white rounded-2 align-content-center align-items-center col-1"
                      style="background-color: #FF4141" data-post-id="@post.ID">
-                x
-            </div>
+                    x
+                </div>
                 <div class="d-flex justify-content-center text-color-header py-1 rounded-2 align-content-center col-3">
-                @((DateTime.Now - post.CreatedAt).TotalMinutes < 60
-                    ? $"{(int)(DateTime.Now - post.CreatedAt).TotalMinutes} phút trước"
-                    : $"{(int)(DateTime.Now - post.CreatedAt).TotalHours} giờ trước")
-            </div>
+                    @((DateTime.Now - post.CreatedAt).TotalMinutes < 60
+                        ? $"{(int)(DateTime.Now - post.CreatedAt).TotalMinutes} phút trước"
+                        : $"{(int)(DateTime.Now - post.CreatedAt).TotalHours} giờ trước")
+                </div>
 
-        </div>
-    }
+            </div>
+        }
     </div>
-@*     <div class="rounded-3 p-3 d-flex align-content-center justify-content-around" style="border: 1px solid #FFbe98;">
-        <div class="mx-3 align-content-center">
-            <img src="~/img/help_chat_good.png" alt="Help Chat" width="20" />
-        </div>
-        <div class="d-flex rounded-3 px-3 align-content-center justify-content-center" style="background-color:  #00D462;">
-            90
-        </div>
-        <div class="d-flex rounded-3 px-3 justify-content-center text-color-header">
-            Tiêu đề bài viết
-        </div>
-        <div class="d-flex rounded-3 px-3 justify-content-center text-white rounded-2 align-content-center" style="background-color: #FF4141">
-            x
-        </div>
-        <div class="d-flex px-3 justify-content-center text-color-header py-1 rounded-2 align-content-center">
-            20 phút trước
-        </div>
+    }
+   
+    @*     <div class="rounded-3 p-3 d-flex align-content-center justify-content-around" style="border: 1px solid #FFbe98;">
+    <div class="mx-3 align-content-center">
+    <img src="~/img/help_chat_good.png" alt="Help Chat" width="20" />
+    </div>
+    <div class="d-flex rounded-3 px-3 align-content-center justify-content-center" style="background-color:  #00D462;">
+    90
+    </div>
+    <div class="d-flex rounded-3 px-3 justify-content-center text-color-header">
+    Tiêu đề bài viết
+    </div>
+    <div class="d-flex rounded-3 px-3 justify-content-center text-white rounded-2 align-content-center" style="background-color: #FF4141">
+    x
+    </div>
+    <div class="d-flex px-3 justify-content-center text-color-header py-1 rounded-2 align-content-center">
+    20 phút trước
+    </div>
     </div>
     <div class="rounded-3 p-3 d-flex align-content-center justify-content-around" style="border: 1px solid #FFbe98;">
-        <div class="mx-3 align-content-center">
-            <img src="~/img/help_chat_bad.png" alt="Help Chat" width="20" />
-        </div>
-        <div class="d-flex rounded-3 px-3 align-content-center justify-content-center" style="background-color:  #FF4141;">
-            -12
-        </div>
-        <div class="d-flex rounded-3 px-3 justify-content-center text-color-header">
-            Tiêu đề bài viết
-        </div>
-        <div class="d-flex rounded-3 px-3 justify-content-center text-white rounded-2 align-content-center" style="background-color: #FF4141">
-            x
-        </div>
-        <div class="d-flex px-3 justify-content-center text-color-header py-1 rounded-2 align-content-center">
-            20 phút trước
-        </div>
+    <div class="mx-3 align-content-center">
+    <img src="~/img/help_chat_bad.png" alt="Help Chat" width="20" />
     </div>
- *@</div>
+    <div class="d-flex rounded-3 px-3 align-content-center justify-content-center" style="background-color:  #FF4141;">
+    -12
+    </div>
+    <div class="d-flex rounded-3 px-3 justify-content-center text-color-header">
+    Tiêu đề bài viết
+    </div>
+    <div class="d-flex rounded-3 px-3 justify-content-center text-white rounded-2 align-content-center" style="background-color: #FF4141">
+    x
+    </div>
+    <div class="d-flex px-3 justify-content-center text-color-header py-1 rounded-2 align-content-center">
+    20 phút trước
+    </div>
+    </div>
+    *@
+</div>
 
 
 <form id="logoutForm" asp-action="Logout" asp-controller="Home" method="post" class="mt-3 flex justify-content-end">

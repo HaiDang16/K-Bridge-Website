@@ -366,7 +366,9 @@
             toggleButton.innerText = 'Quay về bình chọn';
 
             // Ẩn nút bình chọn
-            voteButton.style.display = 'none !important';
+            voteButton.classList.remove('d-flex');
+            voteButton.classList.add('d-none');
+
 
             // Use requestAnimationFrame to ensure DOM is updated
             requestAnimationFrame(function () {
@@ -437,7 +439,7 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        responseSummary.innerHTML = '<p>Bình chọn thành công.</p>';
+                        responseSummary.innerHTML = '<div>Bình chọn thành công.</div>';
                         responseSummary.style.display = 'block';
                         showToast('liveToastDetail');
 
@@ -449,11 +451,11 @@
                     } else {
                         if (data.messages != null) {
                             console.log(data.messages)
-                            responseSummary.innerHTML = `<p>${data.messages}</p>`;
+                            responseSummary.innerHTML = `<div>${data.messages}</div>`;
                             responseSummary.style.display = 'block';
                             showToast('liveToastDetail');
                         } else {
-                            responseSummary.innerHTML = '<p>Có lỗi xảy ra trong quá trình xử lý.</p>';
+                            responseSummary.innerHTML = '<div>Có lỗi xảy ra trong quá trình xử lý.</div>';
                             responseSummary.style.display = 'block';
                             showToast('liveToastDetail');
                         }

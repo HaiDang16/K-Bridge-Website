@@ -10,16 +10,8 @@
             {
                 <ul class="mb-2 d-md-flex p-0">
                     <li class="d-md-flex">
-                        @if (chat.Avatar != null)
-                        {
-                            <img src="/avatars/@chat.Avatar" alt="avatar"
-                                 class="me-2 rounded-circle" style="width: 20px; height: 20px;" />
-                        }
-                        else
-                        {
                             <img src="/img/avatar_default.png" alt="avatar"
                                  class="me-2 rounded-circle" style="width: 20px; height: 20px;" />
-                        }
                         <div class="fs-12 text-color-logo mb-1 fw-bold me-2">@chat.Username</div>
                         <div class=" fs-12  text-color-logo  text-break">@chat.Content</div>
                     </li>

@@ -85,7 +85,9 @@
 .w-32 {
     width: 32px !important;
 }
-
+.w-23 {
+    width: 25% !important;
+}
 @font-face {
     font-family: 'Algerian';
     src: url('~/font/Algerian Regular.ttf') format('truetype');
