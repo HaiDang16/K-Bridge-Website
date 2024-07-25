@@ -88,7 +88,9 @@
             </div>
         </div>
     </div>
-    <div class="d-flex justify-content-between mt-5">
+    @if (ViewBag.TopPosts != null)
+    {
+         <div class="d-flex justify-content-between mt-5">
         <p class="text-color-header fw-bold fs-5 ">Bài chủ đề hàng đầu</p>
     </div>
     <div class="top-posts-container px-3" style="height: 300px; overflow-y: auto; overflow-x:hidden;">
@@ -130,6 +132,8 @@
             </div>
         }
     </div>
+    }
+   
     @*     <div class="rounded-3 p-3 d-flex align-content-center justify-content-around" style="border: 1px solid #FFbe98;">
     <div class="mx-3 align-content-center">
     <img src="~/img/help_chat_good.png" alt="Help Chat" width="20" />
