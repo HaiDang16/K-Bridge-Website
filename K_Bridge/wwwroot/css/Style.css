@@ -692,3 +692,29 @@ body {
     color: #493422 !important;
     font-weight: bold;
 }
+/* Ẩn các phần tử khi kích thước màn hình nhỏ hơn 1024px */
+@media (max-width: 1024px) {
+    .d-md-flex {
+        display: none !important;
+    }
+    .d-md-inline {
+        display: none !important;
+    }
+    .d-md-none {
+        display: block !important;
+    }
+
+}
+
+#contentMenuHeader {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+    opacity: 0;
+}
+
+    #contentMenuHeader.show {
+        max-height: 500px; /* Điều chỉnh giá trị này tùy theo nội dung của bạn */
+        opacity: 1;
+        transition: max-height 0.5s ease-in, opacity 0.5s ease-in;
+    }

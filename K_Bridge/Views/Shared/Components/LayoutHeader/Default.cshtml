@@ -5,33 +5,100 @@
 }
 @model LoginRegisterViewModel
 
-<div class="container-fluid py-3 px-5 w-100">
-    <div class="row align-items-center">
-        <div class="col-auto col-md-2">
+<div class="container-fluid">
+    <div class="row main-content mx-3 align-items-center py-2">
+        <div class="col-lg-3 col-3 sidebar">
             <button class="d-flex align-items-center" onclick="window.location.href='/'">
                 <img class="img-fluid" style="max-height: 40px;" src="/img/Logo.png" alt="Logo">
                 <span class="ms-2 kbridge-text text-color-layout fs-4 d-none d-md-inline">K-BRIDGE</span>
             </button>
         </div>
-        <div class="col col-md-7 d-flex justify-content-center">
-            <div class="input-group rounded-2 border border-main-color-layout px-2" style="max-width: 420px;">
-                <input type="text" class="focus flex-grow-1 bg-transparent text-color-layout text-white"
-                       placeholder="Tìm kiếm..." aria-label="Search" aria-describedby="button-addon2"
-                       id="searchInput">
-                <button class="btn btn-main-color-header" type="button" id="button-addon2">
-                    <img src="/img/iconSearch.png" alt="Search Icon">
-                </button>
+        <div class="col-lg-6  content d-sm-flex d-none justify-content-center">
+                <div class="input-group rounded-2 border border-main-color-layout" style="max-width:65%;">
+                    <input type="text" class="focus px-2 flex-grow-1 bg-transparent text-color-layout text-white"
+                           placeholder="Tìm kiếm..." aria-label="Search" aria-describedby="button-addon2"
+                           id="searchInput">
+                    <button class="btn btn-main-color-header" type="button" id="button-addon2">
+                        <img src="/img/iconSearch.png" alt="Search Icon">
+                    </button>
+                </div>
+        </div>
+
+  
+        
+        <div class="col-lg-3 sidebar">
+            <button id="btnMenuHeader" class="d-flex justify-content-center d-lg-none h-100 w-100">
+                <i class="bi bi-list text-color-background " style="font-size: 30px;"></i>
+            </button>
+
+            <div class="d-lg-flex d-none flex-column align-items-center">
+                <div style="width: 100%; max-width: 300px;">
+                    @if (!isLoggedIn)
+                    {
+                        <div class="d-flex justify-content-evenly">
+                            <button type="button" class=" btn px-lg-2 text-nowrap px-md-2 py-1 btn-account-sign" style="width:48%;"
+                                    data-bs-toggle="modal" data-bs-target="#signupModal">
+                                Đăng ký
+                            </button>
+                            <button type="button" class="btn px-lg-2 px-md-2 py-1 text-nowrap btn-account-log" style="width:48%;"
+                                    data-bs-toggle="modal" data-bs-target="#loginModal">
+                                Đăng nhập
+                            </button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="position-relative" style="margin-right: 20px;">
+                            <button class="p-2 bg-main-color-logo border-main-color-layout rounded-3" id="notificationButton">
+                                <img src="~/img/notification50.png" class="img-fluid" alt="Notifications" width="25" height="25">
+                            </button>
+                            <div class="position-absolute fs-12 translate-middle badge rounded-circle bg-danger"
+                                 id="notificationCount" style="left:40px;">
+                                @unreadCount
+                            </div>
+                            <div id="notificationList" class="dropdown-menu dropdown-menu-end p-0 "
+                                 style="display: none; width: 300px; max-height: 400px; overflow-y: auto; background-color:#FDE7D2; cursor: pointer;">
+                                <div class="p-2 border-bottom">
+                                    <h6 class="mb-0">Thông báo</h6>
+                                </div>
+                                <div id="notificationItems">
+                                    @foreach (var notification in noti)
+                                    {
+                                        <div class="notification-item @(!notification.IsRead ? "fw-bold" : "")" data-id="@notification.ID" data-message="@notification.Message">
+                                            <div class="notification-content">
+                                                <div class="notification-title">@notification.Title</div>
+                                                <div class="notification-time d-flex justify-content-end">@notification.CreatedAt.ToString("dd/MM/yy hh:mm")</div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-md-flex align-items-center mx-3 pointer-event" onclick="window.location.href='/UserProfile?id=@ViewBag.UserID'">
+                            @if (ViewBag.CurrentUser.Avatar != null)
+                            {
+                                <img src="~/avatars/@ViewBag.CurrentUser.Avatar" alt="avatar" class="me-2 rounded-3" style="width: 40px; height: 40px;" />
+                            }
+                            else
+                            {
+                                <img src="/img/avatar_default.png" alt="avatar" class="me-2 rounded-3" style="width: 40px; height: 40px;" />
+                            }
+                            <div class=" text-color-background mb-1 fw-bold flex-grow-1 pe-none">@ViewBag.UsernameLoggedIn</div>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
-        <div class="col-auto col-md-3 mt-3 mt-md-0 d-flex justify-content-center">
+
+        <div class="bg-main-color-header w-100 py-2 d-none" id="contentMenuHeader">
             @if (!isLoggedIn)
             {
                 <div class="align-items-center d-flex justify-content-between" style="width: 85%; max-width:300px;">
-                    <button type="button" class="btn px-2 px-md-4 py-1 btn-account-sign"
+                    <button type="button" class="d-flex flex-nowrap btn px-2 px-md-4 py-1 btn-account-sign"
                             style="width:48%;" data-bs-toggle="modal" data-bs-target="#signupModal">
                         Đăng ký
                     </button>
-                    <button type="button" class="btn px-2 px-md-4 py-1 btn-account-log" style="width:48%;" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập</button>
+                    <button type="button" class=" d-flex flex-nowrap btn px-2 px-md-4 py-1 btn-account-log" style="width:48%;" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập</button>
                 </div>
             }
             else
@@ -75,8 +142,10 @@
                 </div>
             }
         </div>
+
     </div>
 </div>
+
 
 <!-- Modal SignUp -->
 <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
@@ -432,5 +501,17 @@
                 });
             }
         });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var btnMenuHeader = document.getElementById('btnMenuHeader');
+        var contentMenuHeader = document.getElementById('contentMenuHeader');
+        if (btnMenuHeader && contentMenuHeader) {
+            btnMenuHeader.addEventListener('click', function () {
+                contentMenuHeader.classList.toggle('show');
+                contentMenuHeader.classList.toggle('d-none');
+            });
+        }
     });
 </script>
