@@ -24,14 +24,13 @@
                 </div>
         </div>
 
- 
+
         <div class="col-lg-3 sidebar">
             <div class="d-lg-none d-flex flex-column align-items-center justify-content-end">
-                    <button id="btnMenuHeader" class="d-flex justify-content-end d-lg-none h-100 w-100">
-                        <i class="bi bi-list text-color-background " style="font-size: 30px;"></i>
-                    </button>
-            </div> 
-           
+                <button class="btnMenuHeader d-flex justify-content-end d-lg-none h-100 w-100">
+                    <i class="bi bi-list text-color-background" style="font-size: 30px;"></i>
+                </button>
+            </div>
 
             <div class="d-lg-flex d-none flex-column align-items-center">
                 <div style="width: 100%; max-width: 300px;">
@@ -95,7 +94,7 @@
             </div>
         </div>
 
-        <div class="bg-main-color-header w-100 d-none" id="contentMenuHeader">
+        <div class="bg-main-color-header w-100 contentMenuHeader"> 
             <div class="d-lg-none d-flex py-2 justify-content-center">
                 <div class="input-group rounded-2 border border-main-color-layout">
                     <input type="text" class="focus px-2 flex-grow-1 bg-transparent text-color-layout text-white"
@@ -115,19 +114,24 @@
                     </button>
                     <button type="button" class="text-center btn px-2 px-md-4 py-1 btn-account-log" style="width:48%; max-width: 160px;"
                             data-bs-toggle="modal" data-bs-target="#loginModal">
-                    Đăng nhập
-                </button>
+                        Đăng nhập
+                    </button>
                 </div>
             }
             else
             {
-                <div class="position-relative" style="margin-right: 20px;">
-                    <button class="p-2 bg-main-color-logo border-main-color-layout rounded-3" id="notificationButton">
-                        <img src="~/img/notification50.png" class="img-fluid" alt="Notifications" width="25" height="25">
-                    </button>
-                    <div class="position-absolute fs-12 translate-middle badge rounded-circle bg-danger"
-                         id="notificationCount" style="left:40px;">
-                        @unreadCount
+                <div class="align-items-center d-lg-none d-flex justify-content-end gap-2" style="width: 100%;">
+                    <div class="postion-relative">
+                        <button class="p-2 bg-main-color-logo border-main-color-layout rounded-3" id="notificationButton">
+                            <img src="~/img/notification50.png" class="img-fluid" alt="Notifications" width="25" height="25">
+                        </button>
+                        @if (ViewBag.UnreadCount > 0)
+                        {
+                            <div class="position-absolute fs-12 translate-middle badge rounded-circle bg-danger"
+                             id="notificationCount">
+                                @unreadCount
+                            </div>
+                        }
                     </div>
                     <div id="notificationList" class="dropdown-menu dropdown-menu-end p-0 "
                          style="display: none; width: 300px; max-height: 400px; overflow-y: auto; background-color:#FDE7D2; cursor: pointer;">
@@ -146,18 +150,21 @@
                             }
                         </div>
                     </div>
+
+
+                    <div class="d-md-flex align-items-center mx-3 pointer-event" onclick="window.location.href='/UserProfile?id=@ViewBag.UserID'">
+                        @if (ViewBag.CurrentUser.Avatar != null)
+                        {
+                            <img src="~/avatars/@ViewBag.CurrentUser.Avatar" alt="avatar" class="me-2 rounded-3" style="width: 40px; height: 40px;" />
+                        }
+                        else
+                        {
+                            <img src="/img/avatar_default.png" alt="avatar" class="me-2 rounded-3" style="width: 40px; height: 40px;" />
+                        }
+                        <div class=" text-color-background mb-1 fw-bold flex-grow-1 pe-none">@ViewBag.UsernameLoggedIn</div>
+                    </div>
                 </div>
-                <div class="d-md-flex align-items-center mx-3 pointer-event" onclick="window.location.href='/UserProfile?id=@ViewBag.UserID'">
-                    @if (ViewBag.CurrentUser.Avatar != null)
-                    {
-                        <img src="~/avatars/@ViewBag.CurrentUser.Avatar" alt="avatar" class="me-2 rounded-3" style="width: 40px; height: 40px;" />
-                    }
-                    else
-                    {
-                        <img src="/img/avatar_default.png" alt="avatar" class="me-2 rounded-3" style="width: 40px; height: 40px;" />
-                    }
-                    <div class=" text-color-background mb-1 fw-bold flex-grow-1 pe-none">@ViewBag.UsernameLoggedIn</div>
-                </div>
+                
             }
         </div>
 
@@ -523,12 +530,22 @@
 </script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        var btnMenuHeader = document.getElementById('btnMenuHeader');
-        var contentMenuHeader = document.getElementById('contentMenuHeader');
+        var btnMenuHeader = document.querySelector('.btnMenuHeader');
+        var contentMenuHeader = document.querySelector('.contentMenuHeader');
+
         if (btnMenuHeader && contentMenuHeader) {
             btnMenuHeader.addEventListener('click', function () {
                 contentMenuHeader.classList.toggle('show');
-                contentMenuHeader.classList.toggle('d-none');
+
+                // Thay đổi icon khi mở/đóng menu
+                var icon = this.querySelector('i');
+                if (contentMenuHeader.classList.contains('show')) {
+                    icon.classList.remove('bi-list');
+                    icon.classList.add('bi-x');
+                } else {
+                    icon.classList.remove('bi-x');
+                    icon.classList.add('bi-list');
+                }
             });
         }
     });

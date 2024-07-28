@@ -705,16 +705,14 @@ body {
     }
 
 }
-
-#contentMenuHeader {
+.contentMenuHeader {
     max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+    transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
     opacity: 0;
 }
 
-    #contentMenuHeader.show {
-        max-height: 500px; /* Điều chỉnh giá trị này tùy theo nội dung của bạn */
+    .contentMenuHeader.show {
+        max-height: 1000px; /* Điều chỉnh giá trị này theo nhu cầu */
         opacity: 1;
         transition: max-height 0.5s ease-in, opacity 0.5s ease-in;
     }
