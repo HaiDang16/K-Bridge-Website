@@ -277,4 +277,14 @@ public class HomeController : Controller
         ViewBag.TopicName = _topicRepository.GetTopicById(topic).Name;
         return PartialView("_PostListPartial");
     }
+
+    [HttpGet("/Newest")]
+    public IActionResult Newest()
+    {
+        // Bài viết mới nhất
+        var latestPost = _postRepository.GetLatestPost();
+        ViewBag.LatestPost = latestPost;
+
+        return View();
+    }
 }

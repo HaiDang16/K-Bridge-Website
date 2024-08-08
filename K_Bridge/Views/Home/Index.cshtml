@@ -68,14 +68,20 @@
             {
                 <hr class="my-0">
                 <div class="row m-0 my-2 px-3" onclick="window.location.href='/Post/Details?post=@latestPost.ID'">
-                    <div class="col-lg-2 col-3 d-flex flex-column justify-content-center">
-                        <div class="newest-card-stat py-2 fs-12">@(latestPost.Replies?.Count ?? 0) Câu trả lời</div>
-                        <div class="newest-card-stat py-2 fs-12">@latestPost.ViewCount Lượt xem</div>
-                    </div>
+                    <div class="col-lg-2 col-3 d-flex flex-column justify-content-center align-items-center">
+                        <div class="d-none d-md-block">
+                            <div class="newest-card-stat py-2 fs-14 text-nowrap">@(latestPost.Replies?.Count ?? 0) Câu trả lời</div>
+                            <div class="newest-card-stat py-2 fs-14">@latestPost.ViewCount Lượt xem</div>
+                        </div>
+                        <div class="d-sm-none">
+                            <div class="newest-card-stat py-2 fs-14">@(latestPost.Replies?.Count ?? 0)<i class="bi bi-chat-dots px-2 align-items-center"></i> </div>
+                            <div class="newest-card-stat py-2 fs-14">@latestPost.ViewCount <i class="bi bi-eye px-1 align-items-center"></i></div>
+                        </div>
+                    </div>  
                     <div class="col-lg-10 col-9">
                         <div class="d-flex">
                             <div class="newest-card-title fs-6">@latestPost.Title</div>
-                            <div class="newest-card-tag px-3 mx-3"
+                            <div class="newest-card-tag px-3 mx-3 fs-14"
                                  style="background: @GetForumColorHelper.GetForumBackgroundColor(latestPost.Topic.Forum.ID);
                                         color:@GetForumColorHelper.GetForumColor(latestPost.Topic.Forum.ID)">
                                 @latestPost.Topic.Forum.TagName
@@ -109,7 +115,7 @@
         @* Forum *@
         <div class="d-flex flex-column mt-4 h-auto w-auto rounded-8 bg-main-color-background"
              style="border-top:5px solid @GetForumColorHelper.GetForumBackgroundColor(forum.ID);">
-            <button id="toggle-cate-@forum.ID" class="flex-grow-0 border-bottom p-3 rounded-3 h-50 d-inline-flex justify-content-between align-items-center">
+            <button id="toggle-cate-@forum.ID" class="flex-grow-0 p-3 rounded-3 h-50 d-inline-flex justify-content-between align-items-center">
                 <div class="text-uppercase text-decoration-none text-color-header" onclick="window.location.href='/Topic/List?forum=@forum.ID'">@forum.Name</div>
                 <img id="arrow-icon-cate-@forum.ID" width="13" height="13" src="/img/arrow_down.png" alt="arrow_down" />
             </button>
@@ -117,9 +123,10 @@
             <div id="container-cate-@forum.ID">
                 @foreach (var topic in forum.Topics)
                 {
+                    <hr class="my-0">
                     <div class="w-auto rounded-3" onclick="window.location.href='/Topic/Post/List?topic=@topic.ID'">
                         <div class="row flex-nowrap p-2 m-0">
-                            <div class="col-1 p-0 m-2 d-flex justify-content-center">
+                            <div class="col-lg-1 col-2 p-0 d-flex justify-content-center align-items-center">
                                 <img src="/img/cate_1.png" alt="avatar" style="width: 50px; height: 50px;" />
                             </div>
                             <div class="col-lg-5 col-10 d-flex flex-column justify-content-center">
