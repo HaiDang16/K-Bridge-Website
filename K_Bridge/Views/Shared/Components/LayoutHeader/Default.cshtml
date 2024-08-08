@@ -532,19 +532,19 @@
     document.addEventListener('DOMContentLoaded', function () {
         var btnMenuHeader = document.querySelector('.btnMenuHeader');
         var contentMenuHeader = document.querySelector('.contentMenuHeader');
-
         if (btnMenuHeader && contentMenuHeader) {
             btnMenuHeader.addEventListener('click', function () {
                 contentMenuHeader.classList.toggle('show');
-
                 // Thay đổi icon khi mở/đóng menu
                 var icon = this.querySelector('i');
                 if (contentMenuHeader.classList.contains('show')) {
                     icon.classList.remove('bi-list');
                     icon.classList.add('bi-x');
+                    contentMenuHeader.style.pointerEvents = 'auto';
                 } else {
                     icon.classList.remove('bi-x');
                     icon.classList.add('bi-list');
+                    contentMenuHeader.style.pointerEvents = 'none';
                 }
             });
         }

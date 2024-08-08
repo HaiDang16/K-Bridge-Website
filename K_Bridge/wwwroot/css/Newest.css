@@ -28,11 +28,9 @@
 .newest-card-stat {
     color: #493422;
     opacity: 0.7;
-    font-size: 15px;
 }
 
 .newest-card-title {
-    font-size: 20px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

@@ -707,12 +707,16 @@ body {
 }
 .contentMenuHeader {
     max-height: 0;
-    transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
     opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+    pointer-events: none;
 }
 
     .contentMenuHeader.show {
         max-height: 1000px; /* Điều chỉnh giá trị này theo nhu cầu */
         opacity: 1;
-        transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+        visibility: visible;
+        pointer-events: auto;
     }

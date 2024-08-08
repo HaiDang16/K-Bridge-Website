@@ -32,18 +32,18 @@
 }
 <div class="h-auto text-color-logo">
     <div class="w-auto container-fluid rounded-3" style="background:#FFF0E6">
-        <div class="row flex-nowrap p-2">
-            <div class="col-lg-1 p-0 my-2">
+        <div class="row p-2">
+            <div class="col-lg-1 col-2 p-0 my-2 justify-content-center align-items-center d-flex">
                 @if (avatar != null)
                 {
-                    <img src="~/avatars/@avatar" alt="avatar" class="rounded-circle" style="width: 40px; height: 40px; overflow-x:hidden" />
+                    <img src="~/avatars/@avatar" alt="avatar" class="rounded-circle" style="width: 40px; height: 40px;" />
                 }
                 else
                 {
-                    <img src="~/img/avatar_default.png" alt="avatar" class="rounded-circle" style="width: 40px; height: 40px; overflow-x:hidden" />
+                    <img src="~/img/avatar_default.png" alt="avatar" class="rounded-circle" style="width: 40px; height: 40px;" />
                 }
             </div>
-            <div class="col-lg-11">
+            <div class="col-lg-11 col-10">
                 <div class="d-flex text-color-logo">
                     <div class="fw-normal">Chào</div>
                     <div class="fw-bold px-1">
@@ -59,20 +59,20 @@
 
     @* Bài viết mới nhất *@
     <div class="d-flex flex-column mt-4 h-auto w-auto rounded-8" style="background:#FFF0E6; border-top:5px solid #493422;">
-        <button id="toggle-new-1" class="flex-grow-0 border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between">
-            <a class="text-uppercase text-decoration-none text-black" href="/Newest">Bài viết mới nhất </a>
-            <img id="arrow-icon-new-1" src="/img/arrow_down.png" alt="arrow_down" />
+        <button id="toggle-new-1" class="flex-grow-0 px-3 py-3 rounded-3 h-50 d-inline-flex justify-content-between align-items-center">
+            <a class="text-uppercase text-decoration-none text-black" href="/Newest">Bài viết mới nhất</a>
+            <img id="arrow-icon-new-1" width="13" height="13" src="/img/arrow_down.png" alt="arrow_down" />
         </button>
-
         <div id="container-new-1">
             @foreach (var latestPost in ViewBag.LatestPost ?? Enumerable.Empty<Post>())
             {
-                <div class="row m-0 px-3 py-2" onclick="window.location.href='/Post/Details?post=@latestPost.ID'">
-                    <div class="col-2 d-flex flex-column justify-content-center">
-                        <div class="newest-card-stat py-2">@(latestPost.Replies?.Count ?? 0) Câu trả lời</div>
-                        <div class="newest-card-stat py-2">@latestPost.ViewCount Lượt xem</div>
+                <hr class="my-0">
+                <div class="row m-0 my-2 px-3" onclick="window.location.href='/Post/Details?post=@latestPost.ID'">
+                    <div class="col-lg-2 col-3 d-flex flex-column justify-content-center">
+                        <div class="newest-card-stat py-2 fs-12">@(latestPost.Replies?.Count ?? 0) Câu trả lời</div>
+                        <div class="newest-card-stat py-2 fs-12">@latestPost.ViewCount Lượt xem</div>
                     </div>
-                    <div class="col-10">
+                    <div class="col-lg-10 col-9">
                         <div class="d-flex">
                             <div class="newest-card-title fs-6">@latestPost.Title</div>
                             <div class="newest-card-tag px-3 mx-3"
@@ -86,7 +86,7 @@
                                 @Html.Raw(latestPost.Content)
                             </div>
                         </div>
-                        <div class="d-flex justify-content-end mt-2">
+                        <div class="d-none d-lg-flex justify-content-end mt-2">
                             @if (latestPost.User.Avatar != null)
                             {
                                 <img src="~/avatars/@latestPost.User.Avatar" alt="avatar" class="rounded-circle" style="width: 40px; height: 40px; overflow-x:hidden" />
@@ -99,7 +99,7 @@
                         </div>
                     </div>
                 </div>
-                <hr class="mt-2">
+                
             }
         </div>
     </div>
@@ -109,9 +109,9 @@
         @* Forum *@
         <div class="d-flex flex-column mt-4 h-auto w-auto rounded-8 bg-main-color-background"
              style="border-top:5px solid @GetForumColorHelper.GetForumBackgroundColor(forum.ID);">
-            <button id="toggle-cate-@forum.ID" class="flex-grow-0 border-bottom p-3 rounded-3 h-50 d-lg-inline-flex justify-content-lg-between">
-                <div class="text-uppercase text-decoration-none text-black" onclick="window.location.href='/Topic/List?forum=@forum.ID'">@forum.Name</div>
-                <img id="arrow-icon-cate-@forum.ID" src="/img/arrow_down.png" alt="arrow_down" />
+            <button id="toggle-cate-@forum.ID" class="flex-grow-0 border-bottom p-3 rounded-3 h-50 d-inline-flex justify-content-between align-items-center">
+                <div class="text-uppercase text-decoration-none text-color-header" onclick="window.location.href='/Topic/List?forum=@forum.ID'">@forum.Name</div>
+                <img id="arrow-icon-cate-@forum.ID" width="13" height="13" src="/img/arrow_down.png" alt="arrow_down" />
             </button>
             @* Topic *@
             <div id="container-cate-@forum.ID">
@@ -119,22 +119,22 @@
                 {
                     <div class="w-auto rounded-3" onclick="window.location.href='/Topic/Post/List?topic=@topic.ID'">
                         <div class="row flex-nowrap p-2 m-0">
-                            <div class="col-lg-1 p-0 m-2 d-flex justify-content-center">
+                            <div class="col-1 p-0 m-2 d-flex justify-content-center">
                                 <img src="/img/cate_1.png" alt="avatar" style="width: 50px; height: 50px;" />
                             </div>
-                            <div class="col-lg-5 d-flex flex-column justify-content-center">
+                            <div class="col-lg-5 col-10 d-flex flex-column justify-content-center">
                                 <div class="fw-normal p-0 my-1">@topic.Name</div>
                                 <div class="fs-12 opacity-75 my-1">
                                     @topic.Description
                                 </div>
                             </div>
-                            <div class="col-lg-2 p-0 d-flex align-items-center">
-                                <div class="col-lg-11 d-flex flex-column justify-content-center">
+                            <div class="col-2 p-0 d-none d-lg-flex align-items-center">
+                                <div class="d-flex flex-column justify-content-center">
                                     <div class="fs-6 me-2 p-0 d-flex justify-content-center">@topic.Posts.Count</div>
                                     <div class="fw-normal p-0 d-flex justify-content-center">Bài viết</div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 p-0 d-flex align-items-center">
+                            <div class="col-lg-4 p-0 d-none d-lg-flex align-items-center">
                                 <div class="col-lg-2 p-0 m-2 d-flex align-items-center ">
                                     @if (topic.Posts[0].User.Avatar != null)
                                     {
