@@ -284,7 +284,6 @@ public class HomeController : Controller
         // Bài viết mới nhất
         var latestPost = _postRepository.GetLatestPost();
         ViewBag.LatestPost = latestPost;
-
         return View();
     }
 }

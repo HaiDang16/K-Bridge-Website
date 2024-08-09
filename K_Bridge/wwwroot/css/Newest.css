@@ -25,11 +25,16 @@
         background-color: #FFF0E6;
     }
 
+.newest-card-stats {
+    height: 100%;
+}
+
 .newest-card-stat {
     color: #493422;
     opacity: 0.7;
+    display: flex;
+    align-items: center;
 }
-
 .newest-card-title {
     white-space: nowrap;
     overflow: hidden;
