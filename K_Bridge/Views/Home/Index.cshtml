@@ -36,7 +36,7 @@
             <div class="col-lg-1 col-2 p-0 my-2 justify-content-center align-items-center d-flex">
                 @if (avatar != null)
                 {
-                    <img src="~/avatars/@avatar" alt="avatar" class="rounded-circle" style="width: 40px; height: 40px;" />
+                    <img src="~/avatars/@avatar" alt="avatar" class="rounded-circle" style="width: 40px; height: 40px;" /> 
                 }
                 else
                 {
@@ -119,7 +119,7 @@
                 <img id="arrow-icon-cate-@forum.ID" width="13" height="13" src="/img/arrow_down.png" alt="arrow_down" />
             </button>
             @* Topic *@
-            <div id="container-cate-@forum.ID">
+            <div id="container-cate-@forum.ID" class="content-container">
                 @foreach (var topic in forum.Topics)
                 {
                     <hr class="my-0">
@@ -176,85 +176,27 @@
 
 
 <script>
-
     document.addEventListener('DOMContentLoaded', function () {
-        const toggleCate1 = document.getElementById('toggle-cate-1');
-        const containerCate1 = document.getElementById('container-cate-1');
-        const arrowCate1 = document.getElementById('arrow-icon-cate-1');
+        function setupToggle(toggleId, containerId, arrowId) {
+            const toggle = document.getElementById(toggleId);
+            const container = document.getElementById(containerId);
+            const arrow = document.getElementById(arrowId);
 
-        toggleCate1.addEventListener('click', function () {
-            containerCate1.classList.toggle('hidden');
-            arrowCate1.classList.toggle('rotated1');
-        });
-    });
+            if (toggle && container && arrow) {
+                toggle.addEventListener('click', function () {
+                    container.classList.toggle('hidden');
+                    arrow.classList.toggle('rotated');
+                });
+            }
+        }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const toggleCate2 = document.getElementById('toggle-cate-2');
-        const containerCate2 = document.getElementById('container-cate-2');
-        const arrowCate2 = document.getElementById('arrow-icon-cate-2');
+        // Thiết lập cho mỗi toggleCate
+        for (let i = 1; i <= 6; i++) {
+            setupToggle(`toggle-cate-${i}`, `container-cate-${i}`, `arrow-icon-cate-${i}`);
+        }
 
-        toggleCate2.addEventListener('click', function () {
-            containerCate2.classList.toggle('hidden');
-            arrowCate2.classList.toggle('rotated2');
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const toggleCate3 = document.getElementById('toggle-cate-3');
-        const containerCate3 = document.getElementById('container-cate-3');
-        const arrowCate3 = document.getElementById('arrow-icon-cate-3');
-
-        toggleCate3.addEventListener('click', function () {
-            containerCate3.classList.toggle('hidden');
-            arrowCate3.classList.toggle('rotated3');
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const toggleCate4 = document.getElementById('toggle-cate-4');
-        const containerCate4 = document.getElementById('container-cate-4');
-        const arrowCate4 = document.getElementById('arrow-icon-cate-4');
-
-        toggleCate4.addEventListener('click', function () {
-            containerCate4.classList.toggle('hidden');
-            arrowCate4.classList.toggle('rotated4');
-        });
-    });
-
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const toggleCate5 = document.getElementById('toggle-cate-5');
-        const containerCate5 = document.getElementById('container-cate-5');
-        const arrowCate5 = document.getElementById('arrow-icon-cate-5');
-
-        toggleCate5.addEventListener('click', function () {
-            containerCate5.classList.toggle('hidden');
-            arrowCate5.classList.toggle('rotated5');
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const toggleCate6 = document.getElementById('toggle-cate-6');
-        const containerCate6 = document.getElementById('container-cate-6');
-        const arrowCate6 = document.getElementById('arrow-icon-cate-6');
-
-        toggleCate6.addEventListener('click', function () {
-            containerCate6.classList.toggle('hidden');
-            arrowCate6.classList.toggle('rotated6');
-        });
-    });
-
-
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const toggleCate2 = document.getElementById('toggle-new-1');
-        const containerCate2 = document.getElementById('container-new-1');
-        const arrowCate2 = document.getElementById('arrow-icon-new-1');
-
-        toggleCate2.addEventListener('click', function () {
-            containerCate2.classList.toggle('hidden');
-            arrowCate2.classList.toggle('rotatednew');
-        });
+        // Thiết lập cho toggle-new-1
+        setupToggle('toggle-new-1', 'container-new-1', 'arrow-icon-new-1');
     });
 
 </script>
