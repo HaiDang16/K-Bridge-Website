@@ -28,12 +28,12 @@
         </div>
     </div>
     <div class="row m-0 p-0 mt-3 ">
-        <div class="col-lg-1 flex-column">
+        <div class="col-1 flex-column">
             <partial name="_LikeDislikePartial" model="new Post_Like { PostID = ViewBag.Post.ID, Post = ViewBag.Post }" />
         </div>
 
 
-        <div class="col-lg-11">
+        <div class="col-11">
             @if (isVoteAvaiable)
             {
                 <div class="my-3">
@@ -44,9 +44,6 @@
                             </div>
                             <h4 class="text-color-header">@voteDetail.Question</h4>
                         </div>
-
-
-
                     </div>
                     <form id="voteForm" method="post" asp-action="SubmitVote">
                         <input type="hidden" name="postId" value="@ViewBag.Post.ID" />
@@ -157,8 +154,8 @@
             <img src="~/img/wallpaper.png" alt="Alternate Text" />
         </div>
         <div class="d-flex flex-column">
-            <div class="p-3 justify-content-center align-content-center d-flex">
-                <p class="text-color-header">Bạn biết ai đó có thể trả lời câu hỏi này? Hãy chia sẻ đường dẫn câu hỏi đến họ qua:</p>
+            <div class="p-3 text-center">
+                <p class="text-color-header m-0">Bạn biết ai đó có thể trả lời câu hỏi này? <br /> Hãy chia sẻ đường dẫn câu hỏi đến họ qua:</p>
             </div>
             <div class="justify-content-center align-content-center d-flex px-3 gap-4">
                 <img class="h-50" src="~/img/Facebook.png" alt="Facebook" />
@@ -167,32 +164,65 @@
                 <img class="h-50" src="~/img/Telegram.png" alt="Telegram" />
                 <img class="h-50" src="~/img/Github.png" alt="Github" />
             </div>
-            <div class="d-flex justify-content-end mt-2">
+            <div class="d-flex justify-content-end mt-2 gap-2">
                 <img src="~/img/avatar_default.png" class="rounded-circle" alt="Avatar" width="30" height="30">
-                <div class="newest-card-username mx-2">@ViewBag.Post.User.Username hỏi @GetTimeAgoHelper.GetTimeAgo(@ViewBag.Post.CreatedAt)</div>
+                <div class="newest-card-username fs-14">@ViewBag.Post.User.Username hỏi @GetTimeAgoHelper.GetTimeAgo(@ViewBag.Post.CreatedAt)</div>
                 @if (ViewBag.CurrentUser != null && ViewBag.Post != null && ViewBag.CurrentUser.ID != null && ViewBag.Post.UserID == ViewBag.CurrentUser.ID)
                 {
                     <button class="align-content-center" onclick="window.location.href='/Post/Edit?id=@ViewBag.Post.ID'">
                         <img src="~/img/icon_edit_50.png" width="20" height="20" alt="EditPost" />
                     </button>
                 }
-
             </div>
             @if (isCmtAvaiable)
             {
-                <div class="mt-5 mb-4 d-flex justify-content-between">
+                <div class="my-4 d-flex justify-content-between position-relative">
                     <div class="fw-bold fs-4 d-flex text-color-logo">
                         @ViewBag.Post.Replies.Count Câu trả lời
                     </div>
-                    <div class="d-flex text-color-header  w-50">
-                        <div class="form-group d-flex w-100 align-items-center justify-content-between">
-                            <label class="w-100" for="sortSelect">Sắp xếp theo:</label>
-                            <select class="form-control " id="sortSelect">
-                                <option value="newest" selected="@(ViewBag.Sort == "newest" ? "selected" : "")">Mới nhất</option>
-                                <option value="oldest" selected="@(ViewBag.Sort == "oldest" ? "selected" : "")">Cũ nhất</option>
-                                <option value="helpful" selected="@(ViewBag.Sort == "helpful" ? "selected" : "")">Hữu ích nhất</option>
-                            </select>
-                        </div>
+                    <div class="mb-3">
+                        <button id="sortButton" class="filter-forum d-flex justify-content-center align-items-center mx-2" style="min-width:100px;">
+                            <div class="px-2 text-nowrap">
+                                Bộ lọc
+                            </div>
+                        </button>
+                    </div>
+                    <div id="sortFrame" class="p-2 position-absolute  bg-main-color-background rounded-3 border-color-layout">
+                        <form id="sortForm">
+                            <div class="d-flex justify-content-between mb-3 p-2 px-4">
+                                <div class="flex-column">
+                                    <p class="fw-bold text-color-header fs-6">Sắp xếp theo</p>
+                                    <div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="sortOrder" id="newest" value="newest" checked>
+                                            <label class="form-check-label" for="newest">
+                                                Mới nhất
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="sortOrder" id="oldest" value="oldest">
+                                            <label class="form-check-label" for="oldest">
+                                                Cũ nhất
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="sortOrder" id="helpful" value="helpful">
+                                            <label class="form-check-label" for="helpful">
+                                                Hữu ích nhất
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between mt-3 text-color-header">
+                                <div>
+                                    <button id="sortButtonClose" type="button" class="btn">Huỷ</button>
+                                </div>
+                                <div>
+                                    <button type="submit" class="btn btn-account-edit ms-2">Áp dụng</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <div id="repliesContainer">
@@ -499,5 +529,36 @@
         var postId = '@ViewBag.Post.ID'; // Lấy postId từ ViewBag
         var initialSort = '@ViewBag.Sort'; // Lấy sort ban đầu từ ViewBag
         loadReplies(postId, initialSort, 1); // Load trang đầu tiên
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const sortButton = document.getElementById('sortButton');
+        const sortFrame = document.getElementById('sortFrame');
+        const sortButtonClose = document.getElementById('sortButtonClose');
+        const sortForm = document.getElementById('sortForm');
+
+        sortButton.addEventListener('click', function () {
+            sortFrame.classList.toggle('active');
+        });
+
+        sortButtonClose.addEventListener('click', function () {
+            sortFrame.classList.remove('active');
+        });
+
+        sortForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const params = new URLSearchParams(formData).toString();
+            fetch(`/Topic/Post/PostListPartial?${params}`, {
+                method: 'GET'
+            })
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('postsContainer').innerHTML = html;
+                    sortFrame.classList.remove('active');
+                })
+                .catch(error => console.error('Error:', error));
+        });
     });
 </script>
