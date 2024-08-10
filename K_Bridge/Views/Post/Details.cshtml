@@ -21,7 +21,7 @@
             <div class="py-2 me-2">@(ViewBag.Post.Replies?.Count ?? 0) Câu trả lời</div>
             <div class="py-2 ms-2">@ViewBag.Post.ViewCount Lượt xem</div>
         </div>
-        <div class="newest-card-tag px-5 mx-3"
+        <div class="newest-card-tag px-4 mx-3"
              style="background: @GetForumColorHelper.GetForumBackgroundColor(ViewBag.Post.Topic.Forum.ID);
                                         color:@GetForumColorHelper.GetForumColor(ViewBag.Post.Topic.Forum.ID)">
             @ViewBag.Post.Topic.Forum.TagName
@@ -177,53 +177,55 @@
             @if (isCmtAvaiable)
             {
                 <div class="my-4 d-flex justify-content-between position-relative">
-                    <div class="fw-bold fs-4 d-flex text-color-logo">
+                    <div class="fw-bold fs-5 d-flex text-color-logo align-items-center">
                         @ViewBag.Post.Replies.Count Câu trả lời
                     </div>
-                    <div class="mb-3">
+                    @if (@ViewBag.Post.Replies.Count > 0)
+                    {
                         <button id="sortButton" class="filter-forum d-flex justify-content-center align-items-center mx-2" style="min-width:100px;">
-                            <div class="px-2 text-nowrap">
+                                <div class="px-2 text-nowrap">
                                 Bộ lọc
                             </div>
                         </button>
-                    </div>
-                    <div id="sortFrame" class="p-2 position-absolute  bg-main-color-background rounded-3 border-color-layout">
-                        <form id="sortForm">
-                            <div class="d-flex justify-content-between mb-3 p-2 px-4">
-                                <div class="flex-column">
-                                    <p class="fw-bold text-color-header fs-6">Sắp xếp theo</p>
-                                    <div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="sortOrder" id="newest" value="newest" checked>
-                                            <label class="form-check-label" for="newest">
-                                                Mới nhất
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="sortOrder" id="oldest" value="oldest">
-                                            <label class="form-check-label" for="oldest">
-                                                Cũ nhất
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="sortOrder" id="helpful" value="helpful">
-                                            <label class="form-check-label" for="helpful">
-                                                Hữu ích nhất
-                                            </label>
+                    
+                        <div id="sortFrame" class="p-2 position-absolute  bg-main-color-background rounded-3 border-color-layout">
+                            <form id="sortForm">
+                                <div class="d-flex justify-content-between mb-3 p-2 px-4">
+                                    <div class="flex-column">
+                                        <p class="fw-bold text-color-header fs-6">Sắp xếp theo</p>
+                                        <div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="sortOrder" id="newest" value="newest" checked>
+                                                <label class="form-check-label" for="newest">
+                                                    Mới nhất
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="sortOrder" id="oldest" value="oldest">
+                                                <label class="form-check-label" for="oldest">
+                                                    Cũ nhất
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="sortOrder" id="helpful" value="helpful">
+                                                <label class="form-check-label" for="helpful">
+                                                    Hữu ích nhất
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="d-flex justify-content-between mt-3 text-color-header">
-                                <div>
-                                    <button id="sortButtonClose" type="button" class="btn">Huỷ</button>
+                                <div class="d-flex justify-content-between mt-3 text-color-header">
+                                    <div>
+                                        <button id="sortButtonClose" type="button" class="btn">Huỷ</button>
+                                    </div>
+                                    <div>
+                                        <button type="submit" class="btn btn-account-edit ms-2">Áp dụng</button>
+                                    </div>
                                 </div>
-                                <div>
-                                    <button type="submit" class="btn btn-account-edit ms-2">Áp dụng</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                            </form>
+                        </div>
+                    }
                 </div>
                 <div id="repliesContainer">
                     @await Html.PartialAsync("_RepliesPartial", (ReplyPaginationViewModel)ViewBag.ReplyViewModel)

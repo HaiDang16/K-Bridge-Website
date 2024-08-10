@@ -1,6 +1,6 @@
 ﻿@using K_Bridge.Models
 @{
-    ViewData["Title"] = "Tìm kiếm";
+    ViewData["Title"] = "Tìm kiếm ing";
     <link href="/css/Newest.css" rel="stylesheet" />
     var isKeySearchFind = ViewBag.SearchResults != null && ((List<Post>)ViewBag.SearchResults).Count > 0;
     var searchKey = ViewBag.SearchKey as string;
@@ -22,7 +22,7 @@
 {
     foreach (var post in searchResults)
     {
-        <div class="row my-3" style="border-bottom: 1px solid #493422">
+        <div class="row my-3" style="border-bottom: 1px solid #493422" onclick="window.location.href='/Post/Details?post=@post.ID'">
             <div class="col-2 d-flex flex-column justify-content-center">
                 <div class="newest-card-stat py-2">@(post.Replies?.Count() ?? 0) Câu trả lời</div>
                 <div class="newest-card-stat py-2">@post.ViewCount Lượt xem</div>

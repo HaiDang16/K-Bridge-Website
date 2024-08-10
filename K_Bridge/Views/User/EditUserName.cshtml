@@ -1,11 +1,12 @@
 ﻿@model UpdateUsernameViewModel
 @{
     ViewData["Title"] = "Cập nhật tên đăng nhập";
+
 }
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-8">
-            <h2 class="text-color-header mb-4">Cập nhật tên đăng nhập</h2>
+        <div class="col-10">
+            <h2 class="mb-2">Cập nhật tên đăng nhập</h2>
             <p class="fs-12 text-color-header">Nhập tên đăng nhập mới và mật khẩu hiện tại.</p>
 
   
@@ -24,7 +25,7 @@
             <form asp-action="EditUserName" method="post" id="editUserNameForm">
                 <div class="form-group mb-4 text-color-header fw-bold">
                     <label for="Username">Tên đăng nhập mới</label>
-                    <input type="text" class="form-control focus bg-main-color-background text-color-header rounded-3 mt-2"
+                    <input type="text" class="form-control focus bg-transparent text-color-header rounded-3 mt-2"
                            placeholder="abc123" minlength="4"
                            asp-for="NewUserName"
                            required>
@@ -38,7 +39,7 @@
                            placeholder="Nhập mật khẩu của bạn">
                 </div>
                 <div class="text-center d-flex justify-content-between w-100">
-                    <a href="/UserProfile?id=@ViewBag.UserID" class="btn btn-account-log w-50 me-4">Huỷ</a>
+                    <a href="/UserProfile?id=@ViewBag.UserID" class="btn btn-account-log w-50 me-4">Huỷ bỏ</a>
                     <button type="submit" class="btn btn-account-edit w-50 ">Lưu thay đổi</button>
                 </div>
             </form>

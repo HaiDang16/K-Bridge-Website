@@ -15,12 +15,12 @@
         </div>
         <div class="col-lg-6 content d-lg-flex d-none justify-content-center">
                 <div class="input-group rounded-2 border border-main-color-layout" style="max-width:65%;">
-                    <input type="text" class="focus px-2 flex-grow-1 bg-transparent text-color-layout text-white"
-                           placeholder="Tìm kiếm..." aria-label="Search" aria-describedby="button-addon2"
-                           id="searchInput">
-                    <button class="btn btn-main-color-header" type="button" id="button-addon2">
-                        <img src="/img/iconSearch.png" alt="Search Icon">
-                    </button>
+                <input type="text" class="search-input focus px-2 flex-grow-1 bg-transparent text-color-layout text-white"
+                       placeholder="Tìm kiếm..." aria-label="Search" aria-describedby="button-addon2-desktop"
+                       id="searchInput-desktop">
+                <button class="search-button btn btn-main-color-header" type="button" id="button-addon2-desktop">
+                    <img src="/img/iconSearch.png" alt="Search Icon">
+                </button>
                 </div>
         </div>
 
@@ -97,10 +97,10 @@
         <div class="bg-main-color-header w-100 contentMenuHeader"> 
             <div class="d-lg-none d-flex py-2 justify-content-center">
                 <div class="input-group rounded-2 border border-main-color-layout">
-                    <input type="text" class="focus px-2 flex-grow-1 bg-transparent text-color-layout text-white"
-                           placeholder="Tìm kiếm..." aria-label="Search" aria-describedby="button-addon2"
-                           id="searchInput">
-                    <button class="btn btn-main-color-header" type="button" id="button-addon2">
+                    <input type="text" class="search-input focus px-2 flex-grow-1 bg-transparent text-color-layout text-white"
+                            placeholder="Tìm kiếm..." aria-label="Search" aria-describedby="button-addon2-mobile"
+                            id="searchInput-mobile">
+                    <button class="search-button btn btn-main-color-header" type="button" id="button-addon2-mobile">
                         <img src="/img/iconSearch.png" alt="Search Icon">
                     </button>
                 </div>
@@ -441,25 +441,28 @@
 <!-- Sccipt cho chức năng tìm kiếm -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        var searchButton = document.getElementById('button-addon2');
-        var searchInput = document.getElementById('searchInput');
+        var searchButtons = document.querySelectorAll('.search-button');
+        var searchInputs = document.querySelectorAll('.search-input');
 
-        // Thêm sự kiện click cho nút tìm kiếm
-        searchButton.addEventListener('click', function () {
-            var searchKey = searchInput.value.trim();
+        function performSearch(input) {
+            var searchKey = input.value.trim();
             if (searchKey) {
                 window.location.href = '/Search?key=' + encodeURIComponent(searchKey);
             }
+        }
+
+        searchButtons.forEach(function (button, index) {
+            button.addEventListener('click', function () {
+                performSearch(searchInputs[index]);
+            });
         });
 
-        // Thêm sự kiện keypress để xử lý khi nhấn Enter trong ô tìm kiếm
-        searchInput.addEventListener('keypress', function (event) {
-            if (event.key === 'Enter') {
-                var searchKey = searchInput.value.trim();
-                if (searchKey) {
-                    window.location.href = '/Search?key=' + encodeURIComponent(searchKey);
+        searchInputs.forEach(function (input) {
+            input.addEventListener('keypress', function (event) {
+                if (event.key === 'Enter') {
+                    performSearch(input);
                 }
-            }
+            });
         });
     });
 

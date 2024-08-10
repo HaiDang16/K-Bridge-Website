@@ -34,27 +34,28 @@
         </div>
         <div class="m-3 bg-main-color-background rounded-8">
             <div class="p-5 pb-2">
-                @*                 <div class="d-flex justify-content-between mt-2">
-                <div class="d-flex flex-column">
-                <p class="text-uppercase fs-12 text-color-logo fw-bold">Tên hiển thị</p>
-                <p class="fs-6 text-color-header">User</p>
-                </div>
-                <button class="btn-edit-profile px-4 py-1 rounded-8 h-25 w-25" onclick="window.location.href='/UserProfile/EditDisplayName/test1'">Chỉnh sửa</button>
-                </div>
-                *@
                 <div class="d-flex justify-content-between mt-2">
                     <div class="d-flex flex-column">
                         <p class="text-uppercase fs-12 text-color-logo fw-bold">Tên đăng nhập</p>
                         <p class="fs-6 text-color-header">@user.Username</p>
+                        
                     </div>
-                    <button class="btn-edit-profile px-4 py-1 rounded-8 h-25  w-25" onclick="window.location.href='/UserProfile/EditUserName?id=@user.ID'">Chỉnh sửa</button>
+                    @if (user.Username == null)
+                    {
+                        <button class="btn-edit-profile px-4 py-1 rounded-8 h-25 text-nowrap" onclick="window.location.href='/UserProfile/EditUserName?id=@user.ID'">Thêm mới</button>
+                    }
+                    else
+                    {
+                        <button class="btn-edit-profile px-4 py-1 rounded-8 h-25 text-nowrap" onclick="window.location.href='/UserProfile/EditUserName?id=@user.ID'">Chỉnh sửa</button>
+                    }
+                   
                 </div>
                 <div class="d-flex justify-content-between mt-2">
                     <div class="d-flex flex-column">
                         <p class="text-uppercase fs-12 text-color-logo fw-bold">Email</p>
                         <p class="fs-6 text-color-header">@user.Email</p>
                     </div>
-                    <button class="btn-edit-profile px-4 py-1 rounded-8 h-25  w-25" onclick="window.location.href='/UserProfile/EditEmail?id=@user.ID'">Chỉnh sửa</button>
+                    <button class="btn-edit-profile px-4 py-1 rounded-8 h-25 text-nowrap" onclick="window.location.href='/UserProfile/EditEmail?id=@user.ID'">Chỉnh sửa</button>
                 </div>
                 <div class="d-flex justify-content-between mt-2">
                     <div class="d-flex flex-column">
@@ -70,11 +71,11 @@
                     </div>
                     @if (user.PhoneNumber == null)
                     {
-                        <button class="btn-edit-profile px-4 py-1 rounded-8 h-25  w-25" onclick="window.location.href='/UserProfile/EditPhoneNum?id=@user.ID'">Thêm mới</button>
+                        <button class="btn-edit-profile px-4 py-1 rounded-8 h-25 text-nowrap" onclick="window.location.href='/UserProfile/EditPhoneNum?id=@user.ID'">Thêm mới</button>
                     }
                     else
                     {
-                        <button class="btn-edit-profile px-4 py-1 rounded-8 h-25  w-25" onclick="window.location.href='/UserProfile/EditPhoneNum?id=@user.ID'">Chỉnh sửa</button>
+                        <button class="btn-edit-profile px-4 py-1 rounded-8 h-25 text-nowrap" onclick="window.location.href='/UserProfile/EditPhoneNum?id=@user.ID'">Chỉnh sửa</button>
                     }
 
                 </div>
@@ -83,12 +84,12 @@
                         <p class="text-uppercase fs-12 text-color-logo fw-bold">Mật khẩu</p>
                         <p class="fs-6 text-color-header">******************</p>
                     </div>
-                    <button class="btn-edit-profile px-4 py-1 rounded-8 h-25" onclick="window.location.href='/UserProfile/EditPass?id=@user.ID'">Đổi mật khẩu</button>
+                    <button class="btn-edit-profile px-4 py-1 rounded-8 text-nowrap h-25" onclick="window.location.href='/UserProfile/EditPass?id=@user.ID'">Đổi mật khẩu</button>
                 </div>
             </div>
         </div>
     </div>
-    @if (ViewBag.TopPosts != null)
+    @if (ViewBag.TopPosts.Count > 0)
     {
          <div class="d-flex justify-content-between mt-5">
         <p class="text-color-header fw-bold fs-5 ">Bài chủ đề hàng đầu</p>
@@ -133,42 +134,6 @@
         }
     </div>
     }
-   
-    @*     <div class="rounded-3 p-3 d-flex align-content-center justify-content-around" style="border: 1px solid #FFbe98;">
-    <div class="mx-3 align-content-center">
-    <img src="~/img/help_chat_good.png" alt="Help Chat" width="20" />
-    </div>
-    <div class="d-flex rounded-3 px-3 align-content-center justify-content-center" style="background-color:  #00D462;">
-    90
-    </div>
-    <div class="d-flex rounded-3 px-3 justify-content-center text-color-header">
-    Tiêu đề bài viết
-    </div>
-    <div class="d-flex rounded-3 px-3 justify-content-center text-white rounded-2 align-content-center" style="background-color: #FF4141">
-    x
-    </div>
-    <div class="d-flex px-3 justify-content-center text-color-header py-1 rounded-2 align-content-center">
-    20 phút trước
-    </div>
-    </div>
-    <div class="rounded-3 p-3 d-flex align-content-center justify-content-around" style="border: 1px solid #FFbe98;">
-    <div class="mx-3 align-content-center">
-    <img src="~/img/help_chat_bad.png" alt="Help Chat" width="20" />
-    </div>
-    <div class="d-flex rounded-3 px-3 align-content-center justify-content-center" style="background-color:  #FF4141;">
-    -12
-    </div>
-    <div class="d-flex rounded-3 px-3 justify-content-center text-color-header">
-    Tiêu đề bài viết
-    </div>
-    <div class="d-flex rounded-3 px-3 justify-content-center text-white rounded-2 align-content-center" style="background-color: #FF4141">
-    x
-    </div>
-    <div class="d-flex px-3 justify-content-center text-color-header py-1 rounded-2 align-content-center">
-    20 phút trước
-    </div>
-    </div>
-    *@
 </div>
 
 

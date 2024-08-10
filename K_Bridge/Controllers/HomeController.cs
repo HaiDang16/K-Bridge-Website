@@ -178,7 +178,7 @@ public class HomeController : Controller
 
     [Route("Search")]
     [HttpGet("Search")]
-    public IActionResult Searching([FromQuery] string key)
+    public IActionResult Search([FromQuery] string key)
     {
         var searchResults = _postRepository.Posts
 

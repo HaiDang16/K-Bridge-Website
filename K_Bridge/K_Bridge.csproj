@@ -7,12 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Home\Search.cshtml" />
     <Content Remove="wwwroot\img\admin_background.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\Home\Search.cshtml" />
     <_ContentIncludedByDefault Remove="wwwroot\img\arrow_down.png" />
   </ItemGroup>
 <ItemGroup>
@@ -42,15 +40,10 @@
   <Folder Include="wwwroot\avatars\" />
 </ItemGroup>
 <ItemGroup>
-  <None Include="Views\Home\Search.cshtml" />
   <None Include="wwwroot\img\admin_background.png" />
 </ItemGroup>
 
 <Target Name="Tailwind" BeforeTargets="Build">
   <Exec Command="npm run css:build" />
 </Target>
-
-<ItemGroup>
-  <UpToDateCheckInput Remove="Views\Home\Search.cshtml" />
-</ItemGroup>
 </Project>
