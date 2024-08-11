@@ -4,19 +4,15 @@
     var currentUser = ViewBag.CurrentUser;
 }
 <div>
-    <p class="text-color-logo fw-bold fs-5">Hồ sơ của @currentUser.Username</p>
+    <p class="text-color-logo fw-bold fs-4">Hồ sơ của @currentUser.Username</p>
     <p class="text-color-header fs-12" style="line-height: 2.0;">
-        Tại đây, bạn có thể dễ dàng thay đổi ảnh đại diện, ảnh bìa hoặc tên hiển thị của mình, giúp hồ sơ của bạn trở nên cá nhân hơn và phản ánh đúng về chính bạn. Hãy tùy chỉnh giao diện của trang cá nhân ngay bây giờ để thể hiện phong cách và sở thích của mình!
+        Tại đây, bạn có thể dễ dàng thay đổi ảnh đại diện, ảnh bìa hoặc tên hiển thị của mình, giúp hồ sơ của bạn trở nên cá nhân hơn và phản ánh đúng về chính bạn.<br /> Hãy tùy chỉnh giao diện của trang cá nhân ngay bây giờ để thể hiện phong cách và sở thích của mình!
     </p>
 </div>
 <form id="profile-form" enctype="multipart/form-data">
     <div class="d-flex">
         <div class="col-6">
             <div style="width: 90%;">
-                <div class="mt-2 text-color-header fw-bold text-uppercase fs-12">tên hiển thị</div>
-                <input id="content-display" type="text" style="width:90%;" class="my-2 flex-grow-1 px-3 py-1 fs-6 text-color-logo rounded-8 focus border-main-color-background"
-                       placeholder="Tên hiển thị..." value="@currentUser.Username">
-               
                 <div class="mt-2 text-color-header fw-bold text-uppercase fs-12">ảnh đại điện</div>
                 <label for="avatar-upload" style="width:90%; cursor:pointer;" class=" my-2  btn-account-log px-3 py-1 rounded-3">
                     <i class="bi bi-upload mx-3"></i> Chọn ảnh mới
@@ -25,8 +21,8 @@
 
                 <div for="exampleColorInput" class="mt-2 text-color-header fw-bold text-uppercase fs-12">ảnh bìa</div>
 
-                <input type="color" class="my-2 form-control form-control-color" asp-for="ProfileColor"
-                       id="exampleColorInput" value="#8E6745" title="Choose your color">
+                <input type="color" class="my-2 form-control form-control-color border-0 p-0 focus" style="min-width: 90%;" asp-for="ProfileColor"
+                       id="exampleColorInput" value="#8E6745" title="Lựa chọn màu ảnh bìa">
 
             </div>
         </div>
@@ -45,36 +41,40 @@
             <div class="bg-main-color-layout rounded-8" style="min-height: 280px;">
                 @if (currentUser.ProfileColor != null)
                 {
-                    <div id="target-div" class="rounded-3 rounded-top" style="height: 100px; background-color: @currentUser.ProfileColor;"></div>
+                    <div id="target-div" style="height: 100px; border-top-left-radius: 0.75rem; border-top-right-radius: 0.75rem; background-color: @currentUser.ProfileColor;"></div>
                 }
                 else
                 {
-                    <div id="target-div" class="rounded-3 rounded-top" style="height: 100px; background-color: #8E6745;"></div>
+                    <div id="target-div" style="height: 100px; border-top-left-radius: 0.75rem; border-top-right-radius: 0.75rem; background-color: #8E6745;"></div>
                 }
-                <div class="d-flex position-relative">
-                    <div class="col-3">
-                        @if (currentUser.Avatar == null)
-                        {
-                            <img width="100" height="100"
-                                 src="~/img/avatar_default.png" id="avatar-preview" class="img-fluid rounded-3 position-absolute"
-                                 style="border-width: 10px; border-color: #FFBE98; background-color: #FFBE98; top:-40px; left:45px; object-fit: cover;"
-                                 alt="Avatar">
-                        }
-                        else
-                        {
-                            <img width="100" height="100"
-                                 src="~/avatars/@currentUser.Avatar" id="avatar-preview" class="img-fluid rounded-3 position-absolute"
-                                 style="border-width: 10px; border-color: #FFBE98; top:-40px; left:45px; object-fit: cover;"
-                                 alt="Avatar">
-                        }
+                <div class="d-flex position-relative flex-column">
+                    <div>
+                        <div class="col-2">
+                            @if (currentUser.Avatar == null)
+                            {
+                                <img width="100" height="100"
+                                     src="~/img/avatar_default.png" id="avatar-preview" class="img-fluid rounded-3 position-absolute"
+                                     style="border-width: 10px; border-color: #FFBE98; background-color: #FFBE98; top:-40px; left:45px; object-fit: cover;"
+                                     alt="Avatar">
+                            }
+                            else
+                            {
+                                <img width="100" height="100"
+                                     src="~/avatars/@currentUser.Avatar" id="avatar-preview" class="img-fluid rounded-3 position-absolute"
+                                     style="border-width: 10px; border-color: #FFBE98; top:-40px; left:45px; object-fit: cover;"
+                                     alt="Avatar">
+                            }
+                        </div>
+                        <div class="mt-3 col-2">
+                            <p class="fs-5 position-absolute" style="left:145px;">@currentUser.Username</p>
+                        </div>
                     </div>
-                    <div class="mt-3">
-                        <p class="fs-5">@currentUser.Username</p>
+                    
+                    <div class="px-4 py-2">
+                        <p class="text-color-header position-absolute" style="top: 60px;" id="content-display"></p>
                     </div>
                 </div>
-                <div class="px-4 py-2">
-                    <p id="content-display"></p>
-                </div>
+               
             </div>
         </div>
         <div class="d-flex">
@@ -111,8 +111,6 @@
     const colorInput = document.getElementById('exampleColorInput');
     const targetDiv = document.getElementById('target-div');
     const saveBtn = document.getElementById('save-btn');
-    const resetBtn = document.getElementById('reset-btn'); 
-    const contentDisplay = document.getElementById('content-display')
 
     colorInput.addEventListener('input', () => {
         targetDiv.style.backgroundColor = colorInput.value;
@@ -123,6 +121,15 @@
     const contentDisplay = document.getElementById('content-display');
 
     // Hàm cập nhật nội dung của thẻ <p>
+    function updateContentDisplay() {
+        if (contentTextarea.value.trim() === '') {
+            contentDisplay.textContent = 'Đây là giới thiệu của bạn!';
+        } else {
+            contentDisplay.textContent = contentTextarea.value;
+        }
+    }
+
+    // Hàm cập nhật nội dung của thẻ ảnh bìa
     function updateContentDisplay() {
         if (contentTextarea.value.trim() === '') {
             contentDisplay.textContent = 'Đây là giới thiệu của bạn!';
