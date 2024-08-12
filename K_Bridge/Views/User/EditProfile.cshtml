@@ -41,40 +41,46 @@
             <div class="bg-main-color-layout rounded-8" style="min-height: 280px;">
                 @if (currentUser.ProfileColor != null)
                 {
-                    <div id="target-div" style="height: 100px; border-top-left-radius: 0.75rem; border-top-right-radius: 0.75rem; background-color: @currentUser.ProfileColor;"></div>
+                    <div id="target-div" style="height: 100px; border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem; background-color: @currentUser.ProfileColor;"></div>
                 }
                 else
                 {
-                    <div id="target-div" style="height: 100px; border-top-left-radius: 0.75rem; border-top-right-radius: 0.75rem; background-color: #8E6745;"></div>
+                    <div id="target-div" style="height: 100px; border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem; background-color: #8E6745;"></div>
                 }
                 <div class="d-flex position-relative flex-column">
                     <div>
-                        <div class="col-2">
+                        <div class="col-2 my-4">
                             @if (currentUser.Avatar == null)
                             {
-                                <img width="100" height="100"
-                                     src="~/img/avatar_default.png" id="avatar-preview" class="img-fluid rounded-3 position-absolute"
-                                     style="border-width: 10px; border-color: #FFBE98; background-color: #FFBE98; top:-40px; left:45px; object-fit: cover;"
-                                     alt="Avatar">
+                                <div class="bg-main-color-layout p-2 position-absolute rounded-3" style="top:-40px; left:45px;">
+                                    <img width="100" height="100"
+                                         src="~/img/avatar_default.png" id="avatar-preview" class="img-fluid rounded-3 "
+                                         style=" object-fit: cover;"
+                                         alt="Avatar">
+                                </div>
+                                
                             }
                             else
                             {
-                                <img width="100" height="100"
-                                     src="~/avatars/@currentUser.Avatar" id="avatar-preview" class="img-fluid rounded-3 position-absolute"
-                                     style="border-width: 10px; border-color: #FFBE98; top:-40px; left:45px; object-fit: cover;"
-                                     alt="Avatar">
+                                <div class="bg-main-color-layout p-2 position-absolute rounded-3" style="top:-40px; left:45px;">
+                                    <img width="100" height="100"
+                                         src="~/avatars/@currentUser.Avatar" id="avatar-preview" class="img-fluid rounded-3 "
+                                         style=" object-fit: cover;"
+                                         alt="Avatar">
+                                </div>
                             }
                         </div>
                         <div class="mt-3 col-2">
-                            <p class="fs-5 position-absolute" style="left:145px;">@currentUser.Username</p>
+                            <p class="fs-5 position-absolute" style="left:165px;">@currentUser.Username</p>
                         </div>
+
                     </div>
                     
-                    <div class="px-4 py-2">
-                        <p class="text-color-header position-absolute" style="top: 60px;" id="content-display"></p>
+                    <div class="px-4 py-2 position-absolute" style="top: 76px">
+                        <p class="text-color-header" id="content-display"></p>
                     </div>
                 </div>
-               
+                
             </div>
         </div>
         <div class="d-flex">
@@ -107,18 +113,114 @@
     });
 </script>
 <script>
+    const colorInput = document.getElementById('exampleColorInput');
+const avatarUpload = document.getElementById('avatar-upload');
+const saveBtn = document.getElementById('save-btn');
+const resetBtn = document.getElementById('reset-btn');
+const targetDiv = document.getElementById('target-div');
+const contentTextarea = document.getElementById('content-textarea');
+const contentDisplay = document.getElementById('content-display');
+const avatarPreview = document.getElementById('avatar-preview');
+
+let originalColor = colorInput.value;
+let originalAvatar = avatarPreview.src;
+let originalContent = contentTextarea.value;
+
+function checkForChanges() {
+    if (colorInput.value !== originalColor ||
+        avatarUpload.files.length > 0 ||
+        contentTextarea.value !== originalContent) {
+        saveBtn.classList.remove('d-none');
+        resetBtn.classList.remove('d-none');
+    } else {
+        saveBtn.classList.add('d-none');
+        resetBtn.classList.add('d-none');
+    }
+}
+
+function updateContentDisplay() {
+    contentDisplay.textContent = contentTextarea.value.trim() === '' ? 'Đây là giới thiệu của bạn!' : contentTextarea.value;
+}
+
+colorInput.addEventListener('input', () => {
+    targetDiv.style.backgroundColor = colorInput.value;
+    checkForChanges();
+});
+
+avatarUpload.addEventListener('change', (e) => {
+    if (e.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            avatarPreview.src = e.target.result;
+        };
+        reader.readAsDataURL(e.target.files[0]);
+    }
+    checkForChanges();
+});
+
+contentTextarea.addEventListener('input', () => {
+    updateContentDisplay();
+    checkForChanges();
+});
+
+saveBtn.addEventListener('click', () => {
+    originalColor = colorInput.value;
+    originalAvatar = avatarPreview.src;
+    originalContent = contentTextarea.value;
+    saveBtn.classList.add('d-none');
+    resetBtn.classList.add('d-none');
+});
+
+resetBtn.addEventListener('click', () => {
+    colorInput.value = originalColor;
+    targetDiv.style.backgroundColor = originalColor;
+    avatarPreview.src = originalAvatar;
+    avatarUpload.value = ''; // Đặt lại input file
+    contentTextarea.value = originalContent;
+    updateContentDisplay();
+    checkForChanges();
+});
+
+// Khởi tạo ban đầu
+updateContentDisplay();
+</script>
+@* <script>
     // Lấy giá trị từ color picker và gán nền xem trước
     const colorInput = document.getElementById('exampleColorInput');
-    const targetDiv = document.getElementById('target-div');
+    const avatarUpload = document.getElementById('avatar-upload');
     const saveBtn = document.getElementById('save-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const targetDiv = document.getElementById('target-div');
+    // Lấy giá trị từ thẻ textarea và gán vào thẻ p
+    const contentTextarea = document.getElementById('content-textarea');
+    const contentDisplay = document.getElementById('content-display');
+
+    let originalColor = colorInput.value;
+    let originalAvatar = null;
+    let originalContent = contentTextarea.value;
 
     colorInput.addEventListener('input', () => {
         targetDiv.style.backgroundColor = colorInput.value;
     });
+    
+    
+    function checkForChanges() {
+        if (colorInput.value !== originalColor ||
+            avatarUpload.files.length > 0 ||
+            contentTextarea.value !== originalContent) {
+            saveBtn.classList.remove('d-none');
+            resetBtn.classList.remove('d-none');
+        } else {
+            saveBtn.classList.add('d-none');
+            resetBtn.classList.add('d-none');
+        }
+    }
+    colorInput.addEventListener('input', checkForChanges);
 
-    // Lấy giá trị từ thẻ textarea và gán vào thẻ p
-    const contentTextarea = document.getElementById('content-textarea');
-    const contentDisplay = document.getElementById('content-display');
+    avatarUpload.addEventListener('change', checkForChanges);
+
+    contentTextarea.addEventListener('input', checkForChanges);
+    contentTextarea.addEventListener('input', updateContentDisplay);
 
     // Hàm cập nhật nội dung của thẻ <p>
     function updateContentDisplay() {
@@ -144,8 +246,6 @@
     // Cập nhật nội dung của thẻ <p> lần đầu
     updateContentDisplay();
 
-    let originalContent = contentTextarea.value;
-
     contentTextarea.addEventListener('input', () => {
         if (contentTextarea.value !== originalContent) {
             saveBtn.classList.remove('d-none');
@@ -157,16 +257,72 @@
     });
 
     saveBtn.addEventListener('click', () => {
+        originalColor = colorInput.value;
+        originalAvatar = avatarUpload.files[0];
         originalContent = contentTextarea.value;
         saveBtn.classList.add('d-none');
-    });
-    resetBtn.addEventListener('click', () => {
-        contentTextarea.value = originalContent;
         resetBtn.classList.add('d-none');
+    });
+
+    resetBtn.addEventListener('click', () => {
+        colorInput.value = originalColor;
+        avatarUpload.value = ''; // Đặt lại input file
+        contentTextarea.value = originalContent;
+        contentDisplay.textContent = 'Đây là giới thiệu của bạn!';
+        resetBtn.classList.add('d-none');
+        checkForChanges();
+    });
+</script>
+ *@
+<!--Script change scale Avatar-->
+<script>
+    document.getElementById('avatar-upload').addEventListener('change', function (e) {
+        var file = e.target.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var img = new Image();
+                img.onload = function () {
+                    var canvas = document.createElement('canvas');
+                    var ctx = canvas.getContext('2d');
+
+                    // Đặt kích thước canvas
+                    canvas.width = 100;
+                    canvas.height = 100;
+
+                    // Tính toán kích thước và vị trí cắt
+                    var size = Math.min(img.width, img.height);
+                    var x = (img.width - size) / 2;
+                    var y = (img.height - size) / 2;
+
+                    // Tính toán tỷ lệ để vẽ ảnh vào canvas
+                    var scale = Math.max(canvas.width / size, canvas.height / size);
+                    var newWidth = size * scale;
+                    var newHeight = size * scale;
+                    var dx = (canvas.width - newWidth) / 2;
+                    var dy = (canvas.height - newHeight) / 2;
+
+                    // Vẽ nền trắng
+                    ctx.fillStyle = '#FFFFFF';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                    // Vẽ phần được cắt của ảnh lên canvas
+                    ctx.drawImage(img, x, y, size, size, dx, dy, newWidth, newHeight);
+
+                    // Chuyển đổi canvas thành URL dữ liệu
+                    var dataUrl = canvas.toDataURL('image/jpeg');
+
+                    // Hiển thị ảnh đã cắt
+                    document.getElementById('avatar-preview').src = dataUrl;
+                }
+                img.src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
     });
 </script>
 
-<!--Scrip submit update-->
+<!--Script submit update-->
 <script>
     document.getElementById('profile-form').addEventListener('submit', function (e) {
         e.preventDefault();

@@ -220,7 +220,7 @@
 }
 
 
-input:focus {
+input[type=text]:focus {
     outline: none !important;
 }
 
@@ -723,3 +723,6 @@ body {
         visibility: visible;
         pointer-events: auto;
     }
+.form-control.bg-white {
+    background-color: #FFF0E6 !important;
+}
