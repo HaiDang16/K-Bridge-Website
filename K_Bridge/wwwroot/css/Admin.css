@@ -1,82 +1,74 @@
-﻿/*----------------------- ADMIN LOGIN -----------------------*/
+﻿input:focus{
+    outline:none !important; 
+}
+
+
+/*----------------------- ADMIN LOGIN -----------------------*/
 #login-background {
-    background-image: url('/img/admin_background.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 100vh;
+    background-image: url('/img/background_2.png');
+    background-repeat: repeat;
+    background-color: #8E6745;
 }
 
 .login-container {
-    width: 50%;
-    padding-bottom: 20px;
-    padding-top: 20px;
-    border-radius: 20px;
-    text-align: center;
     background-color: #FFE8DA;
+    border-radius: 20px;
+    padding: 20px;
 }
 
 .login-title {
     font-size: 30px;
     font-weight: bold;
-    color: #000000;
-    opacity: 0.7;
+    color: rgba(0, 0, 0, 0.7);
+    margin-bottom: 20px;
 }
 
 .login_subtitle {
     text-align: left;
     font-weight: bold;
-    padding-bottom: 10px;
     color: #493422;
+    display: block;
+    margin-bottom: 5px;
 }
 
 .form-login {
-    text-align: left;
-    display: inline-block;
     width: 100%;
     padding: 10px;
     font-size: 15px;
-    line-height: 0.5;
     color: black;
-    background-image: linear-gradient(to right, #FFBE98,#FFBE98);
+    background-image: linear-gradient(to right, #FFBE98, #FFBE98);
     background-clip: padding-box;
     border: 1px solid #493422;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
     border-radius: 0.375rem;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .form-login {
-        transition: none;
+    .form-login:focus {
+        color: #493422;
+        border-color: #493422;
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem rgba(73, 52, 34, 0.25);
     }
-}
-
-.form-login[type=file] {
-    overflow: hidden;
-}
-
-    .form-login[type=file]:not(:disabled):not([readonly]) {
-        cursor: pointer;
-    }
-
-.form-login:focus {
-    color: #493422;
-    border-color: #493422;
-    outline: 0;
-    box-shadow: 0 0 0 0.25rem rgba(73,52,34, 0.25);
-}
 
 .login-button {
     background: #493422;
     color: white;
     border-radius: 5px;
     width: 40%;
-    line-height: 1.8;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
 }
+    .login-button:hover {
+        background: #8E6745;
+    }
 
+    @media (max-width: 768px) {
+        .login-container {
+        width: 90%;
+    }
+}
 /*----------------------- ADMIN LAYOUT -----------------------*/
 #header-container {
     background: #8E6745;

@@ -723,7 +723,7 @@ body {
         visibility: visible;
         pointer-events: auto;
     }
-.form-control.bg-white {
+.form-control.bg-cream {
     background-color: #FFF0E6 !important;
 }
 
