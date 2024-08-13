@@ -14,16 +14,14 @@
         <div class="col-6">
             <div style="width: 90%;">
                 <div class="mt-2 text-color-header fw-bold text-uppercase fs-12">ảnh đại điện</div>
-                <label for="avatar-upload" style="width:90%; cursor:pointer;" class=" my-2  btn-account-log px-3 py-1 rounded-3">
-                    <i class="bi bi-upload mx-3"></i> Chọn ảnh mới
+                <label for="avatar-upload" class="file-upload-label my-2 btn-account-log px-3 py-1 rounded-3 align-content-center">
+                    <i class="bi bi-upload mx-2"></i> Ảnh đại diện mới
                 </label>
-                <input type="file" id="avatar-upload" asp-for="AvatarFile" class="d-none" accept="image/*">
+                <input type="file" id="avatar-upload" asp-for="AvatarFile" class="d-none" accept="image/*" title="Lựa chọn màu đại diện">
 
-                <div for="exampleColorInput" class="mt-2 text-color-header fw-bold text-uppercase fs-12">ảnh bìa</div>
-
-                <input type="color" class="my-2 form-control form-control-color border-0 p-0 focus" style="min-width: 90%;" asp-for="ProfileColor"
-                       id="exampleColorInput" value="#8E6745" title="Lựa chọn màu ảnh bìa">
-
+                <div class="mt-2 text-color-header fw-bold text-uppercase fs-12">ảnh bìa</div>
+                <input type="color" class="color-input my-2 form-control border-0 p-0 focus rounded-3"
+                       asp-for="ProfileColor" id="exampleColorInput" value="#8E6745" title="Lựa chọn màu ảnh bìa">
             </div>
         </div>
         <div class="col-6">
@@ -76,12 +74,13 @@
 
                     </div>
                     
-                    <div class="px-4 py-2 position-absolute" style="top: 76px">
-                        <p class="text-color-header" id="content-display"></p>
-                    </div>
+                    
                 </div>
-                
+                <div class="px-4 py-2 w-100" style="margin-top: 50px">
+                    <textarea class="p-2 text-color-header w-100 rounded-3 bg-transparent" id="content-display" disabled></textarea>
+                </div>
             </div>
+            
         </div>
         <div class="d-flex">
             <button id="save-btn" type="submit" class="mt-3 btn btn-edit-profile d-none">Lưu thay đổi</button>
@@ -100,6 +99,9 @@
     </div>
 </div>
 
+
+
+@* Xem trước Avatar vừa thay đổi *@
 <script>
     document.getElementById('avatar-upload').addEventListener('change', function (e) {
         var file = e.target.files[0];
@@ -112,77 +114,88 @@
         }
     });
 </script>
+
+@* Xem trước Ảnh bìa vừa thay đổi *@
 <script>
     const colorInput = document.getElementById('exampleColorInput');
-const avatarUpload = document.getElementById('avatar-upload');
-const saveBtn = document.getElementById('save-btn');
-const resetBtn = document.getElementById('reset-btn');
-const targetDiv = document.getElementById('target-div');
-const contentTextarea = document.getElementById('content-textarea');
-const contentDisplay = document.getElementById('content-display');
-const avatarPreview = document.getElementById('avatar-preview');
+    const avatarUpload = document.getElementById('avatar-upload');
+    const saveBtn = document.getElementById('save-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const targetDiv = document.getElementById('target-div');
+    const contentTextarea = document.getElementById('content-textarea');
+    const contentDisplay = document.getElementById('content-display');
+    const avatarPreview = document.getElementById('avatar-preview');
 
-let originalColor = colorInput.value;
-let originalAvatar = avatarPreview.src;
-let originalContent = contentTextarea.value;
+    let originalColor = colorInput.value;
+    let originalAvatar = avatarPreview.src;
+    let originalContent = contentTextarea.value;
 
-function checkForChanges() {
-    if (colorInput.value !== originalColor ||
-        avatarUpload.files.length > 0 ||
-        contentTextarea.value !== originalContent) {
-        saveBtn.classList.remove('d-none');
-        resetBtn.classList.remove('d-none');
-    } else {
+    function checkForChanges() {
+        if (colorInput.value !== originalColor ||
+            avatarUpload.files.length > 0 ||
+            contentTextarea.value !== originalContent) {
+            saveBtn.classList.remove('d-none');
+            resetBtn.classList.remove('d-none');
+        } else {
+            saveBtn.classList.add('d-none');
+            resetBtn.classList.add('d-none');
+        }
+    }
+
+    function updateContentDisplay() {
+        const defaultText = 'Đây là giới thiệu của bạn!';
+        const currentValue = contentTextarea.value.trim();
+
+        if (currentValue === '') {
+            contentDisplay.textContent = defaultText;
+            contentDisplay.style.opacity = '0.7';
+        } else {
+            contentDisplay.textContent = currentValue;
+            contentDisplay.style.opacity = '1';
+        }
+    }
+
+    colorInput.addEventListener('input', () => {
+        targetDiv.style.backgroundColor = colorInput.value;
+        checkForChanges();
+    });
+
+    avatarUpload.addEventListener('change', (e) => {
+        if (e.target.files[0]) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                avatarPreview.src = e.target.result;
+            };
+            reader.readAsDataURL(e.target.files[0]);
+        }
+        checkForChanges();
+    });
+
+    contentTextarea.addEventListener('input', () => {
+        updateContentDisplay();
+        checkForChanges();
+    });
+
+    saveBtn.addEventListener('click', () => {
+        originalColor = colorInput.value;
+        originalAvatar = avatarPreview.src;
+        originalContent = contentTextarea.value;
         saveBtn.classList.add('d-none');
         resetBtn.classList.add('d-none');
-    }
-}
+    });
 
-function updateContentDisplay() {
-    contentDisplay.textContent = contentTextarea.value.trim() === '' ? 'Đây là giới thiệu của bạn!' : contentTextarea.value;
-}
+    resetBtn.addEventListener('click', () => {
+        colorInput.value = originalColor;
+        targetDiv.style.backgroundColor = originalColor;
+        avatarPreview.src = originalAvatar;
+        avatarUpload.value = ''; // Đặt lại input file
+        contentTextarea.value = originalContent;
+        updateContentDisplay();
+        checkForChanges();
+    });
 
-colorInput.addEventListener('input', () => {
-    targetDiv.style.backgroundColor = colorInput.value;
-    checkForChanges();
-});
-
-avatarUpload.addEventListener('change', (e) => {
-    if (e.target.files[0]) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            avatarPreview.src = e.target.result;
-        };
-        reader.readAsDataURL(e.target.files[0]);
-    }
-    checkForChanges();
-});
-
-contentTextarea.addEventListener('input', () => {
+    // Khởi tạo ban đầu
     updateContentDisplay();
-    checkForChanges();
-});
-
-saveBtn.addEventListener('click', () => {
-    originalColor = colorInput.value;
-    originalAvatar = avatarPreview.src;
-    originalContent = contentTextarea.value;
-    saveBtn.classList.add('d-none');
-    resetBtn.classList.add('d-none');
-});
-
-resetBtn.addEventListener('click', () => {
-    colorInput.value = originalColor;
-    targetDiv.style.backgroundColor = originalColor;
-    avatarPreview.src = originalAvatar;
-    avatarUpload.value = ''; // Đặt lại input file
-    contentTextarea.value = originalContent;
-    updateContentDisplay();
-    checkForChanges();
-});
-
-// Khởi tạo ban đầu
-updateContentDisplay();
 </script>
 @* <script>
     // Lấy giá trị từ color picker và gán nền xem trước
