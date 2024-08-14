@@ -5,7 +5,8 @@
     Layout = "~/Views/Shared/_AdminBlankLayout.cshtml";
 }
 <div class="vh-100 d-flex justify-content-center align-items-center position-relative" id="login-background">
-    <div class="container row justify-content-center">
+    <div class="background-overlay"></div>
+    <div class="container row justify-content-center pb-4" style="z-index: 1;">
             <div class="col-lg-6 col-10">
                 <div class="text-center mb-4">
                     <img src="/img/Logo_75.png" class="img-fluid mb-3" alt="Logo" width="120" height="120">
@@ -27,7 +28,7 @@
                             </div>
                             @if (!string.IsNullOrEmpty(Model.ErrorMessage))
                             {
-                                <div class="alert alert-danger">
+                                <div class="alert alert-danger p-2">
                                     @Model.ErrorMessage
                                 </div>
                             }
